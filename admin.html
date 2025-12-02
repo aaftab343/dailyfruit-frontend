@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – Daily Fruit Co.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+  <div class="min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white/90 dark:bg-slate-900/90 border-r border-slate-200 dark:border-slate-800 hidden md:flex md:flex-col">
+      <div class="px-4 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-emerald-400 flex items-center justify-center text-white font-bold shadow">
+          DF
+        </div>
+        <div>
+          <div class="font-semibold">Daily Fruit Co.</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">Admin Panel</div>
+        </div>
+      </div>
+      <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+        <button class="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-primary-50 dark:bg-slate-800 text-primary-700 dark:text-primary-300 font-medium">
+          <span>📊</span><span>Dashboard</span>
+        </button>
+        <button class="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+          <span>🧾</span><span>Orders</span>
+        </button>
+        <button class="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+          <span>👥</span><span>Leads (coming soon)</span>
+        </button>
+        <button class="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+          <span>📩</span><span>Contacts (coming soon)</span>
+        </button>
+      </nav>
+      <div class="px-4 py-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
+        Built for internal use only. Keep your admin key secret.
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+
+      <!-- Top bar -->
+      <header class="w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2 md:hidden">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary-500 to-emerald-400 flex items-center justify-center text-white font-bold shadow">
+              DF
+            </div>
+            <div>
+              <div class="font-semibold text-sm">Daily Fruit Co.</div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400">Admin Panel</div>
+            </div>
+          </div>
+          <div class="hidden md:block">
+            <h1 class="text-xl font-semibold">Admin Dashboard</h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Monitor orders, plans and revenue.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="themeToggle" class="text-xs px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-900/60 flex items-center gap-2">
+              <span id="themeIcon">🌞</span>
+              <span class="hidden sm:inline">Light</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- LOGIN SCREEN -->
+      <main id="loginScreen" class="flex-1 flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200/80 dark:border-slate-800/80 p-6">
+          <h2 class="text-xl font-semibold mb-1 text-center">Admin Login</h2>
+          <p class="text-xs text-center text-slate-500 dark:text-slate-400 mb-4">Enter your secret admin key to view orders.</p>
+          <label class="block mb-2 text-xs font-medium text-slate-600 dark:text-slate-300">Admin Key</label>
+          <input id="adminKeyInput" type="password" class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm outline-none focus:ring-2 focus:ring-primary-500" placeholder="••••••••" />
+          <button id="loginBtn" class="mt-4 w-full py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold shadow">
+            Login
+          </button>
+          <p id="loginError" class="text-red-500 text-xs mt-3 hidden">Invalid admin key. Please try again.</p>
+        </div>
+      </main>
+
+      <!-- DASHBOARD SCREEN -->
+      <main id="dashboardScreen" class="hidden flex-1 overflow-y-auto">
+        <div class="max-w-6xl mx-auto w-full px-4 py-6 space-y-6">
+
+          <!-- Stats Cards -->
+          <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm">
+              <p class="text-xs text-slate-500 dark:text-slate-400">Total Orders</p>
+              <p id="statTotalOrders" class="mt-2 text-3xl font-bold">0</p>
+              <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-1">All users who have selected a plan.</p>
+            </div>
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm">
+              <p class="text-xs text-slate-500 dark:text-slate-400">Active Plans</p>
+              <p id="statActive" class="mt-2 text-3xl font-bold text-emerald-500">0</p>
+              <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-1">Currently running subscriptions.</p>
+            </div>
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm">
+              <p class="text-xs text-slate-500 dark:text-slate-400">Paused Plans</p>
+              <p id="statPaused" class="mt-2 text-3xl font-bold text-amber-500">0</p>
+              <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-1">Users who paused their deliveries.</p>
+            </div>
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm">
+              <p class="text-xs text-slate-500 dark:text-slate-400">Est. Monthly Revenue (₹)</p>
+              <p id="statRevenue" class="mt-2 text-3xl font-bold text-primary-600">0</p>
+              <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-1">Based on active plan prices (approx).</p>
+            </div>
+          </section>
+
+          <!-- Filters + Export -->
+          <section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm space-y-4">
+            <div class="flex flex-col md:flex-row md:items-end gap-3">
+              <div class="flex-1">
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Search by phone</label>
+                <input id="filterPhone" type="text" placeholder="e.g. 98765" class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-sm outline-none focus:ring-2 focus:ring-primary-500" />
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Plan</label>
+                <select id="filterPlan" class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-sm">
+                  <option value="">All plans</option>
+                  <option value="weekly-fresh-bowl">Weekly Fresh Bowl</option>
+                  <option value="silver-monthly">Silver Monthly</option>
+                  <option value="gold-monthly">Gold Monthly</option>
+                  <option value="diamond-monthly">Diamond Monthly</option>
+                  <option value="weight-loss">Weight Loss</option>
+                  <option value="weight-gain">Weight Gain</option>
+                  <option value="fitness-pro">Fitness Pro</option>
+                  <option value="detox-cleanse">Detox & Cleanse</option>
+                  <option value="immunity-boost">Immunity Boost</option>
+                  <option value="premium-custom">Premium Custom</option>
+                  <option value="energy-booster">Energy Booster</option>
+                  <option value="morning-boost">Morning Boost</option>
+                  <option value="pre-workout">Pre-Workout</option>
+                  <option value="post-workout">Post-Workout</option>
+                  <option value="brain-boost">Brain Boost</option>
+                  <option value="vitamin-c">Vitamin C</option>
+                  <option value="energy-immunity">Energy + Immunity</option>
+                  <option value="super-fruits">Super Fruits</option>
+                  <option value="daily-detox">Daily Detox Pack</option>
+                  <option value="custom-premium-pack">Custom Premium Pack</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Status</label>
+                <select id="filterStatus" class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-sm">
+                  <option value="">All</option>
+                  <option value="active">Active</option>
+                  <option value="paused">Paused</option>
+                </select>
+              </div>
+              <div class="flex gap-2">
+                <div>
+                  <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">From</label>
+                  <input id="filterFrom" type="date" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-sm" />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">To</label>
+                  <input id="filterTo" type="date" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-sm" />
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between items-center gap-3 pt-2 border-t border-dashed border-slate-200 dark:border-slate-800">
+              <button id="clearFiltersBtn" class="text-xs px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800">
+                Clear filters
+              </button>
+              <button id="exportBtn" class="text-xs px-3 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1">
+                ⬇️ Export to Excel (CSV)
+              </button>
+            </div>
+          </section>
+
+          <!-- Orders table -->
+          <section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-3 text-xs text-slate-500 dark:text-slate-400">
+              <div>
+                <span id="ordersCountLabel">0 orders</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="prevPageBtn" class="px-2 py-1 rounded border border-slate-200 dark:border-slate-700 disabled:opacity-40">Prev</button>
+                <span id="pageInfo">Page 1 / 1</span>
+                <button id="nextPageBtn" class="px-2 py-1 rounded border border-slate-200 dark:border-slate-700 disabled:opacity-40">Next</button>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-left text-xs md:text-sm">
+                <thead>
+                  <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80">
+                    <th class="p-2">User</th>
+                    <th class="p-2">Phone</th>
+                    <th class="p-2">Plan</th>
+                    <th class="p-2">Next Delivery</th>
+                    <th class="p-2">Status</th>
+                    <th class="p-2">Created</th>
+                    <th class="p-2 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Delivery calendar modal -->
+  <div id="calendarModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center z-50">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 w-full max-w-md mx-4 p-5">
+      <div class="flex justify-between items-center mb-3">
+        <div>
+          <h3 class="text-lg font-semibold">Weekly Delivery Calendar</h3>
+          <p id="calendarUserLabel" class="text-xs text-slate-500 dark:text-slate-400"></p>
+        </div>
+        <button id="closeCalendarBtn" class="text-sm px-2 py-1 rounded-full border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800">✕</button>
+      </div>
+      <div class="grid grid-cols-7 gap-2 text-center text-[11px]">
+        <div id="cal-Mon" class="p-2 rounded-md bg-slate-100 dark:bg-slate-800">Mon<br>-</div>
+        <div id="cal-Tue" class="p-2 rounded-md bg-slate-100 dark:bg-slate-800">Tue<br>-</div>
+        <div id="cal-Wed" class="p-2 rounded-md bg-slate-100 dark:bg-slate-800">Wed<br>-</div>
+        <div id="cal-Thu" class="p-2 rounded-md bg-slate-100 dark:bg-slate-800">Thu<br>-</div>
+        <div id="cal-Fri" class="p-2 rounded-md bg-slate-100 dark:bg-slate-800">Fri<br>-</div>
+        <div id="cal-Sat" class="p-2 rounded-md bg-slate-100 dark:bg-slate-800">Sat<br>-</div>
+        <div id="cal-Sun" class="p-2 rounded-md bg-slate-100 dark:bg-slate-800">Sun<br>-</div>
+      </div>
+      <p class="mt-3 text-[11px] text-slate-500 dark:text-slate-400">This is a demo weekly schedule based on the user's subscription & pause status. You can later hook this to a real schedule API.</p>
+    </div>
+  </div>
+
+<script>
+  // === CONFIG ===
+  // For local testing: 'http://localhost:4000'
+  // For production: 'https://your-backend.onrender.com'
+  const API_BASE = 'http://localhost:4000';
+
+  const PLAN_PRICE_MAP = {
+    'weekly-fresh-bowl': 424,
+    'silver-monthly': 1274,
+    'gold-monthly': 1869,
+    'diamond-monthly': 2549,
+    'weight-loss': 1614,
+    'weight-gain': 1699,
+    'fitness-pro': 2124,
+    'detox-cleanse': 1529,
+    'immunity-boost': 1869,
+    'premium-custom': 2804,
+    'energy-booster': 1614,
+    'morning-boost': 1784,
+    'pre-workout': 2124,
+    'post-workout': 2294,
+    'brain-boost': 1954,
+    'vitamin-c': 1699,
+    'energy-immunity': 2124,
+    'super-fruits': 2719,
+    'daily-detox': 1869,
+    'custom-premium-pack': 2974
+  };
+
+  const PAGE_SIZE = 20;
+  let ADMIN_KEY = '';
+  let ALL_ORDERS = [];
+  let FILTERED = [];
+  let currentPage = 1;
+
+  // === THEME TOGGLE ===
+  const rootEl = document.documentElement;
+  const themeToggleBtn = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      rootEl.classList.add('dark');
+      themeIcon.textContent = '🌙';
+      const label = themeToggleBtn.querySelector('span:nth-child(2)');
+      if (label) label.textContent = 'Dark';
+    } else {
+      rootEl.classList.remove('dark');
+      themeIcon.textContent = '🌞';
+      const label = themeToggleBtn.querySelector('span:nth-child(2)');
+      if (label) label.textContent = 'Light';
+    }
+  }
+
+  function initTheme() {
+    const saved = localStorage.getItem('df_admin_theme') || 'light';
+    applyTheme(saved);
+  }
+
+  themeToggleBtn.addEventListener('click', () => {
+    const isDark = rootEl.classList.contains('dark');
+    const next = isDark ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('df_admin_theme', next);
+  });
+
+  // === LOGIN & DATA LOADING ===
+  const loginScreen = document.getElementById('loginScreen');
+  const dashboardScreen = document.getElementById('dashboardScreen');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginError = document.getElementById('loginError');
+  const adminKeyInput = document.getElementById('adminKeyInput');
+
+  loginBtn.addEventListener('click', () => {
+    const key = adminKeyInput.value.trim();
+    if (!key) return;
+    ADMIN_KEY = key;
+    loadOrders(true);
+  });
+
+  adminKeyInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      loginBtn.click();
+    }
+  });
+
+  async function loadOrders(isLogin = false) {
+    try {
+      const res = await fetch(API_BASE + '/api/admin/users', {
+        headers: { 'x-admin-key': ADMIN_KEY }
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        if (isLogin) {
+          loginError.classList.remove('hidden');
+        }
+        return;
+      }
+      loginError.classList.add('hidden');
+      loginScreen.classList.add('hidden');
+      dashboardScreen.classList.remove('hidden');
+
+      ALL_ORDERS = json.data || [];
+      applyFilters(); // also updates stats + table
+    } catch (err) {
+      console.error(err);
+      alert('Failed to load admin data. Check API_BASE or admin key.');
+    }
+  }
+
+  // === FILTERS & TABLE ===
+  const filterPhone = document.getElementById('filterPhone');
+  const filterPlan = document.getElementById('filterPlan');
+  const filterStatus = document.getElementById('filterStatus');
+  const filterFrom = document.getElementById('filterFrom');
+  const filterTo = document.getElementById('filterTo');
+  const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const ordersTable = document.getElementById('ordersTable');
+  const ordersCountLabel = document.getElementById('ordersCountLabel');
+  const prevPageBtn = document.getElementById('prevPageBtn');
+  const nextPageBtn = document.getElementById('nextPageBtn');
+  const pageInfo = document.getElementById('pageInfo');
+
+  const statTotalOrders = document.getElementById('statTotalOrders');
+  const statActive = document.getElementById('statActive');
+  const statPaused = document.getElementById('statPaused');
+  const statRevenue = document.getElementById('statRevenue');
+
+  function applyFilters() {
+    const phoneQ = filterPhone.value.trim();
+    const plan = filterPlan.value;
+    const status = filterStatus.value;
+    const fromVal = filterFrom.value ? new Date(filterFrom.value) : null;
+    const toVal = filterTo.value ? new Date(filterTo.value) : null;
+
+    FILTERED = ALL_ORDERS.filter(o => {
+      if (phoneQ && !String(o.phone || '').includes(phoneQ)) return false;
+      if (plan && o.planSlug !== plan) return false;
+      if (status === 'active' && o.isPaused) return false;
+      if (status === 'paused' && !o.isPaused) return false;
+
+      if (fromVal || toVal) {
+        const created = o.createdAt ? new Date(o.createdAt) : null;
+        if (!created) return false;
+        if (fromVal && created < fromVal) return false;
+        if (toVal) {
+          const endOfDay = new Date(toVal);
+          endOfDay.setHours(23, 59, 59, 999);
+          if (created > endOfDay) return false;
+        }
+      }
+      return true;
+    });
+
+    currentPage = 1;
+    updateStats();
+    renderTable();
+  }
+
+  function updateStats() {
+    const total = FILTERED.length;
+    const active = FILTERED.filter(o => !o.isPaused && o.planSlug).length;
+    const paused = FILTERED.filter(o => o.isPaused && o.planSlug).length;
+
+    const revenue = FILTERED
+      .filter(o => !o.isPaused && o.planSlug)
+      .reduce((sum, o) => sum + (PLAN_PRICE_MAP[o.planSlug] || 0), 0);
+
+    statTotalOrders.textContent = total;
+    statActive.textContent = active;
+    statPaused.textContent = paused;
+    statRevenue.textContent = revenue.toLocaleString('en-IN');
+  }
+
+  function renderTable() {
+    ordersTable.innerHTML = '';
+    const total = FILTERED.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    const startIdx = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = FILTERED.slice(startIdx, startIdx + PAGE_SIZE);
+
+    pageItems.forEach((o, index) => {
+      const globalIndex = startIdx + index;
+      const created = o.createdAt ? new Date(o.createdAt).toLocaleDateString('en-IN') : '-';
+      const nextDel = o.nextDeliveryDate ? new Date(o.nextDeliveryDate).toLocaleDateString('en-IN') : '-';
+      const statusLabel = o.isPaused ? 'Paused' : (o.planSlug ? 'Active' : 'No plan');
+      const statusClass = o.isPaused
+        ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200'
+        : (o.planSlug
+          ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200'
+          : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-200');
+
+      const row = document.createElement('tr');
+      row.className = 'border-b border-slate-100 dark:border-slate-800';
+      row.innerHTML = `
+        <td class="p-2">${(o.name || 'N/A')}</td>
+        <td class="p-2 whitespace-nowrap">${o.phone || '-'}</td>
+        <td class="p-2">${o.planName || o.planSlug || '-'}</td>
+        <td class="p-2 whitespace-nowrap">${nextDel}</td>
+        <td class="p-2">
+          <span class="px-2 py-0.5 rounded-full text-[11px] ${statusClass}">${statusLabel}</span>
+        </td>
+        <td class="p-2 whitespace-nowrap">${created}</td>
+        <td class="p-2 text-right">
+          <button class="text-xs px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800" data-cal-index="${globalIndex}">
+            Calendar
+          </button>
+        </td>
+      `;
+      ordersTable.appendChild(row);
+    });
+
+    ordersCountLabel.textContent = `${total} order${total === 1 ? '' : 's'}`;
+    pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+    prevPageBtn.disabled = currentPage <= 1;
+    nextPageBtn.disabled = currentPage >= totalPages;
+
+    ordersTable.querySelectorAll('button[data-cal-index]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-cal-index'), 10);
+        openCalendar(idx);
+      });
+    });
+  }
+
+  prevPageBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderTable();
+    }
+  });
+
+  nextPageBtn.addEventListener('click', () => {
+    const total = FILTERED.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderTable();
+    }
+  });
+
+  filterPhone.addEventListener('input', () => applyFilters());
+  filterPlan.addEventListener('change', () => applyFilters());
+  filterStatus.addEventListener('change', () => applyFilters());
+  filterFrom.addEventListener('change', () => applyFilters());
+  filterTo.addEventListener('change', () => applyFilters());
+
+  clearFiltersBtn.addEventListener('click', () => {
+    filterPhone.value = '';
+    filterPlan.value = '';
+    filterStatus.value = '';
+    filterFrom.value = '';
+    filterTo.value = '';
+    applyFilters();
+  });
+
+  // === EXPORT CSV ===
+  exportBtn.addEventListener('click', () => {
+    if (!FILTERED.length) {
+      alert('No data to export.');
+      return;
+    }
+    let csv = 'Name,Phone,Plan,Next Delivery,Status,Created\n';
+    FILTERED.forEach(o => {
+      const created = o.createdAt || '';
+      const nextDel = o.nextDeliveryDate || '';
+      const status = o.isPaused ? 'Paused' : (o.planSlug ? 'Active' : 'No plan');
+      const row = [
+        (o.name || '').replace(/,/g, ' '),
+        (o.phone || ''),
+        (o.planName || o.planSlug || '').replace(/,/g, ' '),
+        nextDel,
+        status,
+        created
+      ];
+      csv += row.join(',') + '\n';
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'orders.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+
+  // === DELIVERY CALENDAR (DEMO) ===
+  const calendarModal = document.getElementById('calendarModal');
+  const closeCalendarBtn = document.getElementById('closeCalendarBtn');
+  const calendarUserLabel = document.getElementById('calendarUserLabel');
+
+  function buildDemoSchedule(order) {
+    if (!order.planSlug) {
+      return [
+        { day: 'Mon', status: 'off' },
+        { day: 'Tue', status: 'off' },
+        { day: 'Wed', status: 'off' },
+        { day: 'Thu', status: 'off' },
+        { day: 'Fri', status: 'off' },
+        { day: 'Sat', status: 'off' },
+        { day: 'Sun', status: 'off' }
+      ];
+    }
+    if (order.isPaused) {
+      return [
+        { day: 'Mon', status: 'paused' },
+        { day: 'Tue', status: 'paused' },
+        { day: 'Wed', status: 'paused' },
+        { day: 'Thu', status: 'paused' },
+        { day: 'Fri', status: 'paused' },
+        { day: 'Sat', status: 'paused' },
+        { day: 'Sun', status: 'paused' }
+      ];
+    }
+    // default pattern similar to /api/subscription/schedule
+    return [
+      { day: 'Mon', status: 'delivered' },
+      { day: 'Tue', status: 'delivered' },
+      { day: 'Wed', status: 'delivered' },
+      { day: 'Thu', status: 'delivered' },
+      { day: 'Fri', status: 'pending' },
+      { day: 'Sat', status: 'off' },
+      { day: 'Sun', status: 'off' }
+    ];
+  }
+
+  function openCalendar(globalIndex) {
+    const order = FILTERED[globalIndex];
+    if (!order) return;
+    const schedule = buildDemoSchedule(order);
+    calendarUserLabel.textContent = `${order.name || 'User'} • ${order.phone || ''} • ${order.planName || order.planSlug || 'No plan'}`;
+
+    const colors = {
+      delivered: 'bg-emerald-500/80 text-white',
+      pending: 'bg-amber-400/80 text-white',
+      off: 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200',
+      paused: 'bg-rose-500/80 text-white'
+    };
+
+    ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(day => {
+      const cell = document.getElementById('cal-' + day);
+      const item = schedule.find(s => s.day === day) || { status: 'off' };
+      cell.className = 'p-2 rounded-md text-[11px] ' + (colors[item.status] || colors.off);
+      const label = item.status.charAt(0).toUpperCase() + item.status.slice(1);
+      cell.innerHTML = day + '<br>' + label;
+    });
+
+    calendarModal.classList.remove('hidden');
+    calendarModal.classList.add('flex');
+  }
+
+  function closeCalendar() {
+    calendarModal.classList.add('hidden');
+    calendarModal.classList.remove('flex');
+  }
+
+  closeCalendarBtn.addEventListener('click', closeCalendar);
+  calendarModal.addEventListener('click', (e) => {
+    if (e.target === calendarModal) {
+      closeCalendar();
+    }
+  });
+
+  // === INIT ===
+  initTheme();
+</script>
+</body>
+</html>

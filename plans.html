@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Plans — Daily Fruit Co.</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+  body {font-family:'Inter',sans-serif;background:linear-gradient(180deg,#f8fafc,#eef7ff);}
+  .glass{background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);border-radius:18px;border:1px solid rgba(148,163,184,0.4);box-shadow:0 10px 30px rgba(15,23,42,0.12);}
+  .card-hover{transition:.25s ease;cursor:pointer;}
+  .card-hover:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(15,23,42,0.2);}
+  .section-title{background:linear-gradient(90deg,#06b6d4,#7c3aed);-webkit-background-clip:text;color:transparent;font-weight:800;}
+  .sticky-filter{position:sticky;top:0;z-index:30;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #e2e8f0;}
+  .btn-select{background:linear-gradient(90deg,#06b6d4,#7c3aed);color:#fff;font-size:11px;}
+</style>
+</head>
+<body>
+<header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">DF</div>
+      <div>
+        <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
+        <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
+      </div>
+    </a>
+    <nav class="hidden md:flex gap-4 text-sm">
+      <a href="index.html" class="hover:text-green-600">Home</a>
+      <a href="login.html" class="hover:text-indigo-600">Login</a>
+      <a href="signup.html" class="hover:text-indigo-600">Signup</a>
+      <a href="dashboard.html" class="hover:text-emerald-600">Dashboard</a>
+    </nav>
+  </div>
+</header>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+  <h2 class="text-3xl md:text-4xl font-extrabold section-title mb-2">All 20 Subscription Plans</h2>
+  <p class="text-gray-600 text-sm md:text-base">Choose based on your goal — weight loss, muscle gain, premium fruits, detox or daily immunity.</p>
+</section>
+
+<div class="sticky-filter">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row gap-3 items-center justify-between">
+    <input id="searchInput" onkeyup="filterPlans()" type="text" placeholder="Search plans…" class="px-4 py-2 w-full md:w-72 border rounded">
+    <select id="categoryFilter" onchange="filterPlans()" class="px-4 py-2 border rounded w-full md:w-auto">
+      <option value="">All Categories</option>
+      <option value="weekly">Weekly</option>
+      <option value="monthly">Monthly</option>
+      <option value="premium">Premium</option>
+      <option value="weight">Weight Goals</option>
+      <option value="fitness">Fitness</option>
+      <option value="detox">Detox</option>
+    </select>
+    <select id="sortFilter" onchange="filterPlans()" class="px-4 py-2 border rounded w-full md:w-auto">
+      <option value="">Sort by</option>
+      <option value="low">Price: Low → High</option>
+      <option value="high">Price: High → Low</option>
+    </select>
+  </div>
+</div>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+  <div id="plansGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-gray-700">
+
+    <!-- 1 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Weekly Fresh Bowl Plan" data-price="424" data-category="weekly"
+         data-slug="weekly-fresh-bowl">
+      <h3 class="font-bold text-lg">🥗 Weekly Fresh Bowl Plan</h3>
+      <p>7 bowls/week • 250–300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹424 / week</p>
+      <p class="mt-2 text-xs">Apple, Papaya, Grapes, Pineapple, Banana, Kiwi (2 days/week), Almonds. Free delivery.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 2 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Silver Monthly Plan" data-price="1274" data-category="monthly"
+         data-slug="silver-monthly">
+      <h3 class="font-bold text-lg">🥈 Silver Monthly Plan</h3>
+      <p>15 bowls/month • 250g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,274 / month</p>
+      <p class="mt-2 text-xs">Seasonal mix fruits (Apple, Papaya, Banana, Orange) with raisins. 1 detox water every Monday.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 3 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Gold Monthly Plan" data-price="1869" data-category="monthly premium"
+         data-slug="gold-monthly">
+      <h3 class="font-bold text-lg">🥇 Gold Monthly Plan</h3>
+      <p>22 bowls/month • 300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,869 / month</p>
+      <p class="mt-2 text-xs">Seasonal + premium fruits (Kiwi, Dragon Fruit, Blueberry, Grapes, Apple, Mango) with almond mix & 2 protein add-ons daily.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 4 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Diamond Monthly Plan" data-price="2549" data-category="monthly premium"
+         data-slug="diamond-monthly">
+      <h3 class="font-bold text-lg">💎 Diamond Monthly Plan</h3>
+      <p>30 bowls/month • 350g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹2,549 / month</p>
+      <p class="mt-2 text-xs">Premium fruits daily (Kiwi, Dragon Fruit, Blueberries, Strawberries, Avocado) with nuts, custom bowls, early delivery & detox drinks.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 5 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Weight Loss Plan" data-price="1614" data-category="weight"
+         data-slug="weight-loss">
+      <h3 class="font-bold text-lg">⚖️ Weight Loss Plan</h3>
+      <p>20 bowls/month • 250–300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,614 / month</p>
+      <p class="mt-2 text-xs">Low-cal fruits — Papaya, Apple, Orange, Kiwi, Watermelon. Weekly lemon-mint detox drink.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 6 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Weight Gain Plan" data-price="1699" data-category="weight"
+         data-slug="weight-gain">
+      <h3 class="font-bold text-lg">💪 Weight Gain Plan</h3>
+      <p>20 bowls/month • 300–350g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,699 / month</p>
+      <p class="mt-2 text-xs">Banana, Mango, Avocado, Grapes, Dates with almonds, cashews & optional honey drizzle.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 7 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Fitness Pro Plan" data-price="2124" data-category="fitness"
+         data-slug="fitness-pro">
+      <h3 class="font-bold text-lg">🏋️ Fitness Pro Plan</h3>
+      <p>24 bowls/month • 300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹2,124 / month</p>
+      <p class="mt-2 text-xs">Apple, Kiwi, Blueberry, Banana, Mango with walnuts, almonds & protein add-ons.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 8 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Detox & Cleanse Plan" data-price="1529" data-category="detox"
+         data-slug="detox-cleanse">
+      <h3 class="font-bold text-lg">🧃 Detox & Cleanse Plan</h3>
+      <p>20 bowls/month • 250g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,529 / month</p>
+      <p class="mt-2 text-xs">Citrus & watery fruits — Pineapple, Orange, Lemon, Watermelon, Pomegranate + detox drink.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 9 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Immunity Boost Plan" data-price="1869" data-category="fitness"
+         data-slug="immunity-boost">
+      <h3 class="font-bold text-lg">🛡 Immunity Boost Plan</h3>
+      <p>22 bowls/month • 250–300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,869 / month</p>
+      <p class="mt-2 text-xs">Vitamin-C rich — Orange, Kiwi, Papaya, Pomegranate, Blueberries with almonds & cashews.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 10 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Premium Custom Plan" data-price="2804" data-category="premium"
+         data-slug="premium-custom">
+      <h3 class="font-bold text-lg">✨ Premium Custom Plan</h3>
+      <p>30 bowls/month • 350g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹2,804 / month</p>
+      <p class="mt-2 text-xs">Fully custom — choose Kiwi, Dragon Fruit, Blueberry, Avocado, Mango, Apple, Papaya, Grapes, Pomegranate, Strawberries. Priority delivery.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 11 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Energy Booster Plan" data-price="1614" data-category="fitness"
+         data-slug="energy-booster">
+      <h3 class="font-bold text-lg">⚡ Energy Booster Plan</h3>
+      <p>20 bowls/month • 300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,614 / month</p>
+      <p class="mt-2 text-xs">Banana, Mango, Pineapple, Blueberry, Grapes with almonds, cashews & honey.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 12 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Morning Boost Plan" data-price="1784" data-category="fitness"
+         data-slug="morning-boost">
+      <h3 class="font-bold text-lg">🌅 Morning Boost Plan</h3>
+      <p>26 bowls/month • 300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,784 / month</p>
+      <p class="mt-2 text-xs">Apple, Orange, Papaya, Kiwi, Pomegranate with almonds & raisins. Weekly honey shot.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 13 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Pre-Workout Plan" data-price="2124" data-category="fitness"
+         data-slug="pre-workout">
+      <h3 class="font-bold text-lg">🔥 Pre-Workout Plan</h3>
+      <p>24 bowls/month • 300–350g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹2,124 / month</p>
+      <p class="mt-2 text-xs">Banana, Blueberry, Apple, Pineapple with cashews, almonds & dates/honey.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 14 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Post-Workout Plan" data-price="2294" data-category="fitness"
+         data-slug="post-workout">
+      <h3 class="font-bold text-lg">💥 Post-Workout Plan</h3>
+      <p>24 bowls/month • 300–350g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹2,294 / month</p>
+      <p class="mt-2 text-xs">Kiwi, Dragon Fruit, Mango, Pineapple with almonds, walnuts.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 15 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Brain Boost Plan" data-price="1954" data-category="premium"
+         data-slug="brain-boost">
+      <h3 class="font-bold text-lg">🧠 Brain Boost Plan</h3>
+      <p>20 bowls/month • 250–300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,954 / month</p>
+      <p class="mt-2 text-xs">Blueberries, Kiwi, Apple, Pomegranate with walnut topping.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 16 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Vitamin C Plan" data-price="1699" data-category="detox"
+         data-slug="vitamin-c">
+      <h3 class="font-bold text-lg">🍊 Vitamin C Plan</h3>
+      <p>20 bowls/month • 250–300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,699 / month</p>
+      <p class="mt-2 text-xs">Orange, Kiwi, Pineapple, Strawberries (seasonal). Focus on Vitamin C.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 17 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Energy + Immunity Plan" data-price="2124" data-category="fitness"
+         data-slug="energy-immunity">
+      <h3 class="font-bold text-lg">⚡🛡 Energy + Immunity Plan</h3>
+      <p>24 bowls/month • 300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹2,124 / month</p>
+      <p class="mt-2 text-xs">Orange, Kiwi, Blueberry, Mango, Grapes with almonds & cashews.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 18 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Super Fruits Plan" data-price="2719" data-category="premium"
+         data-slug="super-fruits">
+      <h3 class="font-bold text-lg">🌟 Super Fruits Plan</h3>
+      <p>24 bowls/month • 350g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹2,719 / month</p>
+      <p class="mt-2 text-xs">Dragon Fruit, Kiwi, Blueberry, Avocado, Strawberry with mixed nuts.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 19 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Daily Detox Pack" data-price="1869" data-category="detox"
+         data-slug="daily-detox">
+      <h3 class="font-bold text-lg">🧪 Daily Detox Pack</h3>
+      <p>30 bowls/month • 300g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹1,869 / month</p>
+      <p class="mt-2 text-xs">Watermelon, Orange, Pineapple, Lemon. Daily detox drink included.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+    <!-- 20 -->
+    <div class="glass p-5 card-hover" data-aos="fade-up"
+         data-title="Custom Premium Pack" data-price="2974" data-category="premium"
+         data-slug="custom-premium-pack">
+      <h3 class="font-bold text-lg">✨ Custom Premium Pack</h3>
+      <p>30 bowls/month • 350g</p>
+      <p class="mt-1 font-semibold text-emerald-600">₹2,974 / month</p>
+      <p class="mt-2 text-xs">Customer-selected premium fruits (Kiwi, Dragon Fruit, Blueberry, Avocado, Strawberry, etc.) with optional nuts, priority support.</p>
+      <button type="button" class="mt-3 px-3 py-1.5 rounded-full btn-select select-plan-btn inline-flex items-center gap-1">
+        Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<footer class="bg-slate-900 text-slate-200 py-8 mt-10 text-xs">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-6">
+    <div>
+      <h4 class="font-bold text-lg">Daily Fruit Co.</h4>
+      <p>© 2025 Daily Fruit Co. — Freshness Delivered Daily</p>
+    </div>
+    <div>
+      <a href="#" class="block">Privacy Policy</a>
+      <a href="#" class="block">Terms & Conditions</a>
+      <a href="#" class="block">Refund & Cancellation</a>
+    </div>
+    <div>
+      <p>WhatsApp: +91-9226157351</p>
+      <p>Email: dailyfruitco@gmail.com</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init();
+
+// Existing search / filter / sort
+function filterPlans() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const category = document.getElementById("categoryFilter").value;
+  const sort = document.getElementById("sortFilter").value;
+  const grid = document.getElementById("plansGrid");
+  const cards = Array.from(grid.children);
+
+  cards.forEach(card => {
+    const title = card.dataset.title.toLowerCase();
+    const cat = card.dataset.category.toLowerCase();
+    const matchesSearch = title.includes(search);
+    const matchesCat = !category || cat.includes(category);
+    card.style.display = (matchesSearch && matchesCat) ? "block" : "none";
+  });
+
+  if (sort) {
+    const visible = cards.filter(c => c.style.display !== "none");
+    visible.sort((a,b)=>{
+      const pa = parseInt(a.dataset.price), pb = parseInt(b.dataset.price);
+      return sort === "low" ? pa-pb : pb-pa;
+    });
+    visible.forEach(card => grid.appendChild(card));
+  }
+}
+
+// Save plan to localStorage and go to checkout
+function savePlanAndGo(card){
+  const plan = {
+    name: card.dataset.title,
+    slug: card.dataset.slug,
+    price: parseInt(card.dataset.price)
+  };
+  try{
+    localStorage.setItem('df_selected_plan', JSON.stringify(plan));
+  }catch(e){
+    console.error('Failed to store plan', e);
+  }
+  window.location.href = 'checkout.html';
+}
+
+// Attach click handlers to cards + buttons
+function attachPlanClicks(){
+  const grid = document.getElementById('plansGrid');
+
+  // Clicking on the "Select Plan" button
+  grid.querySelectorAll('.select-plan-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation(); // don't double trigger
+      const card = btn.closest('.glass');
+      if(card) savePlanAndGo(card);
+    });
+  });
+
+  // Clicking anywhere on the card also selects
+  grid.querySelectorAll('.glass').forEach(card=>{
+    card.addEventListener('click', (e)=>{
+      // If clicked directly on button, we already handled above
+      if(e.target.closest('.select-plan-btn')) return;
+      savePlanAndGo(card);
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  attachPlanClicks();
+});
+</script>
+</body>
+</html>

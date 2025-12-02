@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup — Daily Fruit Co.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
+<style>
+  body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg,#f8fafc,#e0f2fe); }
+  .glass { backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.92); border-radius: 20px; border: 1px solid rgba(148,163,184,0.4); box-shadow:0 18px 40px rgba(15,23,42,0.18); }
+  .btn-glow { background: linear-gradient(90deg, #06b6d4, #7c3aed); box-shadow: 0 0 8px rgba(6,182,212,0.6), 0 0 16px rgba(124,58,237,0.5); transition: 0.3s; }
+  .btn-glow:hover { box-shadow: 0 0 12px rgba(6,182,212,0.7), 0 0 24px rgba(124,58,237,0.7); transform: translateY(-1px); }
+</style>
+</head>
+<body class="min-h-screen">
+<header class="sticky top-0 z-40 bg-white/70 backdrop-blur border-b">
+  <div class="max-w-4xl mx-auto flex items-center justify-between px-4 py-3">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 flex items-center justify-center text-white font-bold shadow-lg">DF</div>
+      <div>
+        <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
+        <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
+      </div>
+    </a>
+    <a href="login.html" class="text-sm text-indigo-600 font-semibold">Already have an account?</a>
+  </div>
+</header>
+<main class="flex items-center justify-center px-4 py-12">
+  <div class="glass w-full max-w-md p-8">
+    <h2 class="text-2xl font-bold text-center mb-2">Signup</h2>
+    <p class="text-xs text-center text-gray-500 mb-6">Create your Daily Fruit Co. account in seconds.</p>
+    <form id="signupForm" class="space-y-4">
+      <div class="relative">
+        <input type="text" name="name" id="signupName" placeholder=" " class="peer w-full p-3 rounded-lg border border-gray-300 focus:border-sky-500 focus:outline-none" required>
+        <label for="signupName" class="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-focus:-top-2 peer-focus:text-xs peer-focus:text-sky-500">Full Name</label>
+      </div>
+      <div class="relative">
+        <input type="tel" name="phone" id="signupPhone" placeholder=" " class="peer w-full p-3 rounded-lg border border-gray-300 focus:border-sky-500 focus:outline-none" required>
+        <label for="signupPhone" class="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-focus:-top-2 peer-focus:text-xs peer-focus:text-sky-500">Phone Number</label>
+      </div>
+      <button type="button" id="signupRequestOtpBtn" class="w-full py-3 rounded-full text-white font-semibold btn-glow">Send OTP</button>
+      <div class="relative">
+        <input type="text" name="otp" id="signupOtp" placeholder=" " class="peer w-full p-3 rounded-lg border border-gray-300 focus:border-sky-500 focus:outline-none mt-2" required>
+        <label for="signupOtp" class="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-focus:-top-2 peer-focus:text-xs peer-focus:text-sky-500">Enter OTP</label>
+      </div>
+      <button type="submit" class="w-full py-3 rounded-full text-white font-semibold btn-glow mt-2">Create Account</button>
+      <div class="mt-4 flex justify-center gap-2 text-xs text-gray-500">
+        <span>Or sign up with</span>
+      </div>
+      <div class="flex justify-center gap-3 mt-2">
+        <button type="button" class="flex items-center gap-2 px-3 py-2 rounded-full border text-sm"><i class="fab fa-google text-red-500"></i>Google</button>
+        <button type="button" class="flex items-center gap-2 px-3 py-2 rounded-full border text-sm"><i class="fab fa-apple text-black"></i>Apple</button>
+      </div>
+    </form>
+    <div id="signupMsg" class="hidden mt-4 p-3 rounded text-sm text-center"></div>
+  </div>
+</main>
+<script>
+  const API_BASE = 'http://localhost:4000';
+
+  function showMsg(text, ok){
+    const box = document.getElementById('signupMsg');
+    box.textContent = text;
+    box.classList.remove('hidden');
+    box.className = 'mt-4 p-3 rounded text-sm text-center ' + (ok ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700');
+  }
+
+  document.getElementById('signupRequestOtpBtn').addEventListener('click', async function(){
+    const phone = document.getElementById('signupPhone').value.trim();
+    if(!phone){ showMsg('Enter phone first', false); return; }
+    try{
+      const res = await fetch(API_BASE + '/api/auth/send-otp', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({phone})
+      });
+      const data = await res.json();
+      if(!res.ok || !data.success) throw new Error(data.message || 'Error sending OTP');
+      showMsg('OTP sent to your phone (demo: check backend console).', true);
+    }catch(err){
+      console.error(err);
+      showMsg('Could not send OTP. Check backend.', false);
+    }
+  });
+
+  document.getElementById('signupForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const name = document.getElementById('signupName').value.trim();
+    const phone = document.getElementById('signupPhone').value.trim();
+    const otp = document.getElementById('signupOtp').value.trim();
+    if(!name || !phone || !otp){ showMsg('Fill all fields', false); return; }
+    try{
+      const res = await fetch(API_BASE + '/api/auth/verify-otp', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({phone, otp})
+      });
+      const data = await res.json();
+      if(!res.ok || !data.success) throw new Error(data.message || 'OTP verify failed');
+
+      // Save token & user
+      localStorage.setItem('df_token', data.token);
+      localStorage.setItem('df_user', JSON.stringify(data.user || {}));
+
+      // Update profile with name
+      await fetch(API_BASE + '/api/me', {
+        method:'PUT',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':'Bearer ' + data.token
+        },
+        body:JSON.stringify({name})
+      });
+
+      showMsg('Account created! Redirecting…', true);
+      setTimeout(()=>{ window.location.href = 'dashboard.html'; }, 800);
+    }catch(err){
+      console.error(err);
+      showMsg(err.message || 'Signup failed', false);
+    }
+  });
+</script>
+</body>
+</html>

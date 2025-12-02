@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>User Dashboard — Daily Fruit Co.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+:root { --accent1:#06b6d4; --accent2:#7c3aed; }
+body {
+  background: url('https://images.unsplash.com/photo-1611080626919-7cf5a9dbfa9f?q=80&w=1200&auto=format&fit=crop') no-repeat center/cover;
+  backdrop-filter: blur(6px);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+}
+.glass {
+  background: rgba(15,23,42,0.6);
+  border: 1px solid rgba(148,163,184,0.4);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 22px;
+}
+.section-title {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: "Playfair Display";
+}
+.btn-grad {background: linear-gradient(90deg, var(--accent1), var(--accent2)); color:#fff;}
+</style>
+</head>
+<body class="text-white">
+
+<header class="backdrop-blur-md bg-black/40 sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3">
+    <h2 class="text-xl font-bold">Daily Fruit Co. Dashboard</h2>
+    <nav class="hidden md:flex gap-4 text-sm">
+      <a href="index.html" class="hover:text-green-300">Home</a>
+      <a href="plans.html" class="hover:text-green-300">Plans</a>
+      <button id="logoutBtn" class="hover:text-red-400">Logout</button>
+    </nav>
+  </div>
+</header>
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-bold section-title mb-6" data-aos="fade-up">
+    Hi <span id="username">User</span> 👋 — Welcome Back!
+  </h1>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="glass" data-aos="zoom-in">
+      <h3 class="text-xl font-semibold mb-3"><i class="fa fa-star text-yellow-300"></i> Your Current Plan</h3>
+      <p class="text-lg font-bold" id="planName">No active plan</p>
+      <p class="text-sm mt-1 text-slate-200" id="planDetail">Select a plan to start deliveries.</p>
+      <div class="mt-4">
+        <a href="plans.html" class="w-full inline-block text-center py-2 rounded-lg btn-grad">Choose / Change Plan</a>
+      </div>
+    </div>
+
+    <div class="glass" data-aos="zoom-in" data-aos-delay="100">
+      <h3 class="text-xl font-semibold mb-3"><i class="fa fa-truck text-green-300"></i> Delivery Status</h3>
+      <p class="text-lg font-bold" id="nextDelivery">Next Delivery: —</p>
+      <p class="text-sm text-slate-200 mt-1" id="deliveryNote">Plan not started yet.</p>
+      <ul class="mt-4 text-sm space-y-1 text-slate-200">
+        <li id="statusBadge"></li>
+      </ul>
+    </div>
+
+    <div class="glass" data-aos="zoom-in" data-aos-delay="200">
+      <h3 class="text-xl font-semibold mb-3"><i class="fa fa-user-circle text-blue-300"></i> Your Profile</h3>
+      <p>Name: <span class="font-bold" id="profileName">—</span></p>
+      <p>Phone: <span class="font-bold" id="profilePhone">—</span></p>
+      <p class="mt-2 text-sm text-slate-200" id="profileAddress">Address: not set</p>
+      <div class="mt-4">
+        <button class="w-full py-2 rounded-lg bg-white/20 hover:bg-white/30 text-sm" id="editProfileBtn">Edit Profile (demo)</button>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="text-2xl font-bold section-title mt-12 mb-4" data-aos="fade-up">Actions</h2>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <button class="glass text-left hover:bg-white/10 text-sm" data-aos="fade-right" id="pauseBtn">
+      <h3 class="font-semibold text-lg">Pause Subscription</h3>
+      <p class="text-slate-200 mt-1">Stop delivery temporarily</p>
+    </button>
+    <button class="glass text-left hover:bg-white/10 text-sm" data-aos="fade-up" id="resumeBtn">
+      <h3 class="font-semibold text-lg">Resume Subscription</h3>
+      <p class="text-slate-200 mt-1">Restart deliveries</p>
+    </button>
+    <button class="glass text-left hover:bg-white/10 text-sm" data-aos="fade-left" id="skipBtn">
+      <h3 class="font-semibold text-lg">Skip Next Delivery</h3>
+      <p class="text-slate-200 mt-1">Skip next day delivery</p>
+    </button>
+  </div>
+
+  <h2 class="text-2xl font-bold section-title mt-12 mb-4" data-aos="slide-up">Delivery Calendar</h2>
+
+  <div class="glass" data-aos="fade-up">
+    <p class="text-sm text-slate-200 mb-3">This Week's Schedule:</p>
+    <div class="grid grid-cols-7 gap-2 text-center text-xs md:text-sm">
+      <div class="p-3 rounded-md" id="day-Mon">Mon<br>—</div>
+      <div class="p-3 rounded-md" id="day-Tue">Tue<br>—</div>
+      <div class="p-3 rounded-md" id="day-Wed">Wed<br>—</div>
+      <div class="p-3 rounded-md" id="day-Thu">Thu<br>—</div>
+      <div class="p-3 rounded-md" id="day-Fri">Fri<br>—</div>
+      <div class="p-3 rounded-md" id="day-Sat">Sat<br>—</div>
+      <div class="p-3 rounded-md" id="day-Sun">Sun<br>—</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init({ duration: 800, once: true });
+const API_BASE = 'http://localhost:4000';
+
+function toast(msg, isError){
+  const el=document.createElement('div');
+  el.textContent=msg;
+  el.className='fixed right-4 bottom-4 z-50 text-sm px-3 py-2 rounded shadow text-white ' + (isError?'bg-red-600':'bg-black');
+  document.body.appendChild(el); setTimeout(()=>el.remove(),3000);
+}
+
+function requireAuth(){
+  const token = localStorage.getItem('df_token');
+  if(!token){
+    window.location.href='login.html';
+    return null;
+  }
+  return token;
+}
+
+async function loadDashboard(){
+  const token = requireAuth();
+  if(!token) return;
+
+  try{
+    const meRes = await fetch(API_BASE + '/api/me', {
+      headers:{ 'Authorization':'Bearer '+token }
+    });
+    const meData = await meRes.json();
+    if(!meRes.ok || !meData.success) throw new Error(meData.message || 'Error loading profile');
+
+    const u = meData.data;
+    document.getElementById('username').textContent = u.name || 'User';
+    document.getElementById('profileName').textContent = u.name || 'User';
+    document.getElementById('profilePhone').textContent = u.phone || '—';
+
+    if(u.address && (u.address.line1 || u.address.area)){
+      const addr = [u.address.line1, u.address.area, u.address.city, u.address.pincode].filter(Boolean).join(', ');
+      document.getElementById('profileAddress').textContent = 'Address: ' + addr;
+    }
+
+    if(u.planName){
+      document.getElementById('planName').textContent = u.planName;
+      document.getElementById('planDetail').textContent = (u.planSlug || '') + (u.isPaused ? ' (Paused)' : '');
+    } else {
+      document.getElementById('planName').textContent = 'No active plan';
+      document.getElementById('planDetail').textContent = 'Select a plan on Plans page.';
+    }
+
+    if(u.nextDeliveryDate){
+      const d = new Date(u.nextDeliveryDate);
+      document.getElementById('nextDelivery').textContent = 'Next Delivery: ' + d.toDateString();
+      document.getElementById('deliveryNote').textContent = u.isPaused ? 'Subscription is paused.' : 'We will deliver in your regular slot.';
+    } else {
+      document.getElementById('nextDelivery').textContent = 'Next Delivery: —';
+      document.getElementById('deliveryNote').textContent = 'No upcoming delivery scheduled.';
+    }
+
+    // schedule
+    const schRes = await fetch(API_BASE + '/api/subscription/schedule',{
+      headers:{'Authorization':'Bearer '+token}
+    });
+    const schData = await schRes.json();
+    if(schRes.ok && schData.success){
+      const schedule = schData.data.schedule || [];
+      schedule.forEach(item=>{
+        const el = document.getElementById('day-'+item.day);
+        if(!el) return;
+        let color='bg-gray-600/60';
+        if(item.status==='delivered') color='bg-green-500/70';
+        else if(item.status==='pending') color='bg-orange-400/70';
+        el.className = 'p-3 rounded-md ' + color;
+        el.innerHTML = item.day + '<br>' + (item.status.charAt(0).toUpperCase()+item.status.slice(1));
+      });
+    }
+
+  }catch(err){
+    console.error(err);
+    toast('Could not load dashboard. Please login again.', true);
+  }
+}
+
+document.getElementById('logoutBtn')?.addEventListener('click', ()=>{
+  localStorage.removeItem('df_token');
+  localStorage.removeItem('df_user');
+  window.location.href='login.html';
+});
+
+document.getElementById('pauseBtn').addEventListener('click', async ()=>{
+  const token = requireAuth(); if(!token) return;
+  try{
+    const res = await fetch(API_BASE + '/api/subscription/pause',{method:'POST',headers:{'Authorization':'Bearer '+token}});
+    const data = await res.json();
+    if(!res.ok || !data.success) throw new Error(data.message||'Error');
+    toast('Subscription paused.', false);
+    loadDashboard();
+  }catch(e){console.error(e);toast('Unable to pause.',true);}
+});
+
+document.getElementById('resumeBtn').addEventListener('click', async ()=>{
+  const token = requireAuth(); if(!token) return;
+  try{
+    const res = await fetch(API_BASE + '/api/subscription/resume',{method:'POST',headers:{'Authorization':'Bearer '+token}});
+    const data = await res.json();
+    if(!res.ok || !data.success) throw new Error(data.message||'Error');
+    toast('Subscription resumed.', false);
+    loadDashboard();
+  }catch(e){console.error(e);toast('Unable to resume.',true);}
+});
+
+document.getElementById('skipBtn').addEventListener('click', async ()=>{
+  const token = requireAuth(); if(!token) return;
+  try{
+    const res = await fetch(API_BASE + '/api/subscription/skip-next',{method:'POST',headers:{'Authorization':'Bearer '+token}});
+    const data = await res.json();
+    if(!res.ok || !data.success) throw new Error(data.message||'Error');
+    toast('Next delivery skipped.', false);
+    loadDashboard();
+  }catch(e){console.error(e);toast('Unable to skip.',true);}
+});
+
+document.getElementById('editProfileBtn').addEventListener('click', ()=>{
+  toast('Profile editing UI can be added here (name + address form).', false);
+});
+
+loadDashboard();
+</script>
+</body>
+</html>
