@@ -1,243 +1,1124 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'>
-<title>User Dashboard — Daily Fruit Co.</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<style>
-:root { --accent1:#06b6d4; --accent2:#7c3aed; }
-body {
-  background: url('https://images.unsplash.com/photo-1611080626919-7cf5a9dbfa9f?q=80&w=1200&auto=format&fit=crop') no-repeat center/cover;
-  backdrop-filter: blur(6px);
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
-}
-.glass {
-  background: rgba(15,23,42,0.6);
-  border: 1px solid rgba(148,163,184,0.4);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 22px;
-}
-.section-title {
-  background: linear-gradient(90deg, var(--accent1), var(--accent2));
-  -webkit-background-clip: text;
-  color: transparent;
-  font-family: "Playfair Display";
-}
-.btn-grad {background: linear-gradient(90deg, var(--accent1), var(--accent2)); color:#fff;}
-</style>
-</head>
-<body class="text-white">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard — Daily Fruit Co.</title>
 
-<header class="backdrop-blur-md bg-black/40 sticky top-0 z-40">
-  <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3">
-    <h2 class="text-xl font-bold">Daily Fruit Co. Dashboard</h2>
+  <!-- TAILWIND -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FONTAWESOME -->
+  <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    body{
+      font-family:'Inter',sans-serif;
+      background:linear-gradient(180deg,#f8fafc,#eef7ff);
+      color:#0f172a;
+      transition: background 0.25s ease,color 0.25s ease;
+    }
+
+    .glass{
+      position:relative;
+      background:rgba(255,255,255,0.9);
+      backdrop-filter:blur(12px);
+      border-radius:18px;
+      border:1px solid rgba(148,163,184,0.4);
+      box-shadow:0 10px 30px rgba(15,23,42,0.12);
+      overflow:hidden;
+      transition: background 0.25s ease,border-color 0.25s ease,box-shadow 0.25s ease;
+    }
+
+    .section-title{
+      background:linear-gradient(90deg,#06b6d4,#7c3aed);
+      -webkit-background-clip:text;
+      color:transparent;
+      font-weight:800;
+    }
+
+    /* GLASS ICON STYLE (footer + floating strip) */
+    .glass-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      font-size: 1.2rem;
+      color: #1e293b;
+      transition: 0.25s ease;
+    }
+
+    .glass-icon:hover {
+      transform: scale(1.12);
+      background: linear-gradient(90deg, #06b6d4, #7c3aed);
+      color: white;
+    }
+
+    /* FOOTER ICONS — HORIZONTAL */
+    .footer-social {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* WHATSAPP FAB */
+    .fab-wa {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 58px;
+      height: 58px;
+      border-radius: 9999px;
+      background: #25D366;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 50;
+      transition: .25s;
+    }
+    .fab-wa:hover {
+      transform: scale(1.12);
+    }
+
+    @media (max-width:768px){
+      .desktop-only{display:none;}
+    }
+
+    /* DASHBOARD TABS */
+    .dash-tab{
+      padding:0.5rem 1rem;
+      font-size:0.85rem;
+      border-radius:999px;
+      cursor:pointer;
+      border:1px solid transparent;
+      background:white;
+      color:#0f172a;
+      transition:.2s;
+    }
+    .dash-tab:hover{
+      border-color:rgba(148,163,184,0.7);
+    }
+    .dash-tab.active{
+      background:linear-gradient(90deg,#06b6d4,#7c3aed);
+      color:white;
+      box-shadow:0 8px 20px rgba(37,99,235,0.35);
+    }
+
+    /* DARK MODE (soft) */
+    body.dark-mode{
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+      color:#e5e7eb;
+    }
+    body.dark-mode .glass{
+      background:rgba(15,23,42,0.96);
+      border-color:rgba(148,163,184,0.7);
+      box-shadow:0 16px 40px rgba(0,0,0,0.6);
+    }
+    body.dark-mode header{
+      background:rgba(15,23,42,0.92);
+      backdrop-filter:blur(10px);
+    }
+    body.dark-mode input,
+    body.dark-mode select,
+    body.dark-mode textarea{
+      background:rgba(15,23,42,0.9);
+      color:#e5e7eb;
+      border-color:#475569;
+    }
+    body.dark-mode footer{
+      background:#020617;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER (same vibe as plans.html) -->
+<header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">
+        DF
+      </div>
+      <div>
+        <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
+        <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
+      </div>
+    </a>
+
     <nav class="hidden md:flex gap-4 text-sm">
-      <a href="index.html" class="hover:text-green-300">Home</a>
-      <a href="plans.html" class="hover:text-green-300">Plans</a>
-      <button id="logoutBtn" class="hover:text-red-400">Logout</button>
+      <a href="index.html" class="hover:text-green-600">Home</a>
+      <a href="plans.html" class="hover:text-emerald-600">Plans</a>
+      <a href="login.html" class="hover:text-indigo-600">Login</a>
+      <a href="signup.html" class="hover:text-indigo-600">Signup</a>
+      <a href="dashboard.html" class="text-emerald-600 font-semibold">Dashboard</a>
     </nav>
   </div>
 </header>
 
-<div class="max-w-6xl mx-auto px-4 py-10">
-  <h1 class="text-3xl font-bold section-title mb-6" data-aos="fade-up">
-    Hi <span id="username">User</span> 👋 — Welcome Back!
-  </h1>
+<!-- PAGE HEADING -->
+<section class="max-w-6xl mx-auto px-4 py-8">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div>
+      <h2 class="text-3xl md:text-4xl font-extrabold section-title mb-2">
+        My Dashboard
+      </h2>
+      <p class="text-gray-600 text-sm md:text-base">
+        View and manage your fruit subscription, payments & profile in one place.
+      </p>
+    </div>
 
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="glass" data-aos="zoom-in">
-      <h3 class="text-xl font-semibold mb-3"><i class="fa fa-star text-yellow-300"></i> Your Current Plan</h3>
-      <p class="text-lg font-bold" id="planName">No active plan</p>
-      <p class="text-sm mt-1 text-slate-200" id="planDetail">Select a plan to start deliveries.</p>
-      <div class="mt-4">
-        <a href="plans.html" class="w-full inline-block text-center py-2 rounded-lg btn-grad">Choose / Change Plan</a>
+    <div class="flex items-center gap-3">
+      <!-- Dark mode toggle -->
+      <button id="darkModeToggle"
+              class="px-3 py-2 rounded-full text-xs font-medium border bg-white/80 flex items-center gap-2">
+        <i class="fa fa-moon"></i>
+        <span>Dark Mode</span>
+      </button>
+
+      <!-- Support button -->
+      <a href="mailto:dailyfruitco@gmail.com"
+         class="px-3 py-2 rounded-full text-xs font-medium text-white"
+         style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+        <i class="fa fa-headset mr-1"></i> Support
+      </a>
+
+      <!-- Logout -->
+      <button id="logoutBtn"
+              class="px-3 py-2 rounded-full text-xs font-medium border border-red-500 text-red-600 bg-white/90">
+        Logout
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN DASHBOARD WRAPPER -->
+<section class="max-w-6xl mx-auto px-4 pb-10">
+  <div class="glass p-6 md:p-8" data-aos="fade-up">
+
+    <!-- TOP BAR: user greeting + tabs -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      <div>
+        <h3 class="text-xl md:text-2xl font-bold text-slate-800" id="dashUserGreeting">
+          Hello, User 👋
+        </h3>
+        <p class="text-xs text-gray-500" id="dashUserSubtext">
+          Manage your subscription, profile and payments.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-2 text-xs">
+        <button class="dash-tab active" data-tab="overview">Overview</button>
+        <button class="dash-tab" data-tab="plans">Plans</button>
+        <button class="dash-tab" data-tab="payments">Payments</button>
+        <button class="dash-tab" data-tab="profile">Profile</button>
       </div>
     </div>
 
-    <div class="glass" data-aos="zoom-in" data-aos-delay="100">
-      <h3 class="text-xl font-semibold mb-3"><i class="fa fa-truck text-green-300"></i> Delivery Status</h3>
-      <p class="text-lg font-bold" id="nextDelivery">Next Delivery: —</p>
-      <p class="text-sm text-slate-200 mt-1" id="deliveryNote">Plan not started yet.</p>
-      <ul class="mt-4 text-sm space-y-1 text-slate-200">
-        <li id="statusBadge"></li>
-      </ul>
-    </div>
+    <!-- TAB CONTENT: OVERVIEW -->
+    <div id="tab-overview" class="dash-tab-panel">
 
-    <div class="glass" data-aos="zoom-in" data-aos-delay="200">
-      <h3 class="text-xl font-semibold mb-3"><i class="fa fa-user-circle text-blue-300"></i> Your Profile</h3>
-      <p>Name: <span class="font-bold" id="profileName">—</span></p>
-      <p>Phone: <span class="font-bold" id="profilePhone">—</span></p>
-      <p class="mt-2 text-sm text-slate-200" id="profileAddress">Address: not set</p>
-      <div class="mt-4">
-        <button class="w-full py-2 rounded-lg bg-white/20 hover:bg-white/30 text-sm" id="editProfileBtn">Edit Profile (demo)</button>
+      <div class="grid md:grid-cols-3 gap-4 mb-6 text-sm">
+        <!-- Active Plan Summary -->
+        <div class="border rounded-lg p-4 bg-white/80">
+          <p class="text-xs text-gray-500 mb-1">Active Plan</p>
+          <p class="font-semibold" id="ovActivePlanName">No active plan</p>
+          <p class="text-xs text-gray-500 mt-1" id="ovActivePlanPrice"></p>
+        </div>
+
+        <!-- Next Delivery -->
+        <div class="border rounded-lg p-4 bg-white/80">
+          <p class="text-xs text-gray-500 mb-1">Next Delivery</p>
+          <p class="font-semibold" id="ovNextDeliveryDate">Not scheduled</p>
+          <p class="text-xs text-gray-500 mt-1" id="ovDeliveryTimeText"></p>
+        </div>
+
+        <!-- Account Status -->
+        <div class="border rounded-lg p-4 bg-white/80">
+          <p class="text-xs text-gray-500 mb-1">Account</p>
+          <p class="font-semibold" id="ovAccountEmail">-</p>
+          <p class="text-xs text-gray-500 mt-1" id="ovAccountPhone"></p>
+        </div>
+      </div>
+
+      <!-- Overview bottom: quick actions -->
+      <div class="border rounded-lg p-4 bg-white/80 text-sm">
+        <p class="font-semibold mb-2">Quick Actions</p>
+        <div class="flex flex-wrap gap-2">
+          <button id="qaChangePlan" class="px-3 py-1.5 rounded-full border text-xs">
+            Change Plan
+          </button>
+          <button id="qaPausePlan" class="px-3 py-1.5 rounded-full border text-xs">
+            Pause Plan
+          </button>
+          <button id="qaResumePlan" class="px-3 py-1.5 rounded-full border text-xs">
+            Resume Plan
+          </button>
+          <button id="qaCancelPlan" class="px-3 py-1.5 rounded-full border text-xs text-red-600 border-red-400">
+            Cancel Plan
+          </button>
+          <button id="qaDownloadInvoice" class="px-3 py-1.5 rounded-full border text-xs">
+            Download Last Invoice
+          </button>
+        </div>
+        <p class="text-[11px] text-gray-500 mt-2">
+          These actions currently update your dashboard using localStorage. When backend is live,
+          the same buttons will call your API (Node.js + MongoDB).
+        </p>
       </div>
     </div>
-  </div>
+    <!-- TAB CONTENT: PLANS -->
+    <div id="tab-plans" class="dash-tab-panel hidden mt-4 text-sm">
 
-  <h2 class="text-2xl font-bold section-title mt-12 mb-4" data-aos="fade-up">Actions</h2>
+      <!-- Active plan card -->
+      <div class="border rounded-lg p-4 bg-white/80 mb-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Active Plan</p>
+            <p class="font-semibold text-base" id="activePlanTitle">No active plan</p>
+            <p class="text-xs text-gray-500 mt-1" id="activePlanDetails"></p>
+          </div>
 
-  <div class="grid md:grid-cols-3 gap-6">
-    <button class="glass text-left hover:bg-white/10 text-sm" data-aos="fade-right" id="pauseBtn">
-      <h3 class="font-semibold text-lg">Pause Subscription</h3>
-      <p class="text-slate-200 mt-1">Stop delivery temporarily</p>
-    </button>
-    <button class="glass text-left hover:bg-white/10 text-sm" data-aos="fade-up" id="resumeBtn">
-      <h3 class="font-semibold text-lg">Resume Subscription</h3>
-      <p class="text-slate-200 mt-1">Restart deliveries</p>
-    </button>
-    <button class="glass text-left hover:bg-white/10 text-sm" data-aos="fade-left" id="skipBtn">
-      <h3 class="font-semibold text-lg">Skip Next Delivery</h3>
-      <p class="text-slate-200 mt-1">Skip next day delivery</p>
-    </button>
-  </div>
+          <div class="flex flex-wrap gap-2">
+            <button id="btnPausePlan" class="px-3 py-1.5 rounded-full border text-xs">
+              Pause
+            </button>
+            <button id="btnResumePlan" class="px-3 py-1.5 rounded-full border text-xs">
+              Resume
+            </button>
+            <button id="btnCancelPlan" class="px-3 py-1.5 rounded-full border text-xs text-red-600 border-red-400">
+              Cancel
+            </button>
+            <a href="plans.html" class="px-3 py-1.5 rounded-full border text-xs">
+              Change Plan
+            </a>
+          </div>
+        </div>
 
-  <h2 class="text-2xl font-bold section-title mt-12 mb-4" data-aos="slide-up">Delivery Calendar</h2>
+        <p class="text-[11px] text-gray-500 mt-2" id="activePlanStatusText">
+          No plan is currently active. Choose a plan from the plans page.
+        </p>
+      </div>
 
-  <div class="glass" data-aos="fade-up">
-    <p class="text-sm text-slate-200 mb-3">This Week's Schedule:</p>
-    <div class="grid grid-cols-7 gap-2 text-center text-xs md:text-sm">
-      <div class="p-3 rounded-md" id="day-Mon">Mon<br>—</div>
-      <div class="p-3 rounded-md" id="day-Tue">Tue<br>—</div>
-      <div class="p-3 rounded-md" id="day-Wed">Wed<br>—</div>
-      <div class="p-3 rounded-md" id="day-Thu">Thu<br>—</div>
-      <div class="p-3 rounded-md" id="day-Fri">Fri<br>—</div>
-      <div class="p-3 rounded-md" id="day-Sat">Sat<br>—</div>
-      <div class="p-3 rounded-md" id="day-Sun">Sun<br>—</div>
+      <!-- Plan history -->
+      <div class="border rounded-lg p-4 bg-white/80 mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <p class="font-semibold">Plan History</p>
+          <button id="btnClearPlanHistory" class="text-xs text-red-500 underline">
+            Clear history
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-xs">
+            <thead>
+              <tr class="text-left text-gray-500 border-b">
+                <th class="py-2 pr-4">Plan</th>
+                <th class="py-2 pr-4">Start</th>
+                <th class="py-2 pr-4">End</th>
+                <th class="py-2 pr-4">Status</th>
+              </tr>
+            </thead>
+            <tbody id="planHistoryBody">
+              <!-- Filled via JS / localStorage -->
+            </tbody>
+          </table>
+        </div>
+
+        <p class="text-[11px] text-gray-500 mt-2">
+          We show all your past subscriptions that were saved from checkout.
+        </p>
+      </div>
+
+      <!-- Delivery calendar + time edit -->
+      <div class="border rounded-lg p-4 bg-white/80">
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <p class="font-semibold mb-2">Upcoming Deliveries (next 7 days)</p>
+            <ul id="deliveryCalendarList" class="text-xs text-gray-700 space-y-1">
+              <!-- Filled via JS -->
+            </ul>
+          </div>
+
+          <div>
+            <p class="font-semibold mb-2">Edit Delivery Time</p>
+            <p class="text-xs text-gray-500 mb-2">
+              This updates the delivery time in your saved profile.
+            </p>
+
+            <form id="deliveryTimeForm" class="space-y-2 text-sm">
+              <label class="flex items-center gap-2">
+                <input type="radio" name="deliveryTimeDash" value="morning">
+                Morning (6:30 AM – 9:00 AM)
+              </label>
+              <label class="flex items-center gap-2">
+                <input type="radio" name="deliveryTimeDash" value="afternoon">
+                Afternoon
+              </label>
+              <label class="flex items-center gap-2">
+                <input type="radio" name="deliveryTimeDash" value="evening">
+                Evening
+              </label>
+
+              <button type="submit"
+                      class="mt-2 px-3 py-1.5 rounded-full text-xs text-white"
+                      style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+                Save Delivery Time
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <!-- TAB CONTENT: PAYMENTS -->
+    <div id="tab-payments" class="dash-tab-panel hidden mt-4 text-sm">
+      <div class="border rounded-lg p-4 bg-white/80 mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <p class="font-semibold">Payment History</p>
+          <button id="btnClearPayments" class="text-xs text-red-500 underline">
+            Clear payment history
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-xs">
+            <thead>
+              <tr class="text-left text-gray-500 border-b">
+                <th class="py-2 pr-4">Date</th>
+                <th class="py-2 pr-4">Plan</th>
+                <th class="py-2 pr-4">Amount</th>
+                <th class="py-2 pr-4">Method</th>
+                <th class="py-2 pr-4">Status</th>
+              </tr>
+            </thead>
+            <tbody id="paymentHistoryBody">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <p class="text-[11px] text-gray-500 mt-2">
+          Payment history is loaded from localStorage and later can be synced with your backend.
+        </p>
+
+        <button id="btnDownloadInvoice2"
+                class="mt-3 px-3 py-1.5 rounded-full border text-xs">
+          Download Last Invoice
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB CONTENT: PROFILE -->
+    <div id="tab-profile" class="dash-tab-panel hidden mt-4 text-sm">
+
+      <form id="profileForm" class="space-y-4">
+
+        <!-- Basic info -->
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
+            <input type="text" id="pfFullName" required
+                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Email *</label>
+            <input type="email" id="pfEmail" required
+                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Phone (WhatsApp) *</label>
+            <input type="tel" id="pfPhone" required
+                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">User Type</label>
+            <select id="pfUserType"
+                    class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <option value="">Customer</option>
+              <option value="customer">Customer</option>
+              <option value="corporate">Corporate</option>
+              <option value="distributor">Distributor</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Primary Address -->
+        <div class="border-t pt-3">
+          <p class="text-xs font-semibold text-gray-700 mb-2">Primary Delivery Address</p>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-medium text-gray-600 mb-1">House / Flat *</label>
+              <input type="text" id="pfHouse" required
+                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-600 mb-1">Street *</label>
+              <input type="text" id="pfStreet" required
+                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4 mt-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-600 mb-1">Area *</label>
+              <input type="text" id="pfArea" required
+                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-600 mb-1">City *</label>
+              <input type="text" id="pfCity" required
+                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+            </div>
+          </div>
+
+          <div class="mt-3 max-w-xs">
+            <label class="block text-xs font-medium text-gray-600 mb-1">Pincode *</label>
+            <input type="text" id="pfPincode" required
+                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+          </div>
+        </div>
+
+        <!-- Multiple addresses (simple list) -->
+        <div class="border-t pt-3">
+          <div class="flex items-center justify-between mb-1">
+            <p class="text-xs font-semibold text-gray-700">Other Saved Addresses</p>
+            <button type="button" id="btnAddAddress"
+                    class="text-xs underline text-indigo-600">
+              + Add Address
+            </button>
+          </div>
+          <p class="text-[11px] text-gray-500 mb-2">
+            Manage additional delivery locations (office, home 2, etc.).
+          </p>
+
+          <ul id="addressList" class="text-xs text-gray-700 space-y-2">
+            <!-- Addresses from localStorage -->
+          </ul>
+        </div>
+
+        <!-- Delivery time & offers -->
+        <div class="border-t pt-3 space-y-2">
+          <div>
+            <p class="text-xs font-semibold text-gray-700 mb-1">Preferred Delivery Time</p>
+            <select id="pfDeliveryTime" class="w-full md:w-60 px-3 py-2 border rounded-md bg-white/80 text-sm">
+              <option value="">Select time</option>
+              <option value="morning">Morning (6:30 AM – 9:00 AM)</option>
+              <option value="afternoon">Afternoon</option>
+              <option value="evening">Evening</option>
+            </select>
+          </div>
+
+          <label class="flex items-center gap-2 text-xs text-gray-700">
+            <input type="checkbox" id="pfOffersOptIn">
+            <span>Receive deals &amp; updates on WhatsApp / Email</span>
+          </label>
+        </div>
+
+        <!-- SAVE -->
+        <div class="pt-2">
+          <button type="submit"
+                  class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
+                  style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+            Save Profile
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div> <!-- end glass -->
+</section>
+<!-- FOOTER (same style as plans.html) -->
+<footer class="mt-10 bg-[#020617] text-white">
+  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-10 text-sm">
+
+    <!-- COLUMN 1: GET IN TOUCH -->
+    <div>
+      <h3 class="text-xl font-bold section-title mb-4">Get in Touch</h3>
+
+      <p class="font-semibold text-gray-300">Call / WhatsApp</p>
+      <p class="text-gray-400">+91-9226157351</p>
+
+      <p class="mt-4 font-semibold text-gray-300">Email</p>
+      <p class="text-gray-400">dailyfruitco@gmail.com</p>
+
+      <p class="mt-4 font-semibold text-gray-300">Social</p>
+      <p class="text-gray-400">Instagram: @dailyfruitco</p>
+      <p class="text-gray-400">Facebook: Daily Fruit Co.</p>
+    </div>
+
+    <!-- COLUMN 2: COMPANY -->
+    <div>
+      <h3 class="text-xl font-bold section-title mb-4">Company</h3>
+
+      <a href="index.html#contact" class="block text-gray-300 hover:text-white">Contact Us</a>
+      <a href="index.html#faq" class="block text-gray-300 hover:text-white">FAQs</a>
+      <a href="#" class="block text-gray-300 hover:text-white">Blogs</a>
+      <a href="#" class="block text-gray-300 hover:text-white">Policy</a>
+    </div>
+
+    <!-- COLUMN 3: FOLLOW US -->
+    <div>
+      <h3 class="text-xl font-bold section-title mb-4">Follow Us</h3>
+      <p class="text-gray-400 mb-3">Stay connected with Daily Fruit Co.</p>
+
+      <div class="footer-social">
+        <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.linkedin.com" class="glass-icon" target="_blank">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://twitter.com" class="glass-icon" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://wa.me/919226157351" class="glass-icon" target="_blank">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+
+      <p class="mt-6 text-gray-500 text-xs">
+        © 2025 Daily Fruit Co. — Freshness Delivered Daily
+      </p>
+    </div>
+
   </div>
+</footer>
+
+<!-- FLOATING SOCIAL STRIP (RIGHT SIDE) -->
+<div class="fixed right-4 top-1/3 z-40 flex flex-col gap-4 desktop-only">
+  <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+  <a href="https://www.linkedin.com" class="glass-icon" target="_blank">
+    <i class="fab fa-linkedin-in"></i>
+  </a>
+  <a href="https://twitter.com" class="glass-icon" target="_blank">
+    <i class="fab fa-twitter"></i>
+  </a>
+  <a href="https://wa.me/919226157351" class="glass-icon" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 </div>
 
+<!-- WHATSAPP FAB -->
+<a href="https://wa.me/919226157351?text=Hi%20Daily%20Fruit%20Co!%20I'd%20like%20to%20subscribe"
+   target="_blank"
+   class="fab-wa"
+   aria-label="Chat on WhatsApp">
+  <i class="fa fa-whatsapp fa-lg"></i>
+</a>
+
+<!-- AOS + DASHBOARD LOGIC -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-AOS.init({ duration: 800, once: true });
-const API_BASE = 'http://localhost:4000';
+  const API_BASE = 'http://localhost:4000';
 
-function toast(msg, isError){
-  const el=document.createElement('div');
-  el.textContent=msg;
-  el.className='fixed right-4 bottom-4 z-50 text-sm px-3 py-2 rounded shadow text-white ' + (isError?'bg-red-600':'bg-black');
-  document.body.appendChild(el); setTimeout(()=>el.remove(),3000);
-}
+  AOS.init({ duration: 700, once: true });
 
-function requireAuth(){
-  const token = localStorage.getItem('df_token');
-  if(!token){
-    window.location.href='login.html';
-    return null;
+  function toast(msg, isError){
+    const el = document.createElement('div');
+    el.textContent = msg;
+    el.className =
+      'fixed right-4 bottom-4 z-50 text-sm px-3 py-2 rounded shadow text-white ' +
+      (isError ? 'bg-red-600' : 'bg-black');
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3000);
   }
-  return token;
-}
 
-async function loadDashboard(){
-  const token = requireAuth();
-  if(!token) return;
+  // -------- LOGIN GUARD ----------
+  function getStoredProfile(){
+    try{
+      const raw = localStorage.getItem('df_user_profile');
+      if(!raw) return null;
+      return JSON.parse(raw);
+    }catch(e){
+      return null;
+    }
+  }
 
-  try{
-    const meRes = await fetch(API_BASE + '/api/me', {
-      headers:{ 'Authorization':'Bearer '+token }
-    });
-    const meData = await meRes.json();
-    if(!meRes.ok || !meData.success) throw new Error(meData.message || 'Error loading profile');
+  function getActivePlan(){
+    try{
+      const raw = localStorage.getItem('df_active_plan');
+      if(!raw) return null;
+      return JSON.parse(raw);
+    }catch(e){
+      return null;
+    }
+  }
 
-    const u = meData.data;
-    document.getElementById('username').textContent = u.name || 'User';
-    document.getElementById('profileName').textContent = u.name || 'User';
-    document.getElementById('profilePhone').textContent = u.phone || '—';
+  function getPlanHistory(){
+    try{
+      const raw = localStorage.getItem('df_plan_history');
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){
+      return [];
+    }
+  }
 
-    if(u.address && (u.address.line1 || u.address.area)){
-      const addr = [u.address.line1, u.address.area, u.address.city, u.address.pincode].filter(Boolean).join(', ');
-      document.getElementById('profileAddress').textContent = 'Address: ' + addr;
+  function getPaymentHistory(){
+    try{
+      const raw = localStorage.getItem('df_payment_history');
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function getExtraAddresses(){
+    try{
+      const raw = localStorage.getItem('df_extra_addresses');
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  // Redirect if not logged in
+  const profile = getStoredProfile();
+  if(!profile){
+    toast('Please login to access dashboard.', true);
+    setTimeout(()=>{ window.location.href = 'login.html'; }, 1000);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if(!profile) return;
+
+    // Greeting
+    const greet = document.getElementById('dashUserGreeting');
+    const sub = document.getElementById('dashUserSubtext');
+    if(greet){
+      greet.textContent = `Hello, ${profile.fullName || 'User'} 👋`;
+    }
+    if(sub){
+      sub.textContent = 'Manage your subscription, deliveries and payments.';
     }
 
-    if(u.planName){
-      document.getElementById('planName').textContent = u.planName;
-      document.getElementById('planDetail').textContent = (u.planSlug || '') + (u.isPaused ? ' (Paused)' : '');
+    // Overview cards
+    const activePlan = getActivePlan();
+    const ovName = document.getElementById('ovActivePlanName');
+    const ovPrice = document.getElementById('ovActivePlanPrice');
+    const ovNext = document.getElementById('ovNextDeliveryDate');
+    const ovTime = document.getElementById('ovDeliveryTimeText');
+    const ovEmail = document.getElementById('ovAccountEmail');
+    const ovPhone = document.getElementById('ovAccountPhone');
+
+    if(activePlan){
+      ovName.textContent = activePlan.name;
+      ovPrice.textContent = `₹${activePlan.price} • ${activePlan.slug || ''}`;
+      ovNext.textContent = activePlan.nextDeliveryDate || 'Tomorrow';
     } else {
-      document.getElementById('planName').textContent = 'No active plan';
-      document.getElementById('planDetail').textContent = 'Select a plan on Plans page.';
+      ovName.textContent = 'No active plan';
+      ovPrice.textContent = '';
+      ovNext.textContent = 'Not scheduled';
     }
 
-    if(u.nextDeliveryDate){
-      const d = new Date(u.nextDeliveryDate);
-      document.getElementById('nextDelivery').textContent = 'Next Delivery: ' + d.toDateString();
-      document.getElementById('deliveryNote').textContent = u.isPaused ? 'Subscription is paused.' : 'We will deliver in your regular slot.';
-    } else {
-      document.getElementById('nextDelivery').textContent = 'Next Delivery: —';
-      document.getElementById('deliveryNote').textContent = 'No upcoming delivery scheduled.';
+    ovTime.textContent = profile.deliveryTime
+      ? `Preferred: ${profile.deliveryTime}`
+      : 'No delivery time set yet';
+
+    ovEmail.textContent = profile.email || '-';
+    ovPhone.textContent = profile.phone ? `+91-${profile.phone}` : '';
+
+    // Active plan section (Plans tab)
+    const apTitle = document.getElementById('activePlanTitle');
+    const apDetails = document.getElementById('activePlanDetails');
+    const apStatus = document.getElementById('activePlanStatusText');
+
+    function refreshActivePlanUI(){
+      const p = getActivePlan();
+      if(!p){
+        apTitle.textContent = 'No active plan';
+        apDetails.textContent = '';
+        apStatus.textContent = 'No plan is currently active. Choose a plan from the plans page.';
+        ovName.textContent = 'No active plan';
+        ovPrice.textContent = '';
+        return;
+      }
+      apTitle.textContent = p.name || 'Active Plan';
+      apDetails.textContent = `₹${p.price || '-'} • Status: ${p.status || 'active'}`;
+      apStatus.textContent = `Current status: ${p.status || 'active'}`;
+      ovName.textContent = p.name;
+      ovPrice.textContent = `₹${p.price}`;
+    }
+    refreshActivePlanUI();
+
+    // Delivery calendar (next 7 days)
+    const calendarEl = document.getElementById('deliveryCalendarList');
+    if(calendarEl){
+      calendarEl.innerHTML = '';
+      const today = new Date();
+      for(let i=0;i<7;i++){
+        const d = new Date(today);
+        d.setDate(d.getDate()+i);
+        const label = d.toLocaleDateString('en-IN',{
+          weekday:'short',
+          day:'numeric',
+          month:'short'
+        });
+        const li = document.createElement('li');
+        li.textContent = label + (activePlan ? ' — Scheduled' : ' — (no active plan)');
+        calendarEl.appendChild(li);
+      }
     }
 
-    // schedule
-    const schRes = await fetch(API_BASE + '/api/subscription/schedule',{
-      headers:{'Authorization':'Bearer '+token}
-    });
-    const schData = await schRes.json();
-    if(schRes.ok && schData.success){
-      const schedule = schData.data.schedule || [];
-      schedule.forEach(item=>{
-        const el = document.getElementById('day-'+item.day);
-        if(!el) return;
-        let color='bg-gray-600/60';
-        if(item.status==='delivered') color='bg-green-500/70';
-        else if(item.status==='pending') color='bg-orange-400/70';
-        el.className = 'p-3 rounded-md ' + color;
-        el.innerHTML = item.day + '<br>' + (item.status.charAt(0).toUpperCase()+item.status.slice(1));
+    // Plan history
+    function renderPlanHistory(){
+      const ph = getPlanHistory();
+      const body = document.getElementById('planHistoryBody');
+      if(!body) return;
+      body.innerHTML = '';
+      if(ph.length === 0){
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 4;
+        td.className = 'py-2 text-gray-400';
+        td.textContent = 'No plan history yet.';
+        tr.appendChild(td);
+        body.appendChild(tr);
+        return;
+      }
+      ph.forEach(item=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-2 pr-4">${item.name || '-'}</td>
+          <td class="py-2 pr-4">${item.startDate || '-'}</td>
+          <td class="py-2 pr-4">${item.endDate || '-'}</td>
+          <td class="py-2 pr-4">${item.status || '-'}</td>
+        `;
+        body.appendChild(tr);
       });
     }
+    renderPlanHistory();
 
-  }catch(err){
-    console.error(err);
-    toast('Could not load dashboard. Please login again.', true);
-  }
-}
+    // Payment history
+    function renderPaymentHistory(){
+      const list = getPaymentHistory();
+      const body = document.getElementById('paymentHistoryBody');
+      if(!body) return;
+      body.innerHTML = '';
+      if(list.length === 0){
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.className = 'py-2 text-gray-400';
+        td.textContent = 'No payments recorded yet.';
+        tr.appendChild(td);
+        body.appendChild(tr);
+        return;
+      }
+      list.forEach(pay=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-2 pr-4">${pay.date || '-'}</td>
+          <td class="py-2 pr-4">${pay.planName || '-'}</td>
+          <td class="py-2 pr-4">₹${pay.amount || '-'}</td>
+          <td class="py-2 pr-4">${pay.method || '-'}</td>
+          <td class="py-2 pr-4">${pay.status || '-'}</td>
+        `;
+        body.appendChild(tr);
+      });
+    }
+    renderPaymentHistory();
 
-document.getElementById('logoutBtn')?.addEventListener('click', ()=>{
-  localStorage.removeItem('df_token');
-  localStorage.removeItem('df_user');
-  window.location.href='login.html';
-});
+    // Profile form prefill
+    function fillProfileForm(){
+      document.getElementById('pfFullName').value = profile.fullName || '';
+      document.getElementById('pfEmail').value = profile.email || '';
+      document.getElementById('pfPhone').value = profile.phone || '';
+      document.getElementById('pfUserType').value = profile.userType || '';
+      document.getElementById('pfHouse').value = profile.address?.house || '';
+      document.getElementById('pfStreet').value = profile.address?.street || '';
+      document.getElementById('pfArea').value = profile.address?.area || '';
+      document.getElementById('pfCity').value = profile.address?.city || '';
+      document.getElementById('pfPincode').value = profile.address?.pincode || '';
+      document.getElementById('pfDeliveryTime').value = profile.deliveryTime || '';
+      document.getElementById('pfOffersOptIn').checked = !!profile.offersOptIn;
 
-document.getElementById('pauseBtn').addEventListener('click', async ()=>{
-  const token = requireAuth(); if(!token) return;
-  try{
-    const res = await fetch(API_BASE + '/api/subscription/pause',{method:'POST',headers:{'Authorization':'Bearer '+token}});
-    const data = await res.json();
-    if(!res.ok || !data.success) throw new Error(data.message||'Error');
-    toast('Subscription paused.', false);
-    loadDashboard();
-  }catch(e){console.error(e);toast('Unable to pause.',true);}
-});
+      const addrList = document.getElementById('addressList');
+      const addresses = getExtraAddresses();
+      addrList.innerHTML = '';
+      if(addresses.length === 0){
+        const li = document.createElement('li');
+        li.className = 'text-gray-400';
+        li.textContent = 'No extra addresses saved.';
+        addrList.appendChild(li);
+      } else {
+        addresses.forEach((a,idx)=>{
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <div class="flex justify-between items-start gap-2">
+              <div>
+                <p>${a.label || 'Address '+(idx+1)}</p>
+                <p class="text-[11px] text-gray-500">
+                  ${a.house || ''}, ${a.street || ''}, ${a.area || ''}, ${a.city || ''} - ${a.pincode || ''}
+                </p>
+              </div>
+              <button type="button" data-index="${idx}" class="text-[11px] text-red-500 underline remove-address-btn">
+                Remove
+              </button>
+            </div>
+          `;
+          addrList.appendChild(li);
+        });
+      }
+    }
+    fillProfileForm();
 
-document.getElementById('resumeBtn').addEventListener('click', async ()=>{
-  const token = requireAuth(); if(!token) return;
-  try{
-    const res = await fetch(API_BASE + '/api/subscription/resume',{method:'POST',headers:{'Authorization':'Bearer '+token}});
-    const data = await res.json();
-    if(!res.ok || !data.success) throw new Error(data.message||'Error');
-    toast('Subscription resumed.', false);
-    loadDashboard();
-  }catch(e){console.error(e);toast('Unable to resume.',true);}
-});
+    // Add address
+    document.getElementById('btnAddAddress').addEventListener('click', () => {
+      const label = prompt('Label for address (e.g., Office, Home 2):');
+      if(!label) return;
+      const addresses = getExtraAddresses();
+      addresses.push({
+        label,
+        house: profile.address?.house || '',
+        street: profile.address?.street || '',
+        area: profile.address?.area || '',
+        city: profile.address?.city || '',
+        pincode: profile.address?.pincode || ''
+      });
+      localStorage.setItem('df_extra_addresses', JSON.stringify(addresses));
+      fillProfileForm();
+      toast('Address added from current primary address.', false);
+    });
 
-document.getElementById('skipBtn').addEventListener('click', async ()=>{
-  const token = requireAuth(); if(!token) return;
-  try{
-    const res = await fetch(API_BASE + '/api/subscription/skip-next',{method:'POST',headers:{'Authorization':'Bearer '+token}});
-    const data = await res.json();
-    if(!res.ok || !data.success) throw new Error(data.message||'Error');
-    toast('Next delivery skipped.', false);
-    loadDashboard();
-  }catch(e){console.error(e);toast('Unable to skip.',true);}
-});
+    // Remove address
+    document.getElementById('addressList').addEventListener('click', (e)=>{
+      const btn = e.target.closest('.remove-address-btn');
+      if(!btn) return;
+      const idx = parseInt(btn.dataset.index,10);
+      const addresses = getExtraAddresses();
+      addresses.splice(idx,1);
+      localStorage.setItem('df_extra_addresses', JSON.stringify(addresses));
+      fillProfileForm();
+      toast('Address removed.', false);
+    });
 
-document.getElementById('editProfileBtn').addEventListener('click', ()=>{
-  toast('Profile editing UI can be added here (name + address form).', false);
-});
+    // Save profile
+    document.getElementById('profileForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
 
-loadDashboard();
+      const fullName = document.getElementById('pfFullName').value.trim();
+      const email = document.getElementById('pfEmail').value.trim();
+      const phone = document.getElementById('pfPhone').value.trim();
+      const userType = document.getElementById('pfUserType').value;
+      const house = document.getElementById('pfHouse').value.trim();
+      const street = document.getElementById('pfStreet').value.trim();
+      const area = document.getElementById('pfArea').value.trim();
+      const city = document.getElementById('pfCity').value.trim();
+      const pincode = document.getElementById('pfPincode').value.trim();
+      const deliveryTime = document.getElementById('pfDeliveryTime').value;
+      const offersOptIn = document.getElementById('pfOffersOptIn').checked;
+
+      if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
+        toast('Please enter a valid 10-digit phone.', true);
+        return;
+      }
+      if(!/^[0-9]{6}$/.test(pincode)){
+        toast('Please enter a valid 6-digit pincode.', true);
+        return;
+      }
+
+      const updated = {
+        ...profile,
+        fullName,
+        email,
+        phone,
+        userType,
+        address:{
+          house,street,area,city,pincode
+        },
+        deliveryTime,
+        offersOptIn
+      };
+
+      try{
+        localStorage.setItem('df_user_profile', JSON.stringify(updated));
+      }catch(e){}
+
+      try{
+        await fetch(API_BASE + '/api/profile/update',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(updated)
+        }).catch(()=>{});
+      }catch(e){}
+
+      toast('Profile saved.', false);
+      window.location.reload();
+    });
+
+    // Delivery time form (Plans tab)
+    document.getElementById('deliveryTimeForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const selected = (document.querySelector('input[name="deliveryTimeDash"]:checked') || {}).value;
+      if(!selected){
+        toast('Select a delivery time first.', true);
+        return;
+      }
+      const updated = { ...profile, deliveryTime:selected };
+      try{
+        localStorage.setItem('df_user_profile', JSON.stringify(updated));
+      }catch(e){}
+      toast('Delivery time updated.', false);
+      setTimeout(()=>window.location.reload(), 500);
+    });
+
+    // Clear history buttons
+    document.getElementById('btnClearPlanHistory').addEventListener('click', ()=>{
+      if(!confirm('Clear plan history?')) return;
+      localStorage.removeItem('df_plan_history');
+      renderPlanHistory();
+      toast('Plan history cleared.', false);
+    });
+
+    document.getElementById('btnClearPayments').addEventListener('click', ()=>{
+      if(!confirm('Clear payment history?')) return;
+      localStorage.removeItem('df_payment_history');
+      renderPaymentHistory();
+      toast('Payment history cleared.', false);
+    });
+
+    // Plan status actions
+    function updatePlanStatus(newStatus){
+      const p = getActivePlan();
+      if(!p){
+        toast('No active plan to update.', true);
+        return;
+      }
+      p.status = newStatus;
+      localStorage.setItem('df_active_plan', JSON.stringify(p));
+      refreshActivePlanUI();
+      toast('Plan status updated to ' + newStatus + '.', false);
+    }
+
+    document.getElementById('btnPausePlan').addEventListener('click',()=>updatePlanStatus('paused'));
+    document.getElementById('btnResumePlan').addEventListener('click',()=>updatePlanStatus('active'));
+    document.getElementById('btnCancelPlan').addEventListener('click',()=>{
+      if(!confirm('Are you sure you want to cancel this plan?')) return;
+      const p = getActivePlan();
+      if(p){
+        const history = getPlanHistory();
+        history.push({
+          name:p.name,
+          startDate:p.startDate || new Date().toLocaleDateString('en-IN'),
+          endDate:new Date().toLocaleDateString('en-IN'),
+          status:'cancelled'
+        });
+        localStorage.setItem('df_plan_history', JSON.stringify(history));
+      }
+      localStorage.removeItem('df_active_plan');
+      refreshActivePlanUI();
+      renderPlanHistory();
+      toast('Plan cancelled.', false);
+    });
+
+    // Quick actions (overview)
+    document.getElementById('qaPausePlan').addEventListener('click',()=>updatePlanStatus('paused'));
+    document.getElementById('qaResumePlan').addEventListener('click',()=>updatePlanStatus('active'));
+    document.getElementById('qaCancelPlan').addEventListener('click',()=>{
+      document.getElementById('btnCancelPlan').click();
+    });
+    document.getElementById('qaChangePlan').addEventListener('click',()=>{
+      window.location.href = 'plans.html';
+    });
+
+    // Invoice download (simple printable page)
+    function downloadLastInvoice(){
+      const pays = getPaymentHistory();
+      if(pays.length === 0){
+        toast('No payment to generate invoice.', true);
+        return;
+      }
+      const last = pays[pays.length - 1];
+
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <html>
+        <head>
+          <title>Invoice - Daily Fruit Co.</title>
+        </head>
+        <body style="font-family:Arial;padding:20px;">
+          <h2>Daily Fruit Co. — Invoice</h2>
+          <p><strong>Customer:</strong> ${profile.fullName || ''}</p>
+          <p><strong>Email:</strong> ${profile.email || ''}</p>
+          <p><strong>Phone:</strong> ${profile.phone || ''}</p>
+          <hr/>
+          <p><strong>Date:</strong> ${last.date || ''}</p>
+          <p><strong>Plan:</strong> ${last.planName || ''}</p>
+          <p><strong>Amount:</strong> ₹${last.amount || ''}</p>
+          <p><strong>Method:</strong> ${last.method || ''}</p>
+          <p><strong>Status:</strong> ${last.status || ''}</p>
+          <hr/>
+          <p>Thank you for choosing Daily Fruit Co.</p>
+          <script>window.print();<\/script>
+        </body>
+        </html>
+      `);
+      win.document.close();
+    }
+
+    document.getElementById('qaDownloadInvoice').addEventListener('click', downloadLastInvoice);
+    document.getElementById('btnDownloadInvoice2').addEventListener('click', downloadLastInvoice);
+
+    // Tabs
+    document.querySelectorAll('.dash-tab').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const tab = btn.dataset.tab;
+        document.querySelectorAll('.dash-tab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.dash-tab-panel').forEach(p=>p.classList.add('hidden'));
+        document.getElementById('tab-'+tab).classList.remove('hidden');
+      });
+    });
+
+    // Dark mode toggle (soft)
+    const darkBtn = document.getElementById('darkModeToggle');
+    const savedTheme = localStorage.getItem('df_theme');
+    if(savedTheme === 'dark'){
+      document.body.classList.add('dark-mode');
+    }
+    darkBtn.addEventListener('click',()=>{
+      document.body.classList.toggle('dark-mode');
+      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('df_theme', mode);
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', ()=>{
+      if(!confirm('Logout from your account?')) return;
+      localStorage.removeItem('df_user_profile');
+      // keep history / active plan if you want; you can also clear them here
+      window.location.href = 'login.html';
+    });
+  });
 </script>
+
 </body>
 </html>
