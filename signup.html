@@ -178,33 +178,42 @@ function toast(msg, error = false) {
 
 // SEND OTP
 document.getElementById("sendOtpBtn").onclick = async () => {
-  const email = email.value.trim();
+
+  const emailVal = document.getElementById("email").value.trim();
   const status = document.getElementById("otpStatus");
 
-  if (!email) return toast("Enter email", true);
+  if (!emailVal) return toast("Enter email", true);
+
+  // Change button on click
+  const btn = document.getElementById("sendOtpBtn");
+  btn.style.opacity = "0.6";
+  btn.style.cursor = "not-allowed";
 
   status.textContent = "Sending OTP...";
 
   const res = await fetch(API_BASE + "/api/otp/send", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email })
+    body: JSON.stringify({ email: emailVal })
   });
 
   if (!res.ok) {
     status.textContent = "Failed to send OTP";
+    btn.style.opacity = "1";
+    btn.style.cursor = "pointer";
     return toast("Failed to send OTP", true);
   }
 
   status.textContent = "OTP sent to email";
   status.className = "text-xs text-green-600";
+
   document.getElementById("otpBox").classList.remove("hidden");
 };
 
 // VERIFY OTP
 document.getElementById("verifyOtpBtn").onclick = async () => {
-  const otp = otpInput.value.trim();
-  const emailVal = email.value.trim();
+  const otp = document.getElementById("otpInput").value.trim();
+  const emailVal = document.getElementById("email").value.trim();
   const status = document.getElementById("otpVerifyStatus");
 
   if (!otp) return toast("Enter OTP", true);
@@ -238,16 +247,16 @@ document.getElementById("signupForm").onsubmit = async (e) => {
   }
 
   const body = {
-    fullName: fullName.value,
-    email: email.value,
-    phone: phone.value,
-    password: password.value,
+    fullName: document.getElementById("fullName").value,
+    email: document.getElementById("email").value,
+    phone: document.getElementById("phone").value,
+    password: document.getElementById("password").value,
     address: {
-      house: house.value,
-      street: street.value,
-      area: area.value,
-      city: city.value,
-      pincode: pincode.value
+      house: document.getElementById("house").value,
+      street: document.getElementById("street").value,
+      area: document.getElementById("area").value,
+      city: document.getElementById("city").value,
+      pincode: document.getElementById("pincode").value
     },
     deliveryTime: document.querySelector('input[name="deliveryTime"]:checked').value
   };
@@ -271,4 +280,3 @@ document.getElementById("signupForm").onsubmit = async (e) => {
 
 </body>
 </html>
-
