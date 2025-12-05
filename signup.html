@@ -1,43 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Signup — Daily Fruit Co.</title>
 
   <!-- TAILWIND -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- FONTS -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- FONTAWESOME -->
-  <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
   <style>
-    body{
-      font-family:'Inter',sans-serif;
-      background:linear-gradient(180deg,#f8fafc,#eef7ff);
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg, #f8fafc, #eef7ff);
     }
-
-    .glass{
-      position:relative;
-      background:rgba(255,255,255,0.9);
-      backdrop-filter:blur(12px);
-      border-radius:18px;
-      border:1px solid rgba(148,163,184,0.4);
-      box-shadow:0 10px 30px rgba(15,23,42,0.12);
-      overflow:hidden;
-    }
-
-    .section-title{
-      background:linear-gradient(90deg,#06b6d4,#7c3aed);
-      -webkit-background-clip:text;
-      color:transparent;
-      font-weight:800;
+    .glass {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
     }
   </style>
 </head>
@@ -48,9 +35,7 @@
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">
-        DF
-      </div>
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">DF</div>
       <div>
         <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
         <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
@@ -62,24 +47,22 @@
       <a href="plans.html" class="hover:text-emerald-600">Plans</a>
       <a href="login.html" class="hover:text-indigo-600">Login</a>
       <a href="signup.html" class="hover:text-indigo-600 font-semibold">Signup</a>
-      <a href="dashboard.html" class="hover:text-emerald-600">Dashboard</a>
     </nav>
   </div>
 </header>
 
-<!-- PAGE HEADING -->
+<!-- PAGE TITLE -->
 <section class="max-w-6xl mx-auto px-4 py-8">
-  <h2 class="text-3xl md:text-4xl font-extrabold section-title mb-2">
+  <h2 class="text-3xl md:text-4xl font-extrabold mb-2" style="background:linear-gradient(90deg,#06b6d4,#7c3aed);-webkit-background-clip:text;color:transparent;">
     Create Your Daily Fruit Account
   </h2>
-  <p class="text-gray-600 text-sm md:text-base">
-    One account for all your fruit plans, checkout, and deliveries.
-  </p>
+  <p class="text-gray-600">One account for all your fruit plans and deliveries.</p>
 </section>
 
-<!-- SIGNUP FORM -->
+<!-- SIGNUP BOX -->
 <section class="max-w-4xl mx-auto px-4 pb-10">
   <div class="glass p-6 md:p-8" data-aos="fade-up">
+
     <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800">Signup Details</h3>
 
     <form id="signupForm" class="space-y-5">
@@ -87,235 +70,205 @@
       <!-- NAME + EMAIL + PHONE -->
       <div class="grid md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-          <input type="text" id="fullName" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+          <label class="block text-sm mb-1">Full Name *</label>
+          <input type="text" id="fullName" required class="w-full px-3 py-2 border rounded-md" />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-          <input type="email" id="email" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+          <label class="block text-sm mb-1">Email Address *</label>
+          <input type="email" id="email" required class="w-full px-3 py-2 border rounded-md" />
         </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-        <input type="tel" id="phone" required pattern="[0-9]{10}" maxlength="10"
-               class="w-full px-3 py-2 border rounded-md bg-white/80"
-               placeholder="10-digit mobile number">
-      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm mb-1">Phone Number *</label>
+          <input type="tel" id="phone" maxlength="10" required class="w-full px-3 py-2 border rounded-md" />
+        </div>
 
-      <!-- OTP SECTION -->
-      <div class="border p-4 rounded-lg bg-white/70">
-        <label class="block text-sm font-semibold mb-1">Email OTP Verification *</label>
-
-        <div class="flex gap-3 items-center">
-          <button type="button" id="sendOtpBtn"
-                  class="px-4 py-2 rounded-full text-white text-sm font-medium"
-                  style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+        <div class="flex flex-col gap-2">
+          <button type="button" id="sendOtpBtn" class="px-4 py-2 rounded-full text-white text-sm font-medium"
+            style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
             Send OTP
           </button>
-
           <span id="otpStatus" class="text-xs text-gray-600"></span>
         </div>
+      </div>
 
-        <!-- OTP INPUT -->
-        <div class="mt-3 flex gap-3 items-center">
-          <input type="text" id="otpInput" maxlength="6"
-                 class="px-3 py-2 border rounded-md w-32 bg-white/80"
-                 placeholder="Enter OTP">
-          
+      <!-- OTP INPUT -->
+      <div id="otpBox" class="hidden">
+        <label class="block text-sm mb-1">Enter OTP *</label>
+        <div class="flex gap-2">
+          <input type="text" id="otpInput" maxlength="6" class="px-3 py-2 border rounded-md w-32" placeholder="6 digit" />
           <button type="button" id="verifyOtpBtn"
-                  class="px-4 py-2 rounded-full text-white text-sm font-medium"
-                  style="background:linear-gradient(90deg,#22c55e,#16a34a);">
-            Verify
+            class="px-4 py-2 rounded-full text-white text-sm font-medium"
+            style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+            Verify OTP
           </button>
         </div>
-
-        <p id="otpVerifyStatus" class="mt-2 text-xs"></p>
+        <span id="otpVerifyStatus" class="text-xs text-gray-600"></span>
       </div>
 
       <!-- PASSWORDS -->
       <div class="grid md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
-          <input type="password" id="password" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+          <label class="block text-sm mb-1">Password *</label>
+          <input type="password" id="password" minlength="6" required class="w-full px-3 py-2 border rounded-md" />
         </div>
-
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
-          <input type="password" id="confirmPassword" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+          <label class="block text-sm mb-1">Confirm Password *</label>
+          <input type="password" id="confirmPassword" minlength="6" required class="w-full px-3 py-2 border rounded-md" />
         </div>
       </div>
 
       <!-- ADDRESS -->
       <div class="border-t pt-4 mt-2">
-        <h4 class="text-sm font-semibold text-gray-700 mb-2">Delivery Address</h4>
+        <h4 class="text-sm font-semibold mb-2">Delivery Address</h4>
 
         <div class="grid md:grid-cols-2 gap-4">
-          <div>
-            <input type="text" id="house" required placeholder="House / Flat"
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
-          </div>
-          <div>
-            <input type="text" id="street" required placeholder="Street"
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
-          </div>
+          <input id="house" required placeholder="House / Flat Number" class="px-3 py-2 border rounded-md" />
+          <input id="street" required placeholder="Street" class="px-3 py-2 border rounded-md" />
         </div>
 
         <div class="grid md:grid-cols-2 gap-4 mt-3">
-          <div>
-            <input type="text" id="area" required placeholder="Area"
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
-          </div>
-          <div>
-            <input type="text" id="city" required value="Pune"
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
-          </div>
+          <input id="area" required placeholder="Area" class="px-3 py-2 border rounded-md" />
+          <input id="city" required value="Pune" class="px-3 py-2 border rounded-md" />
         </div>
 
-        <div class="mt-3 max-w-xs">
-          <input type="text" id="pincode" required maxlength="6" placeholder="Pincode"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80">
-        </div>
+        <input id="pincode" maxlength="6" required placeholder="Pincode" class="mt-3 px-3 py-2 border rounded-md w-40" />
       </div>
 
       <!-- DELIVERY TIME -->
-      <div class="border-t pt-4">
-        <p class="text-sm font-semibold text-gray-700 mb-2">Preferred Delivery Time *</p>
-        <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="morning" required>Morning</label>
-        <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="afternoon">Afternoon</label>
-        <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="evening">Evening</label>
+      <div class="border-t pt-4 grid md:grid-cols-2 gap-4">
+        <div>
+          <p class="text-sm font-semibold mb-2">Preferred Delivery Time *</p>
+          <label><input type="radio" name="deliveryTime" value="morning" required /> Morning</label><br />
+          <label><input type="radio" name="deliveryTime" value="afternoon" /> Afternoon</label><br />
+          <label><input type="radio" name="deliveryTime" value="evening" /> Evening</label>
+        </div>
       </div>
 
-      <!-- SIGNUP BUTTON -->
-      <div class="pt-2">
-        <button id="signupBtn" type="submit" disabled
-                class="w-full md:w-auto px-6 py-2.5 rounded-full text-white text-sm font-semibold opacity-60"
-                style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-          Create Account
-        </button>
-      </div>
+      <!-- SUBMIT -->
+      <button type="submit"
+        class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
+        style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">Create Account</button>
 
     </form>
   </div>
 </section>
 
-<!-- JS Logic -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
 <script>
+AOS.init({ duration: 700, once: true });
+
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 let otpVerified = false;
 
-function toast(msg, err=false){
-  const el = document.createElement('div');
-  el.textContent = msg;
-  el.className = 'fixed right-4 bottom-4 px-3 py-2 text-sm rounded text-white z-50 ' +
-    (err ? 'bg-red-600' : 'bg-black');
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(),3000);
+// Toast
+function toast(msg, error = false) {
+  const div = document.createElement("div");
+  div.textContent = msg;
+  div.className =
+    "fixed right-4 bottom-4 px-4 py-2 rounded text-white text-sm z-50 " +
+    (error ? "bg-red-600" : "bg-black");
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 3000);
 }
 
-/*********** SEND OTP ***********/
-document.getElementById('sendOtpBtn').addEventListener('click', async ()=>{
+// SEND OTP
+document.getElementById("sendOtpBtn").onclick = async () => {
   const email = email.value.trim();
-  const status = document.getElementById('otpStatus');
+  const status = document.getElementById("otpStatus");
 
-  if(!email){
-    toast("Enter email first", true);
-    return;
-  }
+  if (!email) return toast("Enter email", true);
 
   status.textContent = "Sending OTP...";
 
   const res = await fetch(API_BASE + "/api/otp/send", {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email })
   });
 
-  if(res.ok){
-    status.textContent = "OTP sent!";
-    status.className = "text-xs text-emerald-600";
-  } else {
+  if (!res.ok) {
     status.textContent = "Failed to send OTP";
-    status.className = "text-xs text-red-600";
+    return toast("Failed to send OTP", true);
   }
-});
 
-/*********** VERIFY OTP ***********/
-document.getElementById('verifyOtpBtn').addEventListener('click', async ()=>{
+  status.textContent = "OTP sent to email";
+  status.className = "text-xs text-green-600";
+  document.getElementById("otpBox").classList.remove("hidden");
+};
+
+// VERIFY OTP
+document.getElementById("verifyOtpBtn").onclick = async () => {
+  const otp = otpInput.value.trim();
   const emailVal = email.value.trim();
-  const otpVal = otpInput.value.trim();
-  const verifyStatus = document.getElementById('otpVerifyStatus');
+  const status = document.getElementById("otpVerifyStatus");
 
-  if(!otpVal){
-    verifyStatus.textContent = "Enter OTP first";
-    verifyStatus.className = "text-xs text-red-600";
-    return;
-  }
+  if (!otp) return toast("Enter OTP", true);
 
   const res = await fetch(API_BASE + "/api/otp/verify", {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({ email: emailVal, otp: otpVal })
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: emailVal, otp })
   });
 
   const data = await res.json();
 
-  if(res.ok){
-    otpVerified = true;
-
-    verifyStatus.textContent = "OTP Verified!";
-    verifyStatus.className = "text-xs text-emerald-600";
-
-    document.getElementById("signupBtn").disabled = false;
-    document.getElementById("signupBtn").classList.remove("opacity-60");
-
-  } else {
-    verifyStatus.textContent = data.message || "Invalid OTP";
-    verifyStatus.className = "text-xs text-red-600";
-  }
-});
-
-/*********** SIGNUP ***********/
-document.getElementById('signupForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-
-  if(!otpVerified){
-    toast("Please verify OTP first", true);
+  if (!res.ok) {
+    status.textContent = data.message;
+    status.className = "text-xs text-red-600";
     return;
   }
 
+  otpVerified = true;
+  status.textContent = "OTP Verified ✔";
+  status.className = "text-xs text-green-600 font-semibold";
+  toast("OTP Verified!");
+};
+
+// SUBMIT SIGNUP
+document.getElementById("signupForm").onsubmit = async (e) => {
+  e.preventDefault();
+
+  if (!otpVerified) {
+    return toast("Please verify OTP first.", true);
+  }
+
   const body = {
-    fullName: fullName.value.trim(),
-    email: email.value.trim(),
-    phone: phone.value.trim(),
-    password: password.value.trim(),
-    address:{
-      house: house.value.trim(),
-      street: street.value.trim(),
-      area: area.value.trim(),
-      city: city.value.trim(),
-      pincode: pincode.value.trim()
+    fullName: fullName.value,
+    email: email.value,
+    phone: phone.value,
+    password: password.value,
+    address: {
+      house: house.value,
+      street: street.value,
+      area: area.value,
+      city: city.value,
+      pincode: pincode.value
     },
     deliveryTime: document.querySelector('input[name="deliveryTime"]:checked').value
   };
 
   const res = await fetch(API_BASE + "/api/auth/signup", {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body)
   });
 
   const data = await res.json();
 
-  if(res.ok){
-    toast("Signup successful!");
-    setTimeout(()=> window.location.href="login.html", 1200);
-  } else {
-    toast(data.message || "Signup failed", true);
+  if (!res.ok) {
+    return toast(data.message, true);
   }
-});
+
+  toast("Signup successful!");
+  setTimeout(() => (window.location.href = "login.html"), 1000);
+};
 </script>
 
 </body>
 </html>
+
