@@ -96,6 +96,7 @@
 
 <body>
 
+<!-- HEADER -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
@@ -118,6 +119,7 @@
   </div>
 </header>
 
+<!-- PAGE HEADING -->
 <section class="max-w-6xl mx-auto px-4 py-8">
   <h2 class="text-3xl md:text-4xl font-extrabold section-title mb-2">
     Create Your Daily Fruit Account
@@ -127,6 +129,7 @@
   </p>
 </section>
 
+<!-- SIGNUP FORM -->
 <section class="max-w-4xl mx-auto px-4 pb-10">
   <div class="glass p-6 md:p-8" data-aos="fade-up">
     <h3 class="text-xl md:text-2xl font-bold mb-4 text-slate-800">
@@ -135,30 +138,30 @@
 
     <form id="signupForm" class="space-y-5">
 
+      <!-- NAME + EMAIL + PHONE -->
       <div class="grid md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
           <input type="text" name="fullName" id="fullName"
                  required minlength="3"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80 focus:outline-none focus:ring-2 focus:ring-sky-400">
+                 class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
           <input type="email" name="email" id="email"
                  required
-                 class="w-full px-3 py-2 border rounded-md bg-white/80 focus:outline-none focus:ring-2 focus:ring-sky-400">
+                 class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-4 items-end">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number (WhatsApp) *</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
           <input type="tel" name="phone" id="phone"
                  required pattern="[0-9]{10}" maxlength="10"
                  placeholder="10-digit mobile number"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80 focus:outline-none focus:ring-2 focus:ring-sky-400">
-          <p class="text-[11px] text-gray-500 mt-1">Use your main WhatsApp number.</p>
+                 class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
 
         <div class="flex flex-col md:items-start gap-2 md:gap-1">
@@ -172,54 +175,46 @@
         </div>
       </div>
 
+      <!-- PASSWORDS -->
       <div class="grid md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
           <input type="password" name="password" id="password"
                  required minlength="6"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80 focus:outline-none focus:ring-2 focus:ring-sky-400">
-          <p class="text-[11px] text-gray-500 mt-1">Minimum 6 characters.</p>
+                 class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
           <input type="password" name="confirmPassword" id="confirmPassword"
                  required minlength="6"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80 focus:outline-none focus:ring-2 focus:ring-sky-400">
+                 class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
       </div>
 
+      <!-- Address -->
       <div class="border-t pt-4 mt-2">
         <h4 class="text-sm font-semibold text-gray-700 mb-2">Delivery Address</h4>
 
         <div class="grid md:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-medium text-gray-600 mb-1">House / Flat Number *</label>
-            <input type="text" name="house" id="house"
-                   required
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+            <input type="text" name="house" id="house" required class="w-full px-3 py-2 border rounded-md bg-white/80">
           </div>
           <div>
             <label class="block text-xs font-medium text-gray-600 mb-1">Street *</label>
-            <input type="text" name="street" id="street"
-                   required
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+            <input type="text" name="street" id="street" required class="w-full px-3 py-2 border rounded-md bg-white/80">
           </div>
         </div>
 
         <div class="grid md:grid-cols-2 gap-4 mt-3">
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Area / Locality *</label>
-            <input type="text" name="area" id="area"
-                   required
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+            <label class="block text-xs font-medium text-gray-600 mb-1">Area *</label>
+            <input type="text" name="area" id="area" required class="w-full px-3 py-2 border rounded-md bg-white/80">
           </div>
           <div>
             <label class="block text-xs font-medium text-gray-600 mb-1">City *</label>
-            <input type="text" name="city" id="city"
-                   required
-                   value="Pune"
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+            <input type="text" name="city" id="city" required value="Pune" class="w-full px-3 py-2 border rounded-md bg-white/80">
           </div>
         </div>
 
@@ -227,328 +222,130 @@
           <label class="block text-xs font-medium text-gray-600 mb-1">Pincode *</label>
           <input type="text" name="pincode" id="pincode"
                  required pattern="[0-9]{6}" maxlength="6"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80"
-                 placeholder="e.g. 411057">
+                 class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
       </div>
 
+      <!-- DELIVERY TIME -->
       <div class="grid md:grid-cols-2 gap-4 border-t pt-4">
         <div>
           <p class="text-sm font-semibold text-gray-700 mb-2">Preferred Delivery Time *</p>
-          <div class="space-y-1 text-sm text-gray-700">
-            <label class="flex items-center gap-2">
-              <input type="radio" name="deliveryTime" value="morning" required>
-              Morning (6:30 AM – 9:00 AM)
-            </label>
-            <label class="flex items-center gap-2">
-              <input type="radio" name="deliveryTime" value="afternoon">
-              Afternoon
-            </label>
-            <label class="flex items-center gap-2">
-              <input type="radio" name="deliveryTime" value="evening">
-              Evening
-            </label>
-          </div>
+          <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="morning" required>Morning</label>
+          <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="afternoon">Afternoon</label>
+          <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="evening">Evening</label>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">User Type (optional)</label>
-          <select name="userType" id="userType"
-                  class="w-full px-3 py-2 border rounded-md bg-white/80 text-sm">
-            <option value="">Select user type</option>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">User Type (Optional)</label>
+          <select name="userType" id="userType" class="w-full px-3 py-2 border rounded-md bg-white/80">
+            <option value="">Select</option>
             <option value="customer">Customer</option>
             <option value="corporate">Corporate</option>
             <option value="distributor">Distributor</option>
           </select>
-
-          <label class="block text-sm font-semibold text-gray-700 mt-4 mb-1">
-            Referral Code (Optional)
-          </label>
-          <input type="text" name="referralCode" id="referralCode"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80 text-sm"
-                 placeholder="Enter referral code (if any)">
         </div>
       </div>
 
-      <div class="border-t pt-4 space-y-3">
-        <label class="flex items-center gap-2 text-sm text-gray-700">
-          <input type="checkbox" id="offersOptIn" name="offersOptIn">
-          <span>Receive deals &amp; updates on WhatsApp / Email</span>
-        </label>
-
-        <label class="flex items-start gap-2 text-sm text-gray-700">
-          <input type="checkbox" id="agreeTerms" required class="mt-1">
-          <span>
-            I agree to the
-            <a href="#" class="text-indigo-600 underline">Terms &amp; Conditions</a>
-            and
-            <a href="#" class="text-indigo-600 underline">Privacy Policy</a>.
-          </span>
-        </label>
-      </div>
-
+      <!-- SUBMIT -->
       <div class="pt-2">
         <button type="submit"
                 class="w-full md:w-auto px-6 py-2.5 rounded-full text-white text-sm font-semibold"
                 style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
           Create Account
         </button>
-        <p class="text-xs text-gray-500 mt-2">
-          Already have an account?
-          <a href="login.html" class="text-indigo-600 underline">Login here</a>.
-        </p>
       </div>
 
     </form>
   </div>
 </section>
 
-<footer class="mt-10 bg-[#020617] text-white">
-  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-10 text-sm">
-
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Get in Touch</h3>
-
-      <p class="font-semibold text-gray-300">Call / WhatsApp</p>
-      <p class="text-gray-400">+91-9226157351</p>
-
-      <p class="mt-4 font-semibold text-gray-300">Email</p>
-      <p class="text-gray-400">dailyfruitco@gmail.com</p>
-
-      <p class="mt-4 font-semibold text-gray-300">Social</p>
-      <p class="text-gray-400">Instagram: @dailyfruitco</p>
-      <p class="text-gray-400">Facebook: Daily Fruit Co.</p>
-    </div>
-
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Company</h3>
-
-      <a href="index.html#contact" class="block text-gray-300 hover:text-white">Contact Us</a>
-      <a href="index.html#faq" class="block text-gray-300 hover:text-white">FAQs</a>
-      <a href="#" class="block text-gray-300 hover:text-white">Blogs</a>
-      <a href="#" class="block text-gray-300 hover:text-white">Policy</a>
-    </div>
-
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Follow Us</h3>
-      <p class="text-gray-400 mb-3">Stay connected with Daily Fruit Co.</p>
-
-      <div class="footer-social">
-
-        <a href="https://www.instagram.com/dailyfruitco"
-           class="glass-icon"
-           target="_blank">
-          <i class="fab fa-instagram"></i>
-        </a>
-
-        <a href="https://www.facebook.com/dailyfruitco"
-           class="glass-icon"
-           target="_blank">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-
-        <a href="https://www.linkedin.com"
-           class="glass-icon"
-           target="_blank">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-
-        <a href="https://twitter.com"
-           class="glass-icon"
-           target="_blank">
-          <i class="fab fa-twitter"></i>
-        </a>
-
-        <a href="https://wa.me/919226157351"
-           class="glass-icon"
-           target="_blank">
-          <i class="fab fa-whatsapp"></i>
-        </a>
-
-      </div>
-
-      <p class="mt-6 text-gray-500 text-xs">
-        © 2025 Daily Fruit Co. — Freshness Delivered Daily
-      </p>
-    </div>
-
-  </div>
-</footer>
-
-<div class="fixed right-4 top-1/3 z-40 flex flex-col gap-4 desktop-only">
-
-  <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank">
-    <i class="fab fa-instagram"></i>
-  </a>
-
-  <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank">
-    <i class="fab fa-facebook-f"></i>
-  </a>
-
-  <a href="https://www.linkedin.com" class="glass-icon" target="_blank">
-    <i class="fab fa-linkedin-in"></i>
-  </a>
-
-  <a href="https://twitter.com" class="glass-icon" target="_blank">
-    <i class="fab fa-twitter"></i>
-  </a>
-
-  <a href="https://wa.me/919226157351" class="glass-icon" target="_blank">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-
-</div>
-
-<a href="https://wa.me/919226157351?text=Hi%20Daily%20Fruit%20Co!%20I'd%20like%20to%20subscribe"
-   target="_blank"
-   class="fab-wa"
-   aria-label="Chat on WhatsApp">
-  <i class="fa fa-whatsapp fa-lg"></i>
-</a>
-
 <!-- AOS + SIGNUP LOGIC -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  const API_BASE = 'https://dailyfruit-backend.onrender.com';
+
+  const API_BASE = "https://dailyfruit-backend.onrender.com";
 
   AOS.init({ duration: 700, once: true });
 
-  function toast(msg, isError){
+  function toast(msg, err){
     const el = document.createElement('div');
     el.textContent = msg;
-    el.className =
-      'fixed right-4 bottom-4 z-50 text-sm px-3 py-2 rounded shadow text-white ' +
-      (isError ? 'bg-red-600' : 'bg-black');
+    el.className = 'fixed right-4 bottom-4 px-3 py-2 text-sm rounded text-white z-50 ' +
+      (err ? 'bg-red-600' : 'bg-black');
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 3000);
+    setTimeout(()=>el.remove(),3000);
   }
 
-  // Send OTP — FIXED (correct route)
+  // SEND OTP — CORRECTED ENDPOINT
   document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
-    const statusEl = document.getElementById('otpStatus');
+    const status = document.getElementById('otpStatus');
 
-    statusEl.textContent = '';
+    status.textContent = '';
+
     if(!email){
-      toast('Please enter your email first.', true);
+      toast('Enter your email first.', true);
       return;
     }
 
     try {
-      const res = await fetch(API_BASE + '/api/otp/send-otp', {
+      const res = await fetch(API_BASE + '/api/otp/send', {
         method:'POST',
-        headers:{'Content-Type':'application/json'},
+        headers:{ 'Content-Type':'application/json' },
         body: JSON.stringify({ email, phone })
       });
 
-      if(!res.ok){
-        throw new Error('Error sending OTP');
-      }
+      if(!res.ok) throw new Error();
 
-      statusEl.textContent = 'OTP sent to your email. Please check your inbox and spam folder.';
-      statusEl.className = 'text-xs text-emerald-600';
-      toast('OTP sent to your email.', false);
-    } catch (err) {
-      statusEl.textContent = 'Failed to send OTP. Please try again.';
-      statusEl.className = 'text-xs text-red-600';
-      toast('Unable to send OTP.', true);
+      toast('OTP sent!', false);
+      status.textContent = 'OTP sent to your email.';
+      status.className = 'text-xs text-emerald-600';
+
+    } catch (e){
+      toast('Failed to send OTP', true);
+      status.textContent = 'Failed to send OTP.';
+      status.className = 'text-xs text-red-600';
     }
   });
 
-  // SIGNUP FORM SUBMIT
-  document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  // SIGNUP
+  document.getElementById('signupForm').addEventListener('submit', async (e)=>{
     e.preventDefault();
 
-    const fullName = document.getElementById('fullName').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const house = document.getElementById('house').value.trim();
-    const street = document.getElementById('street').value.trim();
-    const area = document.getElementById('area').value.trim();
-    const city = document.getElementById('city').value.trim();
-    const pincode = document.getElementById('pincode').value.trim();
-    const userType = document.getElementById('userType').value;
-    const referralCode = document.getElementById('referralCode').value.trim();
-    const offersOptIn = document.getElementById('offersOptIn').checked;
-    const agreeTerms = document.getElementById('agreeTerms').checked;
-
-    const deliveryTime = (document.querySelector('input[name="deliveryTime"]:checked') || {}).value;
-
-    if(password !== confirmPassword){
-      toast('Passwords do not match.', true);
-      document.getElementById('confirmPassword').focus();
-      return;
-    }
-
-    if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
-      toast('Please enter a valid 10-digit mobile number.', true);
-      document.getElementById('phone').focus();
-      return;
-    }
-
-    if(!/^[0-9]{6}$/.test(pincode)){
-      toast('Please enter a valid 6-digit pincode.', true);
-      document.getElementById('pincode').focus();
-      return;
-    }
-
-    if(!deliveryTime){
-      toast('Please select a preferred delivery time.', true);
-      return;
-    }
-
-    if(!agreeTerms){
-      toast('You must agree to Terms & Conditions.', true);
-      return;
-    }
-
-    const profile = {
-      fullName,
-      email,
-      phone,
-      password,
-      address: {
-        house,
-        street,
-        area,
-        city,
-        pincode
+    const body = {
+      fullName: fullName.value,
+      email: email.value,
+      phone: phone.value,
+      password: password.value,
+      address:{
+        house: house.value,
+        street: street.value,
+        area: area.value,
+        city: city.value,
+        pincode: pincode.value
       },
-      deliveryTime,
-      userType,
-      referralCode,
-      offersOptIn,
-      createdAt: new Date().toISOString()
+      deliveryTime: document.querySelector('input[name="deliveryTime"]:checked').value
     };
 
     try {
-      localStorage.setItem('df_user_profile', JSON.stringify(profile));
-    } catch (err) {}
-
-    try {
-      const res = await fetch(API_BASE + '/api/auth/signup', {
+      const res = await fetch(API_BASE + '/api/auth/signup',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(profile)
+        body: JSON.stringify(body)
       });
 
-      const data = await res.json().catch(() => ({}));
+      const data = await res.json();
 
-      if(!res.ok){
-        throw new Error(data.message || 'Signup failed');
-      }
+      if(!res.ok) throw new Error(data.message);
 
-      toast('Signup successful! Redirecting to login…', false);
-      setTimeout(() => {
-        window.location.href = 'login.html';
-      }, 1200);
+      toast('Signup successful!', false);
+      setTimeout(()=>window.location.href="login.html",1000);
 
-    } catch (err) {
-      toast('Could not complete signup. Please try again.', true);
+    } catch(err){
+      toast(err.message || 'Signup failed', true);
     }
+
   });
 </script>
 
