@@ -39,56 +39,6 @@
       color:transparent;
       font-weight:800;
     }
-
-    .glass-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      font-size: 1.2rem;
-      color: #1e293b;
-      transition: 0.25s ease;
-    }
-
-    .glass-icon:hover {
-      transform: scale(1.12);
-      background: linear-gradient(90deg, #06b6d4, #7c3aed);
-      color: white;
-    }
-
-    .footer-social {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .fab-wa {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 58px;
-      height: 58px;
-      border-radius: 9999px;
-      background: #25D366;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      z-index: 50;
-      transition: .25s;
-    }
-    .fab-wa:hover { transform: scale(1.12); }
-
-    @media (max-width:768px){
-      .desktop-only{display:none;}
-    }
   </style>
 </head>
 
@@ -138,8 +88,7 @@
       <div class="grid md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-          <input type="text" id="fullName" required minlength="3"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80">
+          <input type="text" id="fullName" required class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
 
         <div>
@@ -148,36 +97,53 @@
         </div>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-4 items-end">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-          <input type="tel" id="phone" required pattern="[0-9]{10}" maxlength="10"
-                 placeholder="10-digit mobile number"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80">
-        </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+        <input type="tel" id="phone" required pattern="[0-9]{10}" maxlength="10"
+               class="w-full px-3 py-2 border rounded-md bg-white/80"
+               placeholder="10-digit mobile number">
+      </div>
 
-        <div class="flex flex-col md:items-start gap-2 md:gap-1">
+      <!-- OTP SECTION -->
+      <div class="border p-4 rounded-lg bg-white/70">
+        <label class="block text-sm font-semibold mb-1">Email OTP Verification *</label>
+
+        <div class="flex gap-3 items-center">
           <button type="button" id="sendOtpBtn"
-                  class="inline-flex items-center justify-center px-4 py-2 rounded-full text-white text-sm font-medium"
+                  class="px-4 py-2 rounded-full text-white text-sm font-medium"
                   style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-            Send OTP to Email
+            Send OTP
           </button>
+
           <span id="otpStatus" class="text-xs text-gray-600"></span>
         </div>
+
+        <!-- OTP INPUT -->
+        <div class="mt-3 flex gap-3 items-center">
+          <input type="text" id="otpInput" maxlength="6"
+                 class="px-3 py-2 border rounded-md w-32 bg-white/80"
+                 placeholder="Enter OTP">
+          
+          <button type="button" id="verifyOtpBtn"
+                  class="px-4 py-2 rounded-full text-white text-sm font-medium"
+                  style="background:linear-gradient(90deg,#22c55e,#16a34a);">
+            Verify
+          </button>
+        </div>
+
+        <p id="otpVerifyStatus" class="mt-2 text-xs"></p>
       </div>
 
       <!-- PASSWORDS -->
       <div class="grid md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
-          <input type="password" id="password" required minlength="6"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80">
+          <input type="password" id="password" required class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
-          <input type="password" id="confirmPassword" required minlength="6"
-                 class="w-full px-3 py-2 border rounded-md bg-white/80">
+          <input type="password" id="confirmPassword" required class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
       </div>
 
@@ -187,58 +153,44 @@
 
         <div class="grid md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">House / Flat Number *</label>
-            <input type="text" id="house" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+            <input type="text" id="house" required placeholder="House / Flat"
+                   class="w-full px-3 py-2 border rounded-md bg-white/80">
           </div>
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Street *</label>
-            <input type="text" id="street" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+            <input type="text" id="street" required placeholder="Street"
+                   class="w-full px-3 py-2 border rounded-md bg-white/80">
           </div>
         </div>
 
         <div class="grid md:grid-cols-2 gap-4 mt-3">
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Area *</label>
-            <input type="text" id="area" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+            <input type="text" id="area" required placeholder="Area"
+                   class="w-full px-3 py-2 border rounded-md bg-white/80">
           </div>
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">City *</label>
             <input type="text" id="city" required value="Pune"
                    class="w-full px-3 py-2 border rounded-md bg-white/80">
           </div>
         </div>
 
         <div class="mt-3 max-w-xs">
-          <label class="block text-xs font-medium text-gray-600 mb-1">Pincode *</label>
-          <input type="text" id="pincode" required pattern="[0-9]{6}" maxlength="6"
+          <input type="text" id="pincode" required maxlength="6" placeholder="Pincode"
                  class="w-full px-3 py-2 border rounded-md bg-white/80">
         </div>
       </div>
 
       <!-- DELIVERY TIME -->
-      <div class="grid md:grid-cols-2 gap-4 border-t pt-4">
-        <div>
-          <p class="text-sm font-semibold text-gray-700 mb-2">Preferred Delivery Time *</p>
-          <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="morning" required>Morning</label>
-          <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="afternoon">Afternoon</label>
-          <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="evening">Evening</label>
-        </div>
-
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">User Type (Optional)</label>
-          <select id="userType" class="w-full px-3 py-2 border rounded-md bg-white/80">
-            <option value="">Select</option>
-            <option value="customer">Customer</option>
-            <option value="corporate">Corporate</option>
-            <option value="distributor">Distributor</option>
-          </select>
-        </div>
+      <div class="border-t pt-4">
+        <p class="text-sm font-semibold text-gray-700 mb-2">Preferred Delivery Time *</p>
+        <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="morning" required>Morning</label>
+        <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="afternoon">Afternoon</label>
+        <label class="flex items-center gap-2 text-sm"><input type="radio" name="deliveryTime" value="evening">Evening</label>
       </div>
 
-      <!-- SUBMIT -->
+      <!-- SIGNUP BUTTON -->
       <div class="pt-2">
-        <button type="submit"
-                class="w-full md:w-auto px-6 py-2.5 rounded-full text-white text-sm font-semibold"
+        <button id="signupBtn" type="submit" disabled
+                class="w-full md:w-auto px-6 py-2.5 rounded-full text-white text-sm font-semibold opacity-60"
                 style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
           Create Account
         </button>
@@ -249,92 +201,120 @@
 </section>
 
 <!-- JS Logic -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+const API_BASE = "https://dailyfruit-backend.onrender.com";
+let otpVerified = false;
 
-  const API_BASE = "https://dailyfruit-backend.onrender.com";
+function toast(msg, err=false){
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.className = 'fixed right-4 bottom-4 px-3 py-2 text-sm rounded text-white z-50 ' +
+    (err ? 'bg-red-600' : 'bg-black');
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
 
-  AOS.init({ duration: 700, once: true });
+/*********** SEND OTP ***********/
+document.getElementById('sendOtpBtn').addEventListener('click', async ()=>{
+  const email = email.value.trim();
+  const status = document.getElementById('otpStatus');
 
-  function toast(msg, err){
-    const el = document.createElement('div');
-    el.textContent = msg;
-    el.className = 'fixed right-4 bottom-4 px-3 py-2 text-sm rounded text-white z-50 ' +
-      (err ? 'bg-red-600' : 'bg-black');
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),3000);
+  if(!email){
+    toast("Enter email first", true);
+    return;
   }
 
-  // SEND OTP — CORRECTED ENDPOINT
-  document.getElementById('sendOtpBtn').addEventListener('click', async () => {
-    const email = document.getElementById('email').value.trim();
-    const status = document.getElementById('otpStatus');
+  status.textContent = "Sending OTP...";
 
-    status.textContent = '';
-
-    if(!email){
-      toast('Enter your email first.', true);
-      return;
-    }
-
-    try {
-      const res = await fetch(API_BASE + '/api/otp/send', {
-        method:'POST',
-        headers:{ 'Content-Type':'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      if(!res.ok) throw new Error();
-
-      toast('OTP sent!', false);
-      status.textContent = 'OTP sent to your email.';
-      status.className = 'text-xs text-emerald-600';
-
-    } catch (e){
-      toast('Failed to send OTP', true);
-      status.textContent = 'Failed to send OTP.';
-      status.className = 'text-xs text-red-600';
-    }
+  const res = await fetch(API_BASE + "/api/otp/send", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ email })
   });
 
-  // SIGNUP
-  document.getElementById('signupForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
+  if(res.ok){
+    status.textContent = "OTP sent!";
+    status.className = "text-xs text-emerald-600";
+  } else {
+    status.textContent = "Failed to send OTP";
+    status.className = "text-xs text-red-600";
+  }
+});
 
-    const body = {
-      fullName: fullName.value,
-      email: email.value,
-      phone: phone.value,
-      password: password.value,
-      address:{
-        house: house.value,
-        street: street.value,
-        area: area.value,
-        city: city.value,
-        pincode: pincode.value
-      },
-      deliveryTime: document.querySelector('input[name="deliveryTime"]:checked').value
-    };
+/*********** VERIFY OTP ***********/
+document.getElementById('verifyOtpBtn').addEventListener('click', async ()=>{
+  const emailVal = email.value.trim();
+  const otpVal = otpInput.value.trim();
+  const verifyStatus = document.getElementById('otpVerifyStatus');
 
-    try {
-      const res = await fetch(API_BASE + '/api/auth/signup',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(body)
-      });
+  if(!otpVal){
+    verifyStatus.textContent = "Enter OTP first";
+    verifyStatus.className = "text-xs text-red-600";
+    return;
+  }
 
-      const data = await res.json();
-
-      if(!res.ok) throw new Error(data.message);
-
-      toast('Signup successful!', false);
-      setTimeout(()=>window.location.href="login.html",1000);
-
-    } catch(err){
-      toast(err.message || 'Signup failed', true);
-    }
-
+  const res = await fetch(API_BASE + "/api/otp/verify", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ email: emailVal, otp: otpVal })
   });
+
+  const data = await res.json();
+
+  if(res.ok){
+    otpVerified = true;
+
+    verifyStatus.textContent = "OTP Verified!";
+    verifyStatus.className = "text-xs text-emerald-600";
+
+    document.getElementById("signupBtn").disabled = false;
+    document.getElementById("signupBtn").classList.remove("opacity-60");
+
+  } else {
+    verifyStatus.textContent = data.message || "Invalid OTP";
+    verifyStatus.className = "text-xs text-red-600";
+  }
+});
+
+/*********** SIGNUP ***********/
+document.getElementById('signupForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+
+  if(!otpVerified){
+    toast("Please verify OTP first", true);
+    return;
+  }
+
+  const body = {
+    fullName: fullName.value.trim(),
+    email: email.value.trim(),
+    phone: phone.value.trim(),
+    password: password.value.trim(),
+    address:{
+      house: house.value.trim(),
+      street: street.value.trim(),
+      area: area.value.trim(),
+      city: city.value.trim(),
+      pincode: pincode.value.trim()
+    },
+    deliveryTime: document.querySelector('input[name="deliveryTime"]:checked').value
+  };
+
+  const res = await fetch(API_BASE + "/api/auth/signup", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(body)
+  });
+
+  const data = await res.json();
+
+  if(res.ok){
+    toast("Signup successful!");
+    setTimeout(()=> window.location.href="login.html", 1200);
+  } else {
+    toast(data.message || "Signup failed", true);
+  }
+});
 </script>
 
 </body>
