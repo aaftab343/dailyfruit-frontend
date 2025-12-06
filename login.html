@@ -11,9 +11,6 @@
   <!-- FONTS -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- FONTAWESOME -->
-  <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
-
   <style>
     body{
       font-family:'Inter',sans-serif;
@@ -26,19 +23,20 @@
       border:1px solid rgba(148,163,184,0.4);
       box-shadow:0 10px 30px rgba(15,23,42,0.12);
     }
-    .section-title{
-      background:linear-gradient(90deg,#06b6d4,#7c3aed);
-      -webkit-background-clip:text;
-      color:transparent;
-      font-weight:800;
-    }
     .eye-btn {
       position:absolute;
       right:12px;
       top:50%;
       transform:translateY(-50%);
       cursor:pointer;
-      color:#475569;
+      font-size:20px;
+    }
+    .active-tab {
+      border-bottom:3px solid #7c3aed;
+      color:#7c3aed;
+    }
+    .btn-clicked {
+      opacity:0.7;
     }
   </style>
 </head>
@@ -60,9 +58,8 @@
   </div>
 </header>
 
-<!-- LOGIN SECTION -->
 <section class="max-w-3xl mx-auto px-4 py-10">
-  <h2 class="text-4xl font-extrabold section-title mb-6">Login</h2>
+  <h2 class="text-4xl font-extrabold text-center text-cyan-600 mb-6">Login</h2>
 
   <div class="glass p-6 md:p-8 space-y-6">
 
@@ -80,27 +77,40 @@
 <script>
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 
-/***************************************************
- * DEFAULT SHOW PASSWORD LOGIN
- ***************************************************/
+/**********************************************
+ * TAB SWITCHING
+ **********************************************/
 showPasswordLogin();
-document.getElementById("tabPassword").classList.add("active-tab");
-
 document.getElementById("tabPassword").onclick = () => {
   document.getElementById("tabPassword").classList.add("active-tab");
   document.getElementById("tabOtp").classList.remove("active-tab");
   showPasswordLogin();
 };
-
 document.getElementById("tabOtp").onclick = () => {
   document.getElementById("tabOtp").classList.add("active-tab");
   document.getElementById("tabPassword").classList.remove("active-tab");
   showOtpLogin();
 };
 
-/***************************************************
+/**********************************************
+ * SHOW/HIDE PASSWORD FUNCTION
+ **********************************************/
+function togglePassword(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.textContent = "🙈";
+  } else {
+    input.type = "password";
+    icon.textContent = "👁️";
+  }
+}
+
+/**********************************************
  * PASSWORD LOGIN UI
- ***************************************************/
+ **********************************************/
 function showPasswordLogin(){
   loginContent.innerHTML = `
     <form id="passwordLoginForm" class="space-y-4">
@@ -116,11 +126,11 @@ function showPasswordLogin(){
         <input type="password" id="loginPassword" required
                class="w-full border rounded-md px-3 py-2 bg-white/80">
 
-        <i class="fa fa-eye eye-btn" id="togglePass"></i>
+        <span id="togglePass" class="eye-btn">👁️</span>
       </div>
 
-      <button class="w-full mt-3 px-4 py-2 rounded-full text-white"
-              style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+      <button id="loginBtn" class="w-full mt-3 px-4 py-2 rounded-full text-white text-lg font-semibold"
+              style="background:linear-gradient(90deg,#06b6d4,#7c3aed); transition:.25s;">
         Login
       </button>
 
@@ -133,19 +143,17 @@ function showPasswordLogin(){
   `;
 
   document.getElementById("passwordLoginForm").onsubmit = passwordLogin;
-
-  // SHOW/HIDE PASSWORD
-  document.getElementById("togglePass").onclick = () => {
-    const pass = document.getElementById("loginPassword");
-    pass.type = pass.type === "password" ? "text" : "password";
-  };
+  document.getElementById("togglePass").onclick = () => togglePassword("loginPassword", "togglePass");
 }
 
-/***************************************************
- * PASSWORD LOGIN FUNCTION (REAL BACKEND)
- ***************************************************/
+/**********************************************
+ * PASSWORD LOGIN FUNCTION
+ **********************************************/
 async function passwordLogin(e){
   e.preventDefault();
+
+  const btn = document.getElementById("loginBtn");
+  btn.classList.add("btn-clicked");
 
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
@@ -161,26 +169,26 @@ async function passwordLogin(e){
 
     if (!res.ok) {
       alert(data.message || "Invalid login");
+      btn.classList.remove("btn-clicked");
       return;
     }
 
-    // SAVE PROFILE + TOKEN + 30-MIN EXPIRY
     const sessionExpiry = Date.now() + 30 * 60 * 1000;
     localStorage.setItem("df_session_expiry", sessionExpiry);
     localStorage.setItem("df_user_profile", JSON.stringify(data.user));
     localStorage.setItem("df_user_token", data.token);
 
     alert("Login successful!");
-    window.location.href = "index.html";  // GO TO HOME PAGE
+    window.location.href = "index.html";
 
   } catch (err) {
     alert("Network error");
   }
 }
 
-/***************************************************
+/**********************************************
  * OTP LOGIN UI
- ***************************************************/
+ **********************************************/
 function showOtpLogin(){
   loginContent.innerHTML = `
     <form id="otpLoginForm" class="space-y-4">
@@ -217,7 +225,9 @@ function showOtpLogin(){
   document.getElementById("otpLoginForm").onsubmit = verifyOtp;
 }
 
-// SEND OTP (REAL BACKEND)
+/**********************************************
+ * SEND OTP
+ **********************************************/
 async function sendOtp(){
   const email = document.getElementById("otpEmail").value.trim();
   const status = document.getElementById("otpStatus");
@@ -241,7 +251,9 @@ async function sendOtp(){
   document.getElementById("otpBox").classList.remove("hidden");
 }
 
-// VERIFY OTP (REAL BACKEND)
+/**********************************************
+ * VERIFY OTP
+ **********************************************/
 async function verifyOtp(e){
   e.preventDefault();
 
@@ -261,7 +273,6 @@ async function verifyOtp(e){
     return;
   }
 
-  // SAVE SESSION
   const sessionExpiry = Date.now() + 30 * 60 * 1000;
   localStorage.setItem("df_session_expiry", sessionExpiry);
   localStorage.setItem("df_user_profile", JSON.stringify(data.user));
