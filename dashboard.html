@@ -43,7 +43,6 @@
       font-weight:800;
     }
 
-    /* GLASS ICON STYLE (footer + floating strip) */
     .glass-icon {
       width: 45px;
       height: 45px;
@@ -58,14 +57,12 @@
       color: #1e293b;
       transition: 0.25s ease;
     }
-
     .glass-icon:hover {
       transform: scale(1.12);
       background: linear-gradient(90deg, #06b6d4, #7c3aed);
       color: white;
     }
 
-    /* FOOTER ICONS — HORIZONTAL */
     .footer-social {
       display: flex;
       flex-direction: row;
@@ -73,7 +70,6 @@
       gap: 14px;
     }
 
-    /* WHATSAPP FAB */
     .fab-wa {
       position: fixed;
       bottom: 24px;
@@ -98,7 +94,6 @@
       .desktop-only{display:none;}
     }
 
-    /* DASHBOARD TABS */
     .dash-tab{
       padding:0.5rem 1rem;
       font-size:0.85rem;
@@ -118,7 +113,6 @@
       box-shadow:0 8px 20px rgba(37,99,235,0.35);
     }
 
-    /* DARK MODE (soft) */
     body.dark-mode{
       background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
       color:#e5e7eb;
@@ -147,7 +141,7 @@
 
 <body>
 
-<!-- HEADER (same vibe as plans.html) -->
+<!-- HEADER -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
@@ -183,21 +177,18 @@
     </div>
 
     <div class="flex items-center gap-3">
-      <!-- Dark mode toggle -->
       <button id="darkModeToggle"
               class="px-3 py-2 rounded-full text-xs font-medium border bg-white/80 flex items-center gap-2">
         <i class="fa fa-moon"></i>
         <span>Dark Mode</span>
       </button>
 
-      <!-- Support button -->
       <a href="mailto:dailyfruitco@gmail.com"
          class="px-3 py-2 rounded-full text-xs font-medium text-white"
          style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
         <i class="fa fa-headset mr-1"></i> Support
       </a>
 
-      <!-- Logout -->
       <button id="logoutBtn"
               class="px-3 py-2 rounded-full text-xs font-medium border border-red-500 text-red-600 bg-white/90">
         Logout
@@ -210,7 +201,7 @@
 <section class="max-w-6xl mx-auto px-4 pb-10">
   <div class="glass p-6 md:p-8" data-aos="fade-up">
 
-    <!-- TOP BAR: user greeting + tabs -->
+    <!-- TOP BAR -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
       <div>
         <h3 class="text-xl md:text-2xl font-bold text-slate-800" id="dashUserGreeting">
@@ -229,25 +220,21 @@
       </div>
     </div>
 
-    <!-- TAB CONTENT: OVERVIEW -->
+    <!-- OVERVIEW TAB -->
     <div id="tab-overview" class="dash-tab-panel">
-
       <div class="grid md:grid-cols-3 gap-4 mb-6 text-sm">
-        <!-- Active Plan Summary -->
         <div class="border rounded-lg p-4 bg-white/80">
           <p class="text-xs text-gray-500 mb-1">Active Plan</p>
           <p class="font-semibold" id="ovActivePlanName">No active plan</p>
           <p class="text-xs text-gray-500 mt-1" id="ovActivePlanPrice"></p>
         </div>
 
-        <!-- Next Delivery -->
         <div class="border rounded-lg p-4 bg-white/80">
           <p class="text-xs text-gray-500 mb-1">Next Delivery</p>
           <p class="font-semibold" id="ovNextDeliveryDate">Not scheduled</p>
           <p class="text-xs text-gray-500 mt-1" id="ovDeliveryTimeText"></p>
         </div>
 
-        <!-- Account Status -->
         <div class="border rounded-lg p-4 bg-white/80">
           <p class="text-xs text-gray-500 mb-1">Account</p>
           <p class="font-semibold" id="ovAccountEmail">-</p>
@@ -255,7 +242,6 @@
         </div>
       </div>
 
-      <!-- Overview bottom: quick actions -->
       <div class="border rounded-lg p-4 bg-white/80 text-sm">
         <p class="font-semibold mb-2">Quick Actions</p>
         <div class="flex flex-wrap gap-2">
@@ -276,15 +262,13 @@
           </button>
         </div>
         <p class="text-[11px] text-gray-500 mt-2">
-          These actions currently update your dashboard using localStorage. When backend is live,
-          the same buttons will call your API (Node.js + MongoDB).
+          Plan & payment history use localStorage now. Backend syncing can be added later.
         </p>
       </div>
     </div>
-    <!-- TAB CONTENT: PLANS -->
-    <div id="tab-plans" class="dash-tab-panel hidden mt-4 text-sm">
 
-      <!-- Active plan card -->
+    <!-- PLANS TAB -->
+    <div id="tab-plans" class="dash-tab-panel hidden mt-4 text-sm">
       <div class="border rounded-lg p-4 bg-white/80 mb-4">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
@@ -314,7 +298,6 @@
         </p>
       </div>
 
-      <!-- Plan history -->
       <div class="border rounded-lg p-4 bg-white/80 mb-4">
         <div class="flex items-center justify-between mb-2">
           <p class="font-semibold">Plan History</p>
@@ -333,31 +316,26 @@
                 <th class="py-2 pr-4">Status</th>
               </tr>
             </thead>
-            <tbody id="planHistoryBody">
-              <!-- Filled via JS / localStorage -->
-            </tbody>
+            <tbody id="planHistoryBody"></tbody>
           </table>
         </div>
 
         <p class="text-[11px] text-gray-500 mt-2">
-          We show all your past subscriptions that were saved from checkout.
+          History is shown from localStorage; checkout can push entries here.
         </p>
       </div>
 
-      <!-- Delivery calendar + time edit -->
       <div class="border rounded-lg p-4 bg-white/80">
         <div class="grid md:grid-cols-2 gap-4">
           <div>
             <p class="font-semibold mb-2">Upcoming Deliveries (next 7 days)</p>
-            <ul id="deliveryCalendarList" class="text-xs text-gray-700 space-y-1">
-              <!-- Filled via JS -->
-            </ul>
+            <ul id="deliveryCalendarList" class="text-xs text-gray-700 space-y-1"></ul>
           </div>
 
           <div>
             <p class="font-semibold mb-2">Edit Delivery Time</p>
             <p class="text-xs text-gray-500 mb-2">
-              This updates the delivery time in your saved profile.
+              This updates the delivery time in your saved profile (backend + localStorage).
             </p>
 
             <form id="deliveryTimeForm" class="space-y-2 text-sm">
@@ -386,7 +364,7 @@
 
     </div>
 
-    <!-- TAB CONTENT: PAYMENTS -->
+    <!-- PAYMENTS TAB -->
     <div id="tab-payments" class="dash-tab-panel hidden mt-4 text-sm">
       <div class="border rounded-lg p-4 bg-white/80 mb-4">
         <div class="flex items-center justify-between mb-2">
@@ -407,14 +385,12 @@
                 <th class="py-2 pr-4">Status</th>
               </tr>
             </thead>
-            <tbody id="paymentHistoryBody">
-              <!-- Filled by JS -->
-            </tbody>
+            <tbody id="paymentHistoryBody"></tbody>
           </table>
         </div>
 
         <p class="text-[11px] text-gray-500 mt-2">
-          Payment history is loaded from localStorage and later can be synced with your backend.
+          Payment history is loaded from localStorage; Razorpay webhooks can sync here later.
         </p>
 
         <button id="btnDownloadInvoice2"
@@ -424,12 +400,9 @@
       </div>
     </div>
 
-    <!-- TAB CONTENT: PROFILE -->
+    <!-- PROFILE TAB -->
     <div id="tab-profile" class="dash-tab-panel hidden mt-4 text-sm">
-
       <form id="profileForm" class="space-y-4">
-
-        <!-- Basic info -->
         <div class="grid md:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
@@ -439,7 +412,7 @@
           <div>
             <label class="block text-xs font-semibold text-gray-700 mb-1">Email *</label>
             <input type="email" id="pfEmail" required
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+                   class="w-full px-3 py-2 border rounded-md bg-white/80" disabled>
           </div>
         </div>
 
@@ -454,14 +427,12 @@
             <select id="pfUserType"
                     class="w-full px-3 py-2 border rounded-md bg-white/80">
               <option value="">Customer</option>
-              <option value="customer">Customer</option>
-              <option value="corporate">Corporate</option>
-              <option value="distributor">Distributor</option>
+              <option value="home">Home</option>
+              <option value="office">Office</option>
             </select>
           </div>
         </div>
 
-        <!-- Primary Address -->
         <div class="border-t pt-3">
           <p class="text-xs font-semibold text-gray-700 mb-2">Primary Delivery Address</p>
 
@@ -498,25 +469,6 @@
           </div>
         </div>
 
-        <!-- Multiple addresses (simple list) -->
-        <div class="border-t pt-3">
-          <div class="flex items-center justify-between mb-1">
-            <p class="text-xs font-semibold text-gray-700">Other Saved Addresses</p>
-            <button type="button" id="btnAddAddress"
-                    class="text-xs underline text-indigo-600">
-              + Add Address
-            </button>
-          </div>
-          <p class="text-[11px] text-gray-500 mb-2">
-            Manage additional delivery locations (office, home 2, etc.).
-          </p>
-
-          <ul id="addressList" class="text-xs text-gray-700 space-y-2">
-            <!-- Addresses from localStorage -->
-          </ul>
-        </div>
-
-        <!-- Delivery time & offers -->
         <div class="border-t pt-3 space-y-2">
           <div>
             <p class="text-xs font-semibold text-gray-700 mb-1">Preferred Delivery Time</p>
@@ -534,7 +486,6 @@
           </label>
         </div>
 
-        <!-- SAVE -->
         <div class="pt-2">
           <button type="submit"
                   class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
@@ -545,88 +496,53 @@
       </form>
     </div>
 
-  </div> <!-- end glass -->
+  </div>
 </section>
-<!-- FOOTER (same style as plans.html) -->
+
+<!-- FOOTER -->
 <footer class="mt-10 bg-[#020617] text-white">
   <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-10 text-sm">
-
-    <!-- COLUMN 1: GET IN TOUCH -->
     <div>
       <h3 class="text-xl font-bold section-title mb-4">Get in Touch</h3>
-
       <p class="font-semibold text-gray-300">Call / WhatsApp</p>
       <p class="text-gray-400">+91-9226157351</p>
-
       <p class="mt-4 font-semibold text-gray-300">Email</p>
       <p class="text-gray-400">dailyfruitco@gmail.com</p>
-
-      <p class="mt-4 font-semibold text-gray-300">Social</p>
-      <p class="text-gray-400">Instagram: @dailyfruitco</p>
-      <p class="text-gray-400">Facebook: Daily Fruit Co.</p>
     </div>
 
-    <!-- COLUMN 2: COMPANY -->
     <div>
       <h3 class="text-xl font-bold section-title mb-4">Company</h3>
-
       <a href="index.html#contact" class="block text-gray-300 hover:text-white">Contact Us</a>
       <a href="index.html#faq" class="block text-gray-300 hover:text-white">FAQs</a>
       <a href="#" class="block text-gray-300 hover:text-white">Blogs</a>
       <a href="#" class="block text-gray-300 hover:text-white">Policy</a>
     </div>
 
-    <!-- COLUMN 3: FOLLOW US -->
     <div>
       <h3 class="text-xl font-bold section-title mb-4">Follow Us</h3>
       <p class="text-gray-400 mb-3">Stay connected with Daily Fruit Co.</p>
-
       <div class="footer-social">
-        <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://www.linkedin.com" class="glass-icon" target="_blank">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-        <a href="https://twitter.com" class="glass-icon" target="_blank">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="https://wa.me/919226157351" class="glass-icon" target="_blank">
-          <i class="fab fa-whatsapp"></i>
-        </a>
+        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
       </div>
-
       <p class="mt-6 text-gray-500 text-xs">
         © 2025 Daily Fruit Co. — Freshness Delivered Daily
       </p>
     </div>
-
   </div>
 </footer>
 
-<!-- FLOATING SOCIAL STRIP (RIGHT SIDE) -->
 <div class="fixed right-4 top-1/3 z-40 flex flex-col gap-4 desktop-only">
-  <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank">
-    <i class="fab fa-instagram"></i>
-  </a>
-  <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank">
-    <i class="fab fa-facebook-f"></i>
-  </a>
-  <a href="https://www.linkedin.com" class="glass-icon" target="_blank">
-    <i class="fab fa-linkedin-in"></i>
-  </a>
-  <a href="https://twitter.com" class="glass-icon" target="_blank">
-    <i class="fab fa-twitter"></i>
-  </a>
-  <a href="https://wa.me/919226157351" class="glass-icon" target="_blank">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-twitter"></i></a>
+  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
 </div>
 
-<!-- WHATSAPP FAB -->
 <a href="https://wa.me/919226157351?text=Hi%20Daily%20Fruit%20Co!%20I'd%20like%20to%20subscribe"
    target="_blank"
    class="fab-wa"
@@ -634,11 +550,10 @@
   <i class="fa fa-whatsapp fa-lg"></i>
 </a>
 
-<!-- AOS + DASHBOARD LOGIC -->
+<!-- SCRIPTS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   const API_BASE = 'https://dailyfruit-backend.onrender.com';
-
   AOS.init({ duration: 700, once: true });
 
   function toast(msg, isError){
@@ -651,472 +566,511 @@
     setTimeout(()=>el.remove(),3000);
   }
 
-  // -------- LOGIN GUARD ----------
-  function getStoredProfile(){
+  function getSession(){
     try{
-      const raw = localStorage.getItem('df_user_profile');
-      if(!raw) return null;
-      return JSON.parse(raw);
+      const token = localStorage.getItem('df_user_token');
+      const expiry = parseInt(localStorage.getItem('df_session_expiry') || '0',10);
+      if(!token || !expiry) return null;
+      if(Date.now() > expiry) return null;
+      return { token, expiry };
     }catch(e){
       return null;
     }
   }
 
-  function getActivePlan(){
-    try{
-      const raw = localStorage.getItem('df_active_plan');
-      if(!raw) return null;
-      return JSON.parse(raw);
-    }catch(e){
-      return null;
-    }
+  function clearSessionAndGoLogin(){
+    localStorage.removeItem('df_user_token');
+    localStorage.removeItem('df_session_expiry');
+    localStorage.removeItem('df_user_profile');
+    toast('Session expired, please login again.', true);
+    setTimeout(()=>{ window.location.href = 'login.html'; }, 800);
   }
 
   function getPlanHistory(){
     try{
       const raw = localStorage.getItem('df_plan_history');
       return raw ? JSON.parse(raw) : [];
-    }catch(e){
-      return [];
-    }
+    }catch(e){ return []; }
   }
 
   function getPaymentHistory(){
     try{
       const raw = localStorage.getItem('df_payment_history');
       return raw ? JSON.parse(raw) : [];
-    }catch(e){
-      return [];
-    }
+    }catch(e){ return []; }
   }
 
-  function getExtraAddresses(){
+  function getActivePlanLocal(){
     try{
-      const raw = localStorage.getItem('df_extra_addresses');
-      return raw ? JSON.parse(raw) : [];
-    }catch(e){
-      return [];
-    }
-  }
-
-  // Redirect if not logged in
-  const profile = getStoredProfile();
-  if(!profile){
-    toast('Please login to access dashboard.', true);
-    setTimeout(()=>{ window.location.href = 'login.html'; }, 1000);
+      const raw = localStorage.getItem('df_active_plan');
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    if(!profile) return;
-
-    // Greeting
-    const greet = document.getElementById('dashUserGreeting');
-    const sub = document.getElementById('dashUserSubtext');
-    if(greet){
-      greet.textContent = `Hello, ${profile.fullName || 'User'} 👋`;
-    }
-    if(sub){
-      sub.textContent = 'Manage your subscription, deliveries and payments.';
+    const session = getSession();
+    if(!session){
+      clearSessionAndGoLogin();
+      return;
     }
 
-    // Overview cards
-    const activePlan = getActivePlan();
-    const ovName = document.getElementById('ovActivePlanName');
-    const ovPrice = document.getElementById('ovActivePlanPrice');
-    const ovNext = document.getElementById('ovNextDeliveryDate');
-    const ovTime = document.getElementById('ovDeliveryTimeText');
-    const ovEmail = document.getElementById('ovAccountEmail');
-    const ovPhone = document.getElementById('ovAccountPhone');
+    const token = session.token;
+    let profile = null;
+    let activePlan = null;
 
-    if(activePlan){
-      ovName.textContent = activePlan.name;
-      ovPrice.textContent = `₹${activePlan.price} • ${activePlan.slug || ''}`;
-      ovNext.textContent = activePlan.nextDeliveryDate || 'Tomorrow';
-    } else {
-      ovName.textContent = 'No active plan';
-      ovPrice.textContent = '';
-      ovNext.textContent = 'Not scheduled';
-    }
+    (async function initDashboard(){
+      try{
+        // ----- 1) LOAD PROFILE FROM BACKEND -----
+        const res = await fetch(API_BASE + '/api/profile/me', {
+          headers:{
+            'Authorization':'Bearer ' + token
+          }
+        });
 
-    ovTime.textContent = profile.deliveryTime
-      ? `Preferred: ${profile.deliveryTime}`
-      : 'No delivery time set yet';
+        if(res.status === 401 || res.status === 403){
+          clearSessionAndGoLogin();
+          return;
+        }
 
-    ovEmail.textContent = profile.email || '-';
-    ovPhone.textContent = profile.phone ? `+91-${profile.phone}` : '';
+        if(!res.ok){
+          toast('Error loading profile from server.', true);
+        }else{
+          const user = await res.json();
+          profile = {
+            id: user._id,
+            fullName: user.name || '',
+            email: user.email || '',
+            phone: user.phone || '',
+            userType: user.userType || '',
+            address: {
+              house: user.addressDetails?.house || '',
+              street: user.addressDetails?.street || '',
+              area: user.addressDetails?.area || '',
+              city: user.addressDetails?.city || '',
+              pincode: user.addressDetails?.pincode || ''
+            },
+            deliveryTime: user.deliveryTime || '',
+            offersOptIn: !!user.offersOptIn
+          };
+          localStorage.setItem('df_user_profile', JSON.stringify(profile));
+        }
 
-    // Active plan section (Plans tab)
-    const apTitle = document.getElementById('activePlanTitle');
-    const apDetails = document.getElementById('activePlanDetails');
-    const apStatus = document.getElementById('activePlanStatusText');
+        if(!profile){
+          try{
+            const raw = localStorage.getItem('df_user_profile');
+            if(raw) profile = JSON.parse(raw);
+          }catch(e){}
+        }
 
-    function refreshActivePlanUI(){
-      const p = getActivePlan();
-      if(!p){
-        apTitle.textContent = 'No active plan';
-        apDetails.textContent = '';
-        apStatus.textContent = 'No plan is currently active. Choose a plan from the plans page.';
+        if(!profile){
+          clearSessionAndGoLogin();
+          return;
+        }
+
+        // ----- 2) TRY ACTIVE SUBSCRIPTION FROM BACKEND (OPTIONAL) -----
+        try{
+          const subRes = await fetch(API_BASE + '/api/subscriptions/my-active', {
+            headers:{ 'Authorization':'Bearer ' + token }
+          });
+          if(subRes.ok){
+            const sub = await subRes.json();
+            activePlan = {
+              name: sub.planName || sub.plan?.name || 'Active Plan',
+              price: sub.amount || sub.plan?.price || '',
+              status: sub.status || 'active',
+              nextDeliveryDate: sub.nextDeliveryDate
+                ? new Date(sub.nextDeliveryDate).toLocaleDateString('en-IN')
+                : 'Tomorrow'
+            };
+          }
+        }catch(e){}
+
+        if(!activePlan){
+          activePlan = getActivePlanLocal();
+        }
+
+        setupUI(profile, activePlan);
+
+      }catch(err){
+        toast('Dashboard error: ' + err.message, true);
+      }
+    })();
+
+    function setupUI(profile, activePlan){
+      // Greeting
+      const greet = document.getElementById('dashUserGreeting');
+      const sub = document.getElementById('dashUserSubtext');
+      if(greet) greet.textContent = `Hello, ${profile.fullName || 'User'} 👋`;
+      if(sub) sub.textContent = 'Manage your subscription, deliveries and payments.';
+
+      // Overview cards
+      const ovName = document.getElementById('ovActivePlanName');
+      const ovPrice = document.getElementById('ovActivePlanPrice');
+      const ovNext = document.getElementById('ovNextDeliveryDate');
+      const ovTime = document.getElementById('ovDeliveryTimeText');
+      const ovEmail = document.getElementById('ovAccountEmail');
+      const ovPhone = document.getElementById('ovAccountPhone');
+
+      if(activePlan){
+        ovName.textContent = activePlan.name || 'Active Plan';
+        ovPrice.textContent = activePlan.price
+          ? `₹${activePlan.price} • ${activePlan.status || 'active'}`
+          : (activePlan.status ? `Status: ${activePlan.status}` : '');
+        ovNext.textContent = activePlan.nextDeliveryDate || 'Tomorrow';
+      }else{
         ovName.textContent = 'No active plan';
         ovPrice.textContent = '';
-        return;
+        ovNext.textContent = 'Not scheduled';
       }
-      apTitle.textContent = p.name || 'Active Plan';
-      apDetails.textContent = `₹${p.price || '-'} • Status: ${p.status || 'active'}`;
-      apStatus.textContent = `Current status: ${p.status || 'active'}`;
-      ovName.textContent = p.name;
-      ovPrice.textContent = `₹${p.price}`;
-    }
-    refreshActivePlanUI();
 
-    // Delivery calendar (next 7 days)
-    const calendarEl = document.getElementById('deliveryCalendarList');
-    if(calendarEl){
-      calendarEl.innerHTML = '';
-      const today = new Date();
-      for(let i=0;i<7;i++){
-        const d = new Date(today);
-        d.setDate(d.getDate()+i);
-        const label = d.toLocaleDateString('en-IN',{
-          weekday:'short',
-          day:'numeric',
-          month:'short'
-        });
-        const li = document.createElement('li');
-        li.textContent = label + (activePlan ? ' — Scheduled' : ' — (no active plan)');
-        calendarEl.appendChild(li);
+      ovTime.textContent = profile.deliveryTime
+        ? `Preferred: ${profile.deliveryTime}`
+        : 'No delivery time set yet';
+
+      ovEmail.textContent = profile.email || '-';
+      ovPhone.textContent = profile.phone ? `+91-${profile.phone}` : '';
+
+      // Active plan section
+      const apTitle = document.getElementById('activePlanTitle');
+      const apDetails = document.getElementById('activePlanDetails');
+      const apStatus = document.getElementById('activePlanStatusText');
+
+      function refreshActivePlanUI(){
+        const p = activePlan;
+        if(!p){
+          apTitle.textContent = 'No active plan';
+          apDetails.textContent = '';
+          apStatus.textContent = 'No plan is currently active. Choose a plan from the plans page.';
+          ovName.textContent = 'No active plan';
+          ovPrice.textContent = '';
+          return;
+        }
+        apTitle.textContent = p.name || 'Active Plan';
+        apDetails.textContent = p.price
+          ? `₹${p.price} • Status: ${p.status || 'active'}`
+          : `Status: ${p.status || 'active'}`;
+        apStatus.textContent = `Current status: ${p.status || 'active'}`;
       }
-    }
+      refreshActivePlanUI();
 
-    // Plan history
-    function renderPlanHistory(){
-      const ph = getPlanHistory();
-      const body = document.getElementById('planHistoryBody');
-      if(!body) return;
-      body.innerHTML = '';
-      if(ph.length === 0){
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 4;
-        td.className = 'py-2 text-gray-400';
-        td.textContent = 'No plan history yet.';
-        tr.appendChild(td);
-        body.appendChild(tr);
-        return;
-      }
-      ph.forEach(item=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="py-2 pr-4">${item.name || '-'}</td>
-          <td class="py-2 pr-4">${item.startDate || '-'}</td>
-          <td class="py-2 pr-4">${item.endDate || '-'}</td>
-          <td class="py-2 pr-4">${item.status || '-'}</td>
-        `;
-        body.appendChild(tr);
-      });
-    }
-    renderPlanHistory();
-
-    // Payment history
-    function renderPaymentHistory(){
-      const list = getPaymentHistory();
-      const body = document.getElementById('paymentHistoryBody');
-      if(!body) return;
-      body.innerHTML = '';
-      if(list.length === 0){
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 5;
-        td.className = 'py-2 text-gray-400';
-        td.textContent = 'No payments recorded yet.';
-        tr.appendChild(td);
-        body.appendChild(tr);
-        return;
-      }
-      list.forEach(pay=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="py-2 pr-4">${pay.date || '-'}</td>
-          <td class="py-2 pr-4">${pay.planName || '-'}</td>
-          <td class="py-2 pr-4">₹${pay.amount || '-'}</td>
-          <td class="py-2 pr-4">${pay.method || '-'}</td>
-          <td class="py-2 pr-4">${pay.status || '-'}</td>
-        `;
-        body.appendChild(tr);
-      });
-    }
-    renderPaymentHistory();
-
-    // Profile form prefill
-    function fillProfileForm(){
-      document.getElementById('pfFullName').value = profile.fullName || '';
-      document.getElementById('pfEmail').value = profile.email || '';
-      document.getElementById('pfPhone').value = profile.phone || '';
-      document.getElementById('pfUserType').value = profile.userType || '';
-      document.getElementById('pfHouse').value = profile.address?.house || '';
-      document.getElementById('pfStreet').value = profile.address?.street || '';
-      document.getElementById('pfArea').value = profile.address?.area || '';
-      document.getElementById('pfCity').value = profile.address?.city || '';
-      document.getElementById('pfPincode').value = profile.address?.pincode || '';
-      document.getElementById('pfDeliveryTime').value = profile.deliveryTime || '';
-      document.getElementById('pfOffersOptIn').checked = !!profile.offersOptIn;
-
-      const addrList = document.getElementById('addressList');
-      const addresses = getExtraAddresses();
-      addrList.innerHTML = '';
-      if(addresses.length === 0){
-        const li = document.createElement('li');
-        li.className = 'text-gray-400';
-        li.textContent = 'No extra addresses saved.';
-        addrList.appendChild(li);
-      } else {
-        addresses.forEach((a,idx)=>{
+      // Delivery calendar
+      const calendarEl = document.getElementById('deliveryCalendarList');
+      if(calendarEl){
+        calendarEl.innerHTML = '';
+        const today = new Date();
+        for(let i=0;i<7;i++){
+          const d = new Date(today);
+          d.setDate(d.getDate()+i);
+          const label = d.toLocaleDateString('en-IN',{
+            weekday:'short',
+            day:'numeric',
+            month:'short'
+          });
           const li = document.createElement('li');
-          li.innerHTML = `
-            <div class="flex justify-between items-start gap-2">
-              <div>
-                <p>${a.label || 'Address '+(idx+1)}</p>
-                <p class="text-[11px] text-gray-500">
-                  ${a.house || ''}, ${a.street || ''}, ${a.area || ''}, ${a.city || ''} - ${a.pincode || ''}
-                </p>
-              </div>
-              <button type="button" data-index="${idx}" class="text-[11px] text-red-500 underline remove-address-btn">
-                Remove
-              </button>
-            </div>
+          li.textContent = label + (activePlan ? ' — Scheduled' : ' — (no active plan)');
+          calendarEl.appendChild(li);
+        }
+      }
+
+      // Plan history
+      function renderPlanHistory(){
+        const ph = getPlanHistory();
+        const body = document.getElementById('planHistoryBody');
+        if(!body) return;
+        body.innerHTML = '';
+        if(ph.length === 0){
+          const tr = document.createElement('tr');
+          const td = document.createElement('td');
+          td.colSpan = 4;
+          td.className = 'py-2 text-gray-400';
+          td.textContent = 'No plan history yet.';
+          tr.appendChild(td);
+          body.appendChild(tr);
+          return;
+        }
+        ph.forEach(item=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="py-2 pr-4">${item.name || '-'}</td>
+            <td class="py-2 pr-4">${item.startDate || '-'}</td>
+            <td class="py-2 pr-4">${item.endDate || '-'}</td>
+            <td class="py-2 pr-4">${item.status || '-'}</td>
           `;
-          addrList.appendChild(li);
+          body.appendChild(tr);
         });
       }
-    }
-    fillProfileForm();
-
-    // Add address
-    document.getElementById('btnAddAddress').addEventListener('click', () => {
-      const label = prompt('Label for address (e.g., Office, Home 2):');
-      if(!label) return;
-      const addresses = getExtraAddresses();
-      addresses.push({
-        label,
-        house: profile.address?.house || '',
-        street: profile.address?.street || '',
-        area: profile.address?.area || '',
-        city: profile.address?.city || '',
-        pincode: profile.address?.pincode || ''
-      });
-      localStorage.setItem('df_extra_addresses', JSON.stringify(addresses));
-      fillProfileForm();
-      toast('Address added from current primary address.', false);
-    });
-
-    // Remove address
-    document.getElementById('addressList').addEventListener('click', (e)=>{
-      const btn = e.target.closest('.remove-address-btn');
-      if(!btn) return;
-      const idx = parseInt(btn.dataset.index,10);
-      const addresses = getExtraAddresses();
-      addresses.splice(idx,1);
-      localStorage.setItem('df_extra_addresses', JSON.stringify(addresses));
-      fillProfileForm();
-      toast('Address removed.', false);
-    });
-
-    // Save profile
-    document.getElementById('profileForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-
-      const fullName = document.getElementById('pfFullName').value.trim();
-      const email = document.getElementById('pfEmail').value.trim();
-      const phone = document.getElementById('pfPhone').value.trim();
-      const userType = document.getElementById('pfUserType').value;
-      const house = document.getElementById('pfHouse').value.trim();
-      const street = document.getElementById('pfStreet').value.trim();
-      const area = document.getElementById('pfArea').value.trim();
-      const city = document.getElementById('pfCity').value.trim();
-      const pincode = document.getElementById('pfPincode').value.trim();
-      const deliveryTime = document.getElementById('pfDeliveryTime').value;
-      const offersOptIn = document.getElementById('pfOffersOptIn').checked;
-
-      if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
-        toast('Please enter a valid 10-digit phone.', true);
-        return;
-      }
-      if(!/^[0-9]{6}$/.test(pincode)){
-        toast('Please enter a valid 6-digit pincode.', true);
-        return;
-      }
-
-      const updated = {
-        ...profile,
-        fullName,
-        email,
-        phone,
-        userType,
-        address:{
-          house,street,area,city,pincode
-        },
-        deliveryTime,
-        offersOptIn
-      };
-
-      try{
-        localStorage.setItem('df_user_profile', JSON.stringify(updated));
-      }catch(e){}
-
-      try{
-        await fetch(API_BASE + '/api/profile/update',{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify(updated)
-        }).catch(()=>{});
-      }catch(e){}
-
-      toast('Profile saved.', false);
-      window.location.reload();
-    });
-
-    // Delivery time form (Plans tab)
-    document.getElementById('deliveryTimeForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const selected = (document.querySelector('input[name="deliveryTimeDash"]:checked') || {}).value;
-      if(!selected){
-        toast('Select a delivery time first.', true);
-        return;
-      }
-      const updated = { ...profile, deliveryTime:selected };
-      try{
-        localStorage.setItem('df_user_profile', JSON.stringify(updated));
-      }catch(e){}
-      toast('Delivery time updated.', false);
-      setTimeout(()=>window.location.reload(), 500);
-    });
-
-    // Clear history buttons
-    document.getElementById('btnClearPlanHistory').addEventListener('click', ()=>{
-      if(!confirm('Clear plan history?')) return;
-      localStorage.removeItem('df_plan_history');
       renderPlanHistory();
-      toast('Plan history cleared.', false);
-    });
 
-    document.getElementById('btnClearPayments').addEventListener('click', ()=>{
-      if(!confirm('Clear payment history?')) return;
-      localStorage.removeItem('df_payment_history');
+      // Payment history
+      function renderPaymentHistory(){
+        const list = getPaymentHistory();
+        const body = document.getElementById('paymentHistoryBody');
+        if(!body) return;
+        body.innerHTML = '';
+        if(list.length === 0){
+          const tr = document.createElement('tr');
+          const td = document.createElement('td');
+          td.colSpan = 5;
+          td.className = 'py-2 text-gray-400';
+          td.textContent = 'No payments recorded yet.';
+          tr.appendChild(td);
+          body.appendChild(tr);
+          return;
+        }
+        list.forEach(pay=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="py-2 pr-4">${pay.date || '-'}</td>
+            <td class="py-2 pr-4">${pay.planName || '-'}</td>
+            <td class="py-2 pr-4">₹${pay.amount || '-'}</td>
+            <td class="py-2 pr-4">${pay.method || '-'}</td>
+            <td class="py-2 pr-4">${pay.status || '-'}</td>
+          `;
+          body.appendChild(tr);
+        });
+      }
       renderPaymentHistory();
-      toast('Payment history cleared.', false);
-    });
 
-    // Plan status actions
-    function updatePlanStatus(newStatus){
-      const p = getActivePlan();
-      if(!p){
-        toast('No active plan to update.', true);
-        return;
+      // Profile form prefill
+      function fillProfileForm(){
+        document.getElementById('pfFullName').value = profile.fullName || '';
+        document.getElementById('pfEmail').value = profile.email || '';
+        document.getElementById('pfPhone').value = profile.phone || '';
+        document.getElementById('pfUserType').value = profile.userType || '';
+        document.getElementById('pfHouse').value = profile.address?.house || '';
+        document.getElementById('pfStreet').value = profile.address?.street || '';
+        document.getElementById('pfArea').value = profile.address?.area || '';
+        document.getElementById('pfCity').value = profile.address?.city || '';
+        document.getElementById('pfPincode').value = profile.address?.pincode || '';
+        document.getElementById('pfDeliveryTime').value = profile.deliveryTime || '';
+        document.getElementById('pfOffersOptIn').checked = !!profile.offersOptIn;
       }
-      p.status = newStatus;
-      localStorage.setItem('df_active_plan', JSON.stringify(p));
-      refreshActivePlanUI();
-      toast('Plan status updated to ' + newStatus + '.', false);
-    }
+      fillProfileForm();
 
-    document.getElementById('btnPausePlan').addEventListener('click',()=>updatePlanStatus('paused'));
-    document.getElementById('btnResumePlan').addEventListener('click',()=>updatePlanStatus('active'));
-    document.getElementById('btnCancelPlan').addEventListener('click',()=>{
-      if(!confirm('Are you sure you want to cancel this plan?')) return;
-      const p = getActivePlan();
-      if(p){
-        const history = getPlanHistory();
-        history.push({
-          name:p.name,
-          startDate:p.startDate || new Date().toLocaleDateString('en-IN'),
-          endDate:new Date().toLocaleDateString('en-IN'),
-          status:'cancelled'
-        });
-        localStorage.setItem('df_plan_history', JSON.stringify(history));
-      }
-      localStorage.removeItem('df_active_plan');
-      refreshActivePlanUI();
-      renderPlanHistory();
-      toast('Plan cancelled.', false);
-    });
+      // Save profile -> backend + localStorage
+      document.getElementById('profileForm').addEventListener('submit', async (e)=>{
+        e.preventDefault();
 
-    // Quick actions (overview)
-    document.getElementById('qaPausePlan').addEventListener('click',()=>updatePlanStatus('paused'));
-    document.getElementById('qaResumePlan').addEventListener('click',()=>updatePlanStatus('active'));
-    document.getElementById('qaCancelPlan').addEventListener('click',()=>{
-      document.getElementById('btnCancelPlan').click();
-    });
-    document.getElementById('qaChangePlan').addEventListener('click',()=>{
-      window.location.href = 'plans.html';
-    });
+        const fullName = document.getElementById('pfFullName').value.trim();
+        const email = document.getElementById('pfEmail').value.trim(); // read-only
+        const phone = document.getElementById('pfPhone').value.trim();
+        const userType = document.getElementById('pfUserType').value;
+        const house = document.getElementById('pfHouse').value.trim();
+        const street = document.getElementById('pfStreet').value.trim();
+        const area = document.getElementById('pfArea').value.trim();
+        const city = document.getElementById('pfCity').value.trim();
+        const pincode = document.getElementById('pfPincode').value.trim();
+        const deliveryTime = document.getElementById('pfDeliveryTime').value;
+        const offersOptIn = document.getElementById('pfOffersOptIn').checked;
 
-    // Invoice download (simple printable page)
-    function downloadLastInvoice(){
-      const pays = getPaymentHistory();
-      if(pays.length === 0){
-        toast('No payment to generate invoice.', true);
-        return;
-      }
-      const last = pays[pays.length - 1];
+        if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
+          toast('Please enter a valid 10-digit phone.', true);
+          return;
+        }
+        if(!/^[0-9]{6}$/.test(pincode)){
+          toast('Please enter a valid 6-digit pincode.', true);
+          return;
+        }
 
-      const win = window.open('', '_blank');
-      win.document.write(`
-        <html>
-        <head>
-          <title>Invoice - Daily Fruit Co.</title>
-        </head>
-        <body style="font-family:Arial;padding:20px;">
-          <h2>Daily Fruit Co. — Invoice</h2>
-          <p><strong>Customer:</strong> ${profile.fullName || ''}</p>
-          <p><strong>Email:</strong> ${profile.email || ''}</p>
-          <p><strong>Phone:</strong> ${profile.phone || ''}</p>
-          <hr/>
-          <p><strong>Date:</strong> ${last.date || ''}</p>
-          <p><strong>Plan:</strong> ${last.planName || ''}</p>
-          <p><strong>Amount:</strong> ₹${last.amount || ''}</p>
-          <p><strong>Method:</strong> ${last.method || ''}</p>
-          <p><strong>Status:</strong> ${last.status || ''}</p>
-          <hr/>
-          <p>Thank you for choosing Daily Fruit Co.</p>
-          <script>window.print();<\/script>
-        </body>
-        </html>
-      `);
-      win.document.close();
-    }
+        const addressDetails = { house, street, area, city, pincode };
+        const address = `${house}, ${street}, ${area}, ${city} - ${pincode}`;
 
-    document.getElementById('qaDownloadInvoice').addEventListener('click', downloadLastInvoice);
-    document.getElementById('btnDownloadInvoice2').addEventListener('click', downloadLastInvoice);
+        const payload = {
+          fullName,
+          phone,
+          addressDetails,
+          address,
+          userType,
+          offersOptIn,
+          deliveryTime
+        };
 
-    // Tabs
-    document.querySelectorAll('.dash-tab').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const tab = btn.dataset.tab;
-        document.querySelectorAll('.dash-tab').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelectorAll('.dash-tab-panel').forEach(p=>p.classList.add('hidden'));
-        document.getElementById('tab-'+tab).classList.remove('hidden');
+        try{
+          const sessionNow = getSession();
+          if(!sessionNow){
+            clearSessionAndGoLogin();
+            return;
+          }
+          const res = await fetch(API_BASE + '/api/profile/update', {
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+              'Authorization':'Bearer ' + sessionNow.token
+            },
+            body:JSON.stringify(payload)
+          });
+
+          if(!res.ok){
+            const d = await res.json().catch(()=>({}));
+            toast(d.message || 'Error updating profile.', true);
+          }else{
+            const d = await res.json();
+            const user = d.user || {};
+            profile = {
+              id: user._id || profile.id,
+              fullName: user.name || fullName,
+              email: user.email || email,
+              phone: user.phone || phone,
+              userType: user.userType || userType,
+              address: {
+                house: user.addressDetails?.house || house,
+                street: user.addressDetails?.street || street,
+                area: user.addressDetails?.area || area,
+                city: user.addressDetails?.city || city,
+                pincode: user.addressDetails?.pincode || pincode
+              },
+              deliveryTime: user.deliveryTime || deliveryTime,
+              offersOptIn: typeof user.offersOptIn === 'boolean' ? user.offersOptIn : offersOptIn
+            };
+            localStorage.setItem('df_user_profile', JSON.stringify(profile));
+            toast('Profile updated.', false);
+            fillProfileForm();
+          }
+        }catch(err){
+          toast('Network error updating profile.', true);
+        }
       });
-    });
 
-    // Dark mode toggle (soft)
-    const darkBtn = document.getElementById('darkModeToggle');
-    const savedTheme = localStorage.getItem('df_theme');
-    if(savedTheme === 'dark'){
-      document.body.classList.add('dark-mode');
+      // Delivery time quick update
+      document.getElementById('deliveryTimeForm').addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        const selected = (document.querySelector('input[name="deliveryTimeDash"]:checked') || {}).value;
+        if(!selected){
+          toast('Select a delivery time first.', true);
+          return;
+        }
+        document.getElementById('pfDeliveryTime').value = selected;
+        document.getElementById('profileForm').dispatchEvent(new Event('submit'));
+      });
+
+      // Clear local histories
+      document.getElementById('btnClearPlanHistory').addEventListener('click', ()=>{
+        if(!confirm('Clear plan history?')) return;
+        localStorage.removeItem('df_plan_history');
+        renderPlanHistory();
+        toast('Plan history cleared.', false);
+      });
+
+      document.getElementById('btnClearPayments').addEventListener('click', ()=>{
+        if(!confirm('Clear payment history?')) return;
+        localStorage.removeItem('df_payment_history');
+        renderPaymentHistory();
+        toast('Payment history cleared.', false);
+      });
+
+      // Plan status actions (local only for now)
+      function updatePlanStatus(newStatus){
+        if(!activePlan){
+          toast('No active plan to update.', true);
+          return;
+        }
+        activePlan.status = newStatus;
+        localStorage.setItem('df_active_plan', JSON.stringify(activePlan));
+        refreshActivePlanUI();
+        toast('Plan status updated to ' + newStatus + '.', false);
+      }
+
+      document.getElementById('btnPausePlan').addEventListener('click',()=>updatePlanStatus('paused'));
+      document.getElementById('btnResumePlan').addEventListener('click',()=>updatePlanStatus('active'));
+      document.getElementById('btnCancelPlan').addEventListener('click',()=>{
+        if(!confirm('Are you sure you want to cancel this plan?')) return;
+        const p = activePlan;
+        if(p){
+          const history = getPlanHistory();
+          history.push({
+            name:p.name,
+            startDate:p.startDate || new Date().toLocaleDateString('en-IN'),
+            endDate:new Date().toLocaleDateString('en-IN'),
+            status:'cancelled'
+          });
+          localStorage.setItem('df_plan_history', JSON.stringify(history));
+        }
+        activePlan = null;
+        localStorage.removeItem('df_active_plan');
+        refreshActivePlanUI();
+        renderPlanHistory();
+        toast('Plan cancelled.', false);
+      });
+
+      document.getElementById('qaPausePlan').addEventListener('click',()=>updatePlanStatus('paused'));
+      document.getElementById('qaResumePlan').addEventListener('click',()=>updatePlanStatus('active'));
+      document.getElementById('qaCancelPlan').addEventListener('click',()=>{
+        document.getElementById('btnCancelPlan').click();
+      });
+      document.getElementById('qaChangePlan').addEventListener('click',()=>{
+        window.location.href = 'plans.html';
+      });
+
+      // Invoice (from local payments)
+      function downloadLastInvoice(){
+        const pays = getPaymentHistory();
+        if(pays.length === 0){
+          toast('No payment to generate invoice.', true);
+          return;
+        }
+        const last = pays[pays.length - 1];
+
+        const win = window.open('', '_blank');
+        win.document.write(`
+          <html>
+          <head>
+            <title>Invoice - Daily Fruit Co.</title>
+          </head>
+          <body style="font-family:Arial;padding:20px;">
+            <h2>Daily Fruit Co. — Invoice</h2>
+            <p><strong>Customer:</strong> ${profile.fullName || ''}</p>
+            <p><strong>Email:</strong> ${profile.email || ''}</p>
+            <p><strong>Phone:</strong> ${profile.phone || ''}</p>
+            <hr/>
+            <p><strong>Date:</strong> ${last.date || ''}</p>
+            <p><strong>Plan:</strong> ${last.planName || ''}</p>
+            <p><strong>Amount:</strong> ₹${last.amount || ''}</p>
+            <p><strong>Method:</strong> ${last.method || ''}</p>
+            <p><strong>Status:</strong> ${last.status || ''}</p>
+            <hr/>
+            <p>Thank you for choosing Daily Fruit Co.</p>
+            <script>window.print();<\/script>
+          </body>
+          </html>
+        `);
+        win.document.close();
+      }
+
+      document.getElementById('qaDownloadInvoice').addEventListener('click', downloadLastInvoice);
+      document.getElementById('btnDownloadInvoice2').addEventListener('click', downloadLastInvoice);
+
+      // Tabs
+      document.querySelectorAll('.dash-tab').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const tab = btn.dataset.tab;
+          document.querySelectorAll('.dash-tab').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+          document.querySelectorAll('.dash-tab-panel').forEach(p=>p.classList.add('hidden'));
+          document.getElementById('tab-'+tab).classList.remove('hidden');
+        });
+      });
+
+      // Dark mode
+      const darkBtn = document.getElementById('darkModeToggle');
+      const savedTheme = localStorage.getItem('df_theme');
+      if(savedTheme === 'dark'){
+        document.body.classList.add('dark-mode');
+      }
+      darkBtn.addEventListener('click',()=>{
+        document.body.classList.toggle('dark-mode');
+        const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('df_theme', mode);
+      });
+
+      // Logout
+      document.getElementById('logoutBtn').addEventListener('click', ()=>{
+        if(!confirm('Logout from your account?')) return;
+        localStorage.removeItem('df_user_token');
+        localStorage.removeItem('df_session_expiry');
+        localStorage.removeItem('df_user_profile');
+        window.location.href = 'login.html';
+      });
     }
-    darkBtn.addEventListener('click',()=>{
-      document.body.classList.toggle('dark-mode');
-      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-      localStorage.setItem('df_theme', mode);
-    });
-
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', ()=>{
-      if(!confirm('Logout from your account?')) return;
-      localStorage.removeItem('df_user_profile');
-      // keep history / active plan if you want; you can also clear them here
-      window.location.href = 'login.html';
-    });
   });
 </script>
 
