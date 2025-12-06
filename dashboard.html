@@ -225,19 +225,19 @@
       <div class="grid md:grid-cols-3 gap-4 mb-6 text-sm">
         <div class="border rounded-lg p-4 bg-white/80">
           <p class="text-xs text-gray-500 mb-1">Active Plan</p>
-          <p class="font-semibold" id="ovActivePlanName">No active plan</p>
+          <p class="font-semibold" id="ovActivePlanName">Loading...</p>
           <p class="text-xs text-gray-500 mt-1" id="ovActivePlanPrice"></p>
         </div>
 
         <div class="border rounded-lg p-4 bg-white/80">
           <p class="text-xs text-gray-500 mb-1">Next Delivery</p>
-          <p class="font-semibold" id="ovNextDeliveryDate">Not scheduled</p>
+          <p class="font-semibold" id="ovNextDeliveryDate">Loading...</p>
           <p class="text-xs text-gray-500 mt-1" id="ovDeliveryTimeText"></p>
         </div>
 
         <div class="border rounded-lg p-4 bg-white/80">
           <p class="text-xs text-gray-500 mb-1">Account</p>
-          <p class="font-semibold" id="ovAccountEmail">-</p>
+          <p class="font-semibold" id="ovAccountEmail">Loading...</p>
           <p class="text-xs text-gray-500 mt-1" id="ovAccountPhone"></p>
         </div>
       </div>
@@ -249,20 +249,20 @@
             Change Plan
           </button>
           <button id="qaPausePlan" class="px-3 py-1.5 rounded-full border text-xs">
-            Pause Plan
+            Pause Plan (UI only)
           </button>
           <button id="qaResumePlan" class="px-3 py-1.5 rounded-full border text-xs">
-            Resume Plan
+            Resume Plan (UI only)
           </button>
           <button id="qaCancelPlan" class="px-3 py-1.5 rounded-full border text-xs text-red-600 border-red-400">
-            Cancel Plan
+            Cancel Plan (UI only)
           </button>
           <button id="qaDownloadInvoice" class="px-3 py-1.5 rounded-full border text-xs">
             Download Last Invoice
           </button>
         </div>
         <p class="text-[11px] text-gray-500 mt-2">
-          Plan & payment history use localStorage now. Backend syncing can be added later.
+          Subscription & payments are loaded from your backend. Some buttons (Pause/Resume/Cancel) update only the dashboard view for now.
         </p>
       </div>
     </div>
@@ -273,19 +273,19 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
             <p class="text-xs text-gray-500 mb-1">Active Plan</p>
-            <p class="font-semibold text-base" id="activePlanTitle">No active plan</p>
+            <p class="font-semibold text-base" id="activePlanTitle">Loading...</p>
             <p class="text-xs text-gray-500 mt-1" id="activePlanDetails"></p>
           </div>
 
           <div class="flex flex-wrap gap-2">
             <button id="btnPausePlan" class="px-3 py-1.5 rounded-full border text-xs">
-              Pause
+              Pause (UI only)
             </button>
             <button id="btnResumePlan" class="px-3 py-1.5 rounded-full border text-xs">
-              Resume
+              Resume (UI only)
             </button>
             <button id="btnCancelPlan" class="px-3 py-1.5 rounded-full border text-xs text-red-600 border-red-400">
-              Cancel
+              Cancel (UI only)
             </button>
             <a href="plans.html" class="px-3 py-1.5 rounded-full border text-xs">
               Change Plan
@@ -294,16 +294,13 @@
         </div>
 
         <p class="text-[11px] text-gray-500 mt-2" id="activePlanStatusText">
-          No plan is currently active. Choose a plan from the plans page.
+          Active subscription is fetched from backend. UI buttons above do not cancel on server yet.
         </p>
       </div>
 
       <div class="border rounded-lg p-4 bg-white/80 mb-4">
         <div class="flex items-center justify-between mb-2">
-          <p class="font-semibold">Plan History</p>
-          <button id="btnClearPlanHistory" class="text-xs text-red-500 underline">
-            Clear history
-          </button>
+          <p class="font-semibold">Subscription History</p>
         </div>
 
         <div class="overflow-x-auto">
@@ -321,7 +318,7 @@
         </div>
 
         <p class="text-[11px] text-gray-500 mt-2">
-          History is shown from localStorage; checkout can push entries here.
+          Data loaded from <code>/api/subscriptions/history</code>.
         </p>
       </div>
 
@@ -369,9 +366,6 @@
       <div class="border rounded-lg p-4 bg-white/80 mb-4">
         <div class="flex items-center justify-between mb-2">
           <p class="font-semibold">Payment History</p>
-          <button id="btnClearPayments" class="text-xs text-red-500 underline">
-            Clear payment history
-          </button>
         </div>
 
         <div class="overflow-x-auto">
@@ -390,7 +384,7 @@
         </div>
 
         <p class="text-[11px] text-gray-500 mt-2">
-          Payment history is loaded from localStorage; Razorpay webhooks can sync here later.
+          Data loaded from <code>/api/payments/my-payments</code>.
         </p>
 
         <button id="btnDownloadInvoice2"
@@ -429,6 +423,7 @@
               <option value="">Customer</option>
               <option value="home">Home</option>
               <option value="office">Office</option>
+              <option value="corporate">Corporate</option>
             </select>
           </div>
         </div>
@@ -522,11 +517,11 @@
       <h3 class="text-xl font-bold section-title mb-4">Follow Us</h3>
       <p class="text-gray-400 mb-3">Stay connected with Daily Fruit Co.</p>
       <div class="footer-social">
-        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="glass-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com" class="glass-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://twitter.com" class="glass-icon" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://wa.me/919226157351" class="glass-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
       </div>
       <p class="mt-6 text-gray-500 text-xs">
         © 2025 Daily Fruit Co. — Freshness Delivered Daily
@@ -536,11 +531,11 @@
 </footer>
 
 <div class="fixed right-4 top-1/3 z-40 flex flex-col gap-4 desktop-only">
-  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
-  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-twitter"></i></a>
-  <a href="#" class="glass-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+  <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+  <a href="https://www.linkedin.com" class="glass-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+  <a href="https://twitter.com" class="glass-icon" target="_blank"><i class="fab fa-twitter"></i></a>
+  <a href="https://wa.me/919226157351" class="glass-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
 </div>
 
 <a href="https://wa.me/919226157351?text=Hi%20Daily%20Fruit%20Co!%20I'd%20like%20to%20subscribe"
@@ -578,501 +573,527 @@
     }
   }
 
-  function clearSessionAndGoLogin(){
+  function clearSessionAndGoLogin(message){
     localStorage.removeItem('df_user_token');
     localStorage.removeItem('df_session_expiry');
     localStorage.removeItem('df_user_profile');
-    toast('Session expired, please login again.', true);
+    if(message) toast(message, true);
     setTimeout(()=>{ window.location.href = 'login.html'; }, 800);
   }
 
-  function getPlanHistory(){
-    try{
-      const raw = localStorage.getItem('df_plan_history');
-      return raw ? JSON.parse(raw) : [];
-    }catch(e){ return []; }
-  }
+  // DARK MODE
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('df_theme');
+    if(savedTheme === 'dark'){
+      document.body.classList.add('dark-mode');
+    }
+  });
 
-  function getPaymentHistory(){
-    try{
-      const raw = localStorage.getItem('df_payment_history');
-      return raw ? JSON.parse(raw) : [];
-    }catch(e){ return []; }
-  }
-
-  function getActivePlanLocal(){
-    try{
-      const raw = localStorage.getItem('df_active_plan');
-      return raw ? JSON.parse(raw) : null;
-    }catch(e){ return null; }
-  }
-
+  // MAIN DASHBOARD INIT
   document.addEventListener('DOMContentLoaded', () => {
     const session = getSession();
     if(!session){
-      clearSessionAndGoLogin();
+      clearSessionAndGoLogin('Session expired, please login again.');
       return;
     }
-
     const token = session.token;
+
     let profile = null;
-    let activePlan = null;
+    let activeSubscription = null;
+    let subscriptionHistory = [];
+    let paymentHistory = [];
 
-    (async function initDashboard(){
+    // ---------- LOAD ALL DATA ----------
+    (async function init(){
       try{
-        // ----- 1) LOAD PROFILE FROM BACKEND -----
-        const res = await fetch(API_BASE + '/api/profile/me', {
-          headers:{
-            'Authorization':'Bearer ' + token
-          }
-        });
-
-        if(res.status === 401 || res.status === 403){
-          clearSessionAndGoLogin();
-          return;
-        }
-
-        if(!res.ok){
-          toast('Error loading profile from server.', true);
-        }else{
-          const user = await res.json();
-          profile = {
-            id: user._id,
-            fullName: user.name || '',
-            email: user.email || '',
-            phone: user.phone || '',
-            userType: user.userType || '',
-            address: {
-              house: user.addressDetails?.house || '',
-              street: user.addressDetails?.street || '',
-              area: user.addressDetails?.area || '',
-              city: user.addressDetails?.city || '',
-              pincode: user.addressDetails?.pincode || ''
-            },
-            deliveryTime: user.deliveryTime || '',
-            offersOptIn: !!user.offersOptIn
-          };
-          localStorage.setItem('df_user_profile', JSON.stringify(profile));
-        }
-
-        if(!profile){
-          try{
-            const raw = localStorage.getItem('df_user_profile');
-            if(raw) profile = JSON.parse(raw);
-          }catch(e){}
-        }
-
-        if(!profile){
-          clearSessionAndGoLogin();
-          return;
-        }
-
-        // ----- 2) TRY ACTIVE SUBSCRIPTION FROM BACKEND (OPTIONAL) -----
+        // 1) PROFILE
         try{
-          const subRes = await fetch(API_BASE + '/api/subscriptions/my-active', {
+          const res = await fetch(API_BASE + '/api/profile/me', {
             headers:{ 'Authorization':'Bearer ' + token }
           });
-          if(subRes.ok){
-            const sub = await subRes.json();
-            activePlan = {
-              name: sub.planName || sub.plan?.name || 'Active Plan',
-              price: sub.amount || sub.plan?.price || '',
-              status: sub.status || 'active',
-              nextDeliveryDate: sub.nextDeliveryDate
-                ? new Date(sub.nextDeliveryDate).toLocaleDateString('en-IN')
-                : 'Tomorrow'
-            };
+          if(res.status === 401 || res.status === 403){
+            return clearSessionAndGoLogin('Please login again.');
           }
-        }catch(e){}
-
-        if(!activePlan){
-          activePlan = getActivePlanLocal();
+          if(res.ok){
+            const user = await res.json();
+            profile = {
+              id: user._id,
+              fullName: user.name || '',
+              email: user.email || '',
+              phone: user.phone || '',
+              userType: user.userType || '',
+              address: {
+                house: user.addressDetails?.house || '',
+                street: user.addressDetails?.street || '',
+                area: user.addressDetails?.area || '',
+                city: user.addressDetails?.city || '',
+                pincode: user.addressDetails?.pincode || ''
+              },
+              deliveryTime: user.deliveryTime || '',
+              offersOptIn: !!user.offersOptIn
+            };
+            localStorage.setItem('df_user_profile', JSON.stringify(profile));
+          }
+        }catch(e){
+          toast('Could not load profile from server.', true);
         }
 
-        setupUI(profile, activePlan);
+        if(!profile){
+          const raw = localStorage.getItem('df_user_profile');
+          if(raw) profile = JSON.parse(raw);
+        }
+        if(!profile){
+          return clearSessionAndGoLogin('Profile not found, please login again.');
+        }
+
+        // 2) ACTIVE SUBSCRIPTION
+        try{
+          const res = await fetch(API_BASE + '/api/subscriptions/my-active', {
+            headers:{ 'Authorization':'Bearer ' + token }
+          });
+          if(res.ok){
+            activeSubscription = await res.json(); // can be null or object
+          }
+        }catch(e){
+          console.warn('active sub error', e);
+        }
+
+        // 3) SUBSCRIPTION HISTORY
+        try{
+          const res = await fetch(API_BASE + '/api/subscriptions/history', {
+            headers:{ 'Authorization':'Bearer ' + token }
+          });
+          if(res.ok){
+            subscriptionHistory = await res.json();
+          }
+        }catch(e){
+          console.warn('sub history error', e);
+        }
+
+        // 4) PAYMENT HISTORY
+        try{
+          const res = await fetch(API_BASE + '/api/payments/my-payments', {
+            headers:{ 'Authorization':'Bearer ' + token }
+          });
+          if(res.ok){
+            paymentHistory = await res.json();
+          }
+        }catch(e){
+          console.warn('payment history error', e);
+        }
+
+        setupUI(profile, activeSubscription, subscriptionHistory, paymentHistory, token);
 
       }catch(err){
+        console.error(err);
         toast('Dashboard error: ' + err.message, true);
       }
     })();
+  });
 
-    function setupUI(profile, activePlan){
-      // Greeting
-      const greet = document.getElementById('dashUserGreeting');
-      const sub = document.getElementById('dashUserSubtext');
-      if(greet) greet.textContent = `Hello, ${profile.fullName || 'User'} 👋`;
-      if(sub) sub.textContent = 'Manage your subscription, deliveries and payments.';
+  function setupUI(profile, activeSubscription, subscriptionHistory, paymentHistory, token){
+    // GREETING
+    const greet = document.getElementById('dashUserGreeting');
+    const subtext = document.getElementById('dashUserSubtext');
+    if(greet) greet.textContent = `Hello, ${profile.fullName || 'User'} 👋`;
+    if(subtext) subtext.textContent = 'Manage your subscription, deliveries and payments.';
 
-      // Overview cards
-      const ovName = document.getElementById('ovActivePlanName');
-      const ovPrice = document.getElementById('ovActivePlanPrice');
-      const ovNext = document.getElementById('ovNextDeliveryDate');
-      const ovTime = document.getElementById('ovDeliveryTimeText');
-      const ovEmail = document.getElementById('ovAccountEmail');
-      const ovPhone = document.getElementById('ovAccountPhone');
+    // OVERVIEW CARDS
+    const ovName = document.getElementById('ovActivePlanName');
+    const ovPrice = document.getElementById('ovActivePlanPrice');
+    const ovNext = document.getElementById('ovNextDeliveryDate');
+    const ovTime = document.getElementById('ovDeliveryTimeText');
+    const ovEmail = document.getElementById('ovAccountEmail');
+    const ovPhone = document.getElementById('ovAccountPhone');
 
-      if(activePlan){
-        ovName.textContent = activePlan.name || 'Active Plan';
-        ovPrice.textContent = activePlan.price
-          ? `₹${activePlan.price} • ${activePlan.status || 'active'}`
-          : (activePlan.status ? `Status: ${activePlan.status}` : '');
-        ovNext.textContent = activePlan.nextDeliveryDate || 'Tomorrow';
-      }else{
+    let activePlanObj = null;
+
+    if(activeSubscription && activeSubscription._id){
+      const planName = activeSubscription.planName ||
+                       (activeSubscription.planId && activeSubscription.planId.name) ||
+                       'Active Plan';
+      const price = (activeSubscription.planId && activeSubscription.planId.price) || null;
+      const status = activeSubscription.status || 'active';
+      const nextDeliveryDate = activeSubscription.nextDeliveryDate
+        ? new Date(activeSubscription.nextDeliveryDate).toLocaleDateString('en-IN')
+        : 'Tomorrow';
+
+      activePlanObj = {
+        id: activeSubscription._id,
+        name: planName,
+        price,
+        status,
+        nextDeliveryDate
+      };
+
+      ovName.textContent = planName;
+      ovPrice.textContent = price
+        ? `₹${price} • ${status}`
+        : `Status: ${status}`;
+      ovNext.textContent = nextDeliveryDate;
+    } else {
+      ovName.textContent = 'No active plan';
+      ovPrice.textContent = '';
+      ovNext.textContent = 'Not scheduled';
+    }
+
+    ovTime.textContent = profile.deliveryTime
+      ? `Preferred: ${profile.deliveryTime}`
+      : 'No delivery time set yet';
+
+    ovEmail.textContent = profile.email || '-';
+    ovPhone.textContent = profile.phone ? `+91-${profile.phone}` : '';
+
+    // ACTIVE PLAN BOX (PLANS TAB)
+    const apTitle = document.getElementById('activePlanTitle');
+    const apDetails = document.getElementById('activePlanDetails');
+    const apStatus = document.getElementById('activePlanStatusText');
+
+    function refreshActivePlanUI(){
+      if(!activePlanObj){
+        apTitle.textContent = 'No active plan';
+        apDetails.textContent = '';
+        apStatus.textContent = 'No active subscription found from backend.';
         ovName.textContent = 'No active plan';
         ovPrice.textContent = '';
         ovNext.textContent = 'Not scheduled';
+        return;
       }
+      apTitle.textContent = activePlanObj.name || 'Active Plan';
+      apDetails.textContent = activePlanObj.price
+        ? `₹${activePlanObj.price} • Status: ${activePlanObj.status || 'active'}`
+        : `Status: ${activePlanObj.status || 'active'}`;
+      apStatus.textContent = `Current status: ${activePlanObj.status || 'active'}`;
+    }
+    refreshActivePlanUI();
 
-      ovTime.textContent = profile.deliveryTime
-        ? `Preferred: ${profile.deliveryTime}`
-        : 'No delivery time set yet';
-
-      ovEmail.textContent = profile.email || '-';
-      ovPhone.textContent = profile.phone ? `+91-${profile.phone}` : '';
-
-      // Active plan section
-      const apTitle = document.getElementById('activePlanTitle');
-      const apDetails = document.getElementById('activePlanDetails');
-      const apStatus = document.getElementById('activePlanStatusText');
-
-      function refreshActivePlanUI(){
-        const p = activePlan;
-        if(!p){
-          apTitle.textContent = 'No active plan';
-          apDetails.textContent = '';
-          apStatus.textContent = 'No plan is currently active. Choose a plan from the plans page.';
-          ovName.textContent = 'No active plan';
-          ovPrice.textContent = '';
-          return;
-        }
-        apTitle.textContent = p.name || 'Active Plan';
-        apDetails.textContent = p.price
-          ? `₹${p.price} • Status: ${p.status || 'active'}`
-          : `Status: ${p.status || 'active'}`;
-        apStatus.textContent = `Current status: ${p.status || 'active'}`;
-      }
-      refreshActivePlanUI();
-
-      // Delivery calendar
-      const calendarEl = document.getElementById('deliveryCalendarList');
-      if(calendarEl){
-        calendarEl.innerHTML = '';
-        const today = new Date();
-        for(let i=0;i<7;i++){
-          const d = new Date(today);
-          d.setDate(d.getDate()+i);
-          const label = d.toLocaleDateString('en-IN',{
-            weekday:'short',
-            day:'numeric',
-            month:'short'
-          });
-          const li = document.createElement('li');
-          li.textContent = label + (activePlan ? ' — Scheduled' : ' — (no active plan)');
-          calendarEl.appendChild(li);
-        }
-      }
-
-      // Plan history
-      function renderPlanHistory(){
-        const ph = getPlanHistory();
-        const body = document.getElementById('planHistoryBody');
-        if(!body) return;
-        body.innerHTML = '';
-        if(ph.length === 0){
-          const tr = document.createElement('tr');
-          const td = document.createElement('td');
-          td.colSpan = 4;
-          td.className = 'py-2 text-gray-400';
-          td.textContent = 'No plan history yet.';
-          tr.appendChild(td);
-          body.appendChild(tr);
-          return;
-        }
-        ph.forEach(item=>{
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td class="py-2 pr-4">${item.name || '-'}</td>
-            <td class="py-2 pr-4">${item.startDate || '-'}</td>
-            <td class="py-2 pr-4">${item.endDate || '-'}</td>
-            <td class="py-2 pr-4">${item.status || '-'}</td>
-          `;
-          body.appendChild(tr);
+    // DELIVERY CALENDAR
+    const calendarEl = document.getElementById('deliveryCalendarList');
+    if(calendarEl){
+      calendarEl.innerHTML = '';
+      const today = new Date();
+      for(let i=0;i<7;i++){
+        const d = new Date(today);
+        d.setDate(d.getDate()+i);
+        const label = d.toLocaleDateString('en-IN',{
+          weekday:'short',
+          day:'numeric',
+          month:'short'
         });
+        const li = document.createElement('li');
+        li.textContent = label + (activePlanObj ? ' — Scheduled' : ' — (no active plan)');
+        calendarEl.appendChild(li);
       }
-      renderPlanHistory();
+    }
 
-      // Payment history
-      function renderPaymentHistory(){
-        const list = getPaymentHistory();
-        const body = document.getElementById('paymentHistoryBody');
-        if(!body) return;
-        body.innerHTML = '';
-        if(list.length === 0){
-          const tr = document.createElement('tr');
-          const td = document.createElement('td');
-          td.colSpan = 5;
-          td.className = 'py-2 text-gray-400';
-          td.textContent = 'No payments recorded yet.';
-          tr.appendChild(td);
-          body.appendChild(tr);
-          return;
-        }
-        list.forEach(pay=>{
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td class="py-2 pr-4">${pay.date || '-'}</td>
-            <td class="py-2 pr-4">${pay.planName || '-'}</td>
-            <td class="py-2 pr-4">₹${pay.amount || '-'}</td>
-            <td class="py-2 pr-4">${pay.method || '-'}</td>
-            <td class="py-2 pr-4">${pay.status || '-'}</td>
-          `;
-          body.appendChild(tr);
-        });
-      }
-      renderPaymentHistory();
+    // SUBSCRIPTION HISTORY TABLE
+    function renderPlanHistory(){
+      const body = document.getElementById('planHistoryBody');
+      if(!body) return;
+      body.innerHTML = '';
 
-      // Profile form prefill
-      function fillProfileForm(){
-        document.getElementById('pfFullName').value = profile.fullName || '';
-        document.getElementById('pfEmail').value = profile.email || '';
-        document.getElementById('pfPhone').value = profile.phone || '';
-        document.getElementById('pfUserType').value = profile.userType || '';
-        document.getElementById('pfHouse').value = profile.address?.house || '';
-        document.getElementById('pfStreet').value = profile.address?.street || '';
-        document.getElementById('pfArea').value = profile.address?.area || '';
-        document.getElementById('pfCity').value = profile.address?.city || '';
-        document.getElementById('pfPincode').value = profile.address?.pincode || '';
-        document.getElementById('pfDeliveryTime').value = profile.deliveryTime || '';
-        document.getElementById('pfOffersOptIn').checked = !!profile.offersOptIn;
-      }
-      fillProfileForm();
-
-      // Save profile -> backend + localStorage
-      document.getElementById('profileForm').addEventListener('submit', async (e)=>{
-        e.preventDefault();
-
-        const fullName = document.getElementById('pfFullName').value.trim();
-        const email = document.getElementById('pfEmail').value.trim(); // read-only
-        const phone = document.getElementById('pfPhone').value.trim();
-        const userType = document.getElementById('pfUserType').value;
-        const house = document.getElementById('pfHouse').value.trim();
-        const street = document.getElementById('pfStreet').value.trim();
-        const area = document.getElementById('pfArea').value.trim();
-        const city = document.getElementById('pfCity').value.trim();
-        const pincode = document.getElementById('pfPincode').value.trim();
-        const deliveryTime = document.getElementById('pfDeliveryTime').value;
-        const offersOptIn = document.getElementById('pfOffersOptIn').checked;
-
-        if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
-          toast('Please enter a valid 10-digit phone.', true);
-          return;
-        }
-        if(!/^[0-9]{6}$/.test(pincode)){
-          toast('Please enter a valid 6-digit pincode.', true);
-          return;
-        }
-
-        const addressDetails = { house, street, area, city, pincode };
-        const address = `${house}, ${street}, ${area}, ${city} - ${pincode}`;
-
-        const payload = {
-          fullName,
-          phone,
-          addressDetails,
-          address,
-          userType,
-          offersOptIn,
-          deliveryTime
-        };
-
-        try{
-          const sessionNow = getSession();
-          if(!sessionNow){
-            clearSessionAndGoLogin();
-            return;
-          }
-          const res = await fetch(API_BASE + '/api/profile/update', {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json',
-              'Authorization':'Bearer ' + sessionNow.token
-            },
-            body:JSON.stringify(payload)
-          });
-
-          if(!res.ok){
-            const d = await res.json().catch(()=>({}));
-            toast(d.message || 'Error updating profile.', true);
-          }else{
-            const d = await res.json();
-            const user = d.user || {};
-            profile = {
-              id: user._id || profile.id,
-              fullName: user.name || fullName,
-              email: user.email || email,
-              phone: user.phone || phone,
-              userType: user.userType || userType,
-              address: {
-                house: user.addressDetails?.house || house,
-                street: user.addressDetails?.street || street,
-                area: user.addressDetails?.area || area,
-                city: user.addressDetails?.city || city,
-                pincode: user.addressDetails?.pincode || pincode
-              },
-              deliveryTime: user.deliveryTime || deliveryTime,
-              offersOptIn: typeof user.offersOptIn === 'boolean' ? user.offersOptIn : offersOptIn
-            };
-            localStorage.setItem('df_user_profile', JSON.stringify(profile));
-            toast('Profile updated.', false);
-            fillProfileForm();
-          }
-        }catch(err){
-          toast('Network error updating profile.', true);
-        }
-      });
-
-      // Delivery time quick update
-      document.getElementById('deliveryTimeForm').addEventListener('submit', async (e)=>{
-        e.preventDefault();
-        const selected = (document.querySelector('input[name="deliveryTimeDash"]:checked') || {}).value;
-        if(!selected){
-          toast('Select a delivery time first.', true);
-          return;
-        }
-        document.getElementById('pfDeliveryTime').value = selected;
-        document.getElementById('profileForm').dispatchEvent(new Event('submit'));
-      });
-
-      // Clear local histories
-      document.getElementById('btnClearPlanHistory').addEventListener('click', ()=>{
-        if(!confirm('Clear plan history?')) return;
-        localStorage.removeItem('df_plan_history');
-        renderPlanHistory();
-        toast('Plan history cleared.', false);
-      });
-
-      document.getElementById('btnClearPayments').addEventListener('click', ()=>{
-        if(!confirm('Clear payment history?')) return;
-        localStorage.removeItem('df_payment_history');
-        renderPaymentHistory();
-        toast('Payment history cleared.', false);
-      });
-
-      // Plan status actions (local only for now)
-      function updatePlanStatus(newStatus){
-        if(!activePlan){
-          toast('No active plan to update.', true);
-          return;
-        }
-        activePlan.status = newStatus;
-        localStorage.setItem('df_active_plan', JSON.stringify(activePlan));
-        refreshActivePlanUI();
-        toast('Plan status updated to ' + newStatus + '.', false);
+      if(!subscriptionHistory || subscriptionHistory.length === 0){
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 4;
+        td.className = 'py-2 text-gray-400';
+        td.textContent = 'No subscriptions found.';
+        tr.appendChild(td);
+        body.appendChild(tr);
+        return;
       }
 
-      document.getElementById('btnPausePlan').addEventListener('click',()=>updatePlanStatus('paused'));
-      document.getElementById('btnResumePlan').addEventListener('click',()=>updatePlanStatus('active'));
-      document.getElementById('btnCancelPlan').addEventListener('click',()=>{
-        if(!confirm('Are you sure you want to cancel this plan?')) return;
-        const p = activePlan;
-        if(p){
-          const history = getPlanHistory();
-          history.push({
-            name:p.name,
-            startDate:p.startDate || new Date().toLocaleDateString('en-IN'),
-            endDate:new Date().toLocaleDateString('en-IN'),
-            status:'cancelled'
-          });
-          localStorage.setItem('df_plan_history', JSON.stringify(history));
-        }
-        activePlan = null;
-        localStorage.removeItem('df_active_plan');
-        refreshActivePlanUI();
-        renderPlanHistory();
-        toast('Plan cancelled.', false);
-      });
+      subscriptionHistory.forEach(sub => {
+        const name = sub.planName || (sub.planId && sub.planId.name) || '-';
+        const start = sub.startDate
+          ? new Date(sub.startDate).toLocaleDateString('en-IN')
+          : '-';
+        const end = sub.endDate
+          ? new Date(sub.endDate).toLocaleDateString('en-IN')
+          : '-';
+        const status = sub.status || '-';
 
-      document.getElementById('qaPausePlan').addEventListener('click',()=>updatePlanStatus('paused'));
-      document.getElementById('qaResumePlan').addEventListener('click',()=>updatePlanStatus('active'));
-      document.getElementById('qaCancelPlan').addEventListener('click',()=>{
-        document.getElementById('btnCancelPlan').click();
-      });
-      document.getElementById('qaChangePlan').addEventListener('click',()=>{
-        window.location.href = 'plans.html';
-      });
-
-      // Invoice (from local payments)
-      function downloadLastInvoice(){
-        const pays = getPaymentHistory();
-        if(pays.length === 0){
-          toast('No payment to generate invoice.', true);
-          return;
-        }
-        const last = pays[pays.length - 1];
-
-        const win = window.open('', '_blank');
-        win.document.write(`
-          <html>
-          <head>
-            <title>Invoice - Daily Fruit Co.</title>
-          </head>
-          <body style="font-family:Arial;padding:20px;">
-            <h2>Daily Fruit Co. — Invoice</h2>
-            <p><strong>Customer:</strong> ${profile.fullName || ''}</p>
-            <p><strong>Email:</strong> ${profile.email || ''}</p>
-            <p><strong>Phone:</strong> ${profile.phone || ''}</p>
-            <hr/>
-            <p><strong>Date:</strong> ${last.date || ''}</p>
-            <p><strong>Plan:</strong> ${last.planName || ''}</p>
-            <p><strong>Amount:</strong> ₹${last.amount || ''}</p>
-            <p><strong>Method:</strong> ${last.method || ''}</p>
-            <p><strong>Status:</strong> ${last.status || ''}</p>
-            <hr/>
-            <p>Thank you for choosing Daily Fruit Co.</p>
-            <script>window.print();<\/script>
-          </body>
-          </html>
-        `);
-        win.document.close();
-      }
-
-      document.getElementById('qaDownloadInvoice').addEventListener('click', downloadLastInvoice);
-      document.getElementById('btnDownloadInvoice2').addEventListener('click', downloadLastInvoice);
-
-      // Tabs
-      document.querySelectorAll('.dash-tab').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const tab = btn.dataset.tab;
-          document.querySelectorAll('.dash-tab').forEach(b=>b.classList.remove('active'));
-          btn.classList.add('active');
-          document.querySelectorAll('.dash-tab-panel').forEach(p=>p.classList.add('hidden'));
-          document.getElementById('tab-'+tab).classList.remove('hidden');
-        });
-      });
-
-      // Dark mode
-      const darkBtn = document.getElementById('darkModeToggle');
-      const savedTheme = localStorage.getItem('df_theme');
-      if(savedTheme === 'dark'){
-        document.body.classList.add('dark-mode');
-      }
-      darkBtn.addEventListener('click',()=>{
-        document.body.classList.toggle('dark-mode');
-        const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-        localStorage.setItem('df_theme', mode);
-      });
-
-      // Logout
-      document.getElementById('logoutBtn').addEventListener('click', ()=>{
-        if(!confirm('Logout from your account?')) return;
-        localStorage.removeItem('df_user_token');
-        localStorage.removeItem('df_session_expiry');
-        localStorage.removeItem('df_user_profile');
-        window.location.href = 'login.html';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-2 pr-4">${name}</td>
+          <td class="py-2 pr-4">${start}</td>
+          <td class="py-2 pr-4">${end}</td>
+          <td class="py-2 pr-4 capitalize">${status}</td>
+        `;
+        body.appendChild(tr);
       });
     }
-  });
+    renderPlanHistory();
+
+    // PAYMENT HISTORY TABLE
+    function renderPaymentHistory(){
+      const body = document.getElementById('paymentHistoryBody');
+      if(!body) return;
+      body.innerHTML = '';
+
+      if(!paymentHistory || paymentHistory.length === 0){
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.className = 'py-2 text-gray-400';
+        td.textContent = 'No payments recorded yet.';
+        tr.appendChild(td);
+        body.appendChild(tr);
+        return;
+      }
+
+      paymentHistory.forEach(pay => {
+        const date = pay.createdAt
+          ? new Date(pay.createdAt).toLocaleDateString('en-IN')
+          : '-';
+        const planName = pay.planName || '-';
+        const amount = typeof pay.amount === 'number'
+          ? '₹' + pay.amount
+          : '-';
+        const method = pay.razorpayPaymentId ? 'Razorpay' : (pay.isOffline ? 'Offline' : 'Other');
+        const status = pay.status || '-';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-2 pr-4">${date}</td>
+          <td class="py-2 pr-4">${planName}</td>
+          <td class="py-2 pr-4">${amount}</td>
+          <td class="py-2 pr-4">${method}</td>
+          <td class="py-2 pr-4 capitalize">${status}</td>
+        `;
+        body.appendChild(tr);
+      });
+    }
+    renderPaymentHistory();
+
+    // PROFILE FORM PREFILL
+    function fillProfileForm(){
+      document.getElementById('pfFullName').value   = profile.fullName || '';
+      document.getElementById('pfEmail').value      = profile.email || '';
+      document.getElementById('pfPhone').value      = profile.phone || '';
+      document.getElementById('pfUserType').value   = profile.userType || '';
+
+      document.getElementById('pfHouse').value      = profile.address?.house || '';
+      document.getElementById('pfStreet').value     = profile.address?.street || '';
+      document.getElementById('pfArea').value       = profile.address?.area || '';
+      document.getElementById('pfCity').value       = profile.address?.city || '';
+      document.getElementById('pfPincode').value    = profile.address?.pincode || '';
+
+      document.getElementById('pfDeliveryTime').value = profile.deliveryTime || '';
+      document.getElementById('pfOffersOptIn').checked = !!profile.offersOptIn;
+    }
+    fillProfileForm();
+
+    // SAVE PROFILE → backend + localStorage
+    document.getElementById('profileForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+
+      const fullName = document.getElementById('pfFullName').value.trim();
+      const email    = document.getElementById('pfEmail').value.trim(); // read-only
+      const phone    = document.getElementById('pfPhone').value.trim();
+      const userType = document.getElementById('pfUserType').value;
+
+      const house    = document.getElementById('pfHouse').value.trim();
+      const street   = document.getElementById('pfStreet').value.trim();
+      const area     = document.getElementById('pfArea').value.trim();
+      const city     = document.getElementById('pfCity').value.trim();
+      const pincode  = document.getElementById('pfPincode').value.trim();
+
+      const deliveryTime = document.getElementById('pfDeliveryTime').value;
+      const offersOptIn  = document.getElementById('pfOffersOptIn').checked;
+
+      if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
+        toast('Please enter a valid 10-digit phone.', true);
+        return;
+      }
+      if(!/^[0-9]{6}$/.test(pincode)){
+        toast('Please enter a valid 6-digit pincode.', true);
+        return;
+      }
+
+      const addressDetails = { house, street, area, city, pincode };
+      const address = `${house}, ${street}, ${area}, ${city} - ${pincode}`;
+
+      const payload = {
+        fullName,
+        phone,
+        addressDetails,
+        address,
+        userType,
+        offersOptIn,
+        deliveryTime
+      };
+
+      try{
+        const session = getSession();
+        if(!session){
+          return clearSessionAndGoLogin('Session expired, please login again.');
+        }
+        const res = await fetch(API_BASE + '/api/profile/update', {
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'Authorization':'Bearer ' + session.token
+          },
+          body:JSON.stringify(payload)
+        });
+
+        if(!res.ok){
+          const d = await res.json().catch(()=>({}));
+          toast(d.message || 'Error updating profile.', true);
+        }else{
+          const d = await res.json();
+          const user = d.user || {};
+
+          profile = {
+            id: user._id || profile.id,
+            fullName: user.name || fullName,
+            email: user.email || email,
+            phone: user.phone || phone,
+            userType: user.userType || userType,
+            address: {
+              house: user.addressDetails?.house || house,
+              street: user.addressDetails?.street || street,
+              area: user.addressDetails?.area || area,
+              city: user.addressDetails?.city || city,
+              pincode: user.addressDetails?.pincode || pincode
+            },
+            deliveryTime: user.deliveryTime || deliveryTime,
+            offersOptIn: typeof user.offersOptIn === 'boolean' ? user.offersOptIn : offersOptIn
+          };
+
+          localStorage.setItem('df_user_profile', JSON.stringify(profile));
+          toast('Profile updated.', false);
+          fillProfileForm();
+        }
+      }catch(err){
+        toast('Network error updating profile.', true);
+      }
+    });
+
+    // DELIVERY TIME QUICK UPDATE (Plans tab → Profile form)
+    document.getElementById('deliveryTimeForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const selected = (document.querySelector('input[name="deliveryTimeDash"]:checked') || {}).value;
+      if(!selected){
+        toast('Select a delivery time first.', true);
+        return;
+      }
+      document.getElementById('pfDeliveryTime').value = selected;
+      document.getElementById('profileForm').dispatchEvent(new Event('submit'));
+    });
+
+    // PLAN STATUS BUTTONS (UI ONLY)
+    function updatePlanStatusUI(newStatus){
+      if(!activePlanObj){
+        toast('No active plan to update.', true);
+        return;
+      }
+      activePlanObj.status = newStatus;
+      refreshActivePlanUI();
+      toast('Plan status updated in dashboard view (server update coming soon).', false);
+    }
+
+    document.getElementById('btnPausePlan').addEventListener('click',()=>updatePlanStatusUI('paused'));
+    document.getElementById('btnResumePlan').addEventListener('click',()=>updatePlanStatusUI('active'));
+    document.getElementById('btnCancelPlan').addEventListener('click',()=>{
+      if(!confirm('This will only update dashboard view, not backend. Continue?')) return;
+      updatePlanStatusUI('cancelled');
+    });
+
+    document.getElementById('qaPausePlan').addEventListener('click',()=>updatePlanStatusUI('paused'));
+    document.getElementById('qaResumePlan').addEventListener('click',()=>updatePlanStatusUI('active'));
+    document.getElementById('qaCancelPlan').addEventListener('click',()=>{
+      document.getElementById('btnCancelPlan').click();
+    });
+    document.getElementById('qaChangePlan').addEventListener('click',()=>{
+      window.location.href = 'plans.html';
+    });
+
+    // INVOICE DOWNLOAD FROM BACKEND
+    async function downloadLastInvoiceFromBackend(){
+      try{
+        const session = getSession();
+        if(!session){
+          return clearSessionAndGoLogin('Session expired, please login again.');
+        }
+        const res = await fetch(API_BASE + '/api/payments/latest-invoice', {
+          headers:{ 'Authorization':'Bearer ' + session.token }
+        });
+        if(!res.ok){
+          const d = await res.json().catch(()=>({}));
+          toast(d.message || 'No invoice found.', true);
+          return;
+        }
+        const data = await res.json();
+
+        // Try multiple possible keys: invoiceUrl, pdfUrl, url, invoice.pdfPath etc.
+        let url = data.invoiceUrl || data.pdfUrl || data.url;
+        if(!url && data.invoice && (data.invoice.pdfUrl || data.invoice.pdfPath)){
+          url = data.invoice.pdfUrl || data.invoice.pdfPath;
+        }
+        if(!url){
+          toast('Invoice URL not returned by backend.', true);
+          return;
+        }
+        // If relative path, prepend API_BASE
+        if(url.startsWith('/')){
+          url = API_BASE + url;
+        }
+
+        window.open(url, '_blank');
+      }catch(err){
+        console.error(err);
+        toast('Error fetching invoice from backend.', true);
+      }
+    }
+
+    document.getElementById('qaDownloadInvoice').addEventListener('click', downloadLastInvoiceFromBackend);
+    document.getElementById('btnDownloadInvoice2').addEventListener('click', downloadLastInvoiceFromBackend);
+
+    // TABS
+    document.querySelectorAll('.dash-tab').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const tab = btn.dataset.tab;
+        document.querySelectorAll('.dash-tab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.dash-tab-panel').forEach(p=>p.classList.add('hidden'));
+        document.getElementById('tab-'+tab).classList.remove('hidden');
+      });
+    });
+
+    // DARK MODE TOGGLE
+    const darkBtn = document.getElementById('darkModeToggle');
+    darkBtn.addEventListener('click',()=>{
+      document.body.classList.toggle('dark-mode');
+      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('df_theme', mode);
+    });
+
+    // LOGOUT
+    document.getElementById('logoutBtn').addEventListener('click', ()=>{
+      if(!confirm('Logout from your account?')) return;
+      localStorage.removeItem('df_user_token');
+      localStorage.removeItem('df_session_expiry');
+      localStorage.removeItem('df_user_profile');
+      window.location.href = 'login.html';
+    });
+  }
+
+  // reuse getSession in inner scope
+  function getSession(){
+    try{
+      const token = localStorage.getItem('df_user_token');
+      const expiry = parseInt(localStorage.getItem('df_session_expiry') || '0',10);
+      if(!token || !expiry) return null;
+      if(Date.now() > expiry) return null;
+      return { token, expiry };
+    }catch(e){
+      return null;
+    }
+  }
 </script>
 
 </body>
 </html>
+
