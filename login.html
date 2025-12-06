@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login — Daily Fruit Co.</title>
 
-  <!-- TAILWIND -->
+  <!-- TAILwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- FONTS -->
@@ -43,7 +43,6 @@
 
 <body>
 
-<!-- HEADER -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
@@ -63,7 +62,6 @@
 
   <div class="glass p-6 md:p-8 space-y-6">
 
-    <!-- TABS -->
     <div class="flex border-b mb-4">
       <button id="tabPassword" class="flex-1 text-center py-2 font-medium active-tab">Password Login</button>
       <button id="tabOtp" class="flex-1 text-center py-2 font-medium">OTP Login</button>
@@ -77,9 +75,6 @@
 <script>
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 
-/**********************************************
- * TAB SWITCHING
- **********************************************/
 showPasswordLogin();
 document.getElementById("tabPassword").onclick = () => {
   document.getElementById("tabPassword").classList.add("active-tab");
@@ -92,9 +87,6 @@ document.getElementById("tabOtp").onclick = () => {
   showOtpLogin();
 };
 
-/**********************************************
- * SHOW/HIDE PASSWORD FUNCTION
- **********************************************/
 function togglePassword(inputId, iconId) {
   const input = document.getElementById(inputId);
   const icon = document.getElementById(iconId);
@@ -108,24 +100,18 @@ function togglePassword(inputId, iconId) {
   }
 }
 
-/**********************************************
- * PASSWORD LOGIN UI
- **********************************************/
 function showPasswordLogin(){
   loginContent.innerHTML = `
     <form id="passwordLoginForm" class="space-y-4">
 
       <div>
         <label class="text-sm font-medium">Email *</label>
-        <input type="email" id="loginEmail" required
-               class="w-full border rounded-md px-3 py-2 bg-white/80">
+        <input type="email" id="loginEmail" required class="w-full border rounded-md px-3 py-2 bg-white/80">
       </div>
 
       <div class="relative">
         <label class="text-sm font-medium">Password *</label>
-        <input type="password" id="loginPassword" required
-               class="w-full border rounded-md px-3 py-2 bg-white/80">
-
+        <input type="password" id="loginPassword" required class="w-full border rounded-md px-3 py-2 bg-white/80">
         <span id="togglePass" class="eye-btn">👁️</span>
       </div>
 
@@ -146,9 +132,7 @@ function showPasswordLogin(){
   document.getElementById("togglePass").onclick = () => togglePassword("loginPassword", "togglePass");
 }
 
-/**********************************************
- * PASSWORD LOGIN FUNCTION
- **********************************************/
+
 async function passwordLogin(e){
   e.preventDefault();
 
@@ -173,10 +157,8 @@ async function passwordLogin(e){
       return;
     }
 
-    const sessionExpiry = Date.now() + 30 * 60 * 1000;
-    localStorage.setItem("df_session_expiry", sessionExpiry);
+    localStorage.setItem("token", data.token);      <!-- ⭐ FIXED -->
     localStorage.setItem("df_user_profile", JSON.stringify(data.user));
-    localStorage.setItem("df_user_token", data.token);
 
     alert("Login successful!");
     window.location.href = "index.html";
@@ -186,17 +168,13 @@ async function passwordLogin(e){
   }
 }
 
-/**********************************************
- * OTP LOGIN UI
- **********************************************/
 function showOtpLogin(){
   loginContent.innerHTML = `
     <form id="otpLoginForm" class="space-y-4">
 
       <div>
         <label class="text-sm font-medium">Email *</label>
-        <input type="email" id="otpEmail" required
-               class="w-full border rounded-md px-3 py-2 bg-white/80">
+        <input type="email" id="otpEmail" required class="w-full border rounded-md px-3 py-2 bg-white/80">
       </div>
 
       <button type="button" id="sendOtpBtn"
@@ -209,8 +187,7 @@ function showOtpLogin(){
 
       <div id="otpBox" class="hidden">
         <label class="text-sm font-medium">Enter OTP</label>
-        <input type="text" id="otpInput"
-               class="w-full border rounded-md px-3 py-2 bg-white/80">
+        <input type="text" id="otpInput" class="w-full border rounded-md px-3 py-2 bg-white/80">
 
         <button class="w-full mt-3 px-4 py-2 rounded-full text-white"
                 style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
@@ -225,9 +202,6 @@ function showOtpLogin(){
   document.getElementById("otpLoginForm").onsubmit = verifyOtp;
 }
 
-/**********************************************
- * SEND OTP
- **********************************************/
 async function sendOtp(){
   const email = document.getElementById("otpEmail").value.trim();
   const status = document.getElementById("otpStatus");
@@ -251,9 +225,6 @@ async function sendOtp(){
   document.getElementById("otpBox").classList.remove("hidden");
 }
 
-/**********************************************
- * VERIFY OTP
- **********************************************/
 async function verifyOtp(e){
   e.preventDefault();
 
@@ -273,10 +244,8 @@ async function verifyOtp(e){
     return;
   }
 
-  const sessionExpiry = Date.now() + 30 * 60 * 1000;
-  localStorage.setItem("df_session_expiry", sessionExpiry);
+  localStorage.setItem("token", data.token);        <!-- ⭐ FIXED -->
   localStorage.setItem("df_user_profile", JSON.stringify(data.user));
-  localStorage.setItem("df_user_token", data.token);
 
   alert("OTP Verified!");
   window.location.href = "index.html";
