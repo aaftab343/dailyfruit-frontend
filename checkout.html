@@ -200,7 +200,7 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
   const pincode   = document.getElementById("pincode").value;
   const startDate = document.getElementById("startDate").value;
 
-  const token = localStorage.getItem("df_user_token") || "";
+  const token = localStorage.getItem("token") || "";
 
   // CREATE ORDER
   const orderRes = await fetch(API_BASE + "/api/payments/create-order", {
