@@ -8,31 +8,37 @@
 <!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-body{
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(180deg,#f8fafc,#eef7ff);
-}
-.glass{
-  background:rgba(255,255,255,0.9);
-  backdrop-filter:blur(12px);
-  border-radius:18px;
-  border:1px solid rgba(148,163,184,0.4);
-  box-shadow:0 10px 30px rgba(15,23,42,0.12);
-}
-.section-title{
-  background:linear-gradient(90deg,#06b6d4,#7c3aed);
-  -webkit-background-clip:text;
-  color:transparent;
-  font-weight:800;
-}
+  body{
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(180deg,#f8fafc,#eef7ff);
+  }
+  .glass{
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(12px);
+    border-radius:18px;
+    border:1px solid rgba(148,163,184,0.4);
+    box-shadow:0 10px 30px rgba(15,23,42,0.12);
+  }
+  .section-title{
+    background:linear-gradient(90deg,#06b6d4,#7c3aed);
+    -webkit-background-clip:text;
+    color:transparent;
+    font-weight:800;
+  }
+  .btn-disabled{
+    opacity:0.65;
+    cursor:wait;
+  }
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
@@ -48,46 +54,152 @@ body{
 <section class="max-w-6xl mx-auto px-4 py-10">
   <h2 class="text-4xl font-extrabold text-center section-title mb-6">Checkout</h2>
 
-  <div class="glass p-6 md:p-8 space-y-6">
+  <div class="glass p-6 md:p-8 space-y-8">
 
-    <!-- FORM -->
-    <form id="checkoutForm" class="space-y-4">
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- LEFT: CUSTOMER & ADDRESS FORM -->
+      <div class="md:col-span-2">
+        <h3 class="text-xl font-bold mb-4 text-slate-800">Delivery & Contact Details</h3>
 
-      <div>
-        <label class="text-sm font-medium">Full Name</label>
-        <input type="text" id="fullName" required
-               class="w-full border rounded-md px-3 py-2 bg-white/80">
+        <form id="checkoutForm" class="space-y-4">
+
+          <!-- Name + Email -->
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm font-medium block mb-1">Full Name *</label>
+              <input type="text" id="fullName" required
+                     class="w-full border rounded-md px-3 py-2 bg-white/80">
+            </div>
+
+            <div>
+              <label class="text-sm font-medium block mb-1">Email *</label>
+              <input type="email" id="email" required
+                     class="w-full border rounded-md px-3 py-2 bg-white/80">
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="max-w-md">
+            <label class="text-sm font-medium block mb-1">Phone (WhatsApp) *</label>
+            <input type="tel" id="phone" required maxlength="10" pattern="[0-9]{10}"
+                   placeholder="10-digit mobile number"
+                   class="w-full border rounded-md px-3 py-2 bg-white/80">
+            <p class="text-[11px] text-gray-500 mt-1">
+              We will confirm your order on this number.
+            </p>
+          </div>
+
+          <!-- Address -->
+          <div class="border-t pt-4 mt-2">
+            <h4 class="text-sm font-semibold text-gray-700 mb-2">Delivery Address</h4>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">House / Flat Number *</label>
+                <input type="text" id="house" required
+                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">Street *</label>
+                <input type="text" id="street" required
+                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4 mt-3">
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">Area / Locality *</label>
+                <input type="text" id="area" required
+                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">City *</label>
+                <input type="text" id="city" required
+                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+              </div>
+            </div>
+
+            <div class="mt-3 max-w-xs">
+              <label class="block text-xs font-medium text-gray-600 mb-1">Pincode *</label>
+              <input type="text" id="pincode" required maxlength="6" pattern="[0-9]{6}"
+                     placeholder="e.g. 411057"
+                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+            </div>
+          </div>
+
+          <!-- Start Date (Calendar ONLY on checkout) -->
+          <div class="border-t pt-4 mt-2">
+            <h4 class="text-sm font-semibold text-gray-700 mb-1">Subscription Start Date *</h4>
+            <p class="text-xs text-gray-500 mb-1">
+              Fresh bowls will start from this date.
+            </p>
+            <input type="date" id="startDate" required
+                   class="px-3 py-2 border rounded-md bg-white/80">
+          </div>
+
+          <!-- PAY NOW BUTTON -->
+          <div class="pt-2">
+            <button id="payBtn" type="submit"
+                    class="w-full md:w-auto px-6 py-2.5 rounded-full text-white text-sm md:text-base font-semibold"
+                    style="background:linear-gradient(90deg,#06b6d4,#7c3aed); transition:.2s;">
+              Pay Now
+            </button>
+            <p class="text-[11px] text-gray-500 mt-2">
+              After successful payment, your order will be confirmed and you’ll be redirected to your dashboard.
+            </p>
+          </div>
+
+        </form>
       </div>
 
-      <div>
-        <label class="text-sm font-medium">Email</label>
-        <input type="email" id="email" required
-               class="w-full border rounded-md px-3 py-2 bg-white/80">
+      <!-- RIGHT: PLAN + PRICE BREAKUP -->
+      <div class="space-y-4">
+        <!-- Plan Info -->
+        <div class="glass p-4">
+          <h3 class="font-bold text-lg mb-1">Selected Plan</h3>
+          <p id="planName" class="text-gray-800 font-semibold mt-1">Loading...</p>
+          <p id="planPrice" class="text-emerald-600 font-bold mt-1"></p>
+          <p class="text-xs text-gray-500 mt-1">
+            Free doorstep delivery in Pune on all plans.
+          </p>
+          <a href="plans.html" class="inline-flex items-center gap-1 text-xs text-indigo-600 mt-2 underline">
+            Change Plan
+          </a>
+        </div>
+
+        <!-- Price breakup -->
+        <div class="glass p-4 text-sm text-gray-700">
+          <h4 class="font-semibold mb-2">Price Breakup</h4>
+          <div class="flex justify-between mb-1">
+            <span>Base Price</span>
+            <span id="basePriceText">—</span>
+          </div>
+          <div class="flex justify-between mb-1 text-xs">
+            <span>GST (18%)</span>
+            <span id="gstText">—</span>
+          </div>
+          <div class="flex justify-between mt-2 font-bold text-gray-900">
+            <span>Total Payable (rounded)</span>
+            <span id="totalText">—</span>
+          </div>
+          <p class="text-[11px] text-gray-500 mt-1" id="roundingNote"></p>
+        </div>
+
+        <!-- Info -->
+        <div class="glass p-4 text-xs text-gray-600">
+          <p class="font-semibold mb-1">How it works</p>
+          <ol class="list-decimal pl-4 space-y-1">
+            <li>Fill your delivery details.</li>
+            <li>Pay securely via Razorpay (UPI / Card / Wallet).</li>
+            <li>We confirm on WhatsApp + Email.</li>
+            <li>Fresh bowls start from your selected date.</li>
+          </ol>
+        </div>
       </div>
-
-      <div>
-        <label class="text-sm font-medium">Phone</label>
-        <input type="tel" id="phone" required maxlength="10"
-               class="w-full border rounded-md px-3 py-2 bg-white/80">
-      </div>
-
-      <button id="payBtn"
-              class="w-full px-4 py-2 rounded-full text-white text-lg font-semibold"
-              style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-        Pay Now
-      </button>
-    </form>
-
-    <!-- PLAN -->
-    <div class="glass p-4">
-      <h3 class="font-bold text-lg">Selected Plan</h3>
-      <p id="planName" class="text-gray-800 font-semibold mt-1"></p>
-      <p id="planPrice" class="text-emerald-600 font-bold"></p>
     </div>
 
   </div>
 </section>
-
 
 <!-- RAZORPAY JS -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -95,103 +207,301 @@ body{
 <script>
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 
-// LIVE Razorpay Key ID (safe for frontend)
+// LIVE Razorpay Key ID (frontend-safe)
 const RZP_KEY = "rzp_live_Rn88PMRmNfQxgk";
 
-// ------------------------------
-// Prefill USER + PLAN
-// ------------------------------
-const profile = JSON.parse(localStorage.getItem("df_user_profile") || "{}");
-const plan = JSON.parse(localStorage.getItem("df_selected_plan") || "{}");
+// helpers
+function alertMsg(msg){
+  alert(msg);
+}
 
-document.getElementById("fullName").value = profile?.fullName || "";
-document.getElementById("email").value = profile?.email || "";
-document.getElementById("phone").value = profile?.phone || "";
+// ----- PREFILL PROFILE + PLAN + SET MIN DATE -----
+let plan = {};
+let basePrice = 0;
+let gstAmount = 0;
+let finalAmountRounded = 0;
 
-document.getElementById("planName").textContent = plan?.name || "No plan selected";
-document.getElementById("planPrice").textContent = plan?.price
-  ? "₹" + plan.price
-  : "";
+function loadProfileAndPlan(){
+  try{
+    const profileRaw = localStorage.getItem("df_user_profile");
+    if(profileRaw){
+      const p = JSON.parse(profileRaw);
+      if(p.fullName) document.getElementById("fullName").value = p.fullName;
+      if(p.email)    document.getElementById("email").value    = p.email;
+      if(p.phone)    document.getElementById("phone").value    = p.phone;
 
-// ------------------------------
-// MAIN PAYMENT START
-// ------------------------------
+      if(p.address){
+        document.getElementById("house").value   = p.address.house   || "";
+        document.getElementById("street").value  = p.address.street  || "";
+        document.getElementById("area").value    = p.address.area    || "";
+        document.getElementById("city").value    = p.address.city    || "";
+        document.getElementById("pincode").value = p.address.pincode || "";
+      }
+    }
+  }catch(e){}
+
+  try{
+    const planRaw = localStorage.getItem("df_selected_plan");
+    plan = planRaw ? JSON.parse(planRaw) : {};
+  }catch(e){
+    plan = {};
+  }
+
+  const planNameEl  = document.getElementById("planName");
+  const planPriceEl = document.getElementById("planPrice");
+
+  if(!plan || !plan.price || !plan.name){
+    planNameEl.textContent  = "No plan selected";
+    planPriceEl.textContent = "";
+    return;
+  }
+
+  basePrice = Number(plan.price) || 0;
+  planNameEl.textContent  = plan.name;
+  planPriceEl.textContent = "₹" + basePrice.toLocaleString("en-IN");
+
+  calculatePriceBreakup();
+}
+
+function calculatePriceBreakup(){
+  const baseTextEl = document.getElementById("basePriceText");
+  const gstTextEl  = document.getElementById("gstText");
+  const totalTextEl= document.getElementById("totalText");
+  const roundingEl = document.getElementById("roundingNote");
+
+  if(!basePrice || basePrice <= 0){
+    baseTextEl.textContent = "—";
+    gstTextEl.textContent  = "—";
+    totalTextEl.textContent= "—";
+    roundingEl.textContent = "";
+    return;
+  }
+
+  // GST 18%, 2 decimal
+  const gstRaw = basePrice * 0.18;
+  gstAmount = Math.round(gstRaw * 100) / 100; // 2 decimals
+
+  const finalRaw = basePrice + gstAmount;
+  finalAmountRounded = Math.round(finalRaw);
+
+  baseTextEl.textContent  = "₹" + basePrice.toLocaleString("en-IN");
+  gstTextEl.textContent   = "₹" + gstAmount.toLocaleString("en-IN");
+  totalTextEl.textContent = "₹" + finalAmountRounded.toLocaleString("en-IN");
+  roundingEl.textContent  =
+    "Includes 18% GST. Original total ₹" +
+    finalRaw.toFixed(2) +
+    " rounded to ₹" +
+    finalAmountRounded.toLocaleString("en-IN") +
+    ".";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // set min date = today for startDate
+  const startDateInput = document.getElementById("startDate");
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2,"0");
+  const dd = String(today.getDate()).padStart(2,"0");
+  const todayStr = `${yyyy}-${mm}-${dd}`;
+  startDateInput.min = todayStr;
+  startDateInput.value = todayStr;
+
+  loadProfileAndPlan();
+});
+
+// ----- MAIN CHECKOUT SUBMIT -----
 document.getElementById("checkoutForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  if (!plan || !plan.price) {
-    alert("Please select a plan first.");
+  const payBtn = document.getElementById("payBtn");
+
+  if(!plan || !plan.price || !plan.slug){
+    alertMsg("Please select a plan first.");
     return;
   }
 
-  // -----------------------------
-  // CREATE ORDER (backend)
-  // -----------------------------
-  const res = await fetch(`${API_BASE}/api/payment/create-order`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + (localStorage.getItem("df_user_token") || "")
-    },
-    body: JSON.stringify({
-      amount: plan.price,
-      planSlug: plan.slug
-    })
-  });
+  // simple validations
+  const fullName = document.getElementById("fullName").value.trim();
+  const email    = document.getElementById("email").value.trim();
+  const phone    = document.getElementById("phone").value.trim();
+  const house    = document.getElementById("house").value.trim();
+  const street   = document.getElementById("street").value.trim();
+  const area     = document.getElementById("area").value.trim();
+  const city     = document.getElementById("city").value.trim();
+  const pincode  = document.getElementById("pincode").value.trim();
+  const startDate= document.getElementById("startDate").value;
 
-  const order = await res.json();
-  if (!res.ok) {
-    alert(order.message || "Could not create order");
+  if(fullName.length < 3){
+    alertMsg("Please enter your full name.");
+    return;
+  }
+  if(!email){
+    alertMsg("Please enter your email.");
+    return;
+  }
+  if(!/^[0-9]{10}$/.test(phone)){
+    alertMsg("Please enter a valid 10-digit phone number.");
+    return;
+  }
+  if(!house || !street || !area || !city){
+    alertMsg("Please complete your address.");
+    return;
+  }
+  if(!/^[0-9]{6}$/.test(pincode)){
+    alertMsg("Please enter a valid 6-digit pincode.");
+    return;
+  }
+  if(!startDate){
+    alertMsg("Please select a subscription start date.");
     return;
   }
 
-  // -----------------------------
-  // OPEN RAZORPAY POPUP
-  // -----------------------------
-  const options = {
-    key: RZP_KEY,
-    amount: order.amount,
-    currency: "INR",
-    name: "Daily Fruit Co.",
-    description: plan.name,
-    order_id: order.id,
+  if(!finalAmountRounded || finalAmountRounded <= 0){
+    alertMsg("Price not available. Please reselect your plan.");
+    return;
+  }
 
-    prefill: {
-      name: document.getElementById("fullName").value,
-      email: document.getElementById("email").value,
-      contact: document.getElementById("phone").value
-    },
+  // Disable button / show processing
+  const originalBtnText = payBtn.textContent;
+  payBtn.textContent = "Processing...";
+  payBtn.classList.add("btn-disabled");
+  payBtn.disabled = true;
 
-    handler: async function (response) {
-      // -----------------------------
-      // VERIFY PAYMENT (backend)
-      // -----------------------------
-      const verifyRes = await fetch(`${API_BASE}/api/payment/verify`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          razorpay_order_id: response.razorpay_order_id,
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_signature: response.razorpay_signature
-        })
-      });
+  try{
+    const token = localStorage.getItem("df_user_token") || "";
 
-      const verifyData = await verifyRes.json();
+    // 1) Update profile to backend (so admin sees address, phone, etc.)
+    const addressDetails = { house, street, area, city, pincode };
+    const addressStr = `${house}, ${street}, ${area}, ${city} - ${pincode}`;
 
-      if (!verifyRes.ok) {
-        alert("Payment verification failed.");
-        return;
+    try{
+      if(token){
+        await fetch(API_BASE + "/api/profile/update", {
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer " + token
+          },
+          body:JSON.stringify({
+            fullName,
+            phone,
+            addressDetails,
+            address: addressStr
+          })
+        });
       }
+    }catch(e){
+      console.warn("Profile update failed (will still continue to payment)", e);
+    }
 
-      alert("Payment Successful!");
-      window.location.href = "dashboard.html";
-    },
+    // Also keep latest profile in localStorage
+    try{
+      const profileObj = {
+        fullName,
+        email,
+        phone,
+        address: addressDetails
+      };
+      localStorage.setItem("df_user_profile", JSON.stringify(profileObj));
+      localStorage.setItem("df_checkout_start_date", startDate);
+    }catch(e){}
 
-    theme: { color: "#06b6d4" }
-  };
+    // 2) CREATE ORDER (backend)
+    const createRes = await fetch(API_BASE + "/api/payment/create-order", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + token
+      },
+      body:JSON.stringify({
+        amount: finalAmountRounded,   // rounded final amount (₹)
+        planSlug: plan.slug,
+        startDate
+      })
+    });
 
-  const rzp = new Razorpay(options);
-  rzp.open();
+    const orderData = await createRes.json();
+    if(!createRes.ok){
+      alertMsg(orderData.message || "Could not create order. Please try again.");
+      payBtn.textContent = originalBtnText;
+      payBtn.classList.remove("btn-disabled");
+      payBtn.disabled = false;
+      return;
+    }
+
+    // 3) OPEN RAZORPAY POPUP
+    const rzpOptions = {
+      key: RZP_KEY,
+      amount: finalAmountRounded * 100, // in paise
+      currency: "INR",
+      name: "Daily Fruit Co.",
+      description: plan.name,
+      order_id: orderData.id || orderData.orderId || orderData.razorpayOrderId,
+
+      prefill:{
+        name: fullName,
+        email: email,
+        contact: phone
+      },
+
+      handler: async function (response) {
+        try{
+          // 4) VERIFY PAYMENT (backend)
+          const verifyRes = await fetch(API_BASE + "/api/payment/verify", {
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body:JSON.stringify({
+              razorpay_order_id:  response.razorpay_order_id,
+              razorpay_payment_id:response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              startDate
+            })
+          });
+
+          const verifyData = await verifyRes.json();
+          if(!verifyRes.ok){
+            alertMsg(verifyData.message || "Payment verification failed.");
+            payBtn.textContent = originalBtnText;
+            payBtn.classList.remove("btn-disabled");
+            payBtn.disabled = false;
+            return;
+          }
+
+          alertMsg("Payment successful! Your subscription has been activated.");
+          // You can store any payment/subscription info in localStorage if needed
+          // and then redirect to dashboard:
+          window.location.href = "dashboard.html";
+
+        }catch(err){
+          console.error("Verify error:", err);
+          alertMsg("Something went wrong after payment. Please contact support with your payment ID.");
+          payBtn.textContent = originalBtnText;
+          payBtn.classList.remove("btn-disabled");
+          payBtn.disabled = false;
+        }
+      },
+
+      theme:{ color:"#06b6d4" }
+    };
+
+    const rzp = new Razorpay(rzpOptions);
+    rzp.open();
+
+    // If user closes Razorpay popup
+    rzp.on("payment.failed", function () {
+      alertMsg("Payment failed or cancelled. Please try again.");
+      payBtn.textContent = originalBtnText;
+      payBtn.classList.remove("btn-disabled");
+      payBtn.disabled = false;
+    });
+
+  }catch(err){
+    console.error(err);
+    alertMsg("Network error. Please try again.");
+    payBtn.textContent = originalBtnText;
+    payBtn.classList.remove("btn-disabled");
+    payBtn.disabled = false;
+  }
 });
 </script>
 
