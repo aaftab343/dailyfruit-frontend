@@ -38,7 +38,6 @@
 
 <body>
 
-<!-- HEADER -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
@@ -57,103 +56,85 @@
   <div class="glass p-6 md:p-8 space-y-8">
 
     <div class="grid md:grid-cols-3 gap-8">
-      <!-- LEFT: CUSTOMER & ADDRESS FORM -->
+      <!-- LEFT SIDE -->
       <div class="md:col-span-2">
         <h3 class="text-xl font-bold mb-4 text-slate-800">Delivery & Contact Details</h3>
 
         <form id="checkoutForm" class="space-y-4">
 
-          <!-- Name + Email -->
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="text-sm font-medium block mb-1">Full Name *</label>
-              <input type="text" id="fullName" required
-                     class="w-full border rounded-md px-3 py-2 bg-white/80">
+              <input type="text" id="fullName" required class="w-full border rounded-md px-3 py-2 bg-white/80">
             </div>
 
             <div>
               <label class="text-sm font-medium block mb-1">Email *</label>
-              <input type="email" id="email" required
-                     class="w-full border rounded-md px-3 py-2 bg-white/80">
+              <input type="email" id="email" required class="w-full border rounded-md px-3 py-2 bg-white/80">
             </div>
           </div>
 
-          <!-- Phone -->
           <div class="max-w-md">
-            <label class="text-sm font-medium block mb-1">Phone (WhatsApp) *</label>
-            <input type="tel" id="phone" required maxlength="10" pattern="[0-9]{10}"
-                   placeholder="10-digit mobile number"
-                   class="w-full border rounded-md px-3 py-2 bg-white/80">
+            <label class="text-sm font-medium block mb-1">Phone *</label>
+            <input type="tel" id="phone" required maxlength="10" class="w-full border rounded-md px-3 py-2 bg-white/80">
           </div>
 
-          <!-- Address -->
+          <!-- ADDRESS -->
           <div class="border-t pt-4 mt-2">
             <h4 class="text-sm font-semibold text-gray-700 mb-2">Delivery Address</h4>
 
             <div class="grid md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">House / Flat *</label>
-                <input type="text" id="house" required
-                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="text-xs font-medium">House / Flat *</label>
+                <input type="text" id="house" required class="w-full px-3 py-2 border rounded-md bg-white/80">
               </div>
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Street *</label>
-                <input type="text" id="street" required
-                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="text-xs font-medium">Street *</label>
+                <input type="text" id="street" required class="w-full px-3 py-2 border rounded-md bg-white/80">
               </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-4 mt-3">
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Area *</label>
-                <input type="text" id="area" required
-                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="text-xs font-medium">Area *</label>
+                <input type="text" id="area" required class="w-full px-3 py-2 border rounded-md bg-white/80">
               </div>
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">City *</label>
-                <input type="text" id="city" required
-                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="text-xs font-medium">City *</label>
+                <input type="text" id="city" required class="w-full px-3 py-2 border rounded-md bg-white/80">
               </div>
             </div>
 
             <div class="mt-3 max-w-xs">
-              <label class="block text-xs font-medium text-gray-600 mb-1">Pincode *</label>
-              <input type="text" id="pincode" required maxlength="6" pattern="[0-9]{6}"
-                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <label class="text-xs font-medium">Pincode *</label>
+              <input type="text" id="pincode" required maxlength="6" class="w-full px-3 py-2 border rounded-md bg-white/80">
             </div>
           </div>
 
-          <!-- Start Date -->
+          <!-- START DATE -->
           <div class="border-t pt-4 mt-2">
             <h4 class="text-sm font-semibold text-gray-700 mb-1">Subscription Start Date *</h4>
-            <p class="text-xs text-gray-500 mb-1">
-              Fresh bowls will start from this date.
-            </p>
-            <input type="date" id="startDate" required
-                   class="px-3 py-2 border rounded-md bg-white/80">
+            <input type="date" id="startDate" required class="px-3 py-2 border rounded-md bg-white/80">
           </div>
 
-          <!-- Pay Button -->
-          <div class="pt-2">
-            <button id="payBtn" type="submit"
-                    class="w-full md:w-auto px-6 py-2.5 rounded-full text-white text-sm md:text-base font-semibold"
-                    style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-              Pay Now
-            </button>
-          </div>
+          <button id="payBtn" type="submit"
+            class="w-full md:w-auto px-6 py-2.5 rounded-full text-white font-semibold"
+            style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+            Pay Now
+          </button>
 
         </form>
       </div>
 
-      <!-- RIGHT: PLAN + PRICE BREAKUP -->
+      <!-- RIGHT SIDE -->
       <div class="space-y-4">
         <div class="glass p-4">
-          <h3 class="font-bold text-lg mb-1">Selected Plan</h3>
-          <p id="planName" class="text-gray-800 font-semibold mt-1"></p>
-          <p id="planPrice" class="text-emerald-600 font-bold mt-1"></p>
+          <h3 class="font-bold text-lg">Selected Plan</h3>
+          <p id="planName" class="font-semibold mt-1"></p>
+          <p id="planPrice" class="text-emerald-600 font-bold"></p>
         </div>
 
-        <div class="glass p-4 text-sm text-gray-700">
+        <div class="glass p-4 text-sm">
           <h4 class="font-semibold mb-2">Price Breakup</h4>
 
           <div class="flex justify-between mb-1">
@@ -161,20 +142,20 @@
             <span id="basePriceText">—</span>
           </div>
 
-          <div class="flex justify-between mb-1 text-xs">
+          <div class="flex justify-between text-xs">
             <span>GST (18%)</span>
             <span id="gstText">—</span>
           </div>
 
-          <div class="flex justify-between mt-2 font-bold text-gray-900">
-            <span>Total Payable (rounded)</span>
+          <div class="flex justify-between mt-2 font-bold">
+            <span>Total Payable</span>
             <span id="totalText">—</span>
           </div>
 
-          <p class="text-[11px] text-gray-500 mt-1" id="roundingNote"></p>
+          <p class="text-[11px] text-gray-500 mt-1">GST included. Amount rounded.</p>
         </div>
-
       </div>
+
     </div>
 
   </div>
@@ -184,82 +165,66 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-// ------------------------------
-// SETTINGS
-// ------------------------------
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 const RZP_KEY  = "rzp_live_Rn88PMRmNfQxgk";
 
-// ------------------------------
-// LOAD PROFILE & PLAN
-// ------------------------------
 let plan = {};
 let basePrice = 0;
 let gstAmount = 0;
 let finalAmountRounded = 0;
 
-function loadAll(){
-  try{
-    plan = JSON.parse(localStorage.getItem("df_selected_plan") || "{}");
-  }catch(e){ plan = {}; }
+// ---------------- LOAD PLAN ----------------
+function loadPlan() {
+  const p = JSON.parse(localStorage.getItem("df_selected_plan") || "{}");
+  plan = p;
 
-  if(plan.name){
-    document.getElementById("planName").textContent  = plan.name;
-    document.getElementById("planPrice").textContent = "₹" + plan.price;
-    basePrice = Number(plan.price);
-  }
-  updatePrice();
-}
+  if (!p.name) return;
 
-function updatePrice(){
+  basePrice = Number(p.price);
   gstAmount = +(basePrice * 0.18).toFixed(2);
   finalAmountRounded = Math.round(basePrice + gstAmount);
 
+  document.getElementById("planName").textContent = p.name;
+  document.getElementById("planPrice").textContent = "₹" + p.price;
   document.getElementById("basePriceText").textContent = "₹" + basePrice;
   document.getElementById("gstText").textContent = "₹" + gstAmount;
   document.getElementById("totalText").textContent = "₹" + finalAmountRounded;
-  document.getElementById("roundingNote").textContent =
-    "Includes GST 18%. Rounded final amount applied.";
 }
 
-// ------------------------------
-// SET MIN START DATE
-// ------------------------------
+// ---------------- SET MIN START DATE ----------------
 document.addEventListener("DOMContentLoaded", () => {
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth()+1).padStart(2,"0");
-  const dd = String(today.getDate()).padStart(2,"0");
-  document.getElementById("startDate").min = `${yyyy}-${mm}-${dd}`;
-  document.getElementById("startDate").value = `${yyyy}-${mm}-${dd}`;
+  const d = new Date();
+  const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,"0"), dd = String(d.getDate()).padStart(2,"0");
+  document.getElementById("startDate").min = `${y}-${m}-${dd}`;
+  document.getElementById("startDate").value = `${y}-${m}-${dd}`;
 
-  loadAll();
+  loadPlan();
 });
 
-// ------------------------------
-// MAIN PAYMENT FLOW
-// ------------------------------
+// ---------------- MAIN PAYMENT ----------------
 document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
   e.preventDefault();
+
   const payBtn = document.getElementById("payBtn");
   payBtn.classList.add("btn-disabled");
 
-  const fullName = fullName.value;
-  const email    = email.value;
-  const phone    = phone.value;
-  const house    = house.value;
-  const street   = street.value;
-  const area     = area.value;
-  const city     = city.value;
-  const pincode  = pincode.value;
-  const startDate= startDate.value;
+  // FIXED FIELD READING (your freeze issue)
+  const fullName  = document.getElementById("fullName").value;
+  const email     = document.getElementById("email").value;
+  const phone     = document.getElementById("phone").value;
+  const house     = document.getElementById("house").value;
+  const street    = document.getElementById("street").value;
+  const area      = document.getElementById("area").value;
+  const city      = document.getElementById("city").value;
+  const pincode   = document.getElementById("pincode").value;
+  const startDate = document.getElementById("startDate").value;
 
   const token = localStorage.getItem("df_user_token") || "";
 
-  // -------- Create Order --------
-  const r = await fetch(API_BASE + "/api/payments/create-order", {
-    method: "POST",
-    headers: {
+  // -------- CREATE ORDER --------
+  const res = await fetch(API_BASE + "/api/payments/create-order", {
+    method:"POST",
+    headers:{
       "Content-Type":"application/json",
       "Authorization":"Bearer " + token
     },
@@ -269,26 +234,26 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
     })
   });
 
-  const data = await r.json();
-  if(!r.ok){
-    alert(data.message || "Order create failed");
+  const data = await res.json();
+  if(!res.ok){
+    alert(data.message || "Could not create order");
     payBtn.classList.remove("btn-disabled");
     return;
   }
 
-  // -------- Razorpay Popup --------
+  // -------- OPEN RAZORPAY --------
   const options = {
     key: RZP_KEY,
     amount: finalAmountRounded * 100,
-    currency: "INR",
-    name: "Daily Fruit Co.",
+    currency:"INR",
+    name:"Daily Fruit Co.",
     description: plan.name,
     order_id: data.orderId,
 
-    prefill:{ name:fullName, email, contact:phone },
+    prefill:{ name: fullName, email, contact: phone },
 
     handler: async function(resp){
-      const vr = await fetch(API_BASE + "/api/payments/verify", {
+      const v = await fetch(API_BASE + "/api/payments/verify", {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
         body: JSON.stringify({
@@ -299,14 +264,14 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
         })
       });
 
-      const vdata = await vr.json();
-      if(!vr.ok){
+      const vr = await v.json();
+      if(!v.ok){
         alert("Payment verification failed");
         payBtn.classList.remove("btn-disabled");
         return;
       }
 
-      alert("Payment successful!");
+      alert("Payment Successful!");
       window.location.href = "dashboard.html";
     }
   };
