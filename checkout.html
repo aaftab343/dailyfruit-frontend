@@ -8,7 +8,6 @@
 <!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -30,7 +29,7 @@
     font-weight:800;
   }
   .btn-disabled{
-    opacity:0.6;
+    opacity:0.55;
     cursor:not-allowed;
   }
 </style>
@@ -55,7 +54,6 @@
 
   <div class="glass p-6 md:p-8 space-y-8">
 
-    <!-- GRID -->
     <div class="grid md:grid-cols-3 gap-8">
 
       <!-- LEFT -->
@@ -64,72 +62,68 @@
 
         <form id="checkoutForm" class="space-y-4">
 
+          <!-- Name + email -->
           <div class="grid md:grid-cols-2 gap-4">
             <div>
-              <label class="text-sm font-medium block mb-1">Full Name *</label>
+              <label class="text-sm font-medium">Full Name *</label>
               <input type="text" id="fullName" required class="w-full border rounded-md px-3 py-2 bg-white/80">
             </div>
+
             <div>
-              <label class="text-sm font-medium block mb-1">Email *</label>
+              <label class="text-sm font-medium">Email *</label>
               <input type="email" id="email" required class="w-full border rounded-md px-3 py-2 bg-white/80">
             </div>
           </div>
 
+          <!-- Phone -->
           <div>
-            <label class="text-sm font-medium block mb-1">Phone *</label>
-            <input type="tel" id="phone" required maxlength="10" class="w-full border rounded-md px-3 py-2 bg-white/80">
+            <label class="text-sm font-medium">Phone *</label>
+            <input type="tel" id="phone" maxlength="10" required class="w-full border rounded-md px-3 py-2 bg-white/80">
           </div>
 
-          <!-- ADDRESS -->
-          <div class="border-t pt-4 mt-2">
-            <h4 class="text-sm font-semibold text-gray-700 mb-2">Delivery Address</h4>
+          <!-- Address -->
+          <div class="border-t pt-4">
+            <h4 class="font-semibold text-sm text-gray-700 mb-2">Delivery Address</h4>
 
             <div class="grid md:grid-cols-2 gap-4">
               <div>
-                <label class="text-xs font-medium">House *</label>
-                <input type="text" id="house" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="text-xs font-medium">House / Flat *</label>
+                <input id="house" required class="w-full border rounded-md px-3 py-2 bg-white/80">
               </div>
+
               <div>
                 <label class="text-xs font-medium">Street *</label>
-                <input type="text" id="street" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <input id="street" required class="w-full border rounded-md px-3 py-2 bg-white/80">
               </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-4 mt-3">
               <div>
                 <label class="text-xs font-medium">Area *</label>
-                <input type="text" id="area" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <input id="area" required class="w-full border rounded-md px-3 py-2 bg-white/80">
               </div>
               <div>
                 <label class="text-xs font-medium">City *</label>
-                <input type="text" id="city" required class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <input id="city" required class="w-full border rounded-md px-3 py-2 bg-white/80">
               </div>
             </div>
 
             <div class="mt-3 max-w-xs">
               <label class="text-xs font-medium">Pincode *</label>
-              <input type="text" id="pincode" required maxlength="6" class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <input id="pincode" maxlength="6" required class="w-full border rounded-md px-3 py-2 bg-white/80">
             </div>
           </div>
 
           <!-- Start Date -->
-          <div class="border-t pt-4 mt-2">
-            <h4 class="text-sm font-semibold text-gray-700 mb-1">Subscription Start Date *</h4>
-            <input type="date" id="startDate" required class="px-3 py-2 border rounded-md bg-white/80">
+          <div class="border-t pt-4">
+            <h4 class="text-sm font-semibold">Subscription Start Date *</h4>
+            <input type="date" id="startDate" required class="border rounded-md px-3 py-2 bg-white/80">
           </div>
 
-          <!-- PAY NOW -->
-          <button id="payBtn" type="submit"
-            class="w-full md:w-auto px-6 py-2.5 rounded-full text-white font-semibold"
+          <button id="payBtn" class="px-6 py-2.5 rounded-full text-white font-semibold"
             style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
             Pay Now
           </button>
-
-          <!-- Processing Message -->
-          <p id="processingNote" class="text-xs text-amber-600 font-medium mt-2 hidden">
-            🔄 Payment is processing… Please do NOT refresh or close the page.
-          </p>
-
         </form>
       </div>
 
@@ -137,21 +131,15 @@
       <div class="space-y-4">
         <div class="glass p-4">
           <h3 class="font-bold text-lg">Selected Plan</h3>
-          <p id="planName" class="font-semibold mt-1"></p>
+          <p id="planName" class="font-semibold"></p>
           <p id="planPrice" class="text-emerald-600 font-bold"></p>
         </div>
 
         <div class="glass p-4 text-sm">
           <h4 class="font-semibold mb-2">Price Breakup</h4>
-          <div class="flex justify-between mb-1">
-            <span>Base Price</span> <span id="basePriceText">—</span>
-          </div>
-          <div class="flex justify-between mb-1 text-xs">
-            <span>GST (18%)</span> <span id="gstText">—</span>
-          </div>
-          <div class="flex justify-between mt-2 font-bold">
-            <span>Total Payable</span> <span id="totalText">—</span>
-          </div>
+          <div class="flex justify-between"><span>Base Price</span><span id="basePriceText"></span></div>
+          <div class="flex justify-between text-xs"><span>GST 18%</span><span id="gstText"></span></div>
+          <div class="flex justify-between font-bold mt-2"><span>Total Payable</span><span id="totalText"></span></div>
         </div>
       </div>
 
@@ -167,53 +155,41 @@ const API_BASE = "https://dailyfruit-backend.onrender.com";
 const RZP_KEY = "rzp_live_Rn88PMRmNfQxgk";
 
 let plan = {};
-let basePrice = 0;
-let gstAmount = 0;
-let finalAmountRounded = 0;
+let basePrice = 0, gstAmount = 0, finalAmountRounded = 0;
 
-function loadPlan(){
+// LOAD PLAN
+document.addEventListener("DOMContentLoaded", () => {
   plan = JSON.parse(localStorage.getItem("df_selected_plan") || "{}");
-  if(!plan.name) return;
 
-  basePrice = Number(plan.price);
-  gstAmount = +(basePrice * 0.18).toFixed(2);
-  finalAmountRounded = Math.round(basePrice + gstAmount);
+  if (plan?.price) {
+    basePrice = Number(plan.price);
+    gstAmount = +(basePrice * 0.18).toFixed(2);
+    finalAmountRounded = Math.round(basePrice + gstAmount);
 
-  document.getElementById("planName").textContent = plan.name;
-  document.getElementById("planPrice").textContent = "₹" + plan.price;
-  document.getElementById("basePriceText").textContent = "₹" + basePrice;
-  document.getElementById("gstText").textContent = "₹" + gstAmount;
-  document.getElementById("totalText").textContent = "₹" + finalAmountRounded;
-}
+    document.getElementById("planName").textContent = plan.name;
+    document.getElementById("planPrice").textContent = "₹" + plan.price;
+    document.getElementById("basePriceText").textContent = "₹" + basePrice;
+    document.getElementById("gstText").textContent = "₹" + gstAmount;
+    document.getElementById("totalText").textContent = "₹" + finalAmountRounded;
+  }
 
-document.addEventListener("DOMContentLoaded", ()=>{
+  // Set min date
   const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth()+1).padStart(2,"0");
+  const m = String(d.getMonth()+1).padStart(2,"0");
   const dd = String(d.getDate()).padStart(2,"0");
-
-  document.getElementById("startDate").min = `${yyyy}-${mm}-${dd}`;
-  document.getElementById("startDate").value = `${yyyy}-${mm}-${dd}`;
-
-  loadPlan();
+  document.getElementById("startDate").min = `${d.getFullYear()}-${m}-${dd}`;
 });
 
-// ----------------------
-// MAIN PAYMENT ACTION
-// ----------------------
+// SUBMIT
 document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
   e.preventDefault();
 
   const payBtn = document.getElementById("payBtn");
-  const note = document.getElementById("processingNote");
-
-  // Disable UI
-  payBtn.textContent = "Processing…";
+  payBtn.textContent = "Processing... do not refresh";
   payBtn.classList.add("btn-disabled");
   payBtn.disabled = true;
-  note.classList.remove("hidden");
 
-  // Read fields
+  // READ FIELDS CORRECTLY
   const fullName  = document.getElementById("fullName").value;
   const email     = document.getElementById("email").value;
   const phone     = document.getElementById("phone").value;
@@ -226,45 +202,44 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
 
   const token = localStorage.getItem("df_user_token") || "";
 
-  // Create Order
-  const res = await fetch(API_BASE + "/api/payments/create-order", {
+  // CREATE ORDER
+  const orderRes = await fetch(API_BASE + "/api/payments/create-order", {
     method:"POST",
     headers:{
       "Content-Type":"application/json",
       "Authorization":"Bearer " + token
     },
-    body: JSON.stringify({
+    body:JSON.stringify({
       planSlug: plan.slug,
       amount: finalAmountRounded
     })
   });
 
-  const data = await res.json();
-  if(!res.ok){
-    alert(data.message || "Could not create order");
+  const orderData = await orderRes.json();
+  if (!orderRes.ok) {
+    alert(orderData.message || "Order creation failed.");
     payBtn.textContent = "Pay Now";
-    payBtn.disabled = false;
     payBtn.classList.remove("btn-disabled");
-    note.classList.add("hidden");
+    payBtn.disabled = false;
     return;
   }
 
-  // Launch Razorpay
+  // RAZORPAY POPUP
   const options = {
     key: RZP_KEY,
     amount: finalAmountRounded * 100,
     currency:"INR",
+    order_id: orderData.orderId,
     name:"Daily Fruit Co.",
-    description: plan.name,
-    order_id: data.orderId,
+    description:plan.name,
 
-    prefill:{ name:fullName, email, contact:phone },
+    prefill:{ name: fullName, email, contact: phone },
 
     handler: async function(resp){
-      const vr = await fetch(API_BASE + "/api/payments/verify", {
+      const verifyRes = await fetch(API_BASE + "/api/payments/verify", {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({
+        body:JSON.stringify({
           razorpay_order_id: resp.razorpay_order_id,
           razorpay_payment_id: resp.razorpay_payment_id,
           razorpay_signature: resp.razorpay_signature,
@@ -272,19 +247,18 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
         })
       });
 
-      const vdata = await vr.json();
-      if(!vr.ok){
-        alert("Payment verification failed");
+      const vData = await verifyRes.json();
+      if (!verifyRes.ok) {
+        alert("Payment verification failed.");
         return;
       }
 
-      alert("Payment Successful!");
       window.location.href = "dashboard.html";
     }
   };
 
-  const rzp = new Razorpay(options);
-  rzp.open();
+  new Razorpay(options).open();
+
 });
 </script>
 
