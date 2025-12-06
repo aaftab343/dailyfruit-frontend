@@ -173,14 +173,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("totalText").textContent = "₹" + finalAmountRounded;
   }
 
-  // Set min date
   const d = new Date();
   const m = String(d.getMonth()+1).padStart(2,"0");
   const dd = String(d.getDate()).padStart(2,"0");
   document.getElementById("startDate").min = `${d.getFullYear()}-${m}-${dd}`;
 });
 
-// SUBMIT
+// SUBMIT FORM
 document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
   e.preventDefault();
 
@@ -189,20 +188,9 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
   payBtn.classList.add("btn-disabled");
   payBtn.disabled = true;
 
-  // READ FIELDS CORRECTLY
-  const fullName  = document.getElementById("fullName").value;
-  const email     = document.getElementById("email").value;
-  const phone     = document.getElementById("phone").value;
-  const house     = document.getElementById("house").value;
-  const street    = document.getElementById("street").value;
-  const area      = document.getElementById("area").value;
-  const city      = document.getElementById("city").value;
-  const pincode   = document.getElementById("pincode").value;
-  const startDate = document.getElementById("startDate").value;
-
   const token = localStorage.getItem("token") || "";
 
-  // CREATE ORDER
+  // CREATE ORDER (with Authorization)
   const orderRes = await fetch(API_BASE + "/api/payments/create-order", {
     method:"POST",
     headers:{
@@ -233,23 +221,30 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
     name:"Daily Fruit Co.",
     description:plan.name,
 
-    prefill:{ name: fullName, email, contact: phone },
+    prefill:{
+      name: fullName.value,
+      email: email.value,
+      contact: phone.value
+    },
 
     handler: async function(resp){
+      // VERIFY PAYMENT (with Authorization)
       const verifyRes = await fetch(API_BASE + "/api/payments/verify", {
         method:"POST",
-        headers:{ "Content-Type":"application/json" },
+        headers:{ 
+          "Content-Type":"application/json",
+          "Authorization":"Bearer " + token
+        },
         body:JSON.stringify({
           razorpay_order_id: resp.razorpay_order_id,
           razorpay_payment_id: resp.razorpay_payment_id,
-          razorpay_signature: resp.razorpay_signature,
-          startDate
+          razorpay_signature: resp.razorpay_signature
         })
       });
 
       const vData = await verifyRes.json();
       if (!verifyRes.ok) {
-        alert("Payment verification failed.");
+        alert(vData.message || "Payment verification failed.");
         return;
       }
 
