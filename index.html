@@ -111,7 +111,7 @@
       <a href="#faq" class="hover:text-green-600">FAQs</a>
       <a href="#subscribe" class="hover:text-indigo-600">Subscribe</a>
 
-      <!-- ALWAYS VISIBLE -->
+      <!-- FIXED DASHBOARD REDIRECT -->
       <a href="dashboard.html" id="dashboardLink" class="hover:text-blue-600 font-semibold">Dashboard</a>
 
       <a href="login.html" class="hover:text-indigo-600">Login</a>
@@ -142,7 +142,6 @@
       <a href="#faq">FAQs</a>
       <a href="#subscribe">Subscribe</a>
 
-      <!-- ALWAYS VISIBLE -->
       <a href="dashboard.html" id="dashboardLinkMobile" class="text-blue-600 font-semibold">Dashboard</a>
 
       <a href="login.html">Login</a>
@@ -487,27 +486,32 @@ window.addEventListener("load", () => {
 });
 
 /* --------------------------------------------------------
-   DASHBOARD REDIRECT FIX (Desktop + Mobile)
+   SESSION HELPERS
 -------------------------------------------------------- */
-function dashboardRedirectFix(linkElement){
-  if(!linkElement) return;
+function getSession(){
+  const token = localStorage.getItem("df_user_token");
+  const expiry = Number(localStorage.getItem("df_session_expiry") || 0);
+  if(!token || !expiry) return null;
+  if(Date.now() > expiry) return null;
+  return { token };
+}
 
-  linkElement.addEventListener("click", function(e){
-    const token  = localStorage.getItem("df_user_token");
-    const expiry = localStorage.getItem("df_session_expiry");
-
-    const expired = !expiry || Date.now() > parseInt(expiry);
-
-    if(!token || expired){
+/* --------------------------------------------------------
+   DASHBOARD REDIRECT FIX — Desktop + Mobile
+-------------------------------------------------------- */
+function protectDashboard(link){
+  if(!link) return;
+  link.addEventListener("click", function(e){
+    const session = getSession();
+    if(!session){
       e.preventDefault();
       window.location.href = "login.html?redirect=dashboard.html";
     }
   });
 }
 
-// Apply fix
-dashboardRedirectFix(document.getElementById("dashboardLink"));
-dashboardRedirectFix(document.getElementById("dashboardLinkMobile"));
+protectDashboard(document.getElementById("dashboardLink"));
+protectDashboard(document.getElementById("dashboardLinkMobile"));
 
 </script>
 
