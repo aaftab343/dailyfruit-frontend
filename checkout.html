@@ -38,29 +38,13 @@
 <body>
 
 <script>
-/* -----------------------------------------------
-   CHECK LOGIN
------------------------------------------------ */
-const token = localStorage.getItem("df_user_token");
-if (!token) {
-  window.location.href = "login.html?redirect=checkout.html";
-}
-
-/* -----------------------------------------------
-   CHECK SELECTED PLAN
------------------------------------------------ */
-const plan = JSON.parse(localStorage.getItem("df_selected_plan") || "{}");
-if (!plan || !plan.price) {
-  window.location.href = "plans.html";
-}
-
-/* -----------------------------------------------
-   LOAD PROFILE FOR AUTO-FILL
------------------------------------------------ */
-const profile = JSON.parse(localStorage.getItem("df_user_profile") || "{}");
+const API_BASE = "https://dailyfruit-backend.onrender.com";
+const params = new URLSearchParams(window.location.search);
+const fromDashboard = params.get("from") === "dashboard";
 </script>
 
-<header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+<!-- HEADER (hide if inside dashboard iframe) -->
+<header id="headerBar" class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">DF</div>
@@ -71,6 +55,12 @@ const profile = JSON.parse(localStorage.getItem("df_user_profile") || "{}");
     </a>
   </div>
 </header>
+
+<script>
+if (fromDashboard){
+  document.getElementById("headerBar").style.display = "none";
+}
+</script>
 
 <section class="max-w-6xl mx-auto px-4 py-10">
   <h2 class="text-4xl font-extrabold text-center section-title mb-6">Checkout</h2>
@@ -137,7 +127,7 @@ const profile = JSON.parse(localStorage.getItem("df_user_profile") || "{}");
             </div>
           </div>
 
-          <!-- Start Date -->
+          <!-- Start Date (optional for now, backend still uses current date) -->
           <div class="border-t pt-4">
             <h4 class="text-sm font-semibold">Subscription Start Date *</h4>
             <input type="date" id="startDate" required class="border rounded-md px-3 py-2 bg-white/80">
@@ -155,7 +145,8 @@ const profile = JSON.parse(localStorage.getItem("df_user_profile") || "{}");
         <div class="glass p-4">
           <h3 class="font-bold text-lg">Selected Plan</h3>
           <p id="planName" class="font-semibold"></p>
-          <p id="planPrice" class="text-emerald-600 font-bold"></p>
+          <p id="planDescription" class="text-xs text-gray-600 mt-1"></p>
+          <p id="planPrice" class="text-emerald-600 font-bold mt-1"></p>
         </div>
 
         <div class="glass p-4 text-sm">
@@ -174,147 +165,187 @@ const profile = JSON.parse(localStorage.getItem("df_user_profile") || "{}");
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-/* -----------------------------------------------
-   PREFILL FORM WITH PROFILE DATA
------------------------------------------------ */
+let PLAN = null;
+let basePrice = 0, gstAmount = 0, finalAmountRounded = 0;
+
+function toast(msg){
+  const d = document.createElement("div");
+  d.textContent = msg;
+  d.className = "fixed bottom-4 right-4 bg-black text-white text-xs px-3 py-2 rounded shadow";
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(), 2500);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-
-  document.getElementById("fullName").value = profile.name || "";
-  document.getElementById("email").value = profile.email || "";
-  document.getElementById("phone").value = profile.phone || "";
-
-  if (profile.addressDetails) {
-    house.value = profile.addressDetails.house || "";
-    street.value = profile.addressDetails.street || "";
-    area.value = profile.addressDetails.area || "";
-    city.value = profile.addressDetails.city || "";
-    pincode.value = profile.addressDetails.pincode || "";
-  }
-
-  // plan UI
-  const basePrice = Number(plan.price);
-  const gstAmount = +(basePrice * 0.18).toFixed(2);
-  const finalAmount = Math.round(basePrice + gstAmount);
-
-  document.getElementById("planName").textContent = plan.name;
-  document.getElementById("planPrice").textContent = "₹" + plan.price;
-  document.getElementById("basePriceText").textContent = "₹" + basePrice;
-  document.getElementById("gstText").textContent = "₹" + gstAmount;
-  document.getElementById("totalText").textContent = "₹" + finalAmount;
-
-  // start date minimum = today
-  const d = new Date();
-  const m = String(d.getMonth()+1).padStart(2,"0");
-  const dd = String(d.getDate()).padStart(2,"0");
-  startDate.min = `${d.getFullYear()}-${m}-${dd}`;
-});
-
-/* -----------------------------------------------
-   PAYMENT FLOW
------------------------------------------------ */
-const API_BASE = "https://dailyfruit-backend.onrender.com";
-const RZP_KEY = "rzp_live_Rn88PMRmNfQxgk";
-
-document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
-  e.preventDefault();
-
-  const payBtn = document.getElementById("payBtn");
-  payBtn.textContent = "Processing... do not refresh";
-  payBtn.classList.add("btn-disabled");
-  payBtn.disabled = true;
-
-  /* ---------------------------
-     CREATE ORDER WITH TOKEN
-  --------------------------- */
-  const amount = Math.round(plan.price * 1.18);
-
-  const orderRes = await fetch(API_BASE + "/api/payments/create-order", {
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"Bearer " + token
-    },
-    body:JSON.stringify({
-      planSlug: plan.slug,
-      amount
-    })
-  });
-
-  const orderData = await orderRes.json();
-
-  if (!orderRes.ok) {
-    alert(orderData.message || "Order creation failed.");
-    payBtn.textContent = "Pay Now";
-    payBtn.disabled = false;
+  const token = localStorage.getItem("df_user_token");
+  if (!token){
+    // If someone opens checkout directly without login
+    window.location.href = "login.html?redirect=dashboard.html";
     return;
   }
 
-  /* ---------------------------
-     OPEN RAZORPAY POPUP
-  --------------------------- */
-  const options = {
-    key: RZP_KEY,
-    amount: amount * 100,
-    currency:"INR",
-    order_id: orderData.orderId,
-    name:"Daily Fruit Co.",
-    description:plan.name,
-
-    prefill:{
-      name: fullName.value,
-      email: email.value,
-      contact: phone.value
-    },
-
-    handler: async function(resp){
-
-      /* ---------------------------
-         VERIFY PAYMENT + SEND DETAILS
-      --------------------------- */
-      const verifyRes = await fetch(API_BASE + "/api/payments/verify", {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "Authorization":"Bearer " + token
-        },
-        body:JSON.stringify({
-          razorpay_order_id: resp.razorpay_order_id,
-          razorpay_payment_id: resp.razorpay_payment_id,
-          razorpay_signature: resp.razorpay_signature,
-
-          planSlug: plan.slug,
-          startDate: startDate.value,
-
-          fullName: fullName.value,
-          email: email.value,
-          phone: phone.value,
-
-          addressDetails:{
-            house: house.value,
-            street: street.value,
-            area: area.value,
-            city: city.value,
-            pincode: pincode.value
-          }
-        })
-      });
-
-      const vData = await verifyRes.json();
-
-      if (!verifyRes.ok) {
-        alert(vData.message || "Payment verification failed.");
-        return;
-      }
-
-      // SUCCESS → DASHBOARD
-      window.location.href = "dashboard.html";
+  // Load selected plan from localStorage
+  PLAN = JSON.parse(localStorage.getItem("df_selected_plan") || "null");
+  if (!PLAN || !PLAN.slug){
+    toast("No plan selected. Please choose a plan first.");
+    if (window.self !== window.top){
+      window.parent.postMessage({ type:"OPEN_PLANS" }, "*");
+    } else {
+      window.location.href = "plans.html";
     }
-  };
+    return;
+  }
 
-  new Razorpay(options).open();
+  // Fill plan summary
+  basePrice = Number(PLAN.price || 0);
+  gstAmount = +(basePrice * 0.18).toFixed(2);
+  finalAmountRounded = Math.round(basePrice + gstAmount);
+
+  document.getElementById("planName").textContent = PLAN.name || "";
+  document.getElementById("planDescription").textContent = PLAN.description || "";
+  document.getElementById("planPrice").textContent = "₹" + basePrice;
+  document.getElementById("basePriceText").textContent = "₹" + basePrice;
+  document.getElementById("gstText").textContent = "₹" + gstAmount;
+  document.getElementById("totalText").textContent = "₹" + finalAmountRounded;
+
+  // Auto-fill user details from profile
+  const profile = JSON.parse(localStorage.getItem("df_user_profile") || "{}");
+  if (profile){
+    document.getElementById("fullName").value = profile.name || "";
+    document.getElementById("email").value = profile.email || "";
+    document.getElementById("phone").value = profile.phone || "";
+
+    const addr = profile.addressDetails || {};
+    document.getElementById("house").value = addr.house || "";
+    document.getElementById("street").value = addr.street || "";
+    document.getElementById("area").value = addr.area || "";
+    document.getElementById("city").value = addr.city || "";
+    document.getElementById("pincode").value = addr.pincode || "";
+  }
+
+  // Min start date = today
+  const d = new Date();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const dd = String(d.getDate()).padStart(2,"0");
+  const todayStr = `${d.getFullYear()}-${m}-${dd}`;
+  document.getElementById("startDate").min = todayStr;
+  document.getElementById("startDate").value = todayStr;
+
+  document.getElementById("checkoutForm").addEventListener("submit", handleCheckoutSubmit);
 });
+
+async function handleCheckoutSubmit(e){
+  e.preventDefault();
+
+  const token = localStorage.getItem("df_user_token");
+  if (!token){
+    window.location.href = "login.html?redirect=dashboard.html";
+    return;
+  }
+
+  const payBtn = document.getElementById("payBtn");
+  payBtn.textContent = "Processing… please wait";
+  payBtn.classList.add("btn-disabled");
+  payBtn.disabled = true;
+
+  try{
+    // 1) Create order on backend (backend uses Plan price)
+    const orderRes = await fetch(API_BASE + "/api/payments/create-order", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + token
+      },
+      body:JSON.stringify({
+        planSlug: PLAN.slug
+        // you can also send startDate etc if backend is updated later
+      })
+    });
+
+    const orderData = await orderRes.json();
+    if (!orderRes.ok){
+      console.error(orderData);
+      toast(orderData.message || "Order creation failed.");
+      payBtn.textContent = "Pay Now";
+      payBtn.classList.remove("btn-disabled");
+      payBtn.disabled = false;
+      return;
+    }
+
+    // 2) Open Razorpay checkout
+    const options = {
+      key: orderData.key,
+      amount: orderData.amount,          // already in paise from backend
+      currency: orderData.currency || "INR",
+      order_id: orderData.orderId,
+      name: "Daily Fruit Co.",
+      description: PLAN.name,
+      prefill:{
+        name: document.getElementById("fullName").value,
+        email: document.getElementById("email").value,
+        contact: document.getElementById("phone").value
+      },
+      handler: async function(resp){
+        // 3) Verify payment
+        try{
+          const verifyRes = await fetch(API_BASE + "/api/payments/verify", {
+            method:"POST",
+            headers:{
+              "Content-Type":"application/json",
+              "Authorization":"Bearer " + token
+            },
+            body:JSON.stringify({
+              razorpay_order_id: resp.razorpay_order_id,
+              razorpay_payment_id: resp.razorpay_payment_id,
+              razorpay_signature: resp.razorpay_signature
+            })
+          });
+
+          const vData = await verifyRes.json();
+          if (!verifyRes.ok){
+            console.error(vData);
+            toast(vData.message || "Payment verification failed.");
+            payBtn.textContent = "Pay Now";
+            payBtn.classList.remove("btn-disabled");
+            payBtn.disabled = false;
+            return;
+          }
+
+          // 4) Success → inform dashboard / redirect
+          toast("Payment successful! Subscription activated.");
+
+          if (window.self !== window.top){
+            window.parent.postMessage({ type:"PAYMENT_SUCCESS" }, "*");
+          } else {
+            window.location.href = "dashboard.html";
+          }
+
+        }catch(err){
+          console.error(err);
+          toast("Error verifying payment.");
+        }
+      },
+      modal: {
+        ondismiss: function(){
+          payBtn.textContent = "Pay Now";
+          payBtn.classList.remove("btn-disabled");
+          payBtn.disabled = false;
+        }
+      }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+  }catch(err){
+    console.error(err);
+    toast("Network error, please try again.");
+    payBtn.textContent = "Pay Now";
+    payBtn.classList.remove("btn-disabled");
+    payBtn.disabled = false;
+  }
+}
 </script>
 
 </body>
 </html>
-
