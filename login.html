@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login — Daily Fruit Co.</title>
 
-  <!-- TAILwind -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- FONTS -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -35,9 +35,7 @@
       border-bottom:3px solid #7c3aed;
       color:#7c3aed;
     }
-    .btn-clicked {
-      opacity:0.7;
-    }
+    .btn-clicked { opacity:0.7; }
   </style>
 </head>
 
@@ -75,18 +73,26 @@
 <script>
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 
+/* REDIRECT HANDLER */
+const redirectTo = new URLSearchParams(window.location.search).get("redirect") || "dashboard.html";
+
+/* INITIAL TAB */
 showPasswordLogin();
+
+/* TAB SWITCHING */
 document.getElementById("tabPassword").onclick = () => {
   document.getElementById("tabPassword").classList.add("active-tab");
   document.getElementById("tabOtp").classList.remove("active-tab");
   showPasswordLogin();
 };
+
 document.getElementById("tabOtp").onclick = () => {
   document.getElementById("tabOtp").classList.add("active-tab");
   document.getElementById("tabPassword").classList.remove("active-tab");
   showOtpLogin();
 };
 
+/* PASSWORD TOGGLE */
 function togglePassword(inputId, iconId) {
   const input = document.getElementById(inputId);
   const icon = document.getElementById(iconId);
@@ -100,6 +106,7 @@ function togglePassword(inputId, iconId) {
   }
 }
 
+/* PASSWORD LOGIN UI */
 function showPasswordLogin(){
   loginContent.innerHTML = `
     <form id="passwordLoginForm" class="space-y-4">
@@ -115,8 +122,9 @@ function showPasswordLogin(){
         <span id="togglePass" class="eye-btn">👁️</span>
       </div>
 
-      <button id="loginBtn" class="w-full mt-3 px-4 py-2 rounded-full text-white text-lg font-semibold"
-              style="background:linear-gradient(90deg,#06b6d4,#7c3aed); transition:.25s;">
+      <button id="loginBtn"
+              class="w-full mt-3 px-4 py-2 rounded-full text-white text-lg font-semibold"
+              style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
         Login
       </button>
 
@@ -132,7 +140,7 @@ function showPasswordLogin(){
   document.getElementById("togglePass").onclick = () => togglePassword("loginPassword", "togglePass");
 }
 
-
+/* PASSWORD LOGIN SUBMIT */
 async function passwordLogin(e){
   e.preventDefault();
 
@@ -157,17 +165,22 @@ async function passwordLogin(e){
       return;
     }
 
-    localStorage.setItem("token", data.token);      <!-- ⭐ FIXED -->
+    /* FIXED — ALWAYS SAVE CORRECT TOKEN */
+    localStorage.setItem("df_user_token", data.token);
+    localStorage.setItem("df_session_expiry", Date.now() + 7*24*60*60*1000);
     localStorage.setItem("df_user_profile", JSON.stringify(data.user));
 
     alert("Login successful!");
-    window.location.href = "index.html";
+
+    /* FIXED — ALWAYS GO TO REDIRECT */
+    window.location.href = redirectTo;
 
   } catch (err) {
     alert("Network error");
   }
 }
 
+/* OTP LOGIN UI */
 function showOtpLogin(){
   loginContent.innerHTML = `
     <form id="otpLoginForm" class="space-y-4">
@@ -202,6 +215,7 @@ function showOtpLogin(){
   document.getElementById("otpLoginForm").onsubmit = verifyOtp;
 }
 
+/* SEND OTP */
 async function sendOtp(){
   const email = document.getElementById("otpEmail").value.trim();
   const status = document.getElementById("otpStatus");
@@ -225,6 +239,7 @@ async function sendOtp(){
   document.getElementById("otpBox").classList.remove("hidden");
 }
 
+/* VERIFY OTP */
 async function verifyOtp(e){
   e.preventDefault();
 
@@ -244,13 +259,18 @@ async function verifyOtp(e){
     return;
   }
 
-  localStorage.setItem("token", data.token);        <!-- ⭐ FIXED -->
+  /* FIXED — CORRECT TOKEN */
+  localStorage.setItem("df_user_token", data.token);
+  localStorage.setItem("df_session_expiry", Date.now() + 7*24*60*60*1000);
   localStorage.setItem("df_user_profile", JSON.stringify(data.user));
 
   alert("OTP Verified!");
-  window.location.href = "index.html";
+
+  /* CORRECT REDIRECT */
+  window.location.href = redirectTo;
 }
 </script>
 
 </body>
 </html>
+
