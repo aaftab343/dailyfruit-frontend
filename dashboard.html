@@ -133,7 +133,6 @@
       </button>
     </div>
   </aside>
-
   <!-- MAIN CONTENT -->
   <main class="flex-1 space-y-4">
 
@@ -162,11 +161,12 @@
 
         <!-- TOP CARDS -->
         <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <!-- Active Plan Card -->
+
+          <!-- Active Plan -->
           <div class="border rounded-xl p-4 bg-white/80 flex flex-col gap-2">
             <div class="flex justify-between items-center">
               <p class="text-xs text-gray-500">Active Plan</p>
-              <span id="dashPlanStatusPill" class="status-pill status-active hidden"></span>
+              <span id="dashPlanStatusPill" class="status-pill hidden"></span>
             </div>
             <p id="dashPlanName" class="font-semibold text-slate-800 text-sm">Loading...</p>
             <p id="dashPlanMeta" class="text-xs text-gray-500"></p>
@@ -176,14 +176,14 @@
             </button>
           </div>
 
-          <!-- Next Delivery Card -->
+          <!-- Next Delivery -->
           <div class="border rounded-xl p-4 bg-white/80 flex flex-col gap-1">
             <p class="text-xs text-gray-500">Next Delivery</p>
             <p id="dashNextDelivery" class="font-semibold text-slate-800 text-sm">Loading...</p>
             <p id="dashNextDeliveryMeta" class="text-xs text-gray-500"></p>
           </div>
 
-          <!-- Payment Summary Card -->
+          <!-- Payment Summary -->
           <div class="border rounded-xl p-4 bg-white/80 flex flex-col gap-1">
             <p class="text-xs text-gray-500">Payments</p>
             <p id="dashLastPayment" class="font-semibold text-slate-800 text-sm">Loading...</p>
@@ -193,9 +193,10 @@
               View payment history
             </button>
           </div>
+
         </div>
 
-        <!-- MIDDLE: DELIVERY CALENDAR + QUICK ACTIONS -->
+        <!-- CALENDAR + QUICK ACTIONS -->
         <div class="grid md:grid-cols-3 gap-4">
 
           <!-- Delivery Calendar -->
@@ -207,11 +208,13 @@
                 View delivery history
               </button>
             </div>
+
             <ul id="deliveryCalendarList" class="space-y-1 text-xs text-gray-700">
               <li class="text-gray-400">Loading...</li>
             </ul>
+
             <p class="mt-2 text-[11px] text-gray-400">
-              You can skip a specific delivery from here. Skipped deliveries will not be prepared.
+              You can skip a specific delivery from here.
             </p>
           </div>
 
@@ -239,14 +242,10 @@
 
       </section>
 
-      <!-- MY PLAN VIEW -->
+      <!-- MY PLAN -->
       <section id="view-plan" class="glass p-5 space-y-4 hidden text-sm">
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="font-semibold text-slate-800 text-base">My Plan</h3>
-            <p class="text-xs text-gray-500">View your active plan and subscription history.</p>
-          </div>
-        </div>
+        <h3 class="font-semibold text-slate-800 text-base">My Plan</h3>
+        <p class="text-xs text-gray-500">View your active plan and subscription history.</p>
 
         <div class="border rounded-xl p-4 bg-white/80 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
@@ -255,30 +254,20 @@
             <p id="planViewMeta" class="text-xs text-gray-500 mt-1"></p>
             <p id="planViewDates" class="text-xs text-gray-500 mt-1"></p>
           </div>
+
           <div class="flex flex-wrap gap-2 text-xs">
-            <button id="planPauseBtn" class="px-3 py-1.5 rounded-full border">
-              Pause
-            </button>
-            <button id="planResumeBtn" class="px-3 py-1.5 rounded-full border">
-              Resume
-            </button>
-            <button id="planCancelBtn" class="px-3 py-1.5 rounded-full border text-red-600 border-red-300">
-              Cancel
-            </button>
-            <button id="planRenewBtn" class="px-3 py-1.5 rounded-full border">
-              Renew
-            </button>
-            <a href="plans.html" class="px-3 py-1.5 rounded-full border">
-              Change Plan
-            </a>
+            <button id="planPauseBtn" class="px-3 py-1.5 rounded-full border">Pause</button>
+            <button id="planResumeBtn" class="px-3 py-1.5 rounded-full border">Resume</button>
+            <button id="planCancelBtn" class="px-3 py-1.5 rounded-full border text-red-600 border-red-300">Cancel</button>
+            <button id="planRenewBtn" class="px-3 py-1.5 rounded-full border">Renew</button>
+            <a href="plans.html" class="px-3 py-1.5 rounded-full border">Change Plan</a>
           </div>
         </div>
 
-        <!-- Subscription history -->
+        <!-- HISTORY -->
         <div class="border rounded-xl p-4 bg-white/80">
-          <div class="flex justify-between items-center mb-2">
-            <p class="font-semibold text-sm">Subscription History</p>
-          </div>
+          <p class="font-semibold text-sm mb-2">Subscription History</p>
+
           <div class="overflow-x-auto">
             <table class="min-w-full text-xs">
               <thead>
@@ -295,14 +284,10 @@
         </div>
       </section>
 
-      <!-- DELIVERIES VIEW -->
+      <!-- DELIVERIES -->
       <section id="view-deliveries" class="glass p-5 space-y-4 hidden text-sm">
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="font-semibold text-slate-800 text-base">Deliveries</h3>
-            <p class="text-xs text-gray-500">Upcoming schedule and past deliveries.</p>
-          </div>
-        </div>
+        <h3 class="font-semibold text-slate-800 text-base">Deliveries</h3>
+        <p class="text-xs text-gray-500">Upcoming schedule and past deliveries.</p>
 
         <div class="border rounded-xl p-4 bg-white/80">
           <p class="font-semibold text-sm mb-2">Upcoming (next 7 days)</p>
@@ -328,18 +313,15 @@
         </div>
       </section>
 
-      <!-- PAYMENTS VIEW -->
+      <!-- PAYMENTS -->
       <section id="view-payments" class="glass p-5 space-y-4 hidden text-sm">
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="font-semibold text-slate-800 text-base">Payments</h3>
-            <p class="text-xs text-gray-500">All your payments and invoices.</p>
-          </div>
-          <button id="downloadLastInvoiceBtn"
-                  class="px-3 py-1.5 rounded-full border text-xs">
-            Download last invoice
-          </button>
-        </div>
+        <h3 class="font-semibold text-slate-800 text-base">Payments</h3>
+        <p class="text-xs text-gray-500">All your payments and invoices.</p>
+
+        <button id="downloadLastInvoiceBtn"
+                class="px-3 py-1.5 rounded-full border text-xs">
+          Download last invoice
+        </button>
 
         <div class="border rounded-xl p-4 bg-white/80">
           <div class="overflow-x-auto">
@@ -359,37 +341,32 @@
         </div>
       </section>
 
-      <!-- PROFILE VIEW -->
+      <!-- PROFILE -->
       <section id="view-profile" class="glass p-5 space-y-4 hidden text-sm">
-        <div>
-          <h3 class="font-semibold text-slate-800 text-base">Profile & Address</h3>
-          <p class="text-xs text-gray-500">Update your basic details and delivery address.</p>
-        </div>
+        <h3 class="font-semibold text-slate-800 text-base">Profile & Address</h3>
+        <p class="text-xs text-gray-500">Update your basic details and delivery address.</p>
 
         <form id="profileForm" class="space-y-4">
+
           <div class="grid md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
-              <input type="text" id="pfFullName" required
-                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <label class="block text-xs font-semibold">Full Name *</label>
+              <input id="pfFullName" type="text" required class="w-full px-3 py-2 border rounded-md bg-white/80">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-1">Email *</label>
-              <input type="email" id="pfEmail" required disabled
-                     class="w-full px-3 py-2 border rounded-md bg-gray-100 text-gray-500">
+              <label class="block text-xs font-semibold">Email *</label>
+              <input id="pfEmail" type="email" disabled class="w-full px-3 py-2 border rounded-md bg-gray-100">
             </div>
           </div>
 
           <div class="grid md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-1">Phone (WhatsApp) *</label>
-              <input type="tel" id="pfPhone" required
-                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <label class="block text-xs font-semibold">Phone *</label>
+              <input id="pfPhone" type="tel" required class="w-full px-3 py-2 border rounded-md bg-white/80">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-1">User Type</label>
-              <select id="pfUserType"
-                      class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <label class="block text-xs font-semibold">User Type</label>
+              <select id="pfUserType" class="w-full px-3 py-2 border rounded-md bg-white/80">
                 <option value="">Customer</option>
                 <option value="home">Home</option>
                 <option value="office">Office</option>
@@ -398,66 +375,58 @@
             </div>
           </div>
 
+          <!-- ADDRESS -->
           <div class="border-t pt-3">
-            <p class="text-xs font-semibold text-gray-700 mb-2">Primary Delivery Address</p>
+            <label class="block text-xs font-semibold mb-2">Primary Delivery Address</label>
 
             <div class="grid md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">House / Flat *</label>
-                <input type="text" id="pfHouse" required
-                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="block text-xs font-medium">House *</label>
+                <input id="pfHouse" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Street *</label>
-                <input type="text" id="pfStreet" required
-                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="block text-xs font-medium">Street *</label>
+                <input id="pfStreet" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-4 mt-3">
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Area *</label>
-                <input type="text" id="pfArea" required
-                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="block text-xs font-medium">Area *</label>
+                <input id="pfArea" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">City *</label>
-                <input type="text" id="pfCity" required
-                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <label class="block text-xs font-medium">City *</label>
+                <input id="pfCity" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
             </div>
 
             <div class="mt-3 max-w-xs">
-              <label class="block text-xs font-medium text-gray-600 mb-1">Pincode *</label>
-              <input type="text" id="pfPincode" required
-                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <label class="block text-xs font-medium">Pincode *</label>
+              <input id="pfPincode" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
             </div>
           </div>
 
           <div class="border-t pt-3 space-y-2">
-            <div>
-              <p class="text-xs font-semibold text-gray-700 mb-1">Preferred Delivery Time</p>
-              <select id="pfDeliveryTime" class="w-full md:w-60 px-3 py-2 border rounded-md bg-white/80 text-sm">
-                <option value="">Select time</option>
-                <option value="morning">Morning (6:30 AM – 9:00 AM)</option>
-                <option value="afternoon">Afternoon</option>
-                <option value="evening">Evening</option>
-              </select>
-            </div>
+            <label class="text-xs font-semibold">Preferred Delivery Time</label>
+            <select id="pfDeliveryTime" class="w-full md:w-60 px-3 py-2 border rounded bg-white/80 text-sm">
+              <option value="">Select...</option>
+              <option value="morning">Morning (6:30–9)</option>
+              <option value="afternoon">Afternoon</option>
+              <option value="evening">Evening</option>
+            </select>
 
-            <label class="flex items-center gap-2 text-xs text-gray-700">
-              <input type="checkbox" id="pfOffersOptIn">
-              <span>Receive deals & updates on WhatsApp / Email</span>
+            <label class="flex items-center gap-2 text-xs">
+              <input id="pfOffersOptIn" type="checkbox">
+              Receive deals & updates
             </label>
           </div>
 
-          <div class="pt-2">
-            <button type="submit"
-                    class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
-                    style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-              Save Profile
-            </button>
-          </div>
+          <button type="submit"
+                  class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
+                  style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+            Save Profile
+          </button>
         </form>
       </section>
 
@@ -466,724 +435,510 @@
   </main>
 </div>
 
-<!-- Footer (simple) -->
+<!-- FOOTER -->
 <footer class="mt-8 pb-6 text-center text-[11px] text-gray-400">
   © 2025 Daily Fruit Co. — Freshness Delivered Daily
 </footer>
-
 <script>
-const API_BASE = 'https://dailyfruit-backend.onrender.com';
+/* ================================
+   CONFIG
+================================ */
+const API_BASE = "https://dailyfruit-backend.onrender.com";
 
-function toast(msg, isError){
-  const el = document.createElement('div');
-  el.textContent = msg;
-  el.className =
-    'fixed right-4 bottom-4 z-50 text-sm px-3 py-2 rounded shadow text-white ' +
-    (isError ? 'bg-red-600' : 'bg-black');
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(),3000);
+/* ================================
+   TOAST
+================================ */
+function toast(msg, isError=false){
+  const div = document.createElement("div");
+  div.textContent = msg;
+  div.className =
+    "fixed bottom-4 right-4 px-3 py-2 rounded text-white text-sm shadow " +
+    (isError ? "bg-red-600" : "bg-black");
+  document.body.appendChild(div);
+  setTimeout(()=> div.remove(), 2600);
 }
 
+/* ================================
+   SESSION MANAGEMENT
+================================ */
 function getSession(){
-  try{
-    const token = localStorage.getItem('df_user_token');
-    const expiry = parseInt(localStorage.getItem('df_session_expiry') || '0',10);
-    if(!token || !expiry) return null;
-    if(Date.now() > expiry) return null;
-    return { token, expiry };
-  }catch(e){
+  const token = localStorage.getItem("df_user_token");
+  const expiry = Number(localStorage.getItem("df_session_expiry") || 0);
+
+  if(!token || !expiry) return null;
+  if(Date.now() > expiry) return null;
+
+  return { token, expiry };
+}
+
+function requireLogin(){
+  const session = getSession();
+  if(!session){
+    window.location.href = "login.html?redirect=dashboard.html";
     return null;
   }
+  return session.token;
 }
 
-function clearSessionAndGoLogin(message){
-  localStorage.removeItem('df_user_token');
-  localStorage.removeItem('df_session_expiry');
-  localStorage.removeItem('df_user_profile');
-  if(message) toast(message,true);
-  setTimeout(()=>{ window.location.href='login.html'; },800);
+function logout(){
+  localStorage.removeItem("df_user_token");
+  localStorage.removeItem("df_session_expiry");
+  localStorage.removeItem("df_user_profile");
+  window.location.href = "login.html";
 }
 
-/* -------------- GLOBAL STATE ------------- */
+/* ================================
+   GLOBAL STATE
+================================ */
 let gProfile = null;
 let gActiveSub = null;
 let gSubHistory = [];
-let gPaymentHistory = [];
 let gUpcomingDeliveries = [];
 let gDeliveryHistory = [];
+let gPaymentHistory = [];
 
-/* -------------- INIT ------------- */
-document.addEventListener('DOMContentLoaded', () => {
-  const session = getSession();
-  if(!session){
-    clearSessionAndGoLogin('Session expired, please login again.');
-    return;
-  }
-  const token = session.token;
+/* ================================
+   PAGE LOAD (LOGIN CHECK)
+================================ */
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const token = requireLogin();
+  if(!token) return;
 
   initSidebar();
   initLogout();
   initProfileForm();
   initQuickActions();
 
-  loadAllData(token);
+  await loadAllData(token);
 });
 
-/* -------------- SIDEBAR NAV ------------- */
-function showView(view){
-  document.querySelectorAll('[id^="view-"]').forEach(sec => sec.classList.add('hidden'));
-  document.getElementById('view-' + view).classList.remove('hidden');
-
-  document.querySelectorAll('.sidebar-link').forEach(btn => {
-    if(btn.dataset.view === view) btn.classList.add('active');
-    else btn.classList.remove('active');
-  });
-}
-
+/* ================================
+   SIDEBAR + VIEW HANDLING
+================================ */
 function initSidebar(){
-  document.querySelectorAll('.sidebar-link[data-view]').forEach(btn=>{
-    btn.addEventListener('click',()=> showView(btn.dataset.view));
+  document.querySelectorAll(".sidebar-link[data-view]").forEach(btn => {
+    btn.onclick = () => showView(btn.dataset.view);
   });
 
-  document.getElementById('goToPlanFromCard').onclick = () => showView('plan');
-  document.getElementById('dashViewDeliveriesBtn').onclick = () => showView('deliveries');
-  document.getElementById('dashViewPaymentsBtn').onclick = () => showView('payments');
-  document.getElementById('qaProfile').onclick = () => showView('profile');
+  document.getElementById("goToPlanFromCard").onclick = () => showView("plan");
+  document.getElementById("dashViewDeliveriesBtn").onclick = () => showView("deliveries");
+  document.getElementById("dashViewPaymentsBtn").onclick = () => showView("payments");
+  document.getElementById("qaProfile").onclick = () => showView("profile");
 }
 
-/* -------------- LOGOUT ------------- */
+function showView(v){
+  document.querySelectorAll('[id^="view-"]').forEach(sec => sec.classList.add("hidden"));
+  document.getElementById("view-" + v).classList.remove("hidden");
+
+  document.querySelectorAll(".sidebar-link").forEach(b => {
+    b.classList.remove("active");
+    if(b.dataset.view === v) b.classList.add("active");
+  });
+}
+
+/* ================================
+   LOGOUT
+================================ */
 function initLogout(){
-  const btn = document.getElementById('logoutBtn');
-  if(btn){
-    btn.addEventListener('click',()=>{
-      if(!confirm('Logout from your account?')) return;
-      clearSessionAndGoLogin();
-    });
-  }
+  document.getElementById("logoutBtn").onclick = () => {
+    if(confirm("Logout from your account?")){
+      logout();
+    }
+  };
 }
 
-/* -------------- LOAD ALL DATA ------------- */
+/* ================================
+   LOAD ALL DATA
+================================ */
 async function loadAllData(token){
-  try{
+  try {
     await Promise.all([
       loadProfile(token),
-      loadSubscription(token),
+      loadActiveSubscription(token),
       loadSubscriptionHistory(token),
-      loadPayments(token),
       loadUpcomingDeliveries(token),
-      loadDeliveryHistory(token)
+      loadDeliveryHistory(token),
+      loadPaymentHistory(token)
     ]);
 
-    renderHeaderAndSidebar();
+    renderHeader();
     renderDashboardCards();
     renderPlanView();
-    renderSubHistoryTable();
-    renderPaymentsTable();
+    renderSubHistory();
     renderDeliveryCalendar();
     renderDeliveriesView();
+    renderPaymentsView();
     fillProfileForm();
-  }catch(err){
-    console.error(err);
-    toast('Error loading dashboard', true);
+
+  } catch (e){
+    toast("Error loading dashboard", true);
   }
 }
 
-/* -------------- PROFILE ------------- */
+/* ================================
+   LOAD PROFILE
+================================ */
 async function loadProfile(token){
-  try{
-    const res = await fetch(API_BASE + '/api/profile/me', {
-      headers:{ 'Authorization':'Bearer ' + token }
-    });
-    if(res.status === 401 || res.status === 403){
-      return clearSessionAndGoLogin('Please login again.');
-    }
-    if(!res.ok) return;
-    const user = await res.json();
-    gProfile = {
-      id: user._id,
-      fullName: user.name || '',
-      email: user.email || '',
-      phone: user.phone || '',
-      userType: user.userType || '',
-      address: {
-        house: user.addressDetails?.house || '',
-        street: user.addressDetails?.street || '',
-        area: user.addressDetails?.area || '',
-        city: user.addressDetails?.city || '',
-        pincode: user.addressDetails?.pincode || ''
-      },
-      deliveryTime: user.deliveryTime || '',
-      offersOptIn: !!user.offersOptIn
-    };
-    localStorage.setItem('df_user_profile', JSON.stringify(gProfile));
-  }catch(e){
-    console.warn('Profile load error', e);
+  const res = await fetch(API_BASE + "/api/profile/me", {
+    headers: { Authorization: "Bearer " + token }
+  });
+
+  if(res.status === 401){
+    return requireLogin();
   }
 
-  if(!gProfile){
-    const raw = localStorage.getItem('df_user_profile');
-    if(raw) gProfile = JSON.parse(raw);
-  }
+  const u = await res.json();
 
-  if(!gProfile){
-    clearSessionAndGoLogin('Profile not found, please login again.');
-  }
+  gProfile = u;
+  localStorage.setItem("df_user_profile", JSON.stringify(u));
 }
 
-/* -------------- SUBSCRIPTIONS ------------- */
-async function loadSubscription(token){
-  try{
-    const res = await fetch(API_BASE + '/api/subscriptions/my-active', {
-      headers:{ 'Authorization':'Bearer ' + token }
-    });
-    if(res.ok){
-      gActiveSub = await res.json();
-    }
-  }catch(e){
-    console.warn('Active sub error', e);
-  }
+/* ================================
+   LOAD ACTIVE SUBSCRIPTION
+================================ */
+async function loadActiveSubscription(token){
+  const res = await fetch(API_BASE + "/api/subscriptions/my-active", {
+    headers: { Authorization: "Bearer " + token }
+  });
+  gActiveSub = await res.json().catch(()=> null);
 }
 
+/* ================================
+   LOAD HISTORY + DELIVERIES + PAYMENTS
+================================ */
 async function loadSubscriptionHistory(token){
-  try{
-    const res = await fetch(API_BASE + '/api/subscriptions/me', {
-      headers:{ 'Authorization':'Bearer ' + token }
-    });
-    if(res.ok){
-      gSubHistory = await res.json();
-    }
-  }catch(e){
-    console.warn('Sub history error', e);
-  }
+  const r = await fetch(API_BASE + "/api/subscriptions/me", {
+    headers: { Authorization: "Bearer " + token }
+  });
+  gSubHistory = await r.json().catch(()=> []);
 }
 
-/* -------------- PAYMENTS ------------- */
-async function loadPayments(token){
-  try{
-    const res = await fetch(API_BASE + '/api/payments/my-payments', {
-      headers:{ 'Authorization':'Bearer ' + token }
-    });
-    if(res.ok){
-      gPaymentHistory = await res.json();
-    }
-  }catch(e){
-    console.warn('payment history error', e);
-  }
-}
-
-/* -------------- DELIVERIES ------------- */
 async function loadUpcomingDeliveries(token){
-  try{
-    const res = await fetch(API_BASE + '/api/deliveries/upcoming', {
-      headers:{ 'Authorization':'Bearer ' + token }
-    });
-    if(res.ok){
-      gUpcomingDeliveries = await res.json();
-    }
-  }catch(e){
-    console.warn('upcoming deliveries error', e);
-  }
+  const r = await fetch(API_BASE + "/api/deliveries/upcoming", {
+    headers: { Authorization: "Bearer " + token }
+  });
+  gUpcomingDeliveries = await r.json().catch(()=> []);
 }
 
 async function loadDeliveryHistory(token){
-  try{
-    const res = await fetch(API_BASE + '/api/deliveries/history', {
-      headers:{ 'Authorization':'Bearer ' + token }
-    });
-    if(res.ok){
-      gDeliveryHistory = await res.json();
-    }
-  }catch(e){
-    console.warn('delivery history error', e);
-  }
+  const r = await fetch(API_BASE + "/api/deliveries/history", {
+    headers: { Authorization: "Bearer " + token }
+  });
+  gDeliveryHistory = await r.json().catch(()=> []);
 }
 
-/* -------------- RENDER HEADER + SIDEBAR ------------- */
-function renderHeaderAndSidebar(){
-  if(gProfile){
-    const name = gProfile.fullName || 'User';
-    const email = gProfile.email || '-';
-    const hdrEmail = document.getElementById('hdrUserEmail');
-    const sbName = document.getElementById('sidebarUserName');
-    if(hdrEmail) hdrEmail.textContent = email;
-    if(sbName) sbName.textContent = name;
-  }
+async function loadPaymentHistory(token){
+  const r = await fetch(API_BASE + "/api/payments/my-payments", {
+    headers: { Authorization: "Bearer " + token }
+  });
+  gPaymentHistory = await r.json().catch(()=> []);
 }
 
-/* -------------- DASHBOARD HOME RENDER ------------- */
+/* ================================
+   RENDER HEADER
+================================ */
+function renderHeader(){
+  if(!gProfile) return;
+  document.getElementById("sidebarUserName").textContent =
+    gProfile.name || "User";
+  document.getElementById("hdrUserEmail").textContent =
+    gProfile.email || "-";
+}
+
+/* ================================
+   RENDER DASHBOARD CARDS
+================================ */
 function renderDashboardCards(){
-  const planNameEl = document.getElementById('dashPlanName');
-  const planMetaEl = document.getElementById('dashPlanMeta');
-  const statusPill = document.getElementById('dashPlanStatusPill');
-  const nextDelEl = document.getElementById('dashNextDelivery');
-  const nextDelMetaEl = document.getElementById('dashNextDeliveryMeta');
-  const lastPayEl = document.getElementById('dashLastPayment');
-  const payMetaEl = document.getElementById('dashPaymentMeta');
+  const planName = document.getElementById("dashPlanName");
+  const planMeta = document.getElementById("dashPlanMeta");
+  const statusPill = document.getElementById("dashPlanStatusPill");
 
-  // Plan
-  if(gActiveSub && gActiveSub._id){
-    const pName = gActiveSub.planName || (gActiveSub.planId && gActiveSub.planId.name) || 'Active Plan';
-    const price = gActiveSub.planId && gActiveSub.planId.price;
-    const status = gActiveSub.status || 'active';
-
-    if(planNameEl) planNameEl.textContent = pName;
-    if(planMetaEl){
-      planMetaEl.textContent = price ? `₹${price} • ${status}` : `Status: ${status}`;
-    }
-
-    let pillText = status;
-    let pillClass = 'status-pill ';
-    if(status === 'active') pillClass += 'status-active';
-    else if(status === 'paused') pillClass += 'status-paused';
-    else if(status === 'cancelled') pillClass += 'status-cancelled';
-    else pillClass += 'status-expired';
-
-    statusPill.textContent = pillText;
-    statusPill.className = pillClass;
-    statusPill.classList.remove('hidden');
-  }else{
-    if(planNameEl) planNameEl.textContent = 'No active plan';
-    if(planMetaEl) planMetaEl.textContent = 'You can start a subscription from the Plans page.';
-    statusPill.classList.add('hidden');
+  if(!gActiveSub || !gActiveSub._id){
+    planName.textContent = "No active plan";
+    planMeta.textContent = "Start a subscription from the plans page.";
+    statusPill.classList.add("hidden");
+  } else {
+    planName.textContent = gActiveSub.planName;
+    planMeta.textContent = `Status: ${gActiveSub.status}`;
+    statusPill.textContent = gActiveSub.status;
+    statusPill.classList.remove("hidden");
   }
 
-  // Next Delivery
-  if(gUpcomingDeliveries && gUpcomingDeliveries.length > 0){
-    const first = gUpcomingDeliveries[0];
-    const d = new Date(first.deliveryDate);
-    if(nextDelEl) nextDelEl.textContent = d.toDateString();
-    if(nextDelMetaEl) nextDelMetaEl.textContent = `Status: ${first.status || 'scheduled'}`;
-  }else{
-    if(nextDelEl) nextDelEl.textContent = 'No upcoming delivery';
-    if(nextDelMetaEl) nextDelMetaEl.textContent = '';
+  // Next delivery
+  const next = gUpcomingDeliveries[0];
+  const nextEl = document.getElementById("dashNextDelivery");
+  const nextMetaEl = document.getElementById("dashNextDeliveryMeta");
+
+  if(next){
+    nextEl.textContent = new Date(next.deliveryDate).toDateString();
+    nextMetaEl.textContent = next.status;
+  } else {
+    nextEl.textContent = "No upcoming delivery";
   }
 
-  // Payment summary
-  if(gPaymentHistory && gPaymentHistory.length > 0){
-    const last = gPaymentHistory[0];
-    const dt = last.createdAt ? new Date(last.createdAt).toLocaleDateString('en-IN') : '-';
-    const amt = typeof last.amount === 'number' ? '₹' + last.amount : '-';
-    if(lastPayEl) lastPayEl.textContent = `${amt} on ${dt}`;
-    if(payMetaEl) payMetaEl.textContent = last.planName ? `Last paid for ${last.planName}` : '';
-  }else{
-    if(lastPayEl) lastPayEl.textContent = 'No payments yet';
-    if(payMetaEl) payMetaEl.textContent = '';
+  // Last payment
+  const last = gPaymentHistory[0];
+  const lastPay = document.getElementById("dashLastPayment");
+  const payMeta = document.getElementById("dashPaymentMeta");
+
+  if(last){
+    lastPay.textContent = "₹" + last.amount;
+    payMeta.textContent = last.planName;
+  } else {
+    lastPay.textContent = "No payments yet";
   }
 }
 
-/* -------------- DELIVERY CALENDAR (HOME) ------------- */
-function renderDeliveryCalendar(){
-  const calEl = document.getElementById('deliveryCalendarList');
-  if(!calEl) return;
-  calEl.innerHTML = '';
+/* ================================
+   PLAN VIEW
+================================ */
+function renderPlanView(){
+  const name = document.getElementById("planViewName");
+  const meta = document.getElementById("planViewMeta");
+  const dates = document.getElementById("planViewDates");
 
-  if(!gUpcomingDeliveries || gUpcomingDeliveries.length === 0){
-    calEl.innerHTML = '<li class="text-gray-400 text-xs">No deliveries scheduled.</li>';
+  if(!gActiveSub){
+    name.textContent = "No active plan";
+    return;
+  }
+
+  name.textContent = gActiveSub.planName;
+  meta.textContent = "Status: " + gActiveSub.status;
+
+  const s = new Date(gActiveSub.startDate).toLocaleDateString("en-IN");
+  const e = new Date(gActiveSub.endDate).toLocaleDateString("en-IN");
+
+  dates.textContent = `From ${s} to ${e}`;
+}
+
+/* ================================
+   SUB HISTORY
+================================ */
+function renderSubHistory(){
+  const body = document.getElementById("subHistoryBody");
+  body.innerHTML = "";
+
+  gSubHistory.forEach(sub => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="py-2 pr-4">${sub.planName}</td>
+      <td class="py-2 pr-4">${new Date(sub.startDate).toLocaleDateString("en-IN")}</td>
+      <td class="py-2 pr-4">${new Date(sub.endDate).toLocaleDateString("en-IN")}</td>
+      <td class="py-2 pr-4 capitalize">${sub.status}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+/* ================================
+   DELIVERY CALENDAR
+================================ */
+function renderDeliveryCalendar(){
+  const list = document.getElementById("deliveryCalendarList");
+  list.innerHTML = "";
+
+  if(gUpcomingDeliveries.length === 0){
+    list.innerHTML = `<li class="text-gray-400">No deliveries scheduled.</li>`;
     return;
   }
 
   gUpcomingDeliveries.forEach(del => {
-    const d = new Date(del.deliveryDate);
-    const li = document.createElement('li');
-    li.className = 'flex justify-between items-center py-1';
+    const li = document.createElement("li");
+    li.className = "flex justify-between py-1 text-xs";
     li.innerHTML = `
-      <span>${d.toDateString()} • <span class="capitalize">${del.status}</span></span>
-      <button class="text-red-500 text-[11px]" onclick="skipDelivery('${del._id}')">
-        Skip
-      </button>
+      <span>${new Date(del.deliveryDate).toDateString()}</span>
+      <button onclick="skipDelivery('${del._id}')" class="text-red-600 text-[11px]">Skip</button>
     `;
-    calEl.appendChild(li);
+    list.appendChild(li);
   });
 }
 
-/* -------------- DELIVERIES VIEW RENDER ------------- */
+/* ================================
+   FULL DELIVERY VIEW
+================================ */
 function renderDeliveriesView(){
-  const upEl = document.getElementById('delUpcomingList');
-  const histBody = document.getElementById('deliveryHistoryBody');
+  const up = document.getElementById("delUpcomingList");
+  up.innerHTML = "";
 
-  // Upcoming
-  if(upEl){
-    upEl.innerHTML = '';
-    if(!gUpcomingDeliveries || gUpcomingDeliveries.length === 0){
-      upEl.innerHTML = '<li class="text-gray-400 text-xs">No upcoming deliveries.</li>';
-    }else{
-      gUpcomingDeliveries.forEach(del=>{
-        const d = new Date(del.deliveryDate);
-        const li = document.createElement('li');
-        li.className = 'flex justify-between items-center py-1';
-        li.innerHTML = `
-          <span>${d.toDateString()} • <span class="capitalize">${del.status}</span></span>
-          <button class="text-red-500 text-[11px]" onclick="skipDelivery('${del._id}')">Skip</button>
-        `;
-        upEl.appendChild(li);
-      });
-    }
-  }
+  gUpcomingDeliveries.forEach(del => {
+    const li = document.createElement("li");
+    li.className = "flex justify-between py-1 text-xs";
+    li.innerHTML = `
+      <span>${new Date(del.deliveryDate).toDateString()}</span>
+      <button onclick="skipDelivery('${del._id}')" class="text-red-600 text-[11px]">Skip</button>
+    `;
+    up.appendChild(li);
+  });
 
-  // History
-  if(histBody){
-    histBody.innerHTML = '';
-    if(!gDeliveryHistory || gDeliveryHistory.length === 0){
-      const tr = document.createElement('tr');
-      const td = document.createElement('td');
-      td.colSpan = 3;
-      td.className = 'py-2 text-gray-400';
-      td.textContent = 'No past deliveries found.';
-      tr.appendChild(td);
-      histBody.appendChild(tr);
-    }else{
-      gDeliveryHistory.forEach(d=>{
-        const dt = d.deliveryDate ? new Date(d.deliveryDate).toLocaleDateString('en-IN') : '-';
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="py-2 pr-4">${dt}</td>
-          <td class="py-2 pr-4 capitalize">${d.status || '-'}</td>
-          <td class="py-2 pr-4">${d.notes || '-'}</td>
-        `;
-        histBody.appendChild(tr);
-      });
-    }
-  }
-}
+  const hist = document.getElementById("deliveryHistoryBody");
+  hist.innerHTML = "";
 
-/* -------------- PLAN VIEW RENDER ------------- */
-function renderPlanView(){
-  const nameEl = document.getElementById('planViewName');
-  const metaEl = document.getElementById('planViewMeta');
-  const datesEl = document.getElementById('planViewDates');
-
-  if(!gActiveSub || !gActiveSub._id){
-    if(nameEl) nameEl.textContent = 'No active plan';
-    if(metaEl) metaEl.textContent = 'You can start a plan from the Plans page.';
-    if(datesEl) datesEl.textContent = '';
-    return;
-  }
-
-  const pName = gActiveSub.planName || (gActiveSub.planId && gActiveSub.planId.name) || 'Active Plan';
-  const price = gActiveSub.planId && gActiveSub.planId.price;
-  const status = gActiveSub.status || 'active';
-
-  const start = gActiveSub.startDate ? new Date(gActiveSub.startDate).toLocaleDateString('en-IN') : '-';
-  const end = gActiveSub.endDate ? new Date(gActiveSub.endDate).toLocaleDateString('en-IN') : '-';
-
-  if(nameEl) nameEl.textContent = pName;
-  if(metaEl) metaEl.textContent = price ? `₹${price} • Status: ${status}` : `Status: ${status}`;
-  if(datesEl) datesEl.textContent = `From ${start} to ${end}`;
-}
-
-/* -------------- SUB HISTORY RENDER ------------- */
-function renderSubHistoryTable(){
-  const body = document.getElementById('subHistoryBody');
-  if(!body) return;
-  body.innerHTML = '';
-
-  if(!gSubHistory || gSubHistory.length === 0){
-    const tr = document.createElement('tr');
-    const td = document.createElement('td');
-    td.colSpan = 4;
-    td.className = 'py-2 text-gray-400';
-    td.textContent = 'No subscriptions found.';
-    tr.appendChild(td);
-    body.appendChild(tr);
-    return;
-  }
-
-  gSubHistory.forEach(sub=>{
-    const name = sub.planName || (sub.planId && sub.planId.name) || '-';
-    const start = sub.startDate ? new Date(sub.startDate).toLocaleDateString('en-IN') : '-';
-    const end = sub.endDate ? new Date(sub.endDate).toLocaleDateString('en-IN') : '-';
-    const status = sub.status || '-';
-
-    const tr = document.createElement('tr');
+  gDeliveryHistory.forEach(d => {
+    const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td class="py-2 pr-4">${name}</td>
-      <td class="py-2 pr-4">${start}</td>
-      <td class="py-2 pr-4">${end}</td>
-      <td class="py-2 pr-4 capitalize">${status}</td>
+      <td class="py-2 pr-4">${new Date(d.deliveryDate).toLocaleDateString("en-IN")}</td>
+      <td class="py-2 pr-4">${d.status}</td>
+      <td class="py-2 pr-4">${d.notes || "-"}</td>
+    `;
+    hist.appendChild(tr);
+  });
+}
+
+/* ================================
+   PAYMENTS VIEW
+================================ */
+function renderPaymentsView(){
+  const body = document.getElementById("paymentHistoryBody");
+  body.innerHTML = "";
+
+  gPaymentHistory.forEach(p => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="py-2 pr-4">${new Date(p.createdAt).toLocaleDateString("en-IN")}</td>
+      <td class="py-2 pr-4">${p.planName}</td>
+      <td class="py-2 pr-4">₹${p.amount}</td>
+      <td class="py-2 pr-4">${p.razorpayPaymentId ? "Razorpay" : "Offline"}</td>
+      <td class="py-2 pr-4">${p.status}</td>
     `;
     body.appendChild(tr);
   });
 }
 
-/* -------------- PAYMENTS TABLE RENDER ------------- */
-function renderPaymentsTable(){
-  const body = document.getElementById('paymentHistoryBody');
-  if(!body) return;
-  body.innerHTML = '';
-
-  if(!gPaymentHistory || gPaymentHistory.length === 0){
-    const tr = document.createElement('tr');
-    const td = document.createElement('td');
-    td.colSpan = 5;
-    td.className = 'py-2 text-gray-400';
-    td.textContent = 'No payments yet.';
-    tr.appendChild(td);
-    body.appendChild(tr);
-    return;
-  }
-
-  gPaymentHistory.forEach(pay=>{
-    const date = pay.createdAt ? new Date(pay.createdAt).toLocaleDateString('en-IN') : '-';
-    const planName = pay.planName || '-';
-    const amount = typeof pay.amount === 'number' ? '₹' + pay.amount : '-';
-    const method = pay.razorpayPaymentId ? 'Razorpay' : (pay.isOffline ? 'Offline' : 'Other');
-    const status = pay.status || '-';
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="py-2 pr-4">${date}</td>
-      <td class="py-2 pr-4">${planName}</td>
-      <td class="py-2 pr-4">${amount}</td>
-      <td class="py-2 pr-4">${method}</td>
-      <td class="py-2 pr-4 capitalize">${status}</td>
-    `;
-    body.appendChild(tr);
-  });
-}
-
-/* -------------- SKIP DELIVERY (GLOBAL) ------------- */
+/* ================================
+   SKIP DELIVERY
+================================ */
 async function skipDelivery(id){
   const session = getSession();
-  if(!session){
-    return clearSessionAndGoLogin('Session expired, please login again.');
-  }
-  try{
-    const res = await fetch(API_BASE + '/api/deliveries/skip/' + id, {
-      method:'POST',
-      headers:{ 'Authorization':'Bearer ' + session.token }
-    });
-    const data = await res.json();
-    if(!res.ok){
-      toast(data.message || 'Error skipping delivery', true);
-      return;
-    }
-    toast('Delivery skipped.', false);
-    await loadUpcomingDeliveries(session.token);
-    await loadDeliveryHistory(session.token);
-    renderDeliveryCalendar();
-    renderDeliveriesView();
-  }catch(err){
-    console.error(err);
-    toast('Network error while skipping.', true);
-  }
+  if(!session) return requireLogin();
+
+  const r = await fetch(API_BASE + "/api/deliveries/skip/" + id, {
+    method: "POST",
+    headers: { Authorization: "Bearer " + session.token }
+  });
+
+  const d = await r.json();
+  toast(d.message || "Updated");
+
+  await loadUpcomingDeliveries(session.token);
+  await loadDeliveryHistory(session.token);
+
+  renderDeliveryCalendar();
+  renderDeliveriesView();
 }
 window.skipDelivery = skipDelivery;
 
-/* -------------- QUICK ACTIONS (PAUSE / RESUME / CANCEL / RENEW) ------------- */
+/* ================================
+   QUICK ACTIONS
+================================ */
 function initQuickActions(){
   const session = getSession();
   if(!session) return;
-
   const token = session.token;
-  const pauseButtons = [document.getElementById('qaPause'), document.getElementById('planPauseBtn')];
-  const resumeButtons = [document.getElementById('qaResume'), document.getElementById('planResumeBtn')];
-  const cancelButtons = [document.getElementById('qaCancel'), document.getElementById('planCancelBtn')];
-  const renewButtons = [document.getElementById('qaRenew'), document.getElementById('planRenewBtn')];
 
-  pauseButtons.forEach(btn=>{
-    if(btn){
-      btn.addEventListener('click',()=> subAction('pause', token));
-    }
-  });
-  resumeButtons.forEach(btn=>{
-    if(btn){
-      btn.addEventListener('click',()=> subAction('resume', token));
-    }
-  });
-  cancelButtons.forEach(btn=>{
-    if(btn){
-      btn.addEventListener('click',()=> subAction('cancel', token));
-    }
-  });
-  renewButtons.forEach(btn=>{
-    if(btn){
-      btn.addEventListener('click',()=> subAction('renew', token));
-    }
-  });
+  document.getElementById("qaPause").onclick =
+    () => subAction("pause", token);
+  document.getElementById("qaResume").onclick =
+    () => subAction("resume", token);
+  document.getElementById("qaCancel").onclick =
+    () => subAction("cancel", token);
+  document.getElementById("qaRenew").onclick =
+    () => subAction("renew", token);
 
-  const downloadBtn = document.getElementById('downloadLastInvoiceBtn');
-  if(downloadBtn){
-    downloadBtn.addEventListener('click', ()=> downloadLastInvoice(token));
-  }
+  document.getElementById("planPauseBtn").onclick =
+    () => subAction("pause", token);
+  document.getElementById("planResumeBtn").onclick =
+    () => subAction("resume", token);
+  document.getElementById("planCancelBtn").onclick =
+    () => subAction("cancel", token);
+  document.getElementById("planRenewBtn").onclick =
+    () => subAction("renew", token);
 }
 
-async function subAction(action, token){
-  if(!gActiveSub || !gActiveSub._id){
-    toast('No active subscription found.', true);
+async function subAction(type, token){
+  if(!gActiveSub){
+    toast("No active subscription", true);
     return;
   }
 
-  if(action === 'cancel' && !confirm('Are you sure you want to cancel your subscription?')) return;
+  const r = await fetch(API_BASE + "/api/subscriptions/" + gActiveSub._id + "/" + type, {
+    method: "POST",
+    headers: { Authorization: "Bearer " + token }
+  });
 
-  try{
-    const res = await fetch(API_BASE + '/api/subscriptions/' + gActiveSub._id + '/' + action, {
-      method:'POST',
-      headers:{ 'Authorization':'Bearer ' + token }
-    });
-    const data = await res.json();
-    if(!res.ok){
-      toast(data.message || 'Error updating subscription', true);
-      return;
-    }
-    toast(data.message || 'Updated.', false);
+  const d = await r.json();
+  toast(d.message || "Updated");
 
-    await loadSubscription(token);
-    await loadSubscriptionHistory(token);
-    await loadUpcomingDeliveries(token);
-    await loadDeliveryHistory(token);
+  await loadActiveSubscription(token);
+  await loadUpcomingDeliveries(token);
+  await loadDeliveryHistory(token);
 
-    renderDashboardCards();
-    renderPlanView();
-    renderSubHistoryTable();
-    renderDeliveryCalendar();
-    renderDeliveriesView();
-
-  }catch(err){
-    console.error(err);
-    toast('Network error updating subscription.', true);
-  }
+  renderDashboardCards();
+  renderPlanView();
+  renderDeliveryCalendar();
+  renderDeliveriesView();
 }
 
-/* -------------- DOWNLOAD LAST INVOICE ------------- */
-async function downloadLastInvoice(token){
-  try{
-    const res = await fetch(API_BASE + '/api/payments/latest-invoice', {
-      headers:{ 'Authorization':'Bearer ' + token }
-    });
-    const data = await res.json();
-    if(!res.ok || !data){
-      toast(data?.message || 'No invoice found.', true);
-      return;
-    }
-
-    let url = data.invoiceUrl || data.pdfUrl || data.url;
-    if(!url && data.invoice && (data.invoice.pdfUrl || data.invoice.pdfPath)){
-      url = data.invoice.pdfUrl || data.invoice.pdfPath;
-    }
-    if(!url){
-      toast('Invoice URL not returned by backend.', true);
-      return;
-    }
-    if(url.startsWith('/')){
-      url = API_BASE + url;
-    }
-    window.open(url, '_blank');
-  }catch(err){
-    console.error(err);
-    toast('Error fetching invoice.', true);
-  }
-}
-
-/* -------------- PROFILE FORM ------------- */
+/* ================================
+   PROFILE FORM
+================================ */
 function initProfileForm(){
-  const form = document.getElementById('profileForm');
+  const form = document.getElementById("profileForm");
   if(!form) return;
-  form.addEventListener('submit', onProfileSubmit);
+  form.onsubmit = submitProfile;
 }
 
 function fillProfileForm(){
   if(!gProfile) return;
-  document.getElementById('pfFullName').value   = gProfile.fullName || '';
-  document.getElementById('pfEmail').value      = gProfile.email || '';
-  document.getElementById('pfPhone').value      = gProfile.phone || '';
-  document.getElementById('pfUserType').value   = gProfile.userType || '';
 
-  document.getElementById('pfHouse').value      = gProfile.address?.house || '';
-  document.getElementById('pfStreet').value     = gProfile.address?.street || '';
-  document.getElementById('pfArea').value       = gProfile.address?.area || '';
-  document.getElementById('pfCity').value       = gProfile.address?.city || '';
-  document.getElementById('pfPincode').value    = gProfile.address?.pincode || '';
+  document.getElementById("pfFullName").value = gProfile.name || "";
+  document.getElementById("pfEmail").value = gProfile.email || "";
+  document.getElementById("pfPhone").value = gProfile.phone || "";
 
-  document.getElementById('pfDeliveryTime').value = gProfile.deliveryTime || '';
-  document.getElementById('pfOffersOptIn').checked = !!gProfile.offersOptIn;
+  document.getElementById("pfUserType").value = gProfile.userType || "";
+  document.getElementById("pfHouse").value = gProfile.addressDetails?.house || "";
+  document.getElementById("pfStreet").value = gProfile.addressDetails?.street || "";
+  document.getElementById("pfArea").value = gProfile.addressDetails?.area || "";
+  document.getElementById("pfCity").value = gProfile.addressDetails?.city || "";
+  document.getElementById("pfPincode").value = gProfile.addressDetails?.pincode || "";
+  document.getElementById("pfDeliveryTime").value = gProfile.deliveryTime || "";
+  document.getElementById("pfOffersOptIn").checked = gProfile.offersOptIn;
 }
 
-async function onProfileSubmit(e){
+async function submitProfile(e){
   e.preventDefault();
+
   const session = getSession();
-  if(!session){
-    return clearSessionAndGoLogin('Session expired, please login again.');
-  }
-
-  const fullName = document.getElementById('pfFullName').value.trim();
-  const email    = document.getElementById('pfEmail').value.trim();
-  const phone    = document.getElementById('pfPhone').value.trim();
-  const userType = document.getElementById('pfUserType').value;
-
-  const house    = document.getElementById('pfHouse').value.trim();
-  const street   = document.getElementById('pfStreet').value.trim();
-  const area     = document.getElementById('pfArea').value.trim();
-  const city     = document.getElementById('pfCity').value.trim();
-  const pincode  = document.getElementById('pfPincode').value.trim();
-
-  const deliveryTime = document.getElementById('pfDeliveryTime').value;
-  const offersOptIn  = document.getElementById('pfOffersOptIn').checked;
-
-  if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
-    toast('Please enter a valid 10-digit phone.', true);
-    return;
-  }
-  if(!/^[0-9]{6}$/.test(pincode)){
-    toast('Please enter a valid 6-digit pincode.', true);
-    return;
-  }
-
-  const addressDetails = { house, street, area, city, pincode };
-  const address = `${house}, ${street}, ${area}, ${city} - ${pincode}`;
+  if(!session) return requireLogin();
 
   const payload = {
-    fullName,
-    phone,
-    addressDetails,
-    address,
-    userType,
-    offersOptIn,
-    deliveryTime
+    fullName: document.getElementById("pfFullName").value,
+    phone: document.getElementById("pfPhone").value,
+    userType: document.getElementById("pfUserType").value,
+    offersOptIn: document.getElementById("pfOffersOptIn").checked,
+    deliveryTime: document.getElementById("pfDeliveryTime").value,
+    addressDetails: {
+      house: document.getElementById("pfHouse").value,
+      street: document.getElementById("pfStreet").value,
+      area: document.getElementById("pfArea").value,
+      city: document.getElementById("pfCity").value,
+      pincode: document.getElementById("pfPincode").value
+    }
   };
 
-  try{
-    const res = await fetch(API_BASE + '/api/profile/update', {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization':'Bearer ' + session.token
-      },
-      body:JSON.stringify(payload)
-    });
+  const r = await fetch(API_BASE + "/api/profile/update", {
+    method: "POST",
+    headers:{
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + session.token
+    },
+    body: JSON.stringify(payload)
+  });
 
-    const d = await res.json().catch(()=> ({}));
-    if(!res.ok){
-      toast(d.message || 'Error updating profile.', true);
-      return;
-    }
+  const d = await r.json();
+  toast(d.message || "Profile Updated");
 
-    const user = d.user || {};
-    gProfile = {
-      id: user._id || gProfile.id,
-      fullName: user.name || fullName,
-      email: user.email || email,
-      phone: user.phone || phone,
-      userType: user.userType || userType,
-      address: {
-        house: user.addressDetails?.house || house,
-        street: user.addressDetails?.street || street,
-        area: user.addressDetails?.area || area,
-        city: user.addressDetails?.city || city,
-        pincode: user.addressDetails?.pincode || pincode
-      },
-      deliveryTime: user.deliveryTime || deliveryTime,
-      offersOptIn: typeof user.offersOptIn === 'boolean' ? user.offersOptIn : offersOptIn
-    };
-
-    localStorage.setItem('df_user_profile', JSON.stringify(gProfile));
-    renderHeaderAndSidebar();
-    toast('Profile updated.', false);
-  }catch(err){
-    console.error(err);
-    toast('Network error updating profile.', true);
-  }
+  await loadProfile(session.token);
+  renderHeader();
 }
 </script>
-
-</body>
-</html>
