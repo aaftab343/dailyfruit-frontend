@@ -91,8 +91,40 @@
       </div>
     </a>
 
-    <div class="text-xs text-gray-500 hidden sm:block">
-      Logged in as <span id="hdrUserEmail">...</span>
+    <!-- Right: Welcome + profile icon -->
+    <div class="flex items-center gap-4">
+      <div class="hidden sm:flex flex-col items-end leading-tight">
+        <span class="text-[11px] text-gray-400">Welcome back</span>
+        <span id="hdrUserName" class="text-xs font-semibold text-slate-800">Customer</span>
+      </div>
+
+      <div class="relative">
+        <button id="profileMenuBtn"
+                class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 hover:bg-slate-200">
+          <i class="fa-solid fa-user text-slate-600 text-sm"></i>
+        </button>
+
+        <!-- Profile dropdown -->
+        <div id="profileMenu"
+             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 text-xs py-1 z-50">
+          <div class="px-3 py-2 border-b text-[11px] text-gray-500">
+            <div id="menuUserName" class="font-semibold text-slate-700 text-xs">Customer</div>
+            <div id="menuUserEmail" class="">email@example.com</div>
+          </div>
+          <button id="menuProfileBtn"
+                  class="w-full text-left px-3 py-2 hover:bg-slate-50">
+            <i class="fa fa-user mr-2"></i> Profile
+          </button>
+          <button id="menuPaymentsBtn"
+                  class="w-full text-left px-3 py-2 hover:bg-slate-50">
+            <i class="fa fa-receipt mr-2"></i> Payments
+          </button>
+          <button id="menuLogoutBtn"
+                  class="w-full text-left px-3 py-2 hover:bg-slate-50 text-red-500">
+            <i class="fa fa-sign-out-alt mr-2"></i> Logout
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -250,7 +282,7 @@
               Edit profile & address
             </button>
 
-            <!-- NEW: Pay / Start Subscription → open plans + checkout flow -->
+            <!-- Pay / Start Subscription -->
             <button id="qaPay" class="w-full border rounded-full px-3 py-1.5 text-left">
               Pay / Start subscription
             </button>
@@ -265,7 +297,7 @@
 
       </section>
 
-      <!-- PLANS IFRAME VIEW -->
+      <!-- PLANS IFRAME VIEW (data from /api/plans in plans.html) -->
       <section id="view-plans" class="glass p-0 space-y-0 hidden text-sm">
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
           <div>
@@ -487,6 +519,58 @@
             Save Profile
           </button>
         </form>
+
+        <!-- Subscription & Billing summary (cards BELOW profile form) -->
+        <div class="border-t pt-4 space-y-4">
+          <h4 class="font-semibold text-sm text-slate-800">Subscription & Billing</h4>
+
+          <!-- Subscription card -->
+          <div class="border rounded-xl p-4 bg-white/80 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div>
+              <p class="text-xs text-gray-500 mb-1">Active Plan</p>
+              <p id="profileSubName" class="font-semibold text-sm">No active plan</p>
+              <p id="profileSubMeta" class="text-xs text-gray-500 mt-1"></p>
+              <p id="profileSubDates" class="text-xs text-gray-500 mt-1"></p>
+              <p id="profileSubExpiryAlert" class="text-[11px] mt-1 text-amber-600"></p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 text-xs">
+              <button id="profilePauseBtn" class="px-3 py-1.5 rounded-full border">Pause</button>
+              <button id="profileResumeBtn" class="px-3 py-1.5 rounded-full border">Resume</button>
+              <button id="profileCancelBtn" class="px-3 py-1.5 rounded-full border text-red-600 border-red-300">Cancel</button>
+              <button id="profileRenewBtn" class="px-3 py-1.5 rounded-full border">Renew</button>
+              <button id="profileChangeBtn" class="px-3 py-1.5 rounded-full border">Change Plan</button>
+            </div>
+          </div>
+
+          <!-- Billing & mini payment history -->
+          <div class="border rounded-xl p-4 bg-white/80 text-xs space-y-2">
+            <div class="flex items-center justify-between">
+              <p class="font-semibold text-slate-800 text-sm">Billing & Payments</p>
+              <button id="profileViewPaymentsBtn"
+                      class="text-[11px] text-indigo-600 underline">
+                View all payments
+              </button>
+            </div>
+            <p id="profileLastPaymentText" class="text-xs text-gray-600">
+              Loading payment info...
+            </p>
+            <div class="overflow-x-auto mt-2">
+              <table class="min-w-full text-[11px]">
+                <thead>
+                  <tr class="text-left text-gray-500 border-b">
+                    <th class="py-1 pr-3">Date</th>
+                    <th class="py-1 pr-3">Plan</th>
+                    <th class="py-1 pr-3">Amount</th>
+                    <th class="py-1 pr-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="profilePaymentMiniBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </section>
 
     </div>
@@ -567,6 +651,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initProfileForm();
   initQuickActions();
   initMessageBridge();
+  initProfileMenu();
 
   await loadAllData(token);
 });
@@ -577,6 +662,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function ensurePlansIframe(){
   const iframe = document.getElementById("plansIframe");
   if (iframe && !iframe.src){
+    // plans.html will fetch /api/plans (MongoDB)
     iframe.src = "plans.html?from=dashboard";
   }
 }
@@ -600,25 +686,14 @@ function initSidebar(){
     };
   });
 
-  document.getElementById("goToPlanFromCard").onclick = () => showView("plan");
-  document.getElementById("dashViewDeliveriesBtn").onclick = () => showView("deliveries");
-  document.getElementById("dashViewPaymentsBtn").onclick = () => showView("payments");
-  document.getElementById("qaProfile").onclick = () => showView("profile");
+  const goPlan = document.getElementById("goToPlanFromCard");
+  if (goPlan) goPlan.onclick = () => showView("plan");
 
-  document.getElementById("qaChangePlan").onclick = () => {
-    showView("plans");
-    ensurePlansIframe();
-  };
-  document.getElementById("qaPay").onclick = () => {
-    if(confirm("Continue to choose a plan and go to checkout?")){
-      showView("plans");
-      ensurePlansIframe();
-    }
-  };
-  document.getElementById("planChangeBtn").onclick = () => {
-    showView("plans");
-    ensurePlansIframe();
-  };
+  const delBtn = document.getElementById("dashViewDeliveriesBtn");
+  if (delBtn) delBtn.onclick = () => showView("deliveries");
+
+  const payBtn = document.getElementById("dashViewPaymentsBtn");
+  if (payBtn) payBtn.onclick = () => showView("payments");
 }
 
 function showView(v){
@@ -633,6 +708,54 @@ function showView(v){
     b.classList.remove("active");
     if(b.dataset.view === v) b.classList.add("active");
   });
+}
+
+/* ================================
+   PROFILE DROPDOWN MENU
+================================ */
+function initProfileMenu(){
+  const btn = document.getElementById("profileMenuBtn");
+  const menu = document.getElementById("profileMenu");
+  if(!btn || !menu) return;
+
+  btn.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    menu.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", ()=>{
+    menu.classList.add("hidden");
+  });
+
+  const profileBtn = document.getElementById("menuProfileBtn");
+  const paymentsBtn = document.getElementById("menuPaymentsBtn");
+  const logoutBtn = document.getElementById("menuLogoutBtn");
+
+  if(profileBtn){
+    profileBtn.onclick = (e)=>{
+      e.preventDefault();
+      showView("profile");
+      menu.classList.add("hidden");
+    };
+  }
+
+  if(paymentsBtn){
+    paymentsBtn.onclick = (e)=>{
+      e.preventDefault();
+      showView("payments");
+      menu.classList.add("hidden");
+    };
+  }
+
+  if(logoutBtn){
+    logoutBtn.onclick = (e)=>{
+      e.preventDefault();
+      menu.classList.add("hidden");
+      if(confirm("Logout from your account?")){
+        logout();
+      }
+    };
+  }
 }
 
 /* ================================
@@ -661,7 +784,9 @@ function initMessageBridge(){
    LOGOUT
 ================================ */
 function initLogout(){
-  document.getElementById("logoutBtn").onclick = () => {
+  const btn = document.getElementById("logoutBtn");
+  if(!btn) return;
+  btn.onclick = () => {
     if(confirm("Logout from your account?")){
       logout();
     }
@@ -689,6 +814,7 @@ async function loadAllData(token){
     renderDeliveryCalendar();
     renderDeliveriesView();
     renderPaymentsView();
+    renderProfileSubscriptionAndBilling();
     fillProfileForm();
 
   } catch (e){
@@ -760,10 +886,20 @@ async function loadPaymentHistory(token){
 ================================ */
 function renderHeader(){
   if(!gProfile) return;
-  document.getElementById("sidebarUserName").textContent =
-    gProfile.name || "User";
-  document.getElementById("hdrUserEmail").textContent =
-    gProfile.email || "-";
+  const name = gProfile.name || "Customer";
+  const email = gProfile.email || "-";
+
+  const hdrName = document.getElementById("hdrUserName");
+  if (hdrName) hdrName.textContent = name;
+
+  const sideName = document.getElementById("sidebarUserName");
+  if (sideName) sideName.textContent = name;
+
+  const menuName = document.getElementById("menuUserName");
+  if (menuName) menuName.textContent = name;
+
+  const menuEmail = document.getElementById("menuUserEmail");
+  if (menuEmail) menuEmail.textContent = email;
 }
 
 /* ================================
@@ -795,7 +931,7 @@ function renderDashboardCards(){
     nextMetaEl.textContent = next.status;
   } else {
     nextEl.textContent = "No upcoming delivery";
-    nextMetaEl.textContent = "";
+    if(nextMetaEl) nextMetaEl.textContent = "";
   }
 
   // Last payment
@@ -808,7 +944,7 @@ function renderDashboardCards(){
     payMeta.textContent = last.planName;
   } else {
     lastPay.textContent = "No payments yet";
-    payMeta.textContent = "";
+    if(payMeta) payMeta.textContent = "";
   }
 }
 
@@ -930,6 +1066,79 @@ function renderPaymentsView(){
 }
 
 /* ================================
+   PROFILE SUBSCRIPTION + BILLING
+================================ */
+function renderProfileSubscriptionAndBilling(){
+  const subName = document.getElementById("profileSubName");
+  const subMeta = document.getElementById("profileSubMeta");
+  const subDates = document.getElementById("profileSubDates");
+  const subAlert = document.getElementById("profileSubExpiryAlert");
+
+  if(!subName) return;
+
+  if(!gActiveSub || !gActiveSub._id){
+    subName.textContent = "No active plan";
+    subMeta.textContent = "You don't have any active subscription yet.";
+    subDates.textContent = "";
+    subAlert.textContent = "";
+  } else {
+    subName.textContent = gActiveSub.planName;
+    subMeta.textContent = "Status: " + (gActiveSub.status || "active");
+
+    const sDate = new Date(gActiveSub.startDate);
+    const eDate = new Date(gActiveSub.endDate);
+    subDates.textContent =
+      `Start: ${sDate.toLocaleDateString("en-IN")} • End: ${eDate.toLocaleDateString("en-IN")}`;
+
+    const now = new Date();
+    const diffMs = eDate - now;
+
+    if(diffMs > 0){
+      const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      if(daysLeft <= 5 && gActiveSub.status === "active"){
+        subAlert.textContent =
+          `⏰ Plan expiring in ${daysLeft} day${daysLeft>1 ? "s" : ""}. You can renew now.`;
+      } else {
+        subAlert.textContent = "";
+      }
+    } else if(gActiveSub.status === "expired"){
+      subAlert.textContent = "Your plan has expired. Renew to restart your deliveries.";
+    } else {
+      subAlert.textContent = "";
+    }
+  }
+
+  // Billing + mini payment list
+  const lastTxt = document.getElementById("profileLastPaymentText");
+  const miniBody = document.getElementById("profilePaymentMiniBody");
+  if(!lastTxt || !miniBody) return;
+
+  miniBody.innerHTML = "";
+  if(!gPaymentHistory || gPaymentHistory.length === 0){
+    lastTxt.textContent = "No payments found yet.";
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td class="py-1 pr-3 text-gray-400" colspan="4">No payments yet.</td>`;
+    miniBody.appendChild(tr);
+  } else {
+    const last = gPaymentHistory[0];
+    lastTxt.textContent =
+      `Last payment: ₹${last.amount} for ${last.planName} on ` +
+      `${new Date(last.createdAt).toLocaleDateString("en-IN")} (${last.status}).`;
+
+    gPaymentHistory.slice(0, 5).forEach(p => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="py-1 pr-3">${new Date(p.createdAt).toLocaleDateString("en-IN")}</td>
+        <td class="py-1 pr-3">${p.planName}</td>
+        <td class="py-1 pr-3">₹${p.amount}</td>
+        <td class="py-1 pr-3">${p.status}</td>
+      `;
+      miniBody.appendChild(tr);
+    });
+  }
+}
+
+/* ================================
    SKIP DELIVERY
 ================================ */
 async function skipDelivery(id){
@@ -953,30 +1162,57 @@ async function skipDelivery(id){
 window.skipDelivery = skipDelivery;
 
 /* ================================
-   QUICK ACTIONS
+   QUICK ACTIONS & SUB ACTIONS
 ================================ */
 function initQuickActions(){
   const session = getSession();
   if(!session) return;
   const token = session.token;
 
-  document.getElementById("qaPause").onclick =
-    () => subAction("pause", token);
-  document.getElementById("qaResume").onclick =
-    () => subAction("resume", token);
-  document.getElementById("qaCancel").onclick =
-    () => subAction("cancel", token);
-  document.getElementById("qaRenew").onclick =
-    () => subAction("renew", token);
+  const setClick = (id, fn) => {
+    const el = document.getElementById(id);
+    if(el) el.onclick = fn;
+  };
 
-  document.getElementById("planPauseBtn").onclick =
-    () => subAction("pause", token);
-  document.getElementById("planResumeBtn").onclick =
-    () => subAction("resume", token);
-  document.getElementById("planCancelBtn").onclick =
-    () => subAction("cancel", token);
-  document.getElementById("planRenewBtn").onclick =
-    () => subAction("renew", token);
+  // Quick actions
+  setClick("qaPause", ()=>subAction("pause", token));
+  setClick("qaResume", ()=>subAction("resume", token));
+  setClick("qaCancel", ()=>subAction("cancel", token));
+  setClick("qaRenew", ()=>subAction("renew", token));
+  setClick("qaProfile", ()=>showView("profile"));
+  setClick("qaChangePlan", ()=>{
+    showView("plans");
+    ensurePlansIframe();
+  });
+  setClick("qaPay", ()=>{
+    if(confirm("Continue to choose a plan and go to checkout?")){
+      showView("plans");
+      ensurePlansIframe();
+    }
+  });
+
+  // My Plan buttons
+  setClick("planPauseBtn", ()=>subAction("pause", token));
+  setClick("planResumeBtn", ()=>subAction("resume", token));
+  setClick("planCancelBtn", ()=>subAction("cancel", token));
+  setClick("planRenewBtn", ()=>subAction("renew", token));
+  setClick("planChangeBtn", ()=>{
+    showView("plans");
+    ensurePlansIframe();
+  });
+
+  // Profile subscription card buttons
+  setClick("profilePauseBtn", ()=>subAction("pause", token));
+  setClick("profileResumeBtn", ()=>subAction("resume", token));
+  setClick("profileCancelBtn", ()=>subAction("cancel", token));
+  setClick("profileRenewBtn", ()=>subAction("renew", token));
+  setClick("profileChangeBtn", ()=>{
+    showView("plans");
+    ensurePlansIframe();
+  });
+  setClick("profileViewPaymentsBtn", ()=>{
+    showView("payments");
+  });
 }
 
 async function subAction(type, token){
@@ -1001,6 +1237,7 @@ async function subAction(type, token){
   renderPlanView();
   renderDeliveryCalendar();
   renderDeliveriesView();
+  renderProfileSubscriptionAndBilling();
 }
 
 /* ================================
