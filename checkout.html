@@ -37,6 +37,29 @@
 
 <body>
 
+<script>
+/* -----------------------------------------------
+   CHECK LOGIN
+----------------------------------------------- */
+const token = localStorage.getItem("df_user_token");
+if (!token) {
+  window.location.href = "login.html?redirect=checkout.html";
+}
+
+/* -----------------------------------------------
+   CHECK SELECTED PLAN
+----------------------------------------------- */
+const plan = JSON.parse(localStorage.getItem("df_selected_plan") || "{}");
+if (!plan || !plan.price) {
+  window.location.href = "plans.html";
+}
+
+/* -----------------------------------------------
+   LOAD PROFILE FOR AUTO-FILL
+----------------------------------------------- */
+const profile = JSON.parse(localStorage.getItem("df_user_profile") || "{}");
+</script>
+
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
@@ -151,35 +174,47 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-const API_BASE = "https://dailyfruit-backend.onrender.com";
-const RZP_KEY = "rzp_live_Rn88PMRmNfQxgk";
-
-let plan = {};
-let basePrice = 0, gstAmount = 0, finalAmountRounded = 0;
-
-// LOAD PLAN
+/* -----------------------------------------------
+   PREFILL FORM WITH PROFILE DATA
+----------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-  plan = JSON.parse(localStorage.getItem("df_selected_plan") || "{}");
 
-  if (plan?.price) {
-    basePrice = Number(plan.price);
-    gstAmount = +(basePrice * 0.18).toFixed(2);
-    finalAmountRounded = Math.round(basePrice + gstAmount);
+  document.getElementById("fullName").value = profile.name || "";
+  document.getElementById("email").value = profile.email || "";
+  document.getElementById("phone").value = profile.phone || "";
 
-    document.getElementById("planName").textContent = plan.name;
-    document.getElementById("planPrice").textContent = "₹" + plan.price;
-    document.getElementById("basePriceText").textContent = "₹" + basePrice;
-    document.getElementById("gstText").textContent = "₹" + gstAmount;
-    document.getElementById("totalText").textContent = "₹" + finalAmountRounded;
+  if (profile.addressDetails) {
+    house.value = profile.addressDetails.house || "";
+    street.value = profile.addressDetails.street || "";
+    area.value = profile.addressDetails.area || "";
+    city.value = profile.addressDetails.city || "";
+    pincode.value = profile.addressDetails.pincode || "";
   }
 
+  // plan UI
+  const basePrice = Number(plan.price);
+  const gstAmount = +(basePrice * 0.18).toFixed(2);
+  const finalAmount = Math.round(basePrice + gstAmount);
+
+  document.getElementById("planName").textContent = plan.name;
+  document.getElementById("planPrice").textContent = "₹" + plan.price;
+  document.getElementById("basePriceText").textContent = "₹" + basePrice;
+  document.getElementById("gstText").textContent = "₹" + gstAmount;
+  document.getElementById("totalText").textContent = "₹" + finalAmount;
+
+  // start date minimum = today
   const d = new Date();
   const m = String(d.getMonth()+1).padStart(2,"0");
   const dd = String(d.getDate()).padStart(2,"0");
-  document.getElementById("startDate").min = `${d.getFullYear()}-${m}-${dd}`;
+  startDate.min = `${d.getFullYear()}-${m}-${dd}`;
 });
 
-// SUBMIT FORM
+/* -----------------------------------------------
+   PAYMENT FLOW
+----------------------------------------------- */
+const API_BASE = "https://dailyfruit-backend.onrender.com";
+const RZP_KEY = "rzp_live_Rn88PMRmNfQxgk";
+
 document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
   e.preventDefault();
 
@@ -188,9 +223,11 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
   payBtn.classList.add("btn-disabled");
   payBtn.disabled = true;
 
-  const token = localStorage.getItem("token") || "";
+  /* ---------------------------
+     CREATE ORDER WITH TOKEN
+  --------------------------- */
+  const amount = Math.round(plan.price * 1.18);
 
-  // CREATE ORDER (with Authorization)
   const orderRes = await fetch(API_BASE + "/api/payments/create-order", {
     method:"POST",
     headers:{
@@ -199,23 +236,25 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
     },
     body:JSON.stringify({
       planSlug: plan.slug,
-      amount: finalAmountRounded
+      amount
     })
   });
 
   const orderData = await orderRes.json();
+
   if (!orderRes.ok) {
     alert(orderData.message || "Order creation failed.");
     payBtn.textContent = "Pay Now";
-    payBtn.classList.remove("btn-disabled");
     payBtn.disabled = false;
     return;
   }
 
-  // RAZORPAY POPUP
+  /* ---------------------------
+     OPEN RAZORPAY POPUP
+  --------------------------- */
   const options = {
     key: RZP_KEY,
-    amount: finalAmountRounded * 100,
+    amount: amount * 100,
     currency:"INR",
     order_id: orderData.orderId,
     name:"Daily Fruit Co.",
@@ -228,34 +267,54 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e)=>{
     },
 
     handler: async function(resp){
-      // VERIFY PAYMENT (with Authorization)
+
+      /* ---------------------------
+         VERIFY PAYMENT + SEND DETAILS
+      --------------------------- */
       const verifyRes = await fetch(API_BASE + "/api/payments/verify", {
         method:"POST",
-        headers:{ 
+        headers:{
           "Content-Type":"application/json",
           "Authorization":"Bearer " + token
         },
         body:JSON.stringify({
           razorpay_order_id: resp.razorpay_order_id,
           razorpay_payment_id: resp.razorpay_payment_id,
-          razorpay_signature: resp.razorpay_signature
+          razorpay_signature: resp.razorpay_signature,
+
+          planSlug: plan.slug,
+          startDate: startDate.value,
+
+          fullName: fullName.value,
+          email: email.value,
+          phone: phone.value,
+
+          addressDetails:{
+            house: house.value,
+            street: street.value,
+            area: area.value,
+            city: city.value,
+            pincode: pincode.value
+          }
         })
       });
 
       const vData = await verifyRes.json();
+
       if (!verifyRes.ok) {
         alert(vData.message || "Payment verification failed.");
         return;
       }
 
+      // SUCCESS → DASHBOARD
       window.location.href = "dashboard.html";
     }
   };
 
   new Razorpay(options).open();
-
 });
 </script>
 
 </body>
 </html>
+
