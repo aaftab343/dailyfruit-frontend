@@ -23,18 +23,11 @@
   <!-- Lottie -->
   <script src="https://unpkg.com/lottie-web@5.10.1/build/player/lottie.min.js"></script>
 
-  <meta name="description" content="Fresh fruit salads delivered daily in Pune. Healthy, premium and delicious fruit bowls delivered to your doorstep." />
-
   <style>
-    :root{
-      --accent1:#06b6d4;
-      --accent2:#7c3aed;
-    }
-
-    html{ scroll-behavior:smooth }
+    :root{ --accent1:#06b6d4; --accent2:#7c3aed; }
     body{ font-family:Inter, sans-serif; }
+    html{ scroll-behavior:smooth }
 
-    /* Restored original colorful gradient */
     .section-title{
       background:linear-gradient(90deg,#06b6d4,#7c3aed);
       -webkit-background-clip:text;
@@ -43,7 +36,6 @@
       font-weight:700;
     }
 
-    /* Restored gradient text animation */
     .gradient-animate{
       background:linear-gradient(90deg,var(--accent1),#f97316,var(--accent2));
       background-size:200%;
@@ -53,7 +45,6 @@
     }
     @keyframes shine{0%{background-position:0%}100%{background-position:200%}}
 
-    /* Restored glass UI */
     .glass{
       background:linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.88));
       backdrop-filter: blur(10px);
@@ -63,31 +54,28 @@
       border:1px solid rgba(148,163,184,0.35)
     }
 
-    footer{
-      background:linear-gradient(90deg,#0f172a 0%, #020617 100%);
-      color:#cbd5f5
+    .glass-icon {
+      width:45px;height:45px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.75);
+      backdrop-filter:blur(10px);
+      box-shadow:0 8px 20px rgba(0,0,0,0.15);
+      font-size:1.2rem;color:#1e293b;
+      transition:0.25s ease;
+    }
+    .glass-icon:hover{
+      transform:scale(1.12);
+      background:linear-gradient(90deg,#06b6d4,#7c3aed);
+      color:white;
     }
 
     #preloader{
       position:fixed; inset:0;
       display:flex; align-items:center; justify-content:center;
       background:white; z-index:60;
-    }
-
-    .glass-icon{
-      width:45px;height:45px;
-      border-radius:16px;
-      display:flex;justify-content:center;align-items:center;
-      background:rgba(255,255,255,0.75);
-      backdrop-filter:blur(8px);
-      font-size:1.2rem;
-      color:#1e293b;
-      transition:.25s;
-    }
-    .glass-icon:hover{
-      transform:scale(1.12);
-      background:linear-gradient(90deg,#06b6d4,#7c3aed);
-      color:white;
     }
   </style>
 </head>
@@ -102,11 +90,10 @@
   </div>
 </div>
 
-<!-- ================= NAVIGATION (Original UI Restored) ================= -->
-<header class="sticky top-0 z-40 header-gradient bg-gradient-to-r from-cyan-50/60 to-purple-50/40 backdrop-blur">
+<!-- ================= NAVIGATION ================= -->
+<header class="sticky top-0 z-40 bg-gradient-to-r from-cyan-50/60 to-purple-50/40 backdrop-blur">
   <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
 
-    <!-- LOGO -->
     <a href="index.html" class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 flex items-center justify-center text-white font-bold shadow-lg">DF</div>
       <div>
@@ -115,7 +102,6 @@
       </div>
     </a>
 
-    <!-- DESKTOP NAV -->
     <nav class="hidden md:flex gap-4 items-center text-sm" id="desktopNav">
       <a href="#plans" class="hover:text-green-600">Plans</a>
       <a href="#menu" class="hover:text-green-600">Menu</a>
@@ -123,63 +109,57 @@
       <a href="#faq" class="hover:text-green-600">FAQs</a>
       <a href="#subscribe" class="hover:text-indigo-600">Subscribe</a>
 
-      <!-- dynamic (Login / Signup / Dashboard) -->
       <span id="navAuthArea" class="flex gap-3"></span>
 
       <a href="plans.html" class="hover:text-emerald-600 font-semibold">All 20 Plans</a>
 
       <a href="#subscribe"
-         class="px-4 py-2 rounded-full text-white font-medium btn-animate"
+         class="px-4 py-2 rounded-full text-white font-medium"
          style="background:linear-gradient(90deg,var(--accent1),var(--accent2));">
         Subscribe Now
       </a>
     </nav>
 
-    <!-- MOBILE MENU BUTTON -->
     <button id="mobileToggle" class="md:hidden px-3 py-2 rounded bg-white shadow-sm">
       <i class="fa fa-bars"></i>
     </button>
-
   </div>
 
-  <!-- MOBILE MENU -->
   <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
-    <div class="px-4 py-4 flex flex-col gap-3 text-sm" id="mobileNavLinks">
+    <div class="px-4 py-4 flex flex-col gap-3 text-sm">
       <a href="#plans">Plans</a>
       <a href="#menu">Menu</a>
       <a href="#delivery">Delivery</a>
       <a href="#faq">FAQs</a>
       <a href="#subscribe">Subscribe</a>
 
-      <!-- dynamic -->
       <span id="mobileAuthArea" class="flex flex-col gap-2"></span>
 
       <a href="plans.html">All 20 Plans</a>
     </div>
   </div>
 </header>
+
 <!-- ================= HERO ================= -->
-<main id="home" class="max-w-6xl mx-auto px-4 py-12 relative overflow-hidden">
+<main class="max-w-6xl mx-auto px-4 py-12 relative overflow-hidden">
   <div id="particles-js"></div>
 
   <div class="grid md:grid-cols-2 gap-8 items-center relative z-10">
-
     <section data-aos="fade-right">
       <h2 class="text-4xl md:text-5xl font-extrabold gradient-animate">
         Fresh Fruit Salads Delivered Daily in Pune
       </h2>
 
       <p class="mt-4 text-gray-700">
-        Healthy, premium, and delicious fruit bowls delivered to your doorstep —
-        every day, every week, every month.
+        Healthy, premium, and delicious fruit bowls delivered to your doorstep — every day, every week, every month.
       </p>
 
       <div class="mt-6 flex gap-3">
         <a href="plans.html"
-           class="px-5 py-3 rounded-full text-white font-semibold btn-animate"
+           class="px-5 py-3 rounded-full text-white font-semibold"
            style="background:linear-gradient(90deg,var(--accent1),var(--accent2));">
            View All 20 Plans 
-           <span class="ml-2"><i class="fa fa-arrow-right"></i></span>
+           <i class="fa fa-arrow-right ml-2"></i>
         </a>
 
         <a href="#plans"
@@ -190,19 +170,15 @@
     </section>
 
     <aside data-aos="fade-left">
-      <div class="w-full rounded-lg overflow-hidden shadow-lg bg-white transform hover:scale-105 transition-transform">
-        <img src="https://images.unsplash.com/photo-1547517026-84a3f8e1a6c9?q=80&w=1200&auto=format&fit=crop"
-             class="w-full h-80 object-cover" />
-      </div>
+      <img src="https://images.unsplash.com/photo-1547517026-84a3f8e1a6c9?q=80&w=1200"
+           class="w-full h-80 rounded-lg shadow-lg object-cover" />
     </aside>
-
   </div>
 </main>
 
 <!-- ================= WHY US ================= -->
 <section id="about" class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
   <div class="glass p-8 rounded-lg shadow">
-
     <h3 class="text-3xl font-bold section-title">Why Us</h3>
 
     <p class="mt-4 text-gray-700">
@@ -210,7 +186,6 @@
     </p>
 
     <div class="mt-6 grid md:grid-cols-3 gap-4 text-sm text-gray-700">
-
       <div>
         <h4 class="font-semibold mb-1">What We Believe</h4>
         <ul class="list-disc pl-5 space-y-1">
@@ -235,11 +210,9 @@
         <h4 class="font-semibold mb-1">Our Goal</h4>
         <p>To help Pune become healthier — one fresh bowl at a time.</p>
       </div>
-
     </div>
   </div>
 </section>
-
 <!-- ================= BEST SELLER PLANS ================= -->
 <section id="plans" class="py-16 bg-slate-50">
   <div class="max-w-6xl mx-auto px-4">
@@ -267,7 +240,7 @@
         <p class="text-sm text-gray-600 mt-1">22 bowls / month • 300g</p>
         <p class="mt-2 text-base font-semibold text-emerald-600">₹1,869 / month</p>
         <p class="mt-2 text-xs text-gray-600">
-          Seasonal + premium fruits with daily protein add-ons.
+          Premium fruits + daily protein add-ons.
         </p>
       </div>
 
@@ -276,13 +249,14 @@
         <p class="text-sm text-gray-600 mt-1">30 bowls / month • 350g</p>
         <p class="mt-2 text-base font-semibold text-emerald-600">₹2,549 / month</p>
         <p class="mt-2 text-xs text-gray-600">
-          Premium fruits daily + custom bowls & detox drinks.
+          Premium fruits daily + custom bowl options & detox drinks.
         </p>
       </div>
 
     </div>
   </div>
 </section>
+
 
 <!-- ================= MENU ================= -->
 <section id="menu" class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
@@ -300,6 +274,7 @@
   </div>
 </section>
 
+
 <!-- ================= DELIVERY INFO ================= -->
 <section id="delivery" class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
   <div class="glass p-8 rounded shadow text-sm text-gray-700">
@@ -314,12 +289,13 @@
     </ul>
 
     <p class="mt-4">
-      Delivery Timings: 6:30 AM – 10:00 AM (Sunday delivery in Diamond Plan). 
-      Packaging: Airtight containers, 100% recyclable.
+      Delivery Timings: 6:30 AM – 10:00 AM  
+      (Note: Diamond plan includes **Sunday delivery**)
     </p>
 
   </div>
 </section>
+
 
 <!-- ================= FAQ ================= -->
 <section id="faq" class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
@@ -336,22 +312,23 @@
 
       <details class="p-3 border rounded">
         <summary class="font-medium cursor-pointer">How do I pay?</summary>
-        <div class="mt-2">UPI, GPay, PhonePe, Paytm.</div>
+        <div class="mt-2">UPI, GPay, PhonePe, Paytm — fully supported.</div>
       </details>
 
       <details class="p-3 border rounded">
         <summary class="font-medium cursor-pointer">Can I customize my bowl?</summary>
-        <div class="mt-2">Yes — Diamond & Custom plans include bowl customization.</div>
+        <div class="mt-2">Yes — Diamond & Custom plans allow custom fruit combinations.</div>
       </details>
 
       <details class="p-3 border rounded">
         <summary class="font-medium cursor-pointer">Are fruits washed and cut safely?</summary>
-        <div class="mt-2">We follow strict hygiene and food-safety standards.</div>
+        <div class="mt-2">We follow strict hygiene and food-safety processes.</div>
       </details>
 
     </div>
   </div>
 </section>
+
 
 <!-- ================= SUBSCRIBE BOX ================= -->
 <section id="subscribe" class="max-w-6xl mx-auto px-4 py-8" data-aos="zoom-in">
@@ -362,21 +339,21 @@
       <div>
         <h3 class="text-2xl font-bold">Subscribe & Start Fresh</h3>
         <p class="text-sm text-gray-600 mt-2">
-          Choose a plan and share your WhatsApp number. We'll confirm your schedule.
+          Choose a plan and share your WhatsApp number. We will confirm your schedule.
         </p>
       </div>
 
       <form id="subscribeForm" class="mt-4 md:mt-0 flex flex-col md:flex-row gap-2">
 
         <select name="planSlug" class="p-2 border rounded">
-          <option value="gold-monthly">Gold Monthly Plan — ₹1,869</option>
-          <option value="diamond-monthly">Diamond Monthly Plan — ₹2,549</option>
-          <option value="silver-monthly">Silver Monthly Plan — ₹1,274</option>
+          <option value="gold-monthly">Gold Monthly — ₹1,869</option>
+          <option value="diamond-monthly">Diamond Monthly — ₹2,549</option>
+          <option value="silver-monthly">Silver Monthly — ₹1,274</option>
           <option value="weekly-fresh-bowl">Weekly Fresh Bowl — ₹424/week</option>
         </select>
 
         <input type="tel" name="phone"
-               placeholder="Phone / WhatsApp"
+               placeholder="WhatsApp Number"
                class="p-2 border rounded"
                required>
 
@@ -390,7 +367,7 @@
     </div>
 
     <p class="text-xs text-gray-500 mt-3">
-      Payment: UPI, GPay, PhonePe, Paytm. Pause/skip/upgrade anytime.
+      Payments: UPI / GPay / PhonePe / Paytm • Pause / Skip / Upgrade Anytime
     </p>
 
   </div>
@@ -455,15 +432,14 @@
   <a href="https://wa.me/919226157351" target="_blank" class="glass-icon"><i class="fab fa-whatsapp"></i></a>
 </div>
 
-<!-- ================= WHATSAPP FLOATING BUTTON ================= -->
-<a href="https://wa.me/919226157351?text=Hi!%20I’d%20like%20to%20subscribe%20to%20Daily%20Fruit%20Co."
+<!-- ================= WHATSAPP BUTTON ================= -->
+<a href="https://wa.me/919226157351?text=Hi!%20I'd%20like%20to%20subscribe%20to%20Daily%20Fruit%20Co."
    target="_blank"
    class="fixed bottom-4 left-4 w-14 h-14 rounded-full bg-green-500 text-white flex items-center justify-center shadow-xl z-40">
    <i class="fa fa-whatsapp text-3xl"></i>
 </a>
 
-
-<!-- ================= AOS ================= -->
+<!-- ================= SCRIPTS ================= -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
@@ -471,7 +447,7 @@ AOS.init({ duration:700, once:true, offset:60 });
 
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 
-/* --------------------- LOGIN / LOGOUT UI ---------------------- */
+/* --------------------- LOGIN / DASHBOARD UI ---------------------- */
 function updateNavAuth() {
   const token = localStorage.getItem("df_user_token");
 
@@ -541,3 +517,4 @@ updateNavAuth();
 
 </body>
 </html>
+ 
