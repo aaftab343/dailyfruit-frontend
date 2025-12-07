@@ -3,138 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Dashboard — Daily Fruit Co.</title>
+  <title>Dashboard — Daily Fruit Co.</title>
 
-  <!-- TAILWIND -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- FONTS -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- FONTAWESOME -->
+  <!-- Icons -->
   <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
-
-  <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <style>
     body{
       font-family:'Inter',sans-serif;
       background:linear-gradient(180deg,#f8fafc,#eef7ff);
       color:#0f172a;
-      transition: background 0.25s ease,color 0.25s ease;
     }
-
     .glass{
-      position:relative;
       background:rgba(255,255,255,0.9);
       backdrop-filter:blur(12px);
       border-radius:18px;
       border:1px solid rgba(148,163,184,0.4);
       box-shadow:0 10px 30px rgba(15,23,42,0.12);
-      overflow:hidden;
-      transition: background 0.25s ease,border-color 0.25s ease,box-shadow 0.25s ease;
     }
-
     .section-title{
       background:linear-gradient(90deg,#06b6d4,#7c3aed);
       -webkit-background-clip:text;
       color:transparent;
       font-weight:800;
     }
-
-    .glass-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      font-size: 1.2rem;
-      color: #1e293b;
-      transition: 0.25s ease;
-    }
-    .glass-icon:hover {
-      transform: scale(1.12);
-      background: linear-gradient(90deg, #06b6d4, #7c3aed);
-      color: white;
-    }
-
-    .footer-social {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .fab-wa {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 58px;
-      height: 58px;
-      border-radius: 9999px;
-      background: #25D366;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      z-index: 50;
-      transition: .25s;
-    }
-    .fab-wa:hover {
-      transform: scale(1.12);
-    }
-
-    @media (max-width:768px){
-      .desktop-only{display:none;}
-    }
-
-    .dash-tab{
-      padding:0.5rem 1rem;
-      font-size:0.85rem;
+    .sidebar-link{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0.6rem 0.9rem;
       border-radius:999px;
+      font-size:0.85rem;
       cursor:pointer;
-      border:1px solid transparent;
-      background:white;
-      color:#0f172a;
+      color:#e5e7eb;
       transition:.2s;
     }
-    .dash-tab:hover{
-      border-color:rgba(148,163,184,0.7);
+    .sidebar-link:hover{
+      background:rgba(148,163,184,0.2);
     }
-    .dash-tab.active{
+    .sidebar-link.active{
       background:linear-gradient(90deg,#06b6d4,#7c3aed);
       color:white;
       box-shadow:0 8px 20px rgba(37,99,235,0.35);
     }
-
-    body.dark-mode{
-      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
-      color:#e5e7eb;
+    .status-pill{
+      border-radius:999px;
+      font-size:0.75rem;
+      padding:0.15rem 0.6rem;
     }
-    body.dark-mode .glass{
-      background:rgba(15,23,42,0.96);
-      border-color:rgba(148,163,184,0.7);
-      box-shadow:0 16px 40px rgba(0,0,0,0.6);
+    .status-active{
+      background:#dcfce7;
+      color:#166534;
     }
-    body.dark-mode header{
-      background:rgba(15,23,42,0.92);
-      backdrop-filter:blur(10px);
+    .status-paused{
+      background:#fef3c7;
+      color:#92400e;
     }
-    body.dark-mode input,
-    body.dark-mode select,
-    body.dark-mode textarea{
-      background:rgba(15,23,42,0.9);
-      color:#e5e7eb;
-      border-color:#475569;
+    .status-cancelled{
+      background:#fee2e2;
+      color:#b91c1c;
     }
-    body.dark-mode footer{
-      background:#020617;
+    .status-expired{
+      background:#e5e7eb;
+      color:#374151;
     }
   </style>
 </head>
@@ -154,946 +91,1099 @@
       </div>
     </a>
 
-    <nav class="hidden md:flex gap-4 text-sm">
-      <a href="index.html" class="hover:text-green-600">Home</a>
-      <a href="plans.html" class="hover:text-emerald-600">Plans</a>
-      <a href="login.html" class="hover:text-indigo-600">Login</a>
-      <a href="signup.html" class="hover:text-indigo-600">Signup</a>
-      <a href="dashboard.html" class="text-emerald-600 font-semibold">Dashboard</a>
-    </nav>
+    <div class="text-xs text-gray-500 hidden sm:block">
+      Logged in as <span id="hdrUserEmail">...</span>
+    </div>
   </div>
 </header>
 
-<!-- PAGE HEADING -->
-<section class="max-w-6xl mx-auto px-4 py-8">
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-    <div>
-      <h2 class="text-3xl md:text-4xl font-extrabold section-title mb-2">
-        My Dashboard
-      </h2>
-      <p class="text-gray-600 text-sm md:text-base">
-        View and manage your fruit subscription, payments & profile in one place.
-      </p>
-    </div>
+<!-- LAYOUT -->
+<div class="max-w-6xl mx-auto px-4 py-6 flex gap-5">
 
-    <div class="flex items-center gap-3">
-      <button id="darkModeToggle"
-              class="px-3 py-2 rounded-full text-xs font-medium border bg-white/80 flex items-center gap-2">
-        <i class="fa fa-moon"></i>
-        <span>Dark Mode</span>
+  <!-- SIDEBAR -->
+  <aside class="w-64 hidden md:block">
+    <div class="glass p-4 sticky top-24">
+      <div class="mb-4">
+        <p class="text-xs text-gray-500 mb-1">Welcome</p>
+        <p id="sidebarUserName" class="font-semibold text-slate-800 text-sm">User</p>
+      </div>
+
+      <nav class="flex flex-col gap-1 text-xs">
+        <button class="sidebar-link active" data-view="dashboard">
+          <i class="fa fa-chart-pie"></i> Dashboard Home
+        </button>
+        <button class="sidebar-link" data-view="plan">
+          <i class="fa fa-seedling"></i> My Plan
+        </button>
+        <button class="sidebar-link" data-view="deliveries">
+          <i class="fa fa-truck"></i> Deliveries
+        </button>
+        <button class="sidebar-link" data-view="payments">
+          <i class="fa fa-receipt"></i> Payments
+        </button>
+        <button class="sidebar-link" data-view="profile">
+          <i class="fa fa-user"></i> Profile
+        </button>
+      </nav>
+
+      <hr class="my-3 border-slate-200">
+
+      <button id="logoutBtn" class="sidebar-link text-red-300">
+        <i class="fa fa-sign-out-alt"></i> Logout
       </button>
-
-      <a href="mailto:dailyfruitco@gmail.com"
-         class="px-3 py-2 rounded-full text-xs font-medium text-white"
-         style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-        <i class="fa fa-headset mr-1"></i> Support
-      </a>
-
-      <button id="logoutBtn"
-              class="px-3 py-2 rounded-full text-xs font-medium border border-red-500 text-red-600 bg-white/90">
-        Logout
-      </button>
     </div>
-  </div>
-</section>
+  </aside>
 
-<!-- MAIN DASHBOARD WRAPPER -->
-<section class="max-w-6xl mx-auto px-4 pb-10">
-  <div class="glass p-6 md:p-8" data-aos="fade-up">
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 space-y-4">
 
-    <!-- TOP BAR -->
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <!-- PAGE TITLE + QUICK ACTIONS -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
       <div>
-        <h3 class="text-xl md:text-2xl font-bold text-slate-800" id="dashUserGreeting">
-          Hello, User 👋
-        </h3>
-        <p class="text-xs text-gray-500" id="dashUserSubtext">
-          Manage your subscription, profile and payments.
+        <h2 class="text-2xl md:text-3xl font-extrabold section-title">My Dashboard</h2>
+        <p class="text-xs text-gray-500 mt-1">
+          Manage your plan, deliveries, payments and profile in one place.
         </p>
       </div>
-
       <div class="flex flex-wrap gap-2 text-xs">
-        <button class="dash-tab active" data-tab="overview">Overview</button>
-        <button class="dash-tab" data-tab="plans">Plans</button>
-        <button class="dash-tab" data-tab="payments">Payments</button>
-        <button class="dash-tab" data-tab="profile">Profile</button>
+        <a href="mailto:dailyfruitco@gmail.com"
+           class="px-3 py-2 rounded-full text-white"
+           style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+          <i class="fa fa-headset mr-1"></i> Support
+        </a>
       </div>
     </div>
 
-    <!-- OVERVIEW TAB -->
-    <div id="tab-overview" class="dash-tab-panel">
-      <div class="grid md:grid-cols-3 gap-4 mb-6 text-sm">
-        <div class="border rounded-lg p-4 bg-white/80">
-          <p class="text-xs text-gray-500 mb-1">Active Plan</p>
-          <p class="font-semibold" id="ovActivePlanName">Loading...</p>
-          <p class="text-xs text-gray-500 mt-1" id="ovActivePlanPrice"></p>
-        </div>
+    <!-- VIEWS WRAPPER -->
+    <div class="space-y-4">
 
-        <div class="border rounded-lg p-4 bg-white/80">
-          <p class="text-xs text-gray-500 mb-1">Next Delivery</p>
-          <p class="font-semibold" id="ovNextDeliveryDate">Loading...</p>
-          <p class="text-xs text-gray-500 mt-1" id="ovDeliveryTimeText"></p>
-        </div>
+      <!-- DASHBOARD HOME VIEW -->
+      <section id="view-dashboard" class="glass p-5 space-y-5">
 
-        <div class="border rounded-lg p-4 bg-white/80">
-          <p class="text-xs text-gray-500 mb-1">Account</p>
-          <p class="font-semibold" id="ovAccountEmail">Loading...</p>
-          <p class="text-xs text-gray-500 mt-1" id="ovAccountPhone"></p>
-        </div>
-      </div>
-
-      <div class="border rounded-lg p-4 bg-white/80 text-sm">
-        <p class="font-semibold mb-2">Quick Actions</p>
-        <div class="flex flex-wrap gap-2">
-          <button id="qaChangePlan" class="px-3 py-1.5 rounded-full border text-xs">
-            Change Plan
-          </button>
-          <button id="qaPausePlan" class="px-3 py-1.5 rounded-full border text-xs">
-            Pause Plan (UI only)
-          </button>
-          <button id="qaResumePlan" class="px-3 py-1.5 rounded-full border text-xs">
-            Resume Plan (UI only)
-          </button>
-          <button id="qaCancelPlan" class="px-3 py-1.5 rounded-full border text-xs text-red-600 border-red-400">
-            Cancel Plan (UI only)
-          </button>
-          <button id="qaDownloadInvoice" class="px-3 py-1.5 rounded-full border text-xs">
-            Download Last Invoice
-          </button>
-        </div>
-        <p class="text-[11px] text-gray-500 mt-2">
-          Subscription & payments are loaded from your backend. Some buttons (Pause/Resume/Cancel) update only the dashboard view for now.
-        </p>
-      </div>
-    </div>
-
-    <!-- PLANS TAB -->
-    <div id="tab-plans" class="dash-tab-panel hidden mt-4 text-sm">
-      <div class="border rounded-lg p-4 bg-white/80 mb-4">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <div>
-            <p class="text-xs text-gray-500 mb-1">Active Plan</p>
-            <p class="font-semibold text-base" id="activePlanTitle">Loading...</p>
-            <p class="text-xs text-gray-500 mt-1" id="activePlanDetails"></p>
+        <!-- TOP CARDS -->
+        <div class="grid md:grid-cols-3 gap-4 text-sm">
+          <!-- Active Plan Card -->
+          <div class="border rounded-xl p-4 bg-white/80 flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <p class="text-xs text-gray-500">Active Plan</p>
+              <span id="dashPlanStatusPill" class="status-pill status-active hidden"></span>
+            </div>
+            <p id="dashPlanName" class="font-semibold text-slate-800 text-sm">Loading...</p>
+            <p id="dashPlanMeta" class="text-xs text-gray-500"></p>
+            <button id="goToPlanFromCard"
+                    class="mt-2 text-xs text-indigo-600 underline">
+              View plan details
+            </button>
           </div>
 
-          <div class="flex flex-wrap gap-2">
-            <button id="btnPausePlan" class="px-3 py-1.5 rounded-full border text-xs">
-              Pause (UI only)
+          <!-- Next Delivery Card -->
+          <div class="border rounded-xl p-4 bg-white/80 flex flex-col gap-1">
+            <p class="text-xs text-gray-500">Next Delivery</p>
+            <p id="dashNextDelivery" class="font-semibold text-slate-800 text-sm">Loading...</p>
+            <p id="dashNextDeliveryMeta" class="text-xs text-gray-500"></p>
+          </div>
+
+          <!-- Payment Summary Card -->
+          <div class="border rounded-xl p-4 bg-white/80 flex flex-col gap-1">
+            <p class="text-xs text-gray-500">Payments</p>
+            <p id="dashLastPayment" class="font-semibold text-slate-800 text-sm">Loading...</p>
+            <p id="dashPaymentMeta" class="text-xs text-gray-500"></p>
+            <button id="dashViewPaymentsBtn"
+                    class="mt-2 text-xs text-indigo-600 underline">
+              View payment history
             </button>
-            <button id="btnResumePlan" class="px-3 py-1.5 rounded-full border text-xs">
-              Resume (UI only)
+          </div>
+        </div>
+
+        <!-- MIDDLE: DELIVERY CALENDAR + QUICK ACTIONS -->
+        <div class="grid md:grid-cols-3 gap-4">
+
+          <!-- Delivery Calendar -->
+          <div class="md:col-span-2 border rounded-xl p-4 bg-white/80 text-sm">
+            <div class="flex justify-between items-center mb-2">
+              <p class="font-semibold text-slate-800 text-sm">Upcoming Deliveries (7 days)</p>
+              <button id="dashViewDeliveriesBtn"
+                      class="text-xs text-indigo-600 underline">
+                View delivery history
+              </button>
+            </div>
+            <ul id="deliveryCalendarList" class="space-y-1 text-xs text-gray-700">
+              <li class="text-gray-400">Loading...</li>
+            </ul>
+            <p class="mt-2 text-[11px] text-gray-400">
+              You can skip a specific delivery from here. Skipped deliveries will not be prepared.
+            </p>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="border rounded-xl p-4 bg-white/80 text-xs flex flex-col gap-2">
+            <p class="font-semibold text-slate-800 mb-1">Quick Actions</p>
+            <button id="qaPause" class="w-full border rounded-full px-3 py-1.5 text-left">
+              Pause plan
             </button>
-            <button id="btnCancelPlan" class="px-3 py-1.5 rounded-full border text-xs text-red-600 border-red-400">
-              Cancel (UI only)
+            <button id="qaResume" class="w-full border rounded-full px-3 py-1.5 text-left">
+              Resume plan
             </button>
-            <a href="plans.html" class="px-3 py-1.5 rounded-full border text-xs">
+            <button id="qaCancel" class="w-full border rounded-full px-3 py-1.5 text-left text-red-600 border-red-300">
+              Cancel plan
+            </button>
+            <button id="qaRenew" class="w-full border rounded-full px-3 py-1.5 text-left">
+              Renew same plan
+            </button>
+            <button id="qaProfile" class="w-full border rounded-full px-3 py-1.5 text-left">
+              Edit profile & address
+            </button>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- MY PLAN VIEW -->
+      <section id="view-plan" class="glass p-5 space-y-4 hidden text-sm">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="font-semibold text-slate-800 text-base">My Plan</h3>
+            <p class="text-xs text-gray-500">View your active plan and subscription history.</p>
+          </div>
+        </div>
+
+        <div class="border rounded-xl p-4 bg-white/80 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Active Plan</p>
+            <p id="planViewName" class="font-semibold text-sm">No active plan</p>
+            <p id="planViewMeta" class="text-xs text-gray-500 mt-1"></p>
+            <p id="planViewDates" class="text-xs text-gray-500 mt-1"></p>
+          </div>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button id="planPauseBtn" class="px-3 py-1.5 rounded-full border">
+              Pause
+            </button>
+            <button id="planResumeBtn" class="px-3 py-1.5 rounded-full border">
+              Resume
+            </button>
+            <button id="planCancelBtn" class="px-3 py-1.5 rounded-full border text-red-600 border-red-300">
+              Cancel
+            </button>
+            <button id="planRenewBtn" class="px-3 py-1.5 rounded-full border">
+              Renew
+            </button>
+            <a href="plans.html" class="px-3 py-1.5 rounded-full border">
               Change Plan
             </a>
           </div>
         </div>
 
-        <p class="text-[11px] text-gray-500 mt-2" id="activePlanStatusText">
-          Active subscription is fetched from backend. UI buttons above do not cancel on server yet.
-        </p>
-      </div>
-
-      <div class="border rounded-lg p-4 bg-white/80 mb-4">
-        <div class="flex items-center justify-between mb-2">
-          <p class="font-semibold">Subscription History</p>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="min-w-full text-xs">
-            <thead>
-              <tr class="text-left text-gray-500 border-b">
-                <th class="py-2 pr-4">Plan</th>
-                <th class="py-2 pr-4">Start</th>
-                <th class="py-2 pr-4">End</th>
-                <th class="py-2 pr-4">Status</th>
-              </tr>
-            </thead>
-            <tbody id="planHistoryBody"></tbody>
-          </table>
-        </div>
-
-        <p class="text-[11px] text-gray-500 mt-2">
-          Data loaded from <code>/api/subscriptions/history</code>.
-        </p>
-      </div>
-
-      <div class="border rounded-lg p-4 bg-white/80">
-        <div class="grid md:grid-cols-2 gap-4">
-          <div>
-            <p class="font-semibold mb-2">Upcoming Deliveries (next 7 days)</p>
-            <ul id="deliveryCalendarList" class="text-xs text-gray-700 space-y-1"></ul>
+        <!-- Subscription history -->
+        <div class="border rounded-xl p-4 bg-white/80">
+          <div class="flex justify-between items-center mb-2">
+            <p class="font-semibold text-sm">Subscription History</p>
           </div>
-
-          <div>
-            <p class="font-semibold mb-2">Edit Delivery Time</p>
-            <p class="text-xs text-gray-500 mb-2">
-              This updates the delivery time in your saved profile (backend + localStorage).
-            </p>
-
-            <form id="deliveryTimeForm" class="space-y-2 text-sm">
-              <label class="flex items-center gap-2">
-                <input type="radio" name="deliveryTimeDash" value="morning">
-                Morning (6:30 AM – 9:00 AM)
-              </label>
-              <label class="flex items-center gap-2">
-                <input type="radio" name="deliveryTimeDash" value="afternoon">
-                Afternoon
-              </label>
-              <label class="flex items-center gap-2">
-                <input type="radio" name="deliveryTimeDash" value="evening">
-                Evening
-              </label>
-
-              <button type="submit"
-                      class="mt-2 px-3 py-1.5 rounded-full text-xs text-white"
-                      style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-                Save Delivery Time
-              </button>
-            </form>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs">
+              <thead>
+                <tr class="text-left text-gray-500 border-b">
+                  <th class="py-2 pr-4">Plan</th>
+                  <th class="py-2 pr-4">Start</th>
+                  <th class="py-2 pr-4">End</th>
+                  <th class="py-2 pr-4">Status</th>
+                </tr>
+              </thead>
+              <tbody id="subHistoryBody"></tbody>
+            </table>
           </div>
         </div>
-      </div>
+      </section>
 
-    </div>
-
-    <!-- PAYMENTS TAB -->
-    <div id="tab-payments" class="dash-tab-panel hidden mt-4 text-sm">
-      <div class="border rounded-lg p-4 bg-white/80 mb-4">
-        <div class="flex items-center justify-between mb-2">
-          <p class="font-semibold">Payment History</p>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="min-w-full text-xs">
-            <thead>
-              <tr class="text-left text-gray-500 border-b">
-                <th class="py-2 pr-4">Date</th>
-                <th class="py-2 pr-4">Plan</th>
-                <th class="py-2 pr-4">Amount</th>
-                <th class="py-2 pr-4">Method</th>
-                <th class="py-2 pr-4">Status</th>
-              </tr>
-            </thead>
-            <tbody id="paymentHistoryBody"></tbody>
-          </table>
-        </div>
-
-        <p class="text-[11px] text-gray-500 mt-2">
-          Data loaded from <code>/api/payments/my-payments</code>.
-        </p>
-
-        <button id="btnDownloadInvoice2"
-                class="mt-3 px-3 py-1.5 rounded-full border text-xs">
-          Download Last Invoice
-        </button>
-      </div>
-    </div>
-
-    <!-- PROFILE TAB -->
-    <div id="tab-profile" class="dash-tab-panel hidden mt-4 text-sm">
-      <form id="profileForm" class="space-y-4">
-        <div class="grid md:grid-cols-2 gap-4">
+      <!-- DELIVERIES VIEW -->
+      <section id="view-deliveries" class="glass p-5 space-y-4 hidden text-sm">
+        <div class="flex justify-between items-center">
           <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
-            <input type="text" id="pfFullName" required
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">Email *</label>
-            <input type="email" id="pfEmail" required
-                   class="w-full px-3 py-2 border rounded-md bg-white/80" disabled>
+            <h3 class="font-semibold text-slate-800 text-base">Deliveries</h3>
+            <p class="text-xs text-gray-500">Upcoming schedule and past deliveries.</p>
           </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">Phone (WhatsApp) *</label>
-            <input type="tel" id="pfPhone" required
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">User Type</label>
-            <select id="pfUserType"
-                    class="w-full px-3 py-2 border rounded-md bg-white/80">
-              <option value="">Customer</option>
-              <option value="home">Home</option>
-              <option value="office">Office</option>
-              <option value="corporate">Corporate</option>
-            </select>
-          </div>
+        <div class="border rounded-xl p-4 bg-white/80">
+          <p class="font-semibold text-sm mb-2">Upcoming (next 7 days)</p>
+          <ul id="delUpcomingList" class="space-y-1 text-xs text-gray-700">
+            <li class="text-gray-400">Loading...</li>
+          </ul>
         </div>
 
-        <div class="border-t pt-3">
-          <p class="text-xs font-semibold text-gray-700 mb-2">Primary Delivery Address</p>
+        <div class="border rounded-xl p-4 bg-white/80">
+          <p class="font-semibold text-sm mb-2">Past Deliveries</p>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs">
+              <thead>
+                <tr class="text-left text-gray-500 border-b">
+                  <th class="py-2 pr-4">Date</th>
+                  <th class="py-2 pr-4">Status</th>
+                  <th class="py-2 pr-4">Notes</th>
+                </tr>
+              </thead>
+              <tbody id="deliveryHistoryBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAYMENTS VIEW -->
+      <section id="view-payments" class="glass p-5 space-y-4 hidden text-sm">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="font-semibold text-slate-800 text-base">Payments</h3>
+            <p class="text-xs text-gray-500">All your payments and invoices.</p>
+          </div>
+          <button id="downloadLastInvoiceBtn"
+                  class="px-3 py-1.5 rounded-full border text-xs">
+            Download last invoice
+          </button>
+        </div>
+
+        <div class="border rounded-xl p-4 bg-white/80">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs">
+              <thead>
+                <tr class="text-left text-gray-500 border-b">
+                  <th class="py-2 pr-4">Date</th>
+                  <th class="py-2 pr-4">Plan</th>
+                  <th class="py-2 pr-4">Amount</th>
+                  <th class="py-2 pr-4">Method</th>
+                  <th class="py-2 pr-4">Status</th>
+                </tr>
+              </thead>
+              <tbody id="paymentHistoryBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFILE VIEW -->
+      <section id="view-profile" class="glass p-5 space-y-4 hidden text-sm">
+        <div>
+          <h3 class="font-semibold text-slate-800 text-base">Profile & Address</h3>
+          <p class="text-xs text-gray-500">Update your basic details and delivery address.</p>
+        </div>
+
+        <form id="profileForm" class="space-y-4">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
+              <input type="text" id="pfFullName" required
+                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Email *</label>
+              <input type="email" id="pfEmail" required disabled
+                     class="w-full px-3 py-2 border rounded-md bg-gray-100 text-gray-500">
+            </div>
+          </div>
 
           <div class="grid md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-medium text-gray-600 mb-1">House / Flat *</label>
-              <input type="text" id="pfHouse" required
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Phone (WhatsApp) *</label>
+              <input type="tel" id="pfPhone" required
                      class="w-full px-3 py-2 border rounded-md bg-white/80">
             </div>
             <div>
-              <label class="block text-xs font-medium text-gray-600 mb-1">Street *</label>
-              <input type="text" id="pfStreet" required
+              <label class="block text-xs font-semibold text-gray-700 mb-1">User Type</label>
+              <select id="pfUserType"
+                      class="w-full px-3 py-2 border rounded-md bg-white/80">
+                <option value="">Customer</option>
+                <option value="home">Home</option>
+                <option value="office">Office</option>
+                <option value="corporate">Corporate</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="border-t pt-3">
+            <p class="text-xs font-semibold text-gray-700 mb-2">Primary Delivery Address</p>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">House / Flat *</label>
+                <input type="text" id="pfHouse" required
+                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">Street *</label>
+                <input type="text" id="pfStreet" required
+                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4 mt-3">
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">Area *</label>
+                <input type="text" id="pfArea" required
+                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">City *</label>
+                <input type="text" id="pfCity" required
+                       class="w-full px-3 py-2 border rounded-md bg-white/80">
+              </div>
+            </div>
+
+            <div class="mt-3 max-w-xs">
+              <label class="block text-xs font-medium text-gray-600 mb-1">Pincode *</label>
+              <input type="text" id="pfPincode" required
                      class="w-full px-3 py-2 border rounded-md bg-white/80">
             </div>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-4 mt-3">
+          <div class="border-t pt-3 space-y-2">
             <div>
-              <label class="block text-xs font-medium text-gray-600 mb-1">Area *</label>
-              <input type="text" id="pfArea" required
-                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <p class="text-xs font-semibold text-gray-700 mb-1">Preferred Delivery Time</p>
+              <select id="pfDeliveryTime" class="w-full md:w-60 px-3 py-2 border rounded-md bg-white/80 text-sm">
+                <option value="">Select time</option>
+                <option value="morning">Morning (6:30 AM – 9:00 AM)</option>
+                <option value="afternoon">Afternoon</option>
+                <option value="evening">Evening</option>
+              </select>
             </div>
-            <div>
-              <label class="block text-xs font-medium text-gray-600 mb-1">City *</label>
-              <input type="text" id="pfCity" required
-                     class="w-full px-3 py-2 border rounded-md bg-white/80">
-            </div>
+
+            <label class="flex items-center gap-2 text-xs text-gray-700">
+              <input type="checkbox" id="pfOffersOptIn">
+              <span>Receive deals & updates on WhatsApp / Email</span>
+            </label>
           </div>
 
-          <div class="mt-3 max-w-xs">
-            <label class="block text-xs font-medium text-gray-600 mb-1">Pincode *</label>
-            <input type="text" id="pfPincode" required
-                   class="w-full px-3 py-2 border rounded-md bg-white/80">
+          <div class="pt-2">
+            <button type="submit"
+                    class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
+                    style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+              Save Profile
+            </button>
           </div>
-        </div>
+        </form>
+      </section>
 
-        <div class="border-t pt-3 space-y-2">
-          <div>
-            <p class="text-xs font-semibold text-gray-700 mb-1">Preferred Delivery Time</p>
-            <select id="pfDeliveryTime" class="w-full md:w-60 px-3 py-2 border rounded-md bg-white/80 text-sm">
-              <option value="">Select time</option>
-              <option value="morning">Morning (6:30 AM – 9:00 AM)</option>
-              <option value="afternoon">Afternoon</option>
-              <option value="evening">Evening</option>
-            </select>
-          </div>
-
-          <label class="flex items-center gap-2 text-xs text-gray-700">
-            <input type="checkbox" id="pfOffersOptIn">
-            <span>Receive deals &amp; updates on WhatsApp / Email</span>
-          </label>
-        </div>
-
-        <div class="pt-2">
-          <button type="submit"
-                  class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
-                  style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-            Save Profile
-          </button>
-        </div>
-      </form>
     </div>
 
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="mt-10 bg-[#020617] text-white">
-  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-10 text-sm">
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Get in Touch</h3>
-      <p class="font-semibold text-gray-300">Call / WhatsApp</p>
-      <p class="text-gray-400">+91-9226157351</p>
-      <p class="mt-4 font-semibold text-gray-300">Email</p>
-      <p class="text-gray-400">dailyfruitco@gmail.com</p>
-    </div>
-
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Company</h3>
-      <a href="index.html#contact" class="block text-gray-300 hover:text-white">Contact Us</a>
-      <a href="index.html#faq" class="block text-gray-300 hover:text-white">FAQs</a>
-      <a href="#" class="block text-gray-300 hover:text-white">Blogs</a>
-      <a href="#" class="block text-gray-300 hover:text-white">Policy</a>
-    </div>
-
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Follow Us</h3>
-      <p class="text-gray-400 mb-3">Stay connected with Daily Fruit Co.</p>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.linkedin.com" class="glass-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://twitter.com" class="glass-icon" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://wa.me/919226157351" class="glass-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      </div>
-      <p class="mt-6 text-gray-500 text-xs">
-        © 2025 Daily Fruit Co. — Freshness Delivered Daily
-      </p>
-    </div>
-  </div>
-</footer>
-
-<div class="fixed right-4 top-1/3 z-40 flex flex-col gap-4 desktop-only">
-  <a href="https://www.instagram.com/dailyfruitco" class="glass-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-  <a href="https://www.facebook.com/dailyfruitco" class="glass-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
-  <a href="https://www.linkedin.com" class="glass-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-  <a href="https://twitter.com" class="glass-icon" target="_blank"><i class="fab fa-twitter"></i></a>
-  <a href="https://wa.me/919226157351" class="glass-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  </main>
 </div>
 
-<a href="https://wa.me/919226157351?text=Hi%20Daily%20Fruit%20Co!%20I'd%20like%20to%20subscribe"
-   target="_blank"
-   class="fab-wa"
-   aria-label="Chat on WhatsApp">
-  <i class="fa fa-whatsapp fa-lg"></i>
-</a>
+<!-- Footer (simple) -->
+<footer class="mt-8 pb-6 text-center text-[11px] text-gray-400">
+  © 2025 Daily Fruit Co. — Freshness Delivered Daily
+</footer>
 
-<!-- SCRIPTS -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  const API_BASE = 'https://dailyfruit-backend.onrender.com';
-  AOS.init({ duration: 700, once: true });
+const API_BASE = 'https://dailyfruit-backend.onrender.com';
 
-  function toast(msg, isError){
-    const el = document.createElement('div');
-    el.textContent = msg;
-    el.className =
-      'fixed right-4 bottom-4 z-50 text-sm px-3 py-2 rounded shadow text-white ' +
-      (isError ? 'bg-red-600' : 'bg-black');
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),3000);
+function toast(msg, isError){
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.className =
+    'fixed right-4 bottom-4 z-50 text-sm px-3 py-2 rounded shadow text-white ' +
+    (isError ? 'bg-red-600' : 'bg-black');
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
+
+function getSession(){
+  try{
+    const token = localStorage.getItem('df_user_token');
+    const expiry = parseInt(localStorage.getItem('df_session_expiry') || '0',10);
+    if(!token || !expiry) return null;
+    if(Date.now() > expiry) return null;
+    return { token, expiry };
+  }catch(e){
+    return null;
   }
+}
 
-  function getSession(){
-    try{
-      const token = localStorage.getItem('df_user_token');
-      const expiry = parseInt(localStorage.getItem('df_session_expiry') || '0',10);
-      if(!token || !expiry) return null;
-      if(Date.now() > expiry) return null;
-      return { token, expiry };
-    }catch(e){
-      return null;
-    }
+function clearSessionAndGoLogin(message){
+  localStorage.removeItem('df_user_token');
+  localStorage.removeItem('df_session_expiry');
+  localStorage.removeItem('df_user_profile');
+  if(message) toast(message,true);
+  setTimeout(()=>{ window.location.href='login.html'; },800);
+}
+
+/* -------------- GLOBAL STATE ------------- */
+let gProfile = null;
+let gActiveSub = null;
+let gSubHistory = [];
+let gPaymentHistory = [];
+let gUpcomingDeliveries = [];
+let gDeliveryHistory = [];
+
+/* -------------- INIT ------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  const session = getSession();
+  if(!session){
+    clearSessionAndGoLogin('Session expired, please login again.');
+    return;
   }
+  const token = session.token;
 
-  function clearSessionAndGoLogin(message){
-    localStorage.removeItem('df_user_token');
-    localStorage.removeItem('df_session_expiry');
-    localStorage.removeItem('df_user_profile');
-    if(message) toast(message, true);
-    setTimeout(()=>{ window.location.href = 'login.html'; }, 800);
-  }
+  initSidebar();
+  initLogout();
+  initProfileForm();
+  initQuickActions();
 
-  // DARK MODE
-  document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('df_theme');
-    if(savedTheme === 'dark'){
-      document.body.classList.add('dark-mode');
-    }
+  loadAllData(token);
+});
+
+/* -------------- SIDEBAR NAV ------------- */
+function showView(view){
+  document.querySelectorAll('[id^="view-"]').forEach(sec => sec.classList.add('hidden'));
+  document.getElementById('view-' + view).classList.remove('hidden');
+
+  document.querySelectorAll('.sidebar-link').forEach(btn => {
+    if(btn.dataset.view === view) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+}
+
+function initSidebar(){
+  document.querySelectorAll('.sidebar-link[data-view]').forEach(btn=>{
+    btn.addEventListener('click',()=> showView(btn.dataset.view));
   });
 
-  // MAIN DASHBOARD INIT
-  document.addEventListener('DOMContentLoaded', () => {
-    const session = getSession();
-    if(!session){
-      clearSessionAndGoLogin('Session expired, please login again.');
+  document.getElementById('goToPlanFromCard').onclick = () => showView('plan');
+  document.getElementById('dashViewDeliveriesBtn').onclick = () => showView('deliveries');
+  document.getElementById('dashViewPaymentsBtn').onclick = () => showView('payments');
+  document.getElementById('qaProfile').onclick = () => showView('profile');
+}
+
+/* -------------- LOGOUT ------------- */
+function initLogout(){
+  const btn = document.getElementById('logoutBtn');
+  if(btn){
+    btn.addEventListener('click',()=>{
+      if(!confirm('Logout from your account?')) return;
+      clearSessionAndGoLogin();
+    });
+  }
+}
+
+/* -------------- LOAD ALL DATA ------------- */
+async function loadAllData(token){
+  try{
+    await Promise.all([
+      loadProfile(token),
+      loadSubscription(token),
+      loadSubscriptionHistory(token),
+      loadPayments(token),
+      loadUpcomingDeliveries(token),
+      loadDeliveryHistory(token)
+    ]);
+
+    renderHeaderAndSidebar();
+    renderDashboardCards();
+    renderPlanView();
+    renderSubHistoryTable();
+    renderPaymentsTable();
+    renderDeliveryCalendar();
+    renderDeliveriesView();
+    fillProfileForm();
+  }catch(err){
+    console.error(err);
+    toast('Error loading dashboard', true);
+  }
+}
+
+/* -------------- PROFILE ------------- */
+async function loadProfile(token){
+  try{
+    const res = await fetch(API_BASE + '/api/profile/me', {
+      headers:{ 'Authorization':'Bearer ' + token }
+    });
+    if(res.status === 401 || res.status === 403){
+      return clearSessionAndGoLogin('Please login again.');
+    }
+    if(!res.ok) return;
+    const user = await res.json();
+    gProfile = {
+      id: user._id,
+      fullName: user.name || '',
+      email: user.email || '',
+      phone: user.phone || '',
+      userType: user.userType || '',
+      address: {
+        house: user.addressDetails?.house || '',
+        street: user.addressDetails?.street || '',
+        area: user.addressDetails?.area || '',
+        city: user.addressDetails?.city || '',
+        pincode: user.addressDetails?.pincode || ''
+      },
+      deliveryTime: user.deliveryTime || '',
+      offersOptIn: !!user.offersOptIn
+    };
+    localStorage.setItem('df_user_profile', JSON.stringify(gProfile));
+  }catch(e){
+    console.warn('Profile load error', e);
+  }
+
+  if(!gProfile){
+    const raw = localStorage.getItem('df_user_profile');
+    if(raw) gProfile = JSON.parse(raw);
+  }
+
+  if(!gProfile){
+    clearSessionAndGoLogin('Profile not found, please login again.');
+  }
+}
+
+/* -------------- SUBSCRIPTIONS ------------- */
+async function loadSubscription(token){
+  try{
+    const res = await fetch(API_BASE + '/api/subscriptions/my-active', {
+      headers:{ 'Authorization':'Bearer ' + token }
+    });
+    if(res.ok){
+      gActiveSub = await res.json();
+    }
+  }catch(e){
+    console.warn('Active sub error', e);
+  }
+}
+
+async function loadSubscriptionHistory(token){
+  try{
+    const res = await fetch(API_BASE + '/api/subscriptions/me', {
+      headers:{ 'Authorization':'Bearer ' + token }
+    });
+    if(res.ok){
+      gSubHistory = await res.json();
+    }
+  }catch(e){
+    console.warn('Sub history error', e);
+  }
+}
+
+/* -------------- PAYMENTS ------------- */
+async function loadPayments(token){
+  try{
+    const res = await fetch(API_BASE + '/api/payments/my-payments', {
+      headers:{ 'Authorization':'Bearer ' + token }
+    });
+    if(res.ok){
+      gPaymentHistory = await res.json();
+    }
+  }catch(e){
+    console.warn('payment history error', e);
+  }
+}
+
+/* -------------- DELIVERIES ------------- */
+async function loadUpcomingDeliveries(token){
+  try{
+    const res = await fetch(API_BASE + '/api/deliveries/upcoming', {
+      headers:{ 'Authorization':'Bearer ' + token }
+    });
+    if(res.ok){
+      gUpcomingDeliveries = await res.json();
+    }
+  }catch(e){
+    console.warn('upcoming deliveries error', e);
+  }
+}
+
+async function loadDeliveryHistory(token){
+  try{
+    const res = await fetch(API_BASE + '/api/deliveries/history', {
+      headers:{ 'Authorization':'Bearer ' + token }
+    });
+    if(res.ok){
+      gDeliveryHistory = await res.json();
+    }
+  }catch(e){
+    console.warn('delivery history error', e);
+  }
+}
+
+/* -------------- RENDER HEADER + SIDEBAR ------------- */
+function renderHeaderAndSidebar(){
+  if(gProfile){
+    const name = gProfile.fullName || 'User';
+    const email = gProfile.email || '-';
+    const hdrEmail = document.getElementById('hdrUserEmail');
+    const sbName = document.getElementById('sidebarUserName');
+    if(hdrEmail) hdrEmail.textContent = email;
+    if(sbName) sbName.textContent = name;
+  }
+}
+
+/* -------------- DASHBOARD HOME RENDER ------------- */
+function renderDashboardCards(){
+  const planNameEl = document.getElementById('dashPlanName');
+  const planMetaEl = document.getElementById('dashPlanMeta');
+  const statusPill = document.getElementById('dashPlanStatusPill');
+  const nextDelEl = document.getElementById('dashNextDelivery');
+  const nextDelMetaEl = document.getElementById('dashNextDeliveryMeta');
+  const lastPayEl = document.getElementById('dashLastPayment');
+  const payMetaEl = document.getElementById('dashPaymentMeta');
+
+  // Plan
+  if(gActiveSub && gActiveSub._id){
+    const pName = gActiveSub.planName || (gActiveSub.planId && gActiveSub.planId.name) || 'Active Plan';
+    const price = gActiveSub.planId && gActiveSub.planId.price;
+    const status = gActiveSub.status || 'active';
+
+    if(planNameEl) planNameEl.textContent = pName;
+    if(planMetaEl){
+      planMetaEl.textContent = price ? `₹${price} • ${status}` : `Status: ${status}`;
+    }
+
+    let pillText = status;
+    let pillClass = 'status-pill ';
+    if(status === 'active') pillClass += 'status-active';
+    else if(status === 'paused') pillClass += 'status-paused';
+    else if(status === 'cancelled') pillClass += 'status-cancelled';
+    else pillClass += 'status-expired';
+
+    statusPill.textContent = pillText;
+    statusPill.className = pillClass;
+    statusPill.classList.remove('hidden');
+  }else{
+    if(planNameEl) planNameEl.textContent = 'No active plan';
+    if(planMetaEl) planMetaEl.textContent = 'You can start a subscription from the Plans page.';
+    statusPill.classList.add('hidden');
+  }
+
+  // Next Delivery
+  if(gUpcomingDeliveries && gUpcomingDeliveries.length > 0){
+    const first = gUpcomingDeliveries[0];
+    const d = new Date(first.deliveryDate);
+    if(nextDelEl) nextDelEl.textContent = d.toDateString();
+    if(nextDelMetaEl) nextDelMetaEl.textContent = `Status: ${first.status || 'scheduled'}`;
+  }else{
+    if(nextDelEl) nextDelEl.textContent = 'No upcoming delivery';
+    if(nextDelMetaEl) nextDelMetaEl.textContent = '';
+  }
+
+  // Payment summary
+  if(gPaymentHistory && gPaymentHistory.length > 0){
+    const last = gPaymentHistory[0];
+    const dt = last.createdAt ? new Date(last.createdAt).toLocaleDateString('en-IN') : '-';
+    const amt = typeof last.amount === 'number' ? '₹' + last.amount : '-';
+    if(lastPayEl) lastPayEl.textContent = `${amt} on ${dt}`;
+    if(payMetaEl) payMetaEl.textContent = last.planName ? `Last paid for ${last.planName}` : '';
+  }else{
+    if(lastPayEl) lastPayEl.textContent = 'No payments yet';
+    if(payMetaEl) payMetaEl.textContent = '';
+  }
+}
+
+/* -------------- DELIVERY CALENDAR (HOME) ------------- */
+function renderDeliveryCalendar(){
+  const calEl = document.getElementById('deliveryCalendarList');
+  if(!calEl) return;
+  calEl.innerHTML = '';
+
+  if(!gUpcomingDeliveries || gUpcomingDeliveries.length === 0){
+    calEl.innerHTML = '<li class="text-gray-400 text-xs">No deliveries scheduled.</li>';
+    return;
+  }
+
+  gUpcomingDeliveries.forEach(del => {
+    const d = new Date(del.deliveryDate);
+    const li = document.createElement('li');
+    li.className = 'flex justify-between items-center py-1';
+    li.innerHTML = `
+      <span>${d.toDateString()} • <span class="capitalize">${del.status}</span></span>
+      <button class="text-red-500 text-[11px]" onclick="skipDelivery('${del._id}')">
+        Skip
+      </button>
+    `;
+    calEl.appendChild(li);
+  });
+}
+
+/* -------------- DELIVERIES VIEW RENDER ------------- */
+function renderDeliveriesView(){
+  const upEl = document.getElementById('delUpcomingList');
+  const histBody = document.getElementById('deliveryHistoryBody');
+
+  // Upcoming
+  if(upEl){
+    upEl.innerHTML = '';
+    if(!gUpcomingDeliveries || gUpcomingDeliveries.length === 0){
+      upEl.innerHTML = '<li class="text-gray-400 text-xs">No upcoming deliveries.</li>';
+    }else{
+      gUpcomingDeliveries.forEach(del=>{
+        const d = new Date(del.deliveryDate);
+        const li = document.createElement('li');
+        li.className = 'flex justify-between items-center py-1';
+        li.innerHTML = `
+          <span>${d.toDateString()} • <span class="capitalize">${del.status}</span></span>
+          <button class="text-red-500 text-[11px]" onclick="skipDelivery('${del._id}')">Skip</button>
+        `;
+        upEl.appendChild(li);
+      });
+    }
+  }
+
+  // History
+  if(histBody){
+    histBody.innerHTML = '';
+    if(!gDeliveryHistory || gDeliveryHistory.length === 0){
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 3;
+      td.className = 'py-2 text-gray-400';
+      td.textContent = 'No past deliveries found.';
+      tr.appendChild(td);
+      histBody.appendChild(tr);
+    }else{
+      gDeliveryHistory.forEach(d=>{
+        const dt = d.deliveryDate ? new Date(d.deliveryDate).toLocaleDateString('en-IN') : '-';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-2 pr-4">${dt}</td>
+          <td class="py-2 pr-4 capitalize">${d.status || '-'}</td>
+          <td class="py-2 pr-4">${d.notes || '-'}</td>
+        `;
+        histBody.appendChild(tr);
+      });
+    }
+  }
+}
+
+/* -------------- PLAN VIEW RENDER ------------- */
+function renderPlanView(){
+  const nameEl = document.getElementById('planViewName');
+  const metaEl = document.getElementById('planViewMeta');
+  const datesEl = document.getElementById('planViewDates');
+
+  if(!gActiveSub || !gActiveSub._id){
+    if(nameEl) nameEl.textContent = 'No active plan';
+    if(metaEl) metaEl.textContent = 'You can start a plan from the Plans page.';
+    if(datesEl) datesEl.textContent = '';
+    return;
+  }
+
+  const pName = gActiveSub.planName || (gActiveSub.planId && gActiveSub.planId.name) || 'Active Plan';
+  const price = gActiveSub.planId && gActiveSub.planId.price;
+  const status = gActiveSub.status || 'active';
+
+  const start = gActiveSub.startDate ? new Date(gActiveSub.startDate).toLocaleDateString('en-IN') : '-';
+  const end = gActiveSub.endDate ? new Date(gActiveSub.endDate).toLocaleDateString('en-IN') : '-';
+
+  if(nameEl) nameEl.textContent = pName;
+  if(metaEl) metaEl.textContent = price ? `₹${price} • Status: ${status}` : `Status: ${status}`;
+  if(datesEl) datesEl.textContent = `From ${start} to ${end}`;
+}
+
+/* -------------- SUB HISTORY RENDER ------------- */
+function renderSubHistoryTable(){
+  const body = document.getElementById('subHistoryBody');
+  if(!body) return;
+  body.innerHTML = '';
+
+  if(!gSubHistory || gSubHistory.length === 0){
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 4;
+    td.className = 'py-2 text-gray-400';
+    td.textContent = 'No subscriptions found.';
+    tr.appendChild(td);
+    body.appendChild(tr);
+    return;
+  }
+
+  gSubHistory.forEach(sub=>{
+    const name = sub.planName || (sub.planId && sub.planId.name) || '-';
+    const start = sub.startDate ? new Date(sub.startDate).toLocaleDateString('en-IN') : '-';
+    const end = sub.endDate ? new Date(sub.endDate).toLocaleDateString('en-IN') : '-';
+    const status = sub.status || '-';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="py-2 pr-4">${name}</td>
+      <td class="py-2 pr-4">${start}</td>
+      <td class="py-2 pr-4">${end}</td>
+      <td class="py-2 pr-4 capitalize">${status}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+/* -------------- PAYMENTS TABLE RENDER ------------- */
+function renderPaymentsTable(){
+  const body = document.getElementById('paymentHistoryBody');
+  if(!body) return;
+  body.innerHTML = '';
+
+  if(!gPaymentHistory || gPaymentHistory.length === 0){
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 5;
+    td.className = 'py-2 text-gray-400';
+    td.textContent = 'No payments yet.';
+    tr.appendChild(td);
+    body.appendChild(tr);
+    return;
+  }
+
+  gPaymentHistory.forEach(pay=>{
+    const date = pay.createdAt ? new Date(pay.createdAt).toLocaleDateString('en-IN') : '-';
+    const planName = pay.planName || '-';
+    const amount = typeof pay.amount === 'number' ? '₹' + pay.amount : '-';
+    const method = pay.razorpayPaymentId ? 'Razorpay' : (pay.isOffline ? 'Offline' : 'Other');
+    const status = pay.status || '-';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="py-2 pr-4">${date}</td>
+      <td class="py-2 pr-4">${planName}</td>
+      <td class="py-2 pr-4">${amount}</td>
+      <td class="py-2 pr-4">${method}</td>
+      <td class="py-2 pr-4 capitalize">${status}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+/* -------------- SKIP DELIVERY (GLOBAL) ------------- */
+async function skipDelivery(id){
+  const session = getSession();
+  if(!session){
+    return clearSessionAndGoLogin('Session expired, please login again.');
+  }
+  try{
+    const res = await fetch(API_BASE + '/api/deliveries/skip/' + id, {
+      method:'POST',
+      headers:{ 'Authorization':'Bearer ' + session.token }
+    });
+    const data = await res.json();
+    if(!res.ok){
+      toast(data.message || 'Error skipping delivery', true);
       return;
     }
-    const token = session.token;
+    toast('Delivery skipped.', false);
+    await loadUpcomingDeliveries(session.token);
+    await loadDeliveryHistory(session.token);
+    renderDeliveryCalendar();
+    renderDeliveriesView();
+  }catch(err){
+    console.error(err);
+    toast('Network error while skipping.', true);
+  }
+}
+window.skipDelivery = skipDelivery;
 
-    let profile = null;
-    let activeSubscription = null;
-    let subscriptionHistory = [];
-    let paymentHistory = [];
+/* -------------- QUICK ACTIONS (PAUSE / RESUME / CANCEL / RENEW) ------------- */
+function initQuickActions(){
+  const session = getSession();
+  if(!session) return;
 
-    // ---------- LOAD ALL DATA ----------
-    (async function init(){
-      try{
-        // 1) PROFILE
-        try{
-          const res = await fetch(API_BASE + '/api/profile/me', {
-            headers:{ 'Authorization':'Bearer ' + token }
-          });
-          if(res.status === 401 || res.status === 403){
-            return clearSessionAndGoLogin('Please login again.');
-          }
-          if(res.ok){
-            const user = await res.json();
-            profile = {
-              id: user._id,
-              fullName: user.name || '',
-              email: user.email || '',
-              phone: user.phone || '',
-              userType: user.userType || '',
-              address: {
-                house: user.addressDetails?.house || '',
-                street: user.addressDetails?.street || '',
-                area: user.addressDetails?.area || '',
-                city: user.addressDetails?.city || '',
-                pincode: user.addressDetails?.pincode || ''
-              },
-              deliveryTime: user.deliveryTime || '',
-              offersOptIn: !!user.offersOptIn
-            };
-            localStorage.setItem('df_user_profile', JSON.stringify(profile));
-          }
-        }catch(e){
-          toast('Could not load profile from server.', true);
-        }
+  const token = session.token;
+  const pauseButtons = [document.getElementById('qaPause'), document.getElementById('planPauseBtn')];
+  const resumeButtons = [document.getElementById('qaResume'), document.getElementById('planResumeBtn')];
+  const cancelButtons = [document.getElementById('qaCancel'), document.getElementById('planCancelBtn')];
+  const renewButtons = [document.getElementById('qaRenew'), document.getElementById('planRenewBtn')];
 
-        if(!profile){
-          const raw = localStorage.getItem('df_user_profile');
-          if(raw) profile = JSON.parse(raw);
-        }
-        if(!profile){
-          return clearSessionAndGoLogin('Profile not found, please login again.');
-        }
-
-        // 2) ACTIVE SUBSCRIPTION
-        try{
-          const res = await fetch(API_BASE + '/api/subscriptions/my-active', {
-            headers:{ 'Authorization':'Bearer ' + token }
-          });
-          if(res.ok){
-            activeSubscription = await res.json(); // can be null or object
-          }
-        }catch(e){
-          console.warn('active sub error', e);
-        }
-
-        // 3) SUBSCRIPTION HISTORY
-        try{
-          const res = await fetch(API_BASE + '/api/subscriptions/history', {
-            headers:{ 'Authorization':'Bearer ' + token }
-          });
-          if(res.ok){
-            subscriptionHistory = await res.json();
-          }
-        }catch(e){
-          console.warn('sub history error', e);
-        }
-
-        // 4) PAYMENT HISTORY
-        try{
-          const res = await fetch(API_BASE + '/api/payments/my-payments', {
-            headers:{ 'Authorization':'Bearer ' + token }
-          });
-          if(res.ok){
-            paymentHistory = await res.json();
-          }
-        }catch(e){
-          console.warn('payment history error', e);
-        }
-
-        setupUI(profile, activeSubscription, subscriptionHistory, paymentHistory, token);
-
-      }catch(err){
-        console.error(err);
-        toast('Dashboard error: ' + err.message, true);
-      }
-    })();
+  pauseButtons.forEach(btn=>{
+    if(btn){
+      btn.addEventListener('click',()=> subAction('pause', token));
+    }
+  });
+  resumeButtons.forEach(btn=>{
+    if(btn){
+      btn.addEventListener('click',()=> subAction('resume', token));
+    }
+  });
+  cancelButtons.forEach(btn=>{
+    if(btn){
+      btn.addEventListener('click',()=> subAction('cancel', token));
+    }
+  });
+  renewButtons.forEach(btn=>{
+    if(btn){
+      btn.addEventListener('click',()=> subAction('renew', token));
+    }
   });
 
-  function setupUI(profile, activeSubscription, subscriptionHistory, paymentHistory, token){
-    // GREETING
-    const greet = document.getElementById('dashUserGreeting');
-    const subtext = document.getElementById('dashUserSubtext');
-    if(greet) greet.textContent = `Hello, ${profile.fullName || 'User'} 👋`;
-    if(subtext) subtext.textContent = 'Manage your subscription, deliveries and payments.';
+  const downloadBtn = document.getElementById('downloadLastInvoiceBtn');
+  if(downloadBtn){
+    downloadBtn.addEventListener('click', ()=> downloadLastInvoice(token));
+  }
+}
 
-    // OVERVIEW CARDS
-    const ovName = document.getElementById('ovActivePlanName');
-    const ovPrice = document.getElementById('ovActivePlanPrice');
-    const ovNext = document.getElementById('ovNextDeliveryDate');
-    const ovTime = document.getElementById('ovDeliveryTimeText');
-    const ovEmail = document.getElementById('ovAccountEmail');
-    const ovPhone = document.getElementById('ovAccountPhone');
-
-    let activePlanObj = null;
-
-    if(activeSubscription && activeSubscription._id){
-      const planName = activeSubscription.planName ||
-                       (activeSubscription.planId && activeSubscription.planId.name) ||
-                       'Active Plan';
-      const price = (activeSubscription.planId && activeSubscription.planId.price) || null;
-      const status = activeSubscription.status || 'active';
-      const nextDeliveryDate = activeSubscription.nextDeliveryDate
-        ? new Date(activeSubscription.nextDeliveryDate).toLocaleDateString('en-IN')
-        : 'Tomorrow';
-
-      activePlanObj = {
-        id: activeSubscription._id,
-        name: planName,
-        price,
-        status,
-        nextDeliveryDate
-      };
-
-      ovName.textContent = planName;
-      ovPrice.textContent = price
-        ? `₹${price} • ${status}`
-        : `Status: ${status}`;
-      ovNext.textContent = nextDeliveryDate;
-    } else {
-      ovName.textContent = 'No active plan';
-      ovPrice.textContent = '';
-      ovNext.textContent = 'Not scheduled';
-    }
-
-    ovTime.textContent = profile.deliveryTime
-      ? `Preferred: ${profile.deliveryTime}`
-      : 'No delivery time set yet';
-
-    ovEmail.textContent = profile.email || '-';
-    ovPhone.textContent = profile.phone ? `+91-${profile.phone}` : '';
-
-    // ACTIVE PLAN BOX (PLANS TAB)
-    const apTitle = document.getElementById('activePlanTitle');
-    const apDetails = document.getElementById('activePlanDetails');
-    const apStatus = document.getElementById('activePlanStatusText');
-
-    function refreshActivePlanUI(){
-      if(!activePlanObj){
-        apTitle.textContent = 'No active plan';
-        apDetails.textContent = '';
-        apStatus.textContent = 'No active subscription found from backend.';
-        ovName.textContent = 'No active plan';
-        ovPrice.textContent = '';
-        ovNext.textContent = 'Not scheduled';
-        return;
-      }
-      apTitle.textContent = activePlanObj.name || 'Active Plan';
-      apDetails.textContent = activePlanObj.price
-        ? `₹${activePlanObj.price} • Status: ${activePlanObj.status || 'active'}`
-        : `Status: ${activePlanObj.status || 'active'}`;
-      apStatus.textContent = `Current status: ${activePlanObj.status || 'active'}`;
-    }
-    refreshActivePlanUI();
-
-    // DELIVERY CALENDAR
-    const calendarEl = document.getElementById('deliveryCalendarList');
-    if(calendarEl){
-      calendarEl.innerHTML = '';
-      const today = new Date();
-      for(let i=0;i<7;i++){
-        const d = new Date(today);
-        d.setDate(d.getDate()+i);
-        const label = d.toLocaleDateString('en-IN',{
-          weekday:'short',
-          day:'numeric',
-          month:'short'
-        });
-        const li = document.createElement('li');
-        li.textContent = label + (activePlanObj ? ' — Scheduled' : ' — (no active plan)');
-        calendarEl.appendChild(li);
-      }
-    }
-
-    // SUBSCRIPTION HISTORY TABLE
-    function renderPlanHistory(){
-      const body = document.getElementById('planHistoryBody');
-      if(!body) return;
-      body.innerHTML = '';
-
-      if(!subscriptionHistory || subscriptionHistory.length === 0){
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 4;
-        td.className = 'py-2 text-gray-400';
-        td.textContent = 'No subscriptions found.';
-        tr.appendChild(td);
-        body.appendChild(tr);
-        return;
-      }
-
-      subscriptionHistory.forEach(sub => {
-        const name = sub.planName || (sub.planId && sub.planId.name) || '-';
-        const start = sub.startDate
-          ? new Date(sub.startDate).toLocaleDateString('en-IN')
-          : '-';
-        const end = sub.endDate
-          ? new Date(sub.endDate).toLocaleDateString('en-IN')
-          : '-';
-        const status = sub.status || '-';
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="py-2 pr-4">${name}</td>
-          <td class="py-2 pr-4">${start}</td>
-          <td class="py-2 pr-4">${end}</td>
-          <td class="py-2 pr-4 capitalize">${status}</td>
-        `;
-        body.appendChild(tr);
-      });
-    }
-    renderPlanHistory();
-
-    // PAYMENT HISTORY TABLE
-    function renderPaymentHistory(){
-      const body = document.getElementById('paymentHistoryBody');
-      if(!body) return;
-      body.innerHTML = '';
-
-      if(!paymentHistory || paymentHistory.length === 0){
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 5;
-        td.className = 'py-2 text-gray-400';
-        td.textContent = 'No payments recorded yet.';
-        tr.appendChild(td);
-        body.appendChild(tr);
-        return;
-      }
-
-      paymentHistory.forEach(pay => {
-        const date = pay.createdAt
-          ? new Date(pay.createdAt).toLocaleDateString('en-IN')
-          : '-';
-        const planName = pay.planName || '-';
-        const amount = typeof pay.amount === 'number'
-          ? '₹' + pay.amount
-          : '-';
-        const method = pay.razorpayPaymentId ? 'Razorpay' : (pay.isOffline ? 'Offline' : 'Other');
-        const status = pay.status || '-';
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="py-2 pr-4">${date}</td>
-          <td class="py-2 pr-4">${planName}</td>
-          <td class="py-2 pr-4">${amount}</td>
-          <td class="py-2 pr-4">${method}</td>
-          <td class="py-2 pr-4 capitalize">${status}</td>
-        `;
-        body.appendChild(tr);
-      });
-    }
-    renderPaymentHistory();
-
-    // PROFILE FORM PREFILL
-    function fillProfileForm(){
-      document.getElementById('pfFullName').value   = profile.fullName || '';
-      document.getElementById('pfEmail').value      = profile.email || '';
-      document.getElementById('pfPhone').value      = profile.phone || '';
-      document.getElementById('pfUserType').value   = profile.userType || '';
-
-      document.getElementById('pfHouse').value      = profile.address?.house || '';
-      document.getElementById('pfStreet').value     = profile.address?.street || '';
-      document.getElementById('pfArea').value       = profile.address?.area || '';
-      document.getElementById('pfCity').value       = profile.address?.city || '';
-      document.getElementById('pfPincode').value    = profile.address?.pincode || '';
-
-      document.getElementById('pfDeliveryTime').value = profile.deliveryTime || '';
-      document.getElementById('pfOffersOptIn').checked = !!profile.offersOptIn;
-    }
-    fillProfileForm();
-
-    // SAVE PROFILE → backend + localStorage
-    document.getElementById('profileForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-
-      const fullName = document.getElementById('pfFullName').value.trim();
-      const email    = document.getElementById('pfEmail').value.trim(); // read-only
-      const phone    = document.getElementById('pfPhone').value.trim();
-      const userType = document.getElementById('pfUserType').value;
-
-      const house    = document.getElementById('pfHouse').value.trim();
-      const street   = document.getElementById('pfStreet').value.trim();
-      const area     = document.getElementById('pfArea').value.trim();
-      const city     = document.getElementById('pfCity').value.trim();
-      const pincode  = document.getElementById('pfPincode').value.trim();
-
-      const deliveryTime = document.getElementById('pfDeliveryTime').value;
-      const offersOptIn  = document.getElementById('pfOffersOptIn').checked;
-
-      if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
-        toast('Please enter a valid 10-digit phone.', true);
-        return;
-      }
-      if(!/^[0-9]{6}$/.test(pincode)){
-        toast('Please enter a valid 6-digit pincode.', true);
-        return;
-      }
-
-      const addressDetails = { house, street, area, city, pincode };
-      const address = `${house}, ${street}, ${area}, ${city} - ${pincode}`;
-
-      const payload = {
-        fullName,
-        phone,
-        addressDetails,
-        address,
-        userType,
-        offersOptIn,
-        deliveryTime
-      };
-
-      try{
-        const session = getSession();
-        if(!session){
-          return clearSessionAndGoLogin('Session expired, please login again.');
-        }
-        const res = await fetch(API_BASE + '/api/profile/update', {
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'Authorization':'Bearer ' + session.token
-          },
-          body:JSON.stringify(payload)
-        });
-
-        if(!res.ok){
-          const d = await res.json().catch(()=>({}));
-          toast(d.message || 'Error updating profile.', true);
-        }else{
-          const d = await res.json();
-          const user = d.user || {};
-
-          profile = {
-            id: user._id || profile.id,
-            fullName: user.name || fullName,
-            email: user.email || email,
-            phone: user.phone || phone,
-            userType: user.userType || userType,
-            address: {
-              house: user.addressDetails?.house || house,
-              street: user.addressDetails?.street || street,
-              area: user.addressDetails?.area || area,
-              city: user.addressDetails?.city || city,
-              pincode: user.addressDetails?.pincode || pincode
-            },
-            deliveryTime: user.deliveryTime || deliveryTime,
-            offersOptIn: typeof user.offersOptIn === 'boolean' ? user.offersOptIn : offersOptIn
-          };
-
-          localStorage.setItem('df_user_profile', JSON.stringify(profile));
-          toast('Profile updated.', false);
-          fillProfileForm();
-        }
-      }catch(err){
-        toast('Network error updating profile.', true);
-      }
-    });
-
-    // DELIVERY TIME QUICK UPDATE (Plans tab → Profile form)
-    document.getElementById('deliveryTimeForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const selected = (document.querySelector('input[name="deliveryTimeDash"]:checked') || {}).value;
-      if(!selected){
-        toast('Select a delivery time first.', true);
-        return;
-      }
-      document.getElementById('pfDeliveryTime').value = selected;
-      document.getElementById('profileForm').dispatchEvent(new Event('submit'));
-    });
-
-    // PLAN STATUS BUTTONS (UI ONLY)
-    function updatePlanStatusUI(newStatus){
-      if(!activePlanObj){
-        toast('No active plan to update.', true);
-        return;
-      }
-      activePlanObj.status = newStatus;
-      refreshActivePlanUI();
-      toast('Plan status updated in dashboard view (server update coming soon).', false);
-    }
-
-    document.getElementById('btnPausePlan').addEventListener('click',()=>updatePlanStatusUI('paused'));
-    document.getElementById('btnResumePlan').addEventListener('click',()=>updatePlanStatusUI('active'));
-    document.getElementById('btnCancelPlan').addEventListener('click',()=>{
-      if(!confirm('This will only update dashboard view, not backend. Continue?')) return;
-      updatePlanStatusUI('cancelled');
-    });
-
-    document.getElementById('qaPausePlan').addEventListener('click',()=>updatePlanStatusUI('paused'));
-    document.getElementById('qaResumePlan').addEventListener('click',()=>updatePlanStatusUI('active'));
-    document.getElementById('qaCancelPlan').addEventListener('click',()=>{
-      document.getElementById('btnCancelPlan').click();
-    });
-    document.getElementById('qaChangePlan').addEventListener('click',()=>{
-      window.location.href = 'plans.html';
-    });
-
-    // INVOICE DOWNLOAD FROM BACKEND
-    async function downloadLastInvoiceFromBackend(){
-      try{
-        const session = getSession();
-        if(!session){
-          return clearSessionAndGoLogin('Session expired, please login again.');
-        }
-        const res = await fetch(API_BASE + '/api/payments/latest-invoice', {
-          headers:{ 'Authorization':'Bearer ' + session.token }
-        });
-        if(!res.ok){
-          const d = await res.json().catch(()=>({}));
-          toast(d.message || 'No invoice found.', true);
-          return;
-        }
-        const data = await res.json();
-
-        // Try multiple possible keys: invoiceUrl, pdfUrl, url, invoice.pdfPath etc.
-        let url = data.invoiceUrl || data.pdfUrl || data.url;
-        if(!url && data.invoice && (data.invoice.pdfUrl || data.invoice.pdfPath)){
-          url = data.invoice.pdfUrl || data.invoice.pdfPath;
-        }
-        if(!url){
-          toast('Invoice URL not returned by backend.', true);
-          return;
-        }
-        // If relative path, prepend API_BASE
-        if(url.startsWith('/')){
-          url = API_BASE + url;
-        }
-
-        window.open(url, '_blank');
-      }catch(err){
-        console.error(err);
-        toast('Error fetching invoice from backend.', true);
-      }
-    }
-
-    document.getElementById('qaDownloadInvoice').addEventListener('click', downloadLastInvoiceFromBackend);
-    document.getElementById('btnDownloadInvoice2').addEventListener('click', downloadLastInvoiceFromBackend);
-
-    // TABS
-    document.querySelectorAll('.dash-tab').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const tab = btn.dataset.tab;
-        document.querySelectorAll('.dash-tab').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelectorAll('.dash-tab-panel').forEach(p=>p.classList.add('hidden'));
-        document.getElementById('tab-'+tab).classList.remove('hidden');
-      });
-    });
-
-    // DARK MODE TOGGLE
-    const darkBtn = document.getElementById('darkModeToggle');
-    darkBtn.addEventListener('click',()=>{
-      document.body.classList.toggle('dark-mode');
-      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-      localStorage.setItem('df_theme', mode);
-    });
-
-    // LOGOUT
-    document.getElementById('logoutBtn').addEventListener('click', ()=>{
-      if(!confirm('Logout from your account?')) return;
-      localStorage.removeItem('df_user_token');
-      localStorage.removeItem('df_session_expiry');
-      localStorage.removeItem('df_user_profile');
-      window.location.href = 'login.html';
-    });
+async function subAction(action, token){
+  if(!gActiveSub || !gActiveSub._id){
+    toast('No active subscription found.', true);
+    return;
   }
 
-  // reuse getSession in inner scope
-  function getSession(){
-    try{
-      const token = localStorage.getItem('df_user_token');
-      const expiry = parseInt(localStorage.getItem('df_session_expiry') || '0',10);
-      if(!token || !expiry) return null;
-      if(Date.now() > expiry) return null;
-      return { token, expiry };
-    }catch(e){
-      return null;
+  if(action === 'cancel' && !confirm('Are you sure you want to cancel your subscription?')) return;
+
+  try{
+    const res = await fetch(API_BASE + '/api/subscriptions/' + gActiveSub._id + '/' + action, {
+      method:'POST',
+      headers:{ 'Authorization':'Bearer ' + token }
+    });
+    const data = await res.json();
+    if(!res.ok){
+      toast(data.message || 'Error updating subscription', true);
+      return;
     }
+    toast(data.message || 'Updated.', false);
+
+    await loadSubscription(token);
+    await loadSubscriptionHistory(token);
+    await loadUpcomingDeliveries(token);
+    await loadDeliveryHistory(token);
+
+    renderDashboardCards();
+    renderPlanView();
+    renderSubHistoryTable();
+    renderDeliveryCalendar();
+    renderDeliveriesView();
+
+  }catch(err){
+    console.error(err);
+    toast('Network error updating subscription.', true);
   }
+}
+
+/* -------------- DOWNLOAD LAST INVOICE ------------- */
+async function downloadLastInvoice(token){
+  try{
+    const res = await fetch(API_BASE + '/api/payments/latest-invoice', {
+      headers:{ 'Authorization':'Bearer ' + token }
+    });
+    const data = await res.json();
+    if(!res.ok || !data){
+      toast(data?.message || 'No invoice found.', true);
+      return;
+    }
+
+    let url = data.invoiceUrl || data.pdfUrl || data.url;
+    if(!url && data.invoice && (data.invoice.pdfUrl || data.invoice.pdfPath)){
+      url = data.invoice.pdfUrl || data.invoice.pdfPath;
+    }
+    if(!url){
+      toast('Invoice URL not returned by backend.', true);
+      return;
+    }
+    if(url.startsWith('/')){
+      url = API_BASE + url;
+    }
+    window.open(url, '_blank');
+  }catch(err){
+    console.error(err);
+    toast('Error fetching invoice.', true);
+  }
+}
+
+/* -------------- PROFILE FORM ------------- */
+function initProfileForm(){
+  const form = document.getElementById('profileForm');
+  if(!form) return;
+  form.addEventListener('submit', onProfileSubmit);
+}
+
+function fillProfileForm(){
+  if(!gProfile) return;
+  document.getElementById('pfFullName').value   = gProfile.fullName || '';
+  document.getElementById('pfEmail').value      = gProfile.email || '';
+  document.getElementById('pfPhone').value      = gProfile.phone || '';
+  document.getElementById('pfUserType').value   = gProfile.userType || '';
+
+  document.getElementById('pfHouse').value      = gProfile.address?.house || '';
+  document.getElementById('pfStreet').value     = gProfile.address?.street || '';
+  document.getElementById('pfArea').value       = gProfile.address?.area || '';
+  document.getElementById('pfCity').value       = gProfile.address?.city || '';
+  document.getElementById('pfPincode').value    = gProfile.address?.pincode || '';
+
+  document.getElementById('pfDeliveryTime').value = gProfile.deliveryTime || '';
+  document.getElementById('pfOffersOptIn').checked = !!gProfile.offersOptIn;
+}
+
+async function onProfileSubmit(e){
+  e.preventDefault();
+  const session = getSession();
+  if(!session){
+    return clearSessionAndGoLogin('Session expired, please login again.');
+  }
+
+  const fullName = document.getElementById('pfFullName').value.trim();
+  const email    = document.getElementById('pfEmail').value.trim();
+  const phone    = document.getElementById('pfPhone').value.trim();
+  const userType = document.getElementById('pfUserType').value;
+
+  const house    = document.getElementById('pfHouse').value.trim();
+  const street   = document.getElementById('pfStreet').value.trim();
+  const area     = document.getElementById('pfArea').value.trim();
+  const city     = document.getElementById('pfCity').value.trim();
+  const pincode  = document.getElementById('pfPincode').value.trim();
+
+  const deliveryTime = document.getElementById('pfDeliveryTime').value;
+  const offersOptIn  = document.getElementById('pfOffersOptIn').checked;
+
+  if(phone.length !== 10 || !/^[0-9]{10}$/.test(phone)){
+    toast('Please enter a valid 10-digit phone.', true);
+    return;
+  }
+  if(!/^[0-9]{6}$/.test(pincode)){
+    toast('Please enter a valid 6-digit pincode.', true);
+    return;
+  }
+
+  const addressDetails = { house, street, area, city, pincode };
+  const address = `${house}, ${street}, ${area}, ${city} - ${pincode}`;
+
+  const payload = {
+    fullName,
+    phone,
+    addressDetails,
+    address,
+    userType,
+    offersOptIn,
+    deliveryTime
+  };
+
+  try{
+    const res = await fetch(API_BASE + '/api/profile/update', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + session.token
+      },
+      body:JSON.stringify(payload)
+    });
+
+    const d = await res.json().catch(()=> ({}));
+    if(!res.ok){
+      toast(d.message || 'Error updating profile.', true);
+      return;
+    }
+
+    const user = d.user || {};
+    gProfile = {
+      id: user._id || gProfile.id,
+      fullName: user.name || fullName,
+      email: user.email || email,
+      phone: user.phone || phone,
+      userType: user.userType || userType,
+      address: {
+        house: user.addressDetails?.house || house,
+        street: user.addressDetails?.street || street,
+        area: user.addressDetails?.area || area,
+        city: user.addressDetails?.city || city,
+        pincode: user.addressDetails?.pincode || pincode
+      },
+      deliveryTime: user.deliveryTime || deliveryTime,
+      offersOptIn: typeof user.offersOptIn === 'boolean' ? user.offersOptIn : offersOptIn
+    };
+
+    localStorage.setItem('df_user_profile', JSON.stringify(gProfile));
+    renderHeaderAndSidebar();
+    toast('Profile updated.', false);
+  }catch(err){
+    console.error(err);
+    toast('Network error updating profile.', true);
+  }
+}
 </script>
 
 </body>
 </html>
-
