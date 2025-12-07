@@ -28,6 +28,7 @@
     body{ font-family:Inter, sans-serif; }
     html{ scroll-behavior:smooth }
 
+    /* Gradient headers */
     .section-title{
       background:linear-gradient(90deg,#06b6d4,#7c3aed);
       -webkit-background-clip:text;
@@ -36,6 +37,7 @@
       font-weight:700;
     }
 
+    /* Hero animated text */
     .gradient-animate{
       background:linear-gradient(90deg,var(--accent1),#f97316,var(--accent2));
       background-size:200%;
@@ -45,6 +47,7 @@
     }
     @keyframes shine{0%{background-position:0%}100%{background-position:200%}}
 
+    /* Glass UI */
     .glass{
       background:linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.88));
       backdrop-filter: blur(10px);
@@ -54,6 +57,7 @@
       border:1px solid rgba(148,163,184,0.35)
     }
 
+    /* Social icons */
     .glass-icon {
       width:45px;height:45px;
       border-radius:16px;
@@ -64,7 +68,7 @@
       backdrop-filter:blur(10px);
       box-shadow:0 8px 20px rgba(0,0,0,0.15);
       font-size:1.2rem;color:#1e293b;
-      transition:0.25s ease;
+      transition:.25s ease;
     }
     .glass-icon:hover{
       transform:scale(1.12);
@@ -94,6 +98,7 @@
 <header class="sticky top-0 z-40 bg-gradient-to-r from-cyan-50/60 to-purple-50/40 backdrop-blur">
   <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
 
+    <!-- LOGO -->
     <a href="index.html" class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 flex items-center justify-center text-white font-bold shadow-lg">DF</div>
       <div>
@@ -102,14 +107,19 @@
       </div>
     </a>
 
-    <nav class="hidden md:flex gap-4 items-center text-sm" id="desktopNav">
+    <!-- DESKTOP MENU -->
+    <nav class="hidden md:flex gap-4 items-center text-sm">
       <a href="#plans" class="hover:text-green-600">Plans</a>
       <a href="#menu" class="hover:text-green-600">Menu</a>
       <a href="#delivery" class="hover:text-green-600">Delivery</a>
       <a href="#faq" class="hover:text-green-600">FAQs</a>
       <a href="#subscribe" class="hover:text-indigo-600">Subscribe</a>
 
-      <span id="navAuthArea" class="flex gap-3"></span>
+      <!-- ALWAYS VISIBLE -->
+      <a href="dashboard.html" class="hover:text-blue-600 font-semibold">Dashboard</a>
+
+      <a href="login.html" class="hover:text-indigo-600">Login</a>
+      <a href="signup.html" class="hover:text-indigo-600">Signup</a>
 
       <a href="plans.html" class="hover:text-emerald-600 font-semibold">All 20 Plans</a>
 
@@ -120,20 +130,27 @@
       </a>
     </nav>
 
+    <!-- MOBILE BUTTON -->
     <button id="mobileToggle" class="md:hidden px-3 py-2 rounded bg-white shadow-sm">
       <i class="fa fa-bars"></i>
     </button>
   </div>
 
+  <!-- MOBILE MENU -->
   <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
     <div class="px-4 py-4 flex flex-col gap-3 text-sm">
+
       <a href="#plans">Plans</a>
       <a href="#menu">Menu</a>
       <a href="#delivery">Delivery</a>
       <a href="#faq">FAQs</a>
       <a href="#subscribe">Subscribe</a>
 
-      <span id="mobileAuthArea" class="flex flex-col gap-2"></span>
+      <!-- ALWAYS VISIBLE -->
+      <a href="dashboard.html" class="text-blue-600 font-semibold">Dashboard</a>
+
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
 
       <a href="plans.html">All 20 Plans</a>
     </div>
@@ -151,7 +168,8 @@
       </h2>
 
       <p class="mt-4 text-gray-700">
-        Healthy, premium, and delicious fruit bowls delivered to your doorstep — every day, every week, every month.
+        Healthy, premium, and delicious fruit bowls delivered to your doorstep —
+        every day, every week, every month.
       </p>
 
       <div class="mt-6 flex gap-3">
@@ -213,6 +231,7 @@
     </div>
   </div>
 </section>
+
 <!-- ================= BEST SELLER PLANS ================= -->
 <section id="plans" class="py-16 bg-slate-50">
   <div class="max-w-6xl mx-auto px-4">
@@ -257,7 +276,6 @@
   </div>
 </section>
 
-
 <!-- ================= MENU ================= -->
 <section id="menu" class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
   <div class="glass p-8 rounded shadow">
@@ -274,7 +292,6 @@
   </div>
 </section>
 
-
 <!-- ================= DELIVERY INFO ================= -->
 <section id="delivery" class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
   <div class="glass p-8 rounded shadow text-sm text-gray-700">
@@ -290,12 +307,11 @@
 
     <p class="mt-4">
       Delivery Timings: 6:30 AM – 10:00 AM  
-      (Note: Diamond plan includes **Sunday delivery**)
+      (Diamond plan includes <b>Sunday delivery</b>)
     </p>
 
   </div>
 </section>
-
 
 <!-- ================= FAQ ================= -->
 <section id="faq" class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
@@ -317,18 +333,17 @@
 
       <details class="p-3 border rounded">
         <summary class="font-medium cursor-pointer">Can I customize my bowl?</summary>
-        <div class="mt-2">Yes — Diamond & Custom plans allow custom fruit combinations.</div>
+        <div class="mt-2">Yes — Diamond plans allow custom fruit combinations.</div>
       </details>
 
       <details class="p-3 border rounded">
-        <summary class="font-medium cursor-pointer">Are fruits washed and cut safely?</summary>
+        <summary class="font-medium cursor-pointer">Are fruits washed safely?</summary>
         <div class="mt-2">We follow strict hygiene and food-safety processes.</div>
       </details>
 
     </div>
   </div>
 </section>
-
 
 <!-- ================= SUBSCRIBE BOX ================= -->
 <section id="subscribe" class="max-w-6xl mx-auto px-4 py-8" data-aos="zoom-in">
@@ -339,7 +354,7 @@
       <div>
         <h3 class="text-2xl font-bold">Subscribe & Start Fresh</h3>
         <p class="text-sm text-gray-600 mt-2">
-          Choose a plan and share your WhatsApp number. We will confirm your schedule.
+          Choose a plan and share your WhatsApp number. We'll confirm your schedule.
         </p>
       </div>
 
@@ -372,6 +387,7 @@
 
   </div>
 </section>
+
 <!-- ================= FOOTER ================= -->
 <footer class="mt-10">
   <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-10 text-sm">
@@ -445,43 +461,6 @@
 <script>
 AOS.init({ duration:700, once:true, offset:60 });
 
-const API_BASE = "https://dailyfruit-backend.onrender.com";
-
-/* --------------------- LOGIN / DASHBOARD UI ---------------------- */
-function updateNavAuth() {
-  const token = localStorage.getItem("df_user_token");
-
-  const desktop = document.getElementById("navAuthArea");
-  const mobile = document.getElementById("mobileAuthArea");
-
-  if (!desktop || !mobile) return;
-
-  if (token) {
-    desktop.innerHTML = `
-      <a href="dashboard.html" class="hover:text-blue-600 font-semibold">Dashboard</a>
-      <button onclick="logout()" class="text-red-600 font-medium">Logout</button>
-    `;
-    mobile.innerHTML = `
-      <a href="dashboard.html" class="text-blue-600 font-semibold">Dashboard</a>
-      <button onclick="logout()" class="text-red-600 font-medium">Logout</button>
-    `;
-  } else {
-    desktop.innerHTML = `
-      <a href="login.html" class="hover:text-indigo-600">Login</a>
-      <a href="signup.html" class="hover:text-indigo-600">Signup</a>
-    `;
-    mobile.innerHTML = `
-      <a href="login.html">Login</a>
-      <a href="signup.html">Signup</a>
-    `;
-  }
-}
-
-function logout() {
-  localStorage.removeItem("df_user_token");
-  window.location.reload();
-}
-
 /* --------------------- MOBILE MENU ---------------------- */
 document.getElementById("mobileToggle")?.addEventListener("click", function () {
   const m = document.getElementById("mobileMenu");
@@ -510,11 +489,8 @@ window.addEventListener("load", () => {
     if (p) p.style.display = "none";
   }, 800);
 });
-
-/* -------------------- INIT -------------------- */
-updateNavAuth();
 </script>
 
 </body>
 </html>
- 
+
