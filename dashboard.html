@@ -57,10 +57,22 @@
       font-size:0.75rem;
       padding:0.15rem 0.6rem;
     }
-    .status-active{ background:#dcfce7;color:#166534; }
-    .status-paused{ background:#fef3c7;color:#92400e; }
-    .status-cancelled{ background:#fee2e2;color:#b91c1c; }
-    .status-expired{ background:#e5e7eb;color:#374151; }
+    .status-active{
+      background:#dcfce7;
+      color:#166534;
+    }
+    .status-paused{
+      background:#fef3c7;
+      color:#92400e;
+    }
+    .status-cancelled{
+      background:#fee2e2;
+      color:#b91c1c;
+    }
+    .status-expired{
+      background:#e5e7eb;
+      color:#374151;
+    }
   </style>
 </head>
 
@@ -97,13 +109,11 @@
       </div>
 
       <nav class="flex flex-col gap-1 text-xs">
-
-        <!-- HOME (default active) -->
         <button class="sidebar-link active" data-view="dashboard">
           <i class="fa fa-chart-pie"></i> Dashboard Home
         </button>
 
-        <!-- PLANS (all three load the same view) -->
+        <!-- View Plans / Change Plan / Subscription Plans all open same iframe -->
         <button class="sidebar-link" data-view="plans">
           <i class="fa fa-list"></i> View Plans
         </button>
@@ -114,7 +124,6 @@
           <i class="fa fa-box-open"></i> Subscription Plans
         </button>
 
-        <!-- OTHER SECTIONS -->
         <button class="sidebar-link" data-view="plan">
           <i class="fa fa-seedling"></i> My Plan
         </button>
@@ -140,7 +149,7 @@
   <!-- MAIN CONTENT -->
   <main class="flex-1 space-y-4">
 
-    <!-- PAGE TITLE -->
+    <!-- PAGE TITLE + QUICK ACTIONS -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
       <div>
         <h2 class="text-2xl md:text-3xl font-extrabold section-title">My Dashboard</h2>
@@ -148,7 +157,6 @@
           Manage your plan, deliveries, payments and profile in one place.
         </p>
       </div>
-
       <div class="flex flex-wrap gap-2 text-xs">
         <a href="mailto:dailyfruitco@gmail.com"
            class="px-3 py-2 rounded-full text-white"
@@ -158,8 +166,9 @@
       </div>
     </div>
 
-    <!-- VIEW WRAPPER START -->
+    <!-- VIEWS WRAPPER -->
     <div class="space-y-4">
+
       <!-- DASHBOARD HOME VIEW -->
       <section id="view-dashboard" class="glass p-5 space-y-5">
 
@@ -241,7 +250,12 @@
               Edit profile & address
             </button>
 
-            <!-- Shortcut to Plans inside dashboard -->
+            <!-- NEW: Pay / Start Subscription → open plans + checkout flow -->
+            <button id="qaPay" class="w-full border rounded-full px-3 py-1.5 text-left">
+              Pay / Start subscription
+            </button>
+
+            <!-- Shortcut: Change Plan -->
             <button id="qaChangePlan" class="w-full border rounded-full px-3 py-1.5 text-left">
               Change plan / View plans
             </button>
@@ -256,18 +270,36 @@
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
           <div>
             <h3 class="font-semibold text-slate-800 text-base">All Subscription Plans</h3>
-            <p class="text-[11px] text-gray-500">Select a plan to proceed to checkout.</p>
+            <p class="text-[11px] text-gray-500">
+              Choose a plan, then continue to checkout.
+            </p>
           </div>
         </div>
         <div class="px-0 pb-0">
           <iframe id="plansIframe"
                   src=""
-                  style="width:100%;border:0;border-radius:0 0 18px 18px;
-                  min-height:430px;height:78vh;"></iframe>
+                  style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
         </div>
       </section>
 
-      <!-- MY PLAN VIEW -->
+      <!-- CHECKOUT IFRAME VIEW -->
+      <section id="view-checkout" class="glass p-0 space-y-0 hidden text-sm">
+        <div class="flex items-center justify-between px-5 pt-4 pb-2">
+          <div>
+            <h3 class="font-semibold text-slate-800 text-base">Checkout</h3>
+            <p class="text-[11px] text-gray-500">
+              Confirm your details and complete payment securely.
+            </p>
+          </div>
+        </div>
+        <div class="px-0 pb-0">
+          <iframe id="checkoutIframe"
+                  src=""
+                  style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
+        </div>
+      </section>
+
+      <!-- MY PLAN -->
       <section id="view-plan" class="glass p-5 space-y-4 hidden text-sm">
         <h3 class="font-semibold text-slate-800 text-base">My Plan</h3>
         <p class="text-xs text-gray-500">View your active plan and subscription history.</p>
@@ -285,15 +317,13 @@
             <button id="planResumeBtn" class="px-3 py-1.5 rounded-full border">Resume</button>
             <button id="planCancelBtn" class="px-3 py-1.5 rounded-full border text-red-600 border-red-300">Cancel</button>
             <button id="planRenewBtn" class="px-3 py-1.5 rounded-full border">Renew</button>
-
-            <!-- Go to plans inside iframe -->
             <button id="planChangeBtn" class="px-3 py-1.5 rounded-full border">
               Change Plan / View Plans
             </button>
           </div>
         </div>
 
-        <!-- HISTORY TABLE -->
+        <!-- HISTORY -->
         <div class="border rounded-xl p-4 bg-white/80">
           <p class="font-semibold text-sm mb-2">Subscription History</p>
 
@@ -312,12 +342,12 @@
           </div>
         </div>
       </section>
-      <!-- DELIVERIES VIEW -->
+
+      <!-- DELIVERIES -->
       <section id="view-deliveries" class="glass p-5 space-y-4 hidden text-sm">
         <h3 class="font-semibold text-slate-800 text-base">Deliveries</h3>
         <p class="text-xs text-gray-500">Upcoming schedule and past deliveries.</p>
 
-        <!-- UPCOMING DELIVERIES -->
         <div class="border rounded-xl p-4 bg-white/80">
           <p class="font-semibold text-sm mb-2">Upcoming (next 7 days)</p>
           <ul id="delUpcomingList" class="space-y-1 text-xs text-gray-700">
@@ -325,10 +355,8 @@
           </ul>
         </div>
 
-        <!-- DELIVERY HISTORY -->
         <div class="border rounded-xl p-4 bg-white/80">
           <p class="font-semibold text-sm mb-2">Past Deliveries</p>
-
           <div class="overflow-x-auto">
             <table class="min-w-full text-xs">
               <thead>
@@ -344,17 +372,16 @@
         </div>
       </section>
 
-      <!-- PAYMENTS VIEW -->
+      <!-- PAYMENTS -->
       <section id="view-payments" class="glass p-5 space-y-4 hidden text-sm">
         <h3 class="font-semibold text-slate-800 text-base">Payments</h3>
-        <p class="text-xs text-gray-500">All your payments, invoices and transaction history.</p>
+        <p class="text-xs text-gray-500">All your payments and invoices.</p>
 
         <button id="downloadLastInvoiceBtn"
                 class="px-3 py-1.5 rounded-full border text-xs">
           Download last invoice
         </button>
 
-        <!-- PAYMENT HISTORY -->
         <div class="border rounded-xl p-4 bg-white/80">
           <div class="overflow-x-auto">
             <table class="min-w-full text-xs">
@@ -373,38 +400,32 @@
         </div>
       </section>
 
-      <!-- PROFILE VIEW -->
+      <!-- PROFILE -->
       <section id="view-profile" class="glass p-5 space-y-4 hidden text-sm">
         <h3 class="font-semibold text-slate-800 text-base">Profile & Address</h3>
-        <p class="text-xs text-gray-500">Update your personal details and delivery location.</p>
+        <p class="text-xs text-gray-500">Update your basic details and delivery address.</p>
 
         <form id="profileForm" class="space-y-4">
 
-          <!-- NAME + EMAIL -->
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold">Full Name *</label>
-              <input id="pfFullName" type="text" required 
-                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <input id="pfFullName" type="text" required class="w-full px-3 py-2 border rounded-md bg-white/80">
             </div>
             <div>
               <label class="block text-xs font-semibold">Email *</label>
-              <input id="pfEmail" type="email" disabled
-                     class="w-full px-3 py-2 border rounded-md bg-gray-100">
+              <input id="pfEmail" type="email" disabled class="w-full px-3 py-2 border rounded-md bg-gray-100">
             </div>
           </div>
 
-          <!-- PHONE + USER TYPE -->
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold">Phone *</label>
-              <input id="pfPhone" type="tel" required
-                     class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <input id="pfPhone" type="tel" required class="w-full px-3 py-2 border rounded-md bg-white/80">
             </div>
             <div>
               <label class="block text-xs font-semibold">User Type</label>
-              <select id="pfUserType" 
-                      class="w-full px-3 py-2 border rounded-md bg-white/80">
+              <select id="pfUserType" class="w-full px-3 py-2 border rounded-md bg-white/80">
                 <option value="">Customer</option>
                 <option value="home">Home</option>
                 <option value="office">Office</option>
@@ -413,48 +434,41 @@
             </div>
           </div>
 
-          <!-- DELIVERY ADDRESS -->
+          <!-- ADDRESS -->
           <div class="border-t pt-3">
             <label class="block text-xs font-semibold mb-2">Primary Delivery Address</label>
 
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-medium">House *</label>
-                <input id="pfHouse" required
-                       class="w-full px-3 py-2 border rounded bg-white/80">
+                <input id="pfHouse" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
               <div>
                 <label class="block text-xs font-medium">Street *</label>
-                <input id="pfStreet" required
-                       class="w-full px-3 py-2 border rounded bg-white/80">
+                <input id="pfStreet" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-4 mt-3">
               <div>
                 <label class="block text-xs font-medium">Area *</label>
-                <input id="pfArea" required
-                       class="w-full px-3 py-2 border rounded bg-white/80">
+                <input id="pfArea" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
               <div>
                 <label class="block text-xs font-medium">City *</label>
-                <input id="pfCity" required
-                       class="w-full px-3 py-2 border rounded bg-white/80">
+                <input id="pfCity" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
             </div>
 
             <div class="mt-3 max-w-xs">
               <label class="block text-xs font-medium">Pincode *</label>
-              <input id="pfPincode" required
-                     class="w-full px-3 py-2 border rounded bg-white/80">
+              <input id="pfPincode" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
             </div>
           </div>
 
-          <!-- DELIVERY TIME + OFFERS -->
           <div class="border-t pt-3 space-y-2">
             <label class="text-xs font-semibold">Preferred Delivery Time</label>
-            <select id="pfDeliveryTime"
-                    class="w-full md:w-60 px-3 py-2 border rounded bg-white/80 text-sm">
+            <select id="pfDeliveryTime" class="w-full md:w-60 px-3 py-2 border rounded bg-white/80 text-sm">
               <option value="">Select...</option>
               <option value="morning">Morning (6:30–9)</option>
               <option value="afternoon">Afternoon</option>
@@ -463,23 +477,22 @@
 
             <label class="flex items-center gap-2 text-xs">
               <input id="pfOffersOptIn" type="checkbox">
-              Receive deals & offers
+              Receive deals & updates
             </label>
           </div>
 
-          <!-- SAVE BUTTON -->
           <button type="submit"
                   class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
                   style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
             Save Profile
           </button>
-
         </form>
       </section>
-    </div> <!-- end .space-y-4 (view wrapper) -->
+
+    </div>
 
   </main>
-</div> <!-- end main layout container -->
+</div>
 
 <!-- FOOTER -->
 <footer class="mt-8 pb-6 text-center text-[11px] text-gray-400">
@@ -495,37 +508,37 @@ const API_BASE = "https://dailyfruit-backend.onrender.com";
 /* ================================
    TOAST
 ================================ */
-function toast(msg, isError = false) {
+function toast(msg, isError=false){
   const div = document.createElement("div");
   div.textContent = msg;
   div.className =
     "fixed bottom-4 right-4 px-3 py-2 rounded text-white text-sm shadow " +
     (isError ? "bg-red-600" : "bg-black");
   document.body.appendChild(div);
-  setTimeout(() => div.remove(), 2600);
+  setTimeout(()=> div.remove(), 2600);
 }
 
 /* ================================
    SESSION MANAGEMENT
 ================================ */
-function getSession() {
+function getSession(){
   const token = localStorage.getItem("df_user_token");
   const expiry = Number(localStorage.getItem("df_session_expiry") || 0);
-  if (!token || !expiry) return null;
-  if (Date.now() > expiry) return null;
+  if(!token || !expiry) return null;
+  if(Date.now() > expiry) return null;
   return { token, expiry };
 }
 
-function requireLogin() {
+function requireLogin(){
   const session = getSession();
-  if (!session) {
+  if(!session){
     window.location.href = "login.html?redirect=dashboard.html";
     return null;
   }
   return session.token;
 }
 
-function logout() {
+function logout(){
   localStorage.removeItem("df_user_token");
   localStorage.removeItem("df_session_expiry");
   localStorage.removeItem("df_user_profile");
@@ -547,13 +560,13 @@ let gPaymentHistory = [];
 ================================ */
 document.addEventListener("DOMContentLoaded", async () => {
   const token = requireLogin();
-  if (!token) return;
+  if(!token) return;
 
   initSidebar();
   initLogout();
   initProfileForm();
   initQuickActions();
-  initInvoices();
+  initMessageBridge();
 
   await loadAllData(token);
 });
@@ -561,74 +574,95 @@ document.addEventListener("DOMContentLoaded", async () => {
 /* ================================
    SIDEBAR + VIEW HANDLING
 ================================ */
-function initSidebar() {
-  // All sidebar links with data-view
+function ensurePlansIframe(){
+  const iframe = document.getElementById("plansIframe");
+  if (iframe && !iframe.src){
+    iframe.src = "plans.html?from=dashboard";
+  }
+}
+
+function ensureCheckoutIframe(){
+  const iframe = document.getElementById("checkoutIframe");
+  if (iframe && !iframe.src){
+    iframe.src = "checkout.html?from=dashboard";
+  } else if (iframe && iframe.contentWindow){
+    // reload to reflect new selected plan
+    iframe.contentWindow.location.reload();
+  }
+}
+
+function initSidebar(){
   document.querySelectorAll(".sidebar-link[data-view]").forEach(btn => {
     btn.onclick = () => {
       const v = btn.dataset.view;
       showView(v);
-
-      // Any of the "plans" entries should load iframe
-      if (v === "plans") {
-        const iframe = document.getElementById("plansIframe");
-        if (iframe) {
-          iframe.src = "plans.html?from=dashboard";
-        }
-      }
+      if (v === "plans") ensurePlansIframe();
     };
   });
 
-  // Card & quick links
   document.getElementById("goToPlanFromCard").onclick = () => showView("plan");
   document.getElementById("dashViewDeliveriesBtn").onclick = () => showView("deliveries");
   document.getElementById("dashViewPaymentsBtn").onclick = () => showView("payments");
   document.getElementById("qaProfile").onclick = () => showView("profile");
 
-  // Quick Action: Change plan
-  const qaChangePlan = document.getElementById("qaChangePlan");
-  if (qaChangePlan) {
-    qaChangePlan.onclick = () => {
+  document.getElementById("qaChangePlan").onclick = () => {
+    showView("plans");
+    ensurePlansIframe();
+  };
+  document.getElementById("qaPay").onclick = () => {
+    if(confirm("Continue to choose a plan and go to checkout?")){
       showView("plans");
-      const iframe = document.getElementById("plansIframe");
-      if (iframe) iframe.src = "plans.html?from=dashboard";
-    };
-  }
-
-  // My Plan > Change Plan button
-  const planChangeBtn = document.getElementById("planChangeBtn");
-  if (planChangeBtn) {
-    planChangeBtn.onclick = () => {
-      showView("plans");
-      const iframe = document.getElementById("plansIframe");
-      if (iframe) iframe.src = "plans.html?from=dashboard";
-    };
-  }
+      ensurePlansIframe();
+    }
+  };
+  document.getElementById("planChangeBtn").onclick = () => {
+    showView("plans");
+    ensurePlansIframe();
+  };
 }
 
-function showView(v) {
-  // Hide all views
+function showView(v){
   document.querySelectorAll('[id^="view-"]').forEach(sec => sec.classList.add("hidden"));
-
-  // Map "plans" logical view to iframe section
-  const targetId = (v === "plans") ? "view-plans" : ("view-" + v);
+  const targetId = (v === "plans") ? "view-plans"
+                  : (v === "checkout") ? "view-checkout"
+                  : "view-" + v;
   const target = document.getElementById(targetId);
   if (target) target.classList.remove("hidden");
 
-  // Sidebar active state
   document.querySelectorAll(".sidebar-link").forEach(b => {
     b.classList.remove("active");
-    if (b.dataset.view === v) b.classList.add("active");
+    if(b.dataset.view === v) b.classList.add("active");
+  });
+}
+
+/* ================================
+   MESSAGE BRIDGE (plans <-> checkout <-> dashboard)
+================================ */
+function initMessageBridge(){
+  window.addEventListener("message", (event) => {
+    const data = event.data || {};
+    if (data.type === "OPEN_CHECKOUT") {
+      // a plan was selected inside plans.html
+      showView("checkout");
+      ensureCheckoutIframe();
+    }
+    if (data.type === "PAYMENT_SUCCESS") {
+      toast("Payment successful! Updating dashboard…");
+      const session = getSession();
+      if (session){
+        loadAllData(session.token);
+      }
+      showView("dashboard");
+    }
   });
 }
 
 /* ================================
    LOGOUT
 ================================ */
-function initLogout() {
-  const btn = document.getElementById("logoutBtn");
-  if (!btn) return;
-  btn.onclick = () => {
-    if (confirm("Logout from your account?")) {
+function initLogout(){
+  document.getElementById("logoutBtn").onclick = () => {
+    if(confirm("Logout from your account?")){
       logout();
     }
   };
@@ -637,7 +671,7 @@ function initLogout() {
 /* ================================
    LOAD ALL DATA
 ================================ */
-async function loadAllData(token) {
+async function loadAllData(token){
   try {
     await Promise.all([
       loadProfile(token),
@@ -657,7 +691,7 @@ async function loadAllData(token) {
     renderPaymentsView();
     fillProfileForm();
 
-  } catch (e) {
+  } catch (e){
     console.error(e);
     toast("Error loading dashboard", true);
   }
@@ -666,12 +700,12 @@ async function loadAllData(token) {
 /* ================================
    LOAD PROFILE
 ================================ */
-async function loadProfile(token) {
+async function loadProfile(token){
   const res = await fetch(API_BASE + "/api/profile/me", {
     headers: { Authorization: "Bearer " + token }
   });
 
-  if (res.status === 401) {
+  if(res.status === 401){
     return requireLogin();
   }
 
@@ -683,51 +717,51 @@ async function loadProfile(token) {
 /* ================================
    LOAD ACTIVE SUBSCRIPTION
 ================================ */
-async function loadActiveSubscription(token) {
+async function loadActiveSubscription(token){
   const res = await fetch(API_BASE + "/api/subscriptions/my-active", {
     headers: { Authorization: "Bearer " + token }
   });
-  gActiveSub = await res.json().catch(() => null);
+  gActiveSub = await res.json().catch(()=> null);
 }
 
 /* ================================
    LOAD HISTORY + DELIVERIES + PAYMENTS
 ================================ */
-async function loadSubscriptionHistory(token) {
+async function loadSubscriptionHistory(token){
   const r = await fetch(API_BASE + "/api/subscriptions/me", {
     headers: { Authorization: "Bearer " + token }
   });
-  gSubHistory = await r.json().catch(() => []);
+  gSubHistory = await r.json().catch(()=> []);
 }
 
-async function loadUpcomingDeliveries(token) {
+async function loadUpcomingDeliveries(token){
   const r = await fetch(API_BASE + "/api/deliveries/upcoming", {
     headers: { Authorization: "Bearer " + token }
   });
-  gUpcomingDeliveries = await r.json().catch(() => []);
+  gUpcomingDeliveries = await r.json().catch(()=> []);
 }
 
-async function loadDeliveryHistory(token) {
+async function loadDeliveryHistory(token){
   const r = await fetch(API_BASE + "/api/deliveries/history", {
     headers: { Authorization: "Bearer " + token }
   });
-  gDeliveryHistory = await r.json().catch(() => []);
+  gDeliveryHistory = await r.json().catch(()=> []);
 }
 
-async function loadPaymentHistory(token) {
+async function loadPaymentHistory(token){
   const r = await fetch(API_BASE + "/api/payments/my-payments", {
     headers: { Authorization: "Bearer " + token }
   });
-  gPaymentHistory = await r.json().catch(() => []);
+  gPaymentHistory = await r.json().catch(()=> []);
 }
 
 /* ================================
    RENDER HEADER
 ================================ */
-function renderHeader() {
-  if (!gProfile) return;
+function renderHeader(){
+  if(!gProfile) return;
   document.getElementById("sidebarUserName").textContent =
-    gProfile.name || gProfile.fullName || "User";
+    gProfile.name || "User";
   document.getElementById("hdrUserEmail").textContent =
     gProfile.email || "-";
 }
@@ -735,12 +769,12 @@ function renderHeader() {
 /* ================================
    RENDER DASHBOARD CARDS
 ================================ */
-function renderDashboardCards() {
+function renderDashboardCards(){
   const planName = document.getElementById("dashPlanName");
   const planMeta = document.getElementById("dashPlanMeta");
   const statusPill = document.getElementById("dashPlanStatusPill");
 
-  if (!gActiveSub || !gActiveSub._id) {
+  if(!gActiveSub || !gActiveSub._id){
     planName.textContent = "No active plan";
     planMeta.textContent = "Start a subscription from the plans page.";
     statusPill.classList.add("hidden");
@@ -748,16 +782,7 @@ function renderDashboardCards() {
     planName.textContent = gActiveSub.planName;
     planMeta.textContent = `Status: ${gActiveSub.status}`;
     statusPill.textContent = gActiveSub.status;
-
     statusPill.classList.remove("hidden");
-    statusPill.classList.remove(
-      "status-active","status-paused","status-cancelled","status-expired"
-    );
-    const st = (gActiveSub.status || "").toLowerCase();
-    if (st === "active") statusPill.classList.add("status-active");
-    else if (st === "paused") statusPill.classList.add("status-paused");
-    else if (st === "cancelled") statusPill.classList.add("status-cancelled");
-    else statusPill.classList.add("status-expired");
   }
 
   // Next delivery
@@ -765,9 +790,9 @@ function renderDashboardCards() {
   const nextEl = document.getElementById("dashNextDelivery");
   const nextMetaEl = document.getElementById("dashNextDeliveryMeta");
 
-  if (next) {
+  if(next){
     nextEl.textContent = new Date(next.deliveryDate).toDateString();
-    nextMetaEl.textContent = next.status || "";
+    nextMetaEl.textContent = next.status;
   } else {
     nextEl.textContent = "No upcoming delivery";
     nextMetaEl.textContent = "";
@@ -778,9 +803,9 @@ function renderDashboardCards() {
   const lastPay = document.getElementById("dashLastPayment");
   const payMeta = document.getElementById("dashPaymentMeta");
 
-  if (last) {
+  if(last){
     lastPay.textContent = "₹" + last.amount;
-    payMeta.textContent = last.planName || "";
+    payMeta.textContent = last.planName;
   } else {
     lastPay.textContent = "No payments yet";
     payMeta.textContent = "";
@@ -790,12 +815,12 @@ function renderDashboardCards() {
 /* ================================
    PLAN VIEW
 ================================ */
-function renderPlanView() {
+function renderPlanView(){
   const name = document.getElementById("planViewName");
   const meta = document.getElementById("planViewMeta");
   const dates = document.getElementById("planViewDates");
 
-  if (!gActiveSub || !gActiveSub._id) {
+  if(!gActiveSub){
     name.textContent = "No active plan";
     meta.textContent = "";
     dates.textContent = "";
@@ -803,37 +828,27 @@ function renderPlanView() {
   }
 
   name.textContent = gActiveSub.planName;
-  meta.textContent = "Status: " + (gActiveSub.status || "");
+  meta.textContent = "Status: " + gActiveSub.status;
 
-  const s = gActiveSub.startDate ? new Date(gActiveSub.startDate).toLocaleDateString("en-IN") : "-";
-  const e = gActiveSub.endDate ? new Date(gActiveSub.endDate).toLocaleDateString("en-IN") : "-";
+  const s = new Date(gActiveSub.startDate).toLocaleDateString("en-IN");
+  const e = new Date(gActiveSub.endDate).toLocaleDateString("en-IN");
 
   dates.textContent = `From ${s} to ${e}`;
 }
 
 /* ================================
-   SUBSCRIPTION HISTORY
+   SUB HISTORY
 ================================ */
-function renderSubHistory() {
+function renderSubHistory(){
   const body = document.getElementById("subHistoryBody");
   body.innerHTML = "";
-
-  if (!gSubHistory || gSubHistory.length === 0) {
-    body.innerHTML = `
-      <tr>
-        <td class="py-2 pr-4 text-gray-400 text-xs" colspan="4">
-          No past subscriptions found.
-        </td>
-      </tr>`;
-    return;
-  }
 
   gSubHistory.forEach(sub => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td class="py-2 pr-4">${sub.planName}</td>
-      <td class="py-2 pr-4">${sub.startDate ? new Date(sub.startDate).toLocaleDateString("en-IN") : "-"}</td>
-      <td class="py-2 pr-4">${sub.endDate ? new Date(sub.endDate).toLocaleDateString("en-IN") : "-"}</td>
+      <td class="py-2 pr-4">${new Date(sub.startDate).toLocaleDateString("en-IN")}</td>
+      <td class="py-2 pr-4">${new Date(sub.endDate).toLocaleDateString("en-IN")}</td>
       <td class="py-2 pr-4 capitalize">${sub.status}</td>
     `;
     body.appendChild(tr);
@@ -841,13 +856,13 @@ function renderSubHistory() {
 }
 
 /* ================================
-   DELIVERY CALENDAR (HOME CARD)
+   DELIVERY CALENDAR
 ================================ */
-function renderDeliveryCalendar() {
+function renderDeliveryCalendar(){
   const list = document.getElementById("deliveryCalendarList");
   list.innerHTML = "";
 
-  if (!gUpcomingDeliveries || gUpcomingDeliveries.length === 0) {
+  if(gUpcomingDeliveries.length === 0){
     list.innerHTML = `<li class="text-gray-400">No deliveries scheduled.</li>`;
     return;
   }
@@ -864,44 +879,30 @@ function renderDeliveryCalendar() {
 }
 
 /* ================================
-   FULL DELIVERIES VIEW
+   FULL DELIVERY VIEW
 ================================ */
-function renderDeliveriesView() {
+function renderDeliveriesView(){
   const up = document.getElementById("delUpcomingList");
   up.innerHTML = "";
 
-  if (!gUpcomingDeliveries || gUpcomingDeliveries.length === 0) {
-    up.innerHTML = `<li class="text-gray-400">No upcoming deliveries.</li>`;
-  } else {
-    gUpcomingDeliveries.forEach(del => {
-      const li = document.createElement("li");
-      li.className = "flex justify-between py-1 text-xs";
-      li.innerHTML = `
-        <span>${new Date(del.deliveryDate).toDateString()}</span>
-        <button onclick="skipDelivery('${del._id}')" class="text-red-600 text-[11px]">Skip</button>
-      `;
-      up.appendChild(li);
-    });
-  }
+  gUpcomingDeliveries.forEach(del => {
+    const li = document.createElement("li");
+    li.className = "flex justify-between py-1 text-xs";
+    li.innerHTML = `
+      <span>${new Date(del.deliveryDate).toDateString()}</span>
+      <button onclick="skipDelivery('${del._id}')" class="text-red-600 text-[11px]">Skip</button>
+    `;
+    up.appendChild(li);
+  });
 
   const hist = document.getElementById("deliveryHistoryBody");
   hist.innerHTML = "";
 
-  if (!gDeliveryHistory || gDeliveryHistory.length === 0) {
-    hist.innerHTML = `
-      <tr>
-        <td colspan="3" class="py-2 pr-4 text-gray-400 text-xs">
-          No past deliveries yet.
-        </td>
-      </tr>`;
-    return;
-  }
-
   gDeliveryHistory.forEach(d => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td class="py-2 pr-4">${d.deliveryDate ? new Date(d.deliveryDate).toLocaleDateString("en-IN") : "-"}</td>
-      <td class="py-2 pr-4">${d.status || "-"}</td>
+      <td class="py-2 pr-4">${new Date(d.deliveryDate).toLocaleDateString("en-IN")}</td>
+      <td class="py-2 pr-4">${d.status}</td>
       <td class="py-2 pr-4">${d.notes || "-"}</td>
     `;
     hist.appendChild(tr);
@@ -911,28 +912,18 @@ function renderDeliveriesView() {
 /* ================================
    PAYMENTS VIEW
 ================================ */
-function renderPaymentsView() {
+function renderPaymentsView(){
   const body = document.getElementById("paymentHistoryBody");
   body.innerHTML = "";
-
-  if (!gPaymentHistory || gPaymentHistory.length === 0) {
-    body.innerHTML = `
-      <tr>
-        <td colspan="5" class="py-2 pr-4 text-gray-400 text-xs">
-          No payments found yet.
-        </td>
-      </tr>`;
-    return;
-  }
 
   gPaymentHistory.forEach(p => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td class="py-2 pr-4">${p.createdAt ? new Date(p.createdAt).toLocaleDateString("en-IN") : "-"}</td>
-      <td class="py-2 pr-4">${p.planName || "-"}</td>
+      <td class="py-2 pr-4">${new Date(p.createdAt).toLocaleDateString("en-IN")}</td>
+      <td class="py-2 pr-4">${p.planName}</td>
       <td class="py-2 pr-4">₹${p.amount}</td>
       <td class="py-2 pr-4">${p.razorpayPaymentId ? "Razorpay" : "Offline"}</td>
-      <td class="py-2 pr-4">${p.status || "-"}</td>
+      <td class="py-2 pr-4">${p.status}</td>
     `;
     body.appendChild(tr);
   });
@@ -941,9 +932,9 @@ function renderPaymentsView() {
 /* ================================
    SKIP DELIVERY
 ================================ */
-async function skipDelivery(id) {
+async function skipDelivery(id){
   const session = getSession();
-  if (!session) return requireLogin();
+  if(!session) return requireLogin();
 
   const r = await fetch(API_BASE + "/api/deliveries/skip/" + id, {
     method: "POST",
@@ -962,36 +953,34 @@ async function skipDelivery(id) {
 window.skipDelivery = skipDelivery;
 
 /* ================================
-   QUICK ACTIONS (PLAN)
+   QUICK ACTIONS
 ================================ */
-function initQuickActions() {
+function initQuickActions(){
   const session = getSession();
-  if (!session) return;
+  if(!session) return;
   const token = session.token;
 
-  const qaPause = document.getElementById("qaPause");
-  const qaResume = document.getElementById("qaResume");
-  const qaCancel = document.getElementById("qaCancel");
-  const qaRenew = document.getElementById("qaRenew");
+  document.getElementById("qaPause").onclick =
+    () => subAction("pause", token);
+  document.getElementById("qaResume").onclick =
+    () => subAction("resume", token);
+  document.getElementById("qaCancel").onclick =
+    () => subAction("cancel", token);
+  document.getElementById("qaRenew").onclick =
+    () => subAction("renew", token);
 
-  if (qaPause)  qaPause.onclick  = () => subAction("pause", token);
-  if (qaResume) qaResume.onclick = () => subAction("resume", token);
-  if (qaCancel) qaCancel.onclick = () => subAction("cancel", token);
-  if (qaRenew)  qaRenew.onclick  = () => subAction("renew", token);
-
-  const planPauseBtn  = document.getElementById("planPauseBtn");
-  const planResumeBtn = document.getElementById("planResumeBtn");
-  const planCancelBtn = document.getElementById("planCancelBtn");
-  const planRenewBtn  = document.getElementById("planRenewBtn");
-
-  if (planPauseBtn)  planPauseBtn.onclick  = () => subAction("pause", token);
-  if (planResumeBtn) planResumeBtn.onclick = () => subAction("resume", token);
-  if (planCancelBtn) planCancelBtn.onclick = () => subAction("cancel", token);
-  if (planRenewBtn)  planRenewBtn.onclick  = () => subAction("renew", token);
+  document.getElementById("planPauseBtn").onclick =
+    () => subAction("pause", token);
+  document.getElementById("planResumeBtn").onclick =
+    () => subAction("resume", token);
+  document.getElementById("planCancelBtn").onclick =
+    () => subAction("cancel", token);
+  document.getElementById("planRenewBtn").onclick =
+    () => subAction("renew", token);
 }
 
-async function subAction(type, token) {
-  if (!gActiveSub || !gActiveSub._id) {
+async function subAction(type, token){
+  if(!gActiveSub){
     toast("No active subscription", true);
     return;
   }
@@ -1017,34 +1006,34 @@ async function subAction(type, token) {
 /* ================================
    PROFILE FORM
 ================================ */
-function initProfileForm() {
+function initProfileForm(){
   const form = document.getElementById("profileForm");
-  if (!form) return;
+  if(!form) return;
   form.onsubmit = submitProfile;
 }
 
-function fillProfileForm() {
-  if (!gProfile) return;
+function fillProfileForm(){
+  if(!gProfile) return;
 
-  document.getElementById("pfFullName").value  = gProfile.name || gProfile.fullName || "";
-  document.getElementById("pfEmail").value     = gProfile.email || "";
-  document.getElementById("pfPhone").value     = gProfile.phone || "";
+  document.getElementById("pfFullName").value = gProfile.name || "";
+  document.getElementById("pfEmail").value = gProfile.email || "";
+  document.getElementById("pfPhone").value = gProfile.phone || "";
 
-  document.getElementById("pfUserType").value  = gProfile.userType || "";
-  document.getElementById("pfHouse").value     = gProfile.addressDetails?.house || "";
-  document.getElementById("pfStreet").value    = gProfile.addressDetails?.street || "";
-  document.getElementById("pfArea").value      = gProfile.addressDetails?.area || "";
-  document.getElementById("pfCity").value      = gProfile.addressDetails?.city || "";
-  document.getElementById("pfPincode").value   = gProfile.addressDetails?.pincode || "";
+  document.getElementById("pfUserType").value = gProfile.userType || "";
+  document.getElementById("pfHouse").value = gProfile.addressDetails?.house || "";
+  document.getElementById("pfStreet").value = gProfile.addressDetails?.street || "";
+  document.getElementById("pfArea").value = gProfile.addressDetails?.area || "";
+  document.getElementById("pfCity").value = gProfile.addressDetails?.city || "";
+  document.getElementById("pfPincode").value = gProfile.addressDetails?.pincode || "";
   document.getElementById("pfDeliveryTime").value = gProfile.deliveryTime || "";
   document.getElementById("pfOffersOptIn").checked = !!gProfile.offersOptIn;
 }
 
-async function submitProfile(e) {
+async function submitProfile(e){
   e.preventDefault();
 
   const session = getSession();
-  if (!session) return requireLogin();
+  if(!session) return requireLogin();
 
   const payload = {
     fullName: document.getElementById("pfFullName").value,
@@ -1053,17 +1042,17 @@ async function submitProfile(e) {
     offersOptIn: document.getElementById("pfOffersOptIn").checked,
     deliveryTime: document.getElementById("pfDeliveryTime").value,
     addressDetails: {
-      house:   document.getElementById("pfHouse").value,
-      street:  document.getElementById("pfStreet").value,
-      area:    document.getElementById("pfArea").value,
-      city:    document.getElementById("pfCity").value,
+      house: document.getElementById("pfHouse").value,
+      street: document.getElementById("pfStreet").value,
+      area: document.getElementById("pfArea").value,
+      city: document.getElementById("pfCity").value,
       pincode: document.getElementById("pfPincode").value
     }
   };
 
   const r = await fetch(API_BASE + "/api/profile/update", {
     method: "POST",
-    headers: {
+    headers:{
       "Content-Type": "application/json",
       Authorization: "Bearer " + session.token
     },
@@ -1075,37 +1064,6 @@ async function submitProfile(e) {
 
   await loadProfile(session.token);
   renderHeader();
-}
-
-/* ================================
-   INVOICE DOWNLOAD (SAFE HANDLER)
-================================ */
-function initInvoices() {
-  const btn = document.getElementById("downloadLastInvoiceBtn");
-  if (!btn) return;
-
-  btn.onclick = async () => {
-    const session = getSession();
-    if (!session) return requireLogin();
-
-    try {
-      // Adjust endpoint if your backend exposes a different route
-      const r = await fetch(API_BASE + "/api/payments/last-invoice", {
-        headers: { Authorization: "Bearer " + session.token }
-      });
-
-      const d = await r.json();
-      if (!r.ok || !d.url) {
-        toast(d.message || "No invoice available", true);
-        return;
-      }
-
-      window.open(d.url, "_blank");
-    } catch (err) {
-      console.error(err);
-      toast("Unable to download invoice right now", true);
-    }
-  };
 }
 </script>
 
