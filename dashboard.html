@@ -165,6 +165,10 @@
         <button class="sidebar-link" data-view="payments">
           <i class="fa fa-receipt"></i> Payments
         </button>
+        <!-- NEW: Contact Us -->
+        <button class="sidebar-link" data-view="contact">
+          <i class="fa fa-headset"></i> Contact Us
+        </button>
         <button class="sidebar-link" data-view="profile">
           <i class="fa fa-user"></i> Profile
         </button>
@@ -432,6 +436,23 @@
         </div>
       </section>
 
+      <!-- CONTACT US (NEW) -->
+      <section id="view-contact" class="glass p-0 space-y-0 hidden text-sm">
+        <div class="flex items-center justify-between px-5 pt-4 pb-2">
+          <div>
+            <h3 class="font-semibold text-slate-800 text-base">Contact Us</h3>
+            <p class="text-[11px] text-gray-500">
+              Reach out to our team for any help or feedback.
+            </p>
+          </div>
+        </div>
+        <div class="px-0 pb-0">
+          <iframe id="contactIframe"
+                  src="ContactUs.html?from=dashboard"
+                  style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
+        </div>
+      </section>
+
       <!-- PROFILE -->
       <section id="view-profile" class="glass p-5 space-y-4 hidden text-sm">
         <h3 class="font-semibold text-slate-800 text-base">Profile & Address</h3>
@@ -652,6 +673,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initQuickActions();
   initMessageBridge();
   initProfileMenu();
+  initInvoiceDownload();   // NEW
 
   await loadAllData(token);
 });
@@ -879,6 +901,58 @@ async function loadPaymentHistory(token){
     headers: { Authorization: "Bearer " + token }
   });
   gPaymentHistory = await r.json().catch(()=> []);
+}
+
+/* ================================
+   INVOICE DOWNLOAD (NEW)
+================================ */
+function initInvoiceDownload(){
+  const btn = document.getElementById("downloadLastInvoiceBtn");
+  if (!btn) return;
+
+  btn.onclick = async () => {
+    const session = getSession();
+    if (!session) return requireLogin();
+
+    if (!gPaymentHistory || gPaymentHistory.length === 0) {
+      toast("No payments found to download invoice for.", true);
+      return;
+    }
+
+    const last = gPaymentHistory[0];
+
+    try {
+      const res = await fetch(
+        API_BASE + "/api/invoices/payment/" + last._id + "/download",
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + session.token,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        console.error("Invoice download error:", txt);
+        toast("Could not download invoice", true);
+        return;
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "invoice-" + last._id + ".pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error(e);
+      toast("Error downloading invoice", true);
+    }
+  };
 }
 
 /* ================================
