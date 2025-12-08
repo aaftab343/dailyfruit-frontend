@@ -14,9 +14,6 @@
 <!-- FONTAWESOME -->
 <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
 
-<!-- AOS -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
 <style>
   body{
     font-family:'Inter',sans-serif;
@@ -63,22 +60,15 @@
 <body>
 
 <script>
-/* --------------------------------------------------------
-   AUTH CHECK — HANDLE BOTH CASES
-   1) If inside dashboard iframe → DO NOT redirect.
-   2) If opened normally → redirect to signup if not logged in.
--------------------------------------------------------- */
 const params = new URLSearchParams(window.location.search);
 const openedFromDashboard = params.get("from") === "dashboard";
-
 const token = localStorage.getItem("df_user_token");
-
 if (!token && !openedFromDashboard) {
   window.location.href = "signup.html?redirect=plans.html";
 }
 </script>
 
-<!-- HEADER (Hidden if iframe) -->
+<!-- HEADER -->
 <header id="headerBar" class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
@@ -88,18 +78,10 @@ if (!token && !openedFromDashboard) {
         <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
       </div>
     </a>
-
-    <nav class="hidden md:flex gap-4 text-sm">
-      <a href="index.html" class="hover:text-green-600">Home</a>
-      <a href="login.html" class="hover:text-indigo-600">Login</a>
-      <a href="signup.html" class="hover:text-indigo-600">Signup</a>
-      <a href="dashboard.html" class="hover:text-emerald-600">Dashboard</a>
-    </nav>
   </div>
 </header>
 
 <script>
-// hide header if inside dashboard iframe
 if (openedFromDashboard) {
   document.getElementById("headerBar").style.display = "none";
 }
@@ -110,7 +92,6 @@ if (openedFromDashboard) {
   <h2 class="text-3xl md:text-4xl font-extrabold section-title mb-2">
     All Subscription Plans
   </h2>
-
   <p class="text-gray-600 text-sm md:text-base">
     Choose based on your goal — weight loss, premium fruits, detox or daily immunity.
   </p>
@@ -133,564 +114,78 @@ if (openedFromDashboard) {
       <option value="fitness">Fitness</option>
       <option value="detox">Detox</option>
     </select>
-
-    <select id="sortFilter" onchange="filterPlans()"
-            class="px-4 py-2 border rounded w-full md:w-auto">
-      <option value="">Sor
-    <!-- PLAN 1 — Weekly Fresh Bowl (Weekly BESTSELLER) -->
-    <div class="glass p-5 card-hover"
-         data-title="Weekly Fresh Bowl Plan"
-         data-price="424"
-         data-category="weekly"
-         data-slug="weekly-fresh-bowl"
-         data-aos="fade-up">
-      <div class="badge-floating">⭐ Bestseller Weekly</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1572441710534-680f9c6b3f95"
-             alt="Weekly Fresh Bowl"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border border-white/70 shadow-md flex-shrink-0">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🥗 Weekly Fresh Bowl Plan</h3>
-          <span class="badge-under">Most chosen starter</span>
-          <p class="mt-1">7 bowls/week • 250–300g</p>
-          <p class="mt-1 font-semibold text-emerald-600">₹424 / week</p>
-          <p class="mt-2 text-xs">
-            Apple, Papaya, Pineapple, Grapes, Kiwi (2 days/week), Almonds. Free delivery.
-          </p>
-          <button type="button"
-                  class="select-plan-btn mt-3 px-3 py-1.5 rounded-full btn-select inline-flex items-center gap-1">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 2 — Silver Monthly (Value Top Plan) -->
-    <div class="glass p-5 card-hover"
-         data-title="Silver Monthly Plan"
-         data-price="1274"
-         data-category="monthly"
-         data-slug="silver-monthly"
-         data-aos="fade-up">
-      <div class="badge-floating">🥈 Best Value Monthly</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1546069901-eacef0df6022"
-             alt="Silver Monthly Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border border-white/70 shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🥈 Silver Monthly Plan</h3>
-          <span class="badge-under">Smart budget choice</span>
-          <p class="mt-1">15 bowls / month • 250g</p>
-          <p class="mt-1 font-semibold text-emerald-600">₹1,274 / month</p>
-          <p class="mt-2 text-xs">
-            Fresh seasonal mix fruits + free detox every Monday.
-          </p>
-          <button class="select-plan-btn mt-3 px-3 py-1.5 rounded-full btn-select inline-flex items-center gap-1">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 3 — Gold Monthly (TOP PLAN) -->
-    <div class="glass p-5 card-hover"
-         data-title="Gold Monthly Plan"
-         data-price="1869"
-         data-category="monthly premium"
-         data-slug="gold-monthly"
-         data-aos="fade-up">
-      <div class="badge-floating">🥇 Top Plan</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc"
-             alt="Gold Monthly Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🥇 Gold Monthly Plan</h3>
-          <span class="badge-under">Daily premium upgrade</span>
-          <p class="mt-1">22 bowls/month • 300g</p>
-          <p class="mt-1 font-semibold text-emerald-600">₹1,869 / month</p>
-          <p class="mt-2 text-xs">
-            Premium fruits + protein add-ons daily.
-          </p>
-          <button class="select-plan-btn mt-3 px-3 py-1.5 rounded-full btn-select inline-flex items-center gap-1">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 4 — Diamond Monthly (Premium Bestseller) -->
-    <div class="glass p-5 card-hover"
-         data-title="Diamond Monthly Plan"
-         data-price="2549"
-         data-category="monthly premium"
-         data-slug="diamond-monthly"
-         data-aos="fade-up">
-      <div class="badge-floating">💎 Premium Bestseller</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1506806732259-39c2d0268443"
-             alt="Diamond Monthly Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">💎 Diamond Monthly Plan</h3>
-          <span class="badge-under">All-inclusive premium</span>
-          <p class="mt-1">30 bowls/month • 350g</p>
-          <p class="mt-1 font-semibold text-emerald-600">₹2,549 / month</p>
-          <p class="mt-2 text-xs">
-            Top-tier fruits daily + detox drinks.
-          </p>
-          <button class="select-plan-btn mt-3 px-3 py-1.5 rounded-full btn-select inline-flex items-center gap-1">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 5 — Weight Loss Plan -->
-    <div class="glass p-5 card-hover"
-         data-title="Weight Loss Plan"
-         data-price="1614"
-         data-category="weight"
-         data-slug="weight-loss"
-         data-aos="fade-up">
-      <div class="badge-floating">⚖️ Weight Loss Pro</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38"
-             alt="Weight Loss Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">⚖️ Weight Loss Plan</h3>
-          <span class="badge-under">Low-cal, high nutrition</span>
-          <p class="mt-1">20 bowls/month • 250–300g</p>
-          <p class="font-semibold text-emerald-600">₹1,614 / month</p>
-          <p class="text-xs mt-2">
-            Low-cal fruits + weekly detox drink.
-          </p>
-          <button class="select-plan-btn btn-select mt-3 rounded-full px-3 py-1.5 inline-flex items-center gap-1">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 6 — Weight Gain Plan -->
-    <div class="glass p-5 card-hover"
-         data-title="Weight Gain Plan"
-         data-price="1699"
-         data-category="weight"
-         data-slug="weight-gain"
-         data-aos="fade-up">
-      <div class="badge-floating">🍌 Gain Fast</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0"
-             alt="Weight Gain Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">💪 Weight Gain Plan</h3>
-          <span class="badge-under">High-calorie support</span>
-          <p class="mt-1">20 bowls/month • 300–350g</p>
-          <p class="font-semibold text-emerald-600">₹1,699 / month</p>
-          <p class="text-xs mt-2">
-            High-cal fruits + nuts/honey.
-          </p>
-          <button class="select-plan-btn btn-select mt-3 rounded-full px-3 py-1.5 inline-flex items-center gap-1">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 7 — Fitness Pro Plan -->
-    <div class="glass p-5 card-hover"
-         data-title="Fitness Pro Plan"
-         data-price="2124"
-         data-category="fitness"
-         data-slug="fitness-pro"
-         data-aos="fade-up">
-      <div class="badge-floating">🏋️ Fitness Pro</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1580910051074-7e0cdfbb6793"
-             alt="Fitness Pro Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🏋️ Fitness Pro Plan</h3>
-          <span class="badge-under">Gym & workout friendly</span>
-          <p class="mt-1">24 bowls/month • 300g</p>
-          <p class="font-semibold text-emerald-600">₹2,124 / month</p>
-          <p class="text-xs mt-2">
-            Premium fruits + proteins.
-          </p>
-          <button class="select-plan-btn btn-select mt-3 rounded-full px-3 py-1.5 inline-flex items-center gap-1">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- PLAN 8 — Detox & Cleanse -->
-    <div class="glass p-5 card-hover"
-         data-title="Detox & Cleanse Plan"
-         data-price="1529"
-         data-category="detox"
-         data-slug="detox-cleanse"
-         data-aos="fade-up">
-      <div class="badge-floating">🧃 Detox Special</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1514995669114-6081e934b693"
-             alt="Detox & Cleanse Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🧃 Detox & Cleanse Plan</h3>
-          <span class="badge-under">Best for cleansing</span>
-          <p class="mt-1">20 bowls/month • 250g</p>
-          <p class="font-semibold text-emerald-600">₹1,529 / month</p>
-          <p class="text-xs mt-2">Cleansing fruits + detox water.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 9 — Immunity Boost -->
-    <div class="glass p-5 card-hover"
-         data-title="Immunity Boost Plan"
-         data-price="1869"
-         data-category="fitness"
-         data-slug="immunity-boost"
-         data-aos="fade-up">
-      <div class="badge-floating">🛡 Immunity Boost</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba"
-             alt="Immunity Boost Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🛡 Immunity Boost Plan</h3>
-          <span class="badge-under">High Vit-C plan</span>
-          <p class="mt-1">22 bowls/month • 250–300g</p>
-          <p class="font-semibold text-emerald-600">₹1,869 / month</p>
-          <p class="text-xs mt-2">Vitamin-C rich fruits daily.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 10 — Premium Custom -->
-    <div class="glass p-5 card-hover"
-         data-title="Premium Custom Plan"
-         data-price="2804"
-         data-category="premium"
-         data-slug="premium-custom"
-         data-aos="fade-up">
-      <div class="badge-floating">✨ Premium Custom</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1514512364185-4c2b0b6fd113"
-             alt="Premium Custom Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">✨ Premium Custom Plan</h3>
-          <span class="badge-under">Build your own</span>
-          <p class="mt-1">30 bowls/month • 350g</p>
-          <p class="font-semibold text-emerald-600">₹2,804 / month</p>
-          <p class="text-xs mt-2">Choose your own fruits daily.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 11 — Energy Booster -->
-    <div class="glass p-5 card-hover"
-         data-title="Energy Booster Plan"
-         data-price="1614"
-         data-category="fitness"
-         data-slug="energy-booster"
-         data-aos="fade-up">
-      <div class="badge-floating">⚡ Energy Booster</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1514995669114-6081e934b693"
-             alt="Energy Booster Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">⚡ Energy Booster Plan</h3>
-          <span class="badge-under">Instant energy</span>
-          <p class="mt-1">20 bowls/month • 300g</p>
-          <p class="font-semibold text-emerald-600">₹1,614 / month</p>
-          <p class="text-xs mt-2">High-energy fruits + nuts.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 12 — Morning Boost Plan -->
-    <div class="glass p-5 card-hover"
-         data-title="Morning Boost Plan"
-         data-price="1784"
-         data-category="fitness"
-         data-slug="morning-boost"
-         data-aos="fade-up">
-      <div class="badge-floating">🌅 Morning Boost</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0"
-             alt="Morning Boost Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🌅 Morning Boost Plan</h3>
-          <span class="badge-under">Perfect daily starter</span>
-          <p class="mt-1">26 bowls/month • 300g</p>
-          <p class="font-semibold text-emerald-600">₹1,784 / month</p>
-          <p class="text-xs mt-2">Healthy start each morning.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 13 — Pre-Workout -->
-    <div class="glass p-5 card-hover"
-         data-title="Pre-Workout Plan"
-         data-price="2124"
-         data-category="fitness"
-         data-slug="pre-workout"
-         data-aos="fade-up">
-      <div class="badge-floating">🔥 Pre-Workout Fuel</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1514995669114-6081e934b693"
-             alt="Pre-Workout Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🔥 Pre-Workout Plan</h3>
-          <span class="badge-under">Boost performance</span>
-          <p class="mt-1">24 bowls/month • 300–350g</p>
-          <p class="font-semibold text-emerald-600">₹2,124 / month</p>
-          <p class="text-xs mt-2">High-energy mixes.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 14 — Post-Workout -->
-    <div class="glass p-5 card-hover"
-         data-title="Post-Workout Plan"
-         data-price="2294"
-         data-category="fitness"
-         data-slug="post-workout"
-         data-aos="fade-up">
-      <div class="badge-floating">💥 Post-Workout Recovery</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf"
-             alt="Post-Workout Plan"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">💥 Post-Workout Plan</h3>
-          <span class="badge-under">Recovery nutrition</span>
-          <p class="mt-1">24 bowls/month • 300–350g</p>
-          <p class="font-semibold text-emerald-600">₹2,294 / month</p>
-          <p class="text-xs mt-2">Recovery rich fruits.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-<!-- 🔥 This code goes right after:
-<div id="plansGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-gray-700">
-AND before closing </div> of plansGrid -->
-
-
-    <!-- PLAN 15 — Brain Boost (Premium / Focus) -->
-    <div class="glass p-5 card-hover"
-         data-title="Brain Boost Plan"
-         data-price="1954"
-         data-category="premium"
-         data-slug="brain-boost"
-         data-aos="fade-up">
-      <div class="badge-floating">🧠 Focus Premium</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1475090169767-40ed8d18f67d"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl border object-cover shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🧠 Brain Boost Plan</h3>
-          <span class="badge-under">Memory & focus support</span>
-          <p class="mt-1">20 bowls/month • 250–300g</p>
-          <p class="font-semibold text-emerald-600">₹1,954 / month</p>
-          <p class="text-xs mt-2">Blueberries, walnuts & kiwi.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 16 — Vitamin C Plan (Detox + Immunity) -->
-    <div class="glass p-5 card-hover"
-         data-title="Vitamin C Plan"
-         data-price="1699"
-         data-category="detox"
-         data-slug="vitamin-c"
-         data-aos="fade-up">
-      <div class="badge-floating">🍊 Immunity Boost</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl border object-cover shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🍊 Vitamin C Plan</h3>
-          <span class="badge-under">Daily Vit-C power</span>
-          <p class="mt-1">20 bowls/month • 250–300g</p>
-          <p class="font-semibold text-emerald-600">₹1,699 / month</p>
-          <p class="text-xs mt-2">Orange, Kiwi, Pineapple.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 17 — Energy + Immunity Plan -->
-    <div class="glass p-5 card-hover"
-         data-title="Energy + Immunity Plan"
-         data-price="2124"
-         data-category="fitness"
-         data-slug="energy-immunity"
-         data-aos="fade-up">
-      <div class="badge-floating">⚡🛡 Dual Boost</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1506806732259-39c2d0268443"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl border object-cover shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">⚡🛡 Energy + Immunity Plan</h3>
-          <span class="badge-under">Double benefits</span>
-          <p class="mt-1">24 bowls/month • 300g</p>
-          <p class="font-semibold text-emerald-600">₹2,124 / month</p>
-          <p class="text-xs mt-2">Orange + Kiwi + Mango.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 18 — Super Fruits Plan -->
-    <div class="glass p-5 card-hover"
-         data-title="Super Fruits Plan"
-         data-price="2719"
-         data-category="premium"
-         data-slug="super-fruits"
-         data-aos="fade-up">
-      <div class="badge-floating">🌟 Super Premium</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1523475496153-3d6cc4504c24"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl border object-cover shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🌟 Super Fruits Plan</h3>
-          <span class="badge-under">Exotic fruit lovers</span>
-          <p class="mt-1">24 bowls/month • 350g</p>
-          <p class="font-semibold text-emerald-600">₹2,719 / month</p>
-          <p class="text-xs mt-2">Blueberry, Avocado, Dragon Fruit.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 19 — Daily Detox Pack -->
-    <div class="glass p-5 card-hover"
-         data-title="Daily Detox Pack"
-         data-price="1869"
-         data-category="detox"
-         data-slug="daily-detox"
-         data-aos="fade-up">
-      <div class="badge-floating">🧪 Detox Special</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1568640347023-6838822fb264"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl border object-cover shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">🧪 Daily Detox Pack</h3>
-          <span class="badge-under">Cleanse every day</span>
-          <p class="mt-1">30 bowls/month • 300g</p>
-          <p class="font-semibold text-emerald-600">₹1,869 / month</p>
-          <p class="text-xs mt-2">Hydrating fruits + detox drink.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAN 20 — Custom Premium Pack -->
-    <div class="glass p-5 card-hover"
-         data-title="Custom Premium Pack"
-         data-price="2974"
-         data-category="premium"
-         data-slug="custom-premium-pack"
-         data-aos="fade-up">
-      <div class="badge-floating">✨ Custom Premium</div>
-      <div class="relative flex gap-4 items-center">
-        <img src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24"
-             class="w-24 h-24 md:w-28 md:h-28 rounded-xl border object-cover shadow-md">
-        <div class="flex-1">
-          <h3 class="font-bold text-lg">✨ Custom Premium Pack</h3>
-          <span class="badge-under">Build your own mix</span>
-          <p class="mt-1">30 bowls/month • 350g</p>
-          <p class="font-semibold text-emerald-600">₹2,974 / month</p>
-          <p class="text-xs mt-2">Fully custom premium bowls.</p>
-          <button class="select-plan-btn btn-select mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-full">
-            Select Plan <i class="fa fa-arrow-right text-[10px]"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-</div> <!-- END OF plansGrid -->
-
-
-<!-- FOOTER (Hidden inside iframe/dashboard) -->
-<footer id="footerBar" class="mt-10 bg-[#020617] text-white">
-  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-10 text-sm">
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Get in Touch</h3>
-      <p class="text-gray-300">Call / WhatsApp</p>
-      <p class="text-gray-400">+91-9226157351</p>
-      <p class="mt-4 text-gray-300">Email</p>
-      <p class="text-gray-400">dailyfruitco@gmail.com</p>
-    </div>
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Company</h3>
-      <a href="contact.html" class="block text-gray-300 hover:text-white">Contact Us</a>
-      <a href="index.html#faq" class="block text-gray-300 hover:text-white">FAQs</a>
-    </div>
-    <div>
-      <h3 class="text-xl font-bold section-title mb-4">Follow Us</h3>
-      <div class="footer-social">
-        <a href="#" class="glass-icon"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="glass-icon"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="glass-icon"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-    </div>
   </div>
-</footer>
+</div>
+
+<!-- ✅ DYNAMIC PLANS GRID -->
+<div id="plansGrid" class="max-w-6xl mx-auto px-4 pb-16 grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-gray-700">
+  <p id="plansLoading" class="text-xs text-gray-400">Loading plans…</p>
+</div>
 
 <script>
-// Hide footer when inside dashboard iframe
-if (new URLSearchParams(location.search).get("from") === "dashboard") {
-  document.getElementById("footerBar").style.display = "none";
+const API_BASE = "https://dailyfruit-backend.onrender.com";
+let ALL_PLANS = [];
+
+async function loadPlansFromDB(){
+  const grid = document.getElementById("plansGrid");
+
+  try{
+    const res = await fetch(API_BASE + "/api/plans");
+    const plans = await res.json();
+    ALL_PLANS = plans;
+
+    grid.innerHTML = "";
+
+    if(!plans || plans.length === 0){
+      grid.innerHTML = "<p class='text-xs text-gray-400'>No plans found.</p>";
+      return;
+    }
+
+    plans.forEach(plan => {
+      const card = document.createElement("div");
+      card.className = "glass p-5 card-hover";
+      card.dataset.title = plan.name;
+      card.dataset.category = plan.type || "";
+
+      const durationText =
+        plan.durationDays === 7 ? "per week" :
+        plan.durationDays ? `for ${plan.durationDays} days` :
+        "per month";
+
+      card.innerHTML = `
+        ${plan.tags?.length ? `<div class="badge-floating">${plan.tags[0]}</div>` : ""}
+        <div class="relative flex gap-4 items-center">
+          <img src="${plan.imageUrl || 'https://images.unsplash.com/photo-1572441710534-680f9c6b3f95'}"
+               class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow">
+          <div class="flex-1">
+            <h3 class="font-bold text-lg">${plan.name}</h3>
+            ${plan.description ? `<p class="mt-1 text-xs text-gray-500">${plan.description}</p>` : ""}
+            <p class="mt-1 font-semibold text-emerald-600">₹${plan.price}</p>
+            <p class="text-[11px] text-gray-400">${durationText}</p>
+            <button class="select-plan-btn mt-3 px-3 py-1.5 rounded-full btn-select">
+              Go to Checkout →
+            </button>
+          </div>
+        </div>
+      `;
+
+      card.querySelector(".select-plan-btn").onclick = () => {
+        localStorage.setItem("df_selected_plan", JSON.stringify(plan));
+        window.location.href = "checkout.html";
+      };
+
+      grid.appendChild(card);
+    });
+
+  }catch(err){
+    console.error("Plan load error:", err);
+    grid.innerHTML = "<p class='text-xs text-red-500'>Failed to load plans</p>";
+  }
 }
-</script>
 
-<!-- CORE JS (Sorting, Filters, Select → Checkout) -->
-<script>
 function filterPlans(){
   const s = searchInput.value.toLowerCase();
   const cat = categoryFilter.value;
-  const sort = sortFilter.value;
   const cards = Array.from(plansGrid.children);
 
   cards.forEach(card => {
@@ -699,41 +194,10 @@ function filterPlans(){
     card.style.display =
       title.includes(s) && (!cat || c.includes(cat)) ? "block" : "none";
   });
-
-  if (sort) {
-    const visible = cards.filter(c => c.style.display !== "none");
-    visible.sort((a,b)=>{
-      const pa = +a.dataset.price, pb = +b.dataset.price;
-      return sort === "low" ? pa - pb : pb - pa;
-    });
-    visible.forEach(c => plansGrid.appendChild(c));
-  }
 }
 
-function savePlanAndGo(card){
-  const plan = {
-    name: card.dataset.title,
-    slug: card.dataset.slug,
-    price: Number(card.dataset.price)
-  };
-  localStorage.setItem("df_selected_plan", JSON.stringify(plan));
-  window.location.href = "checkout.html";
-}
-
-document.addEventListener("DOMContentLoaded", ()=>{
-  document.querySelectorAll(".select-plan-btn").forEach(btn=>{
-    btn.onclick = e=>{
-      e.stopPropagation();
-      savePlanAndGo(btn.closest(".glass"));
-    };
-  });
-
-  document.querySelectorAll(".glass").forEach(card=>{
-    card.onclick = e=>{
-      if (e.target.closest(".select-plan-btn")) return;
-      savePlanAndGo(card);
-    };
-  });
-});
+document.addEventListener("DOMContentLoaded", loadPlansFromDB);
 </script>
 
+</body>
+</html>
