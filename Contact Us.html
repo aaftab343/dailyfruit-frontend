@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Daily Fruit Co. — Contact Us</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --accent1:#06b6d4;
+      --accent2:#7c3aed;
+    }
+
+    .section-title{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      -webkit-background-clip:text;
+      color:transparent;
+      font-weight:700;
+    }
+
+    .glass{
+      background:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.90));
+      backdrop-filter: blur(10px);
+      border-radius:16px;
+      padding:1.5rem;
+      box-shadow:0 8px 30px rgba(15,23,42,0.12);
+      border:1px solid rgba(148,163,184,0.35)
+    }
+
+    .glass-icon {
+      width:44px;height:44px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(10px);
+      box-shadow:0 8px 20px rgba(0,0,0,0.15);
+      font-size:1.1rem;color:#1e293b;
+      transition:.25s ease;
+    }
+
+    .glass-icon:hover{
+      transform:scale(1.12);
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:white;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-b from-white to-gray-50 text-gray-800">
+
+<!-- ================ CONTACT US SECTION (NOT FOOTER) ================= -->
+<section id="contact-us" class="mt-10 border-t bg-gradient-to-r from-cyan-50/60 to-purple-50/40 backdrop-blur">
+  <div class="max-w-6xl mx-auto px-4 py-12 grid md:grid-cols-3 gap-10 text-sm">
+
+    <!-- BRAND -->
+    <div class="glass">
+      <h3 class="text-xl font-bold section-title mb-4">Daily Fruit Co.</h3>
+      <p class="text-gray-700">
+        Fresh fruit salads delivered daily across Pune.  
+        Eat clean. Stay fresh. Live healthy.
+      </p>
+
+      <div class="mt-5 flex flex-wrap gap-3">
+        <a href="https://www.instagram.com/dailyfruitco" target="_blank" class="glass-icon"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/dailyfruitco" target="_blank" class="glass-icon"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com" target="_blank" class="glass-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://twitter.com" target="_blank" class="glass-icon"><i class="fab fa-twitter"></i></a>
+        <a href="https://wa.me/919226157351" target="_blank" class="glass-icon"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <!-- CONTACT INFO + SERVICE TIMINGS -->
+    <div class="glass">
+      <h3 class="text-xl font-bold section-title mb-4">Contact Us</h3>
+
+      <p class="font-semibold">Call / WhatsApp</p>
+      <a href="tel:+919226157351" class="text-indigo-600 hover:underline block mb-2">
+        +91-9226157351
+      </a>
+
+      <p class="font-semibold">Email</p>
+      <a href="mailto:dailyfruitco@gmail.com" class="text-indigo-600 hover:underline block mb-2">
+        dailyfruitco@gmail.com
+      </a>
+
+      <p class="font-semibold mt-2">Delivery City</p>
+      <p class="mb-2">Pune</p>
+
+      <p class="font-semibold">Address</p>
+      <p class="mb-2">
+        Bhagwati Nagar, Wakad Road,<br>
+        Pune, Maharashtra — 411057
+      </p>
+
+      <p class="font-semibold">Website</p>
+      <a href="https://dailyfruitco.in" target="_blank" class="text-indigo-600 hover:underline">
+        www.dailyfruitco.in
+      </a>
+
+      <!-- SERVICE TIMINGS -->
+      <hr class="my-4 border-gray-200/70">
+
+      <p class="font-semibold text-gray-800 mb-2">Service Timings</p>
+
+      <div class="space-y-2 text-gray-700 text-xs sm:text-sm">
+        <div class="flex items-center justify-between border-b pb-2">
+          <span class="font-medium">Order Cut-off Time</span>
+          <span class="text-indigo-600 font-semibold">10:00 PM (Previous Night)</span>
+        </div>
+
+        <div class="flex items-center justify-between border-b pb-2">
+          <span class="font-medium">Delivery Window</span>
+          <span class="text-indigo-600 font-semibold">6:30 AM – 10:00 AM</span>
+        </div>
+
+        <div class="flex items-center justify-between border-b pb-2">
+          <span class="font-medium">Delivery Days</span>
+          <span class="text-indigo-600 font-semibold">Monday – Saturday</span>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <span class="font-medium">Sunday Delivery</span>
+          <span class="text-green-600 font-semibold">Diamond Plan Only ✅</span>
+        </div>
+      </div>
+
+      <p class="mt-3 text-[11px] text-gray-500">
+        Orders placed after the cut-off time will be delivered the next working day.
+      </p>
+    </div>
+
+    <!-- FAQ WITH ACCORDION ANIMATION -->
+    <div class="glass">
+      <h3 class="text-xl font-bold section-title mb-4">FAQs</h3>
+
+      <div id="faqAccordion" class="space-y-3">
+
+        <div class="border border-gray-200 rounded-xl bg-white/70 overflow-hidden">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-left faq-toggle">
+            <span class="font-semibold text-sm">Can I pause my subscription?</span>
+            <i class="fa fa-chevron-down text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content px-3 pb-3 text-gray-700 text-sm max-h-0 overflow-hidden transition-all duration-300">
+            Yes, you can pause anytime with 24-hour notice.
+          </div>
+        </div>
+
+        <div class="border border-gray-200 rounded-xl bg-white/70 overflow-hidden">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-left faq-toggle">
+            <span class="font-semibold text-sm">How do I make payment?</span>
+            <i class="fa fa-chevron-down text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content px-3 pb-3 text-gray-700 text-sm max-h-0 overflow-hidden transition-all duration-300">
+            We accept UPI, GPay, PhonePe and Paytm.
+          </div>
+        </div>
+
+        <div class="border border-gray-200 rounded-xl bg-white/70 overflow-hidden">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-left faq-toggle">
+            <span class="font-semibold text-sm">Do you deliver on Sunday?</span>
+            <i class="fa fa-chevron-down text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content px-3 pb-3 text-gray-700 text-sm max-h-0 overflow-hidden transition-all duration-300">
+            Yes, Sunday delivery is available for Diamond plans.
+          </div>
+        </div>
+
+        <div class="border border-gray-200 rounded-xl bg-white/70 overflow-hidden">
+          <button class="w-full flex items-center justify-between px-3 py-2 text-left faq-toggle">
+            <span class="font-semibold text-sm">Are the fruits fresh daily?</span>
+            <i class="fa fa-chevron-down text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content px-3 pb-3 text-gray-700 text-sm max-h-0 overflow-hidden transition-all duration-300">
+            Yes, fruits are sourced fresh every morning and prepared hygienically.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="border-t border-white/40 bg-white/40 backdrop-blur py-4 text-center text-xs text-gray-600">
+    © 2025 Daily Fruit Co. — Freshness Delivered Daily
+  </div>
+</section>
+
+<!-- ================ LIVE WHATSAPP CHAT POPUP ================= -->
+<div id="whatsappChat" class="fixed bottom-5 right-5 z-50">
+
+  <!-- Bubble button -->
+  <div id="whatsappBubble"
+       class="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full shadow-xl cursor-pointer hover:bg-green-600 transition">
+    <i class="fab fa-whatsapp text-xl"></i>
+    <span class="text-sm font-medium hidden sm:inline">Chat with us</span>
+  </div>
+
+  <!-- Popup card -->
+  <div id="whatsappPopup"
+       class="hidden mt-3 w-72 bg-white rounded-2xl shadow-2xl border border-green-100 overflow-hidden transform origin-bottom-right transition-all duration-300 opacity-0 translate-y-3">
+    <div class="px-4 py-3 bg-green-500 text-white flex items-center justify-between">
+      <div>
+        <p class="text-sm font-semibold">Daily Fruit Co.</p>
+        <p class="text-xs text-green-100">Typically replies in a few minutes</p>
+      </div>
+      <button id="closeWhatsappPopup" class="text-white/80 hover:text-white text-lg leading-none">&times;</button>
+    </div>
+
+    <div class="px-4 py-3 text-sm text-gray-700 bg-green-50/60">
+      👋 Hi! Have questions about our plans or delivery in Pune?  
+      Tap below to chat with us on WhatsApp.
+    </div>
+
+    <div class="px-4 py-3 bg-white flex items-center justify-between gap-2">
+      <input
+        type="text"
+        id="whatsappMessage"
+        class="flex-1 border border-gray-200 rounded-full text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
+        value="Hi! I’d like to know more about your fruit plans."
+      />
+      <a id="whatsappSendBtn"
+         href="https://wa.me/919226157351?text=Hi!%20I%E2%80%99d%20like%20to%20know%20more%20about%20your%20fruit%20plans."
+         target="_blank"
+         class="bg-green-500 hover:bg-green-600 text-white rounded-full px-3 py-2 text-xs font-semibold flex items-center gap-1">
+        <i class="fab fa-whatsapp text-sm"></i>
+        Send
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ================ SCRIPTS: FAQ ACCORDION + WHATSAPP POPUP ================= -->
+<script>
+  // FAQ accordion animation (only one open at a time)
+  (function () {
+    const items = document.querySelectorAll('#faqAccordion .border');
+    items.forEach((item) => {
+      const btn = item.querySelector('.faq-toggle');
+      const content = item.querySelector('.faq-content');
+      const icon = item.querySelector('i.fa-chevron-down');
+
+      btn.addEventListener('click', () => {
+        const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+        // Close all others (accordion behavior)
+        items.forEach((other) => {
+          const otherContent = other.querySelector('.faq-content');
+          const otherIcon = other.querySelector('i.fa-chevron-down');
+          if (otherContent !== content) {
+            otherContent.style.maxHeight = '0px';
+            otherIcon.classList.remove('rotate-180');
+          }
+        });
+
+        if (isOpen) {
+          content.style.maxHeight = '0px';
+          icon.classList.remove('rotate-180');
+        } else {
+          content.style.maxHeight = content.scrollHeight + 'px';
+          icon.classList.add('rotate-180');
+        }
+      });
+    });
+
+    // Optionally open first item by default
+    const firstContent = document.querySelector('#faqAccordion .faq-content');
+    const firstIcon = document.querySelector('#faqAccordion i.fa-chevron-down');
+    if (firstContent && firstIcon) {
+      firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
+      firstIcon.classList.add('rotate-180');
+    }
+  })();
+
+  // Live WhatsApp chat popup
+  (function () {
+    const bubble = document.getElementById('whatsappBubble');
+    const popup = document.getElementById('whatsappPopup');
+    const closeBtn = document.getElementById('closeWhatsappPopup');
+    const msgInput = document.getElementById('whatsappMessage');
+    const sendBtn = document.getElementById('whatsappSendBtn');
+
+    function openPopup() {
+      popup.classList.remove('hidden');
+      setTimeout(() => {
+        popup.classList.remove('opacity-0', 'translate-y-3');
+      }, 10);
+    }
+
+    function closePopup() {
+      popup.classList.add('opacity-0', 'translate-y-3');
+      setTimeout(() => {
+        popup.classList.add('hidden');
+      }, 250);
+    }
+
+    bubble.addEventListener('click', () => {
+      if (popup.classList.contains('hidden')) {
+        openPopup();
+      } else {
+        closePopup();
+      }
+    });
+
+    closeBtn.addEventListener('click', closePopup);
+
+    // Update WhatsApp link with current message
+    msgInput.addEventListener('input', () => {
+      const text = encodeURIComponent(msgInput.value.trim() || "Hi! I'd like to know more about your fruit plans.");
+      sendBtn.href = `https://wa.me/919226157351?text=${text}`;
+    });
+
+    // Optional: auto-show popup after few seconds
+    setTimeout(() => {
+      if (popup.classList.contains('hidden')) {
+        openPopup();
+      }
+    }, 5000);
+  })();
+</script>
+
+</body>
+</html>
