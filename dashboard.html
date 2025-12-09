@@ -190,7 +190,7 @@
         <span class="sidebar-text">Dashboard Home</span>
       </button>
 
-      <!-- New Home link -->
+      <!-- Home link -->
       <a href="index.html" class="sidebar-link" data-close-mobile>
         <i class="fa fa-home"></i>
         <span class="sidebar-text">Home</span>
@@ -219,6 +219,11 @@
       <button class="sidebar-link" data-view="payments" data-close-mobile>
         <i class="fa fa-receipt"></i>
         <span class="sidebar-text">Payments</span>
+      </button>
+      <!-- Contact Us -->
+      <button class="sidebar-link" data-view="contact" data-close-mobile>
+        <i class="fa fa-envelope"></i>
+        <span class="sidebar-text">Contact Us</span>
       </button>
       <button class="sidebar-link" data-view="profile" data-close-mobile>
         <i class="fa fa-user"></i>
@@ -250,7 +255,7 @@
           <span class="sidebar-text">Dashboard Home</span>
         </button>
 
-        <!-- New Home link -->
+        <!-- Home link -->
         <a href="index.html" class="sidebar-link">
           <i class="fa fa-home"></i>
           <span class="sidebar-text">Home</span>
@@ -281,6 +286,11 @@
         <button class="sidebar-link" data-view="payments">
           <i class="fa fa-receipt"></i>
           <span class="sidebar-text">Payments</span>
+        </button>
+        <!-- Contact Us -->
+        <button class="sidebar-link" data-view="contact">
+          <i class="fa fa-envelope"></i>
+          <span class="sidebar-text">Contact Us</span>
         </button>
         <button class="sidebar-link" data-view="profile">
           <i class="fa fa-user"></i>
@@ -551,6 +561,23 @@
         </div>
       </section>
 
+      <!-- CONTACT US (IFRAME) -->
+      <section id="view-contact" class="glass p-0 space-y-0 hidden text-sm">
+        <div class="flex items-center justify-between px-5 pt-4 pb-2">
+          <div>
+            <h3 class="font-semibold text-slate-800 text-base">Contact Us</h3>
+            <p class="text-[11px] text-gray-500">
+              Reach our team for support, feedback or questions.
+            </p>
+          </div>
+        </div>
+        <div class="px-0 pb-0">
+          <iframe id="contactIframe"
+                  src="ContactUs.html?from=dashboard"
+                  style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
+        </div>
+      </section>
+
       <!-- PROFILE -->
       <section id="view-profile" class="glass p-5 space-y-4 hidden text-sm">
         <h3 class="font-semibold text-slate-800 text-base">Profile & Address</h3>
@@ -773,6 +800,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initQuickActions();
   initMessageBridge();
   initProfileMenu();
+  initInvoiceDownload();
 
   await loadAllData(token);
 });
@@ -851,27 +879,47 @@ function initDesktopSidebarHover(){
 }
 
 /* Mobile sidebar drawer */
-function initMobileSidebar(){
+function initMobileSidebar() {
   const overlay = document.getElementById("mobileSidebarOverlay");
   const openBtn = document.getElementById("mobileMenuBtn");
   const logoutBtn = document.getElementById("mobileLogoutBtn");
-  if(!overlay || !openBtn) return;
 
-  const open = () => overlay.classList.remove("hidden");
-  const close = () => overlay.classList.add("hidden");
+  if (!overlay || !openBtn) {
+    console.warn("Mobile sidebar elements not found");
+    return;
+  }
 
-  openBtn.addEventListener("click", open);
+  const open = () => {
+    overlay.classList.remove("hidden");
+  };
+
+  const close = () => {
+    overlay.classList.add("hidden");
+  };
+
+  // open from hamburger
+  openBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    open();
+  });
+
+  // click on dark background closes
   overlay.addEventListener("click", (e) => {
-    if(e.target === overlay) close();
+    if (e.target === overlay) {
+      close();
+    }
   });
 
-  overlay.querySelectorAll("[data-close-mobile]").forEach(el => {
-    el.addEventListener("click", close);
+  // any element with data-close-mobile closes it
+  overlay.querySelectorAll("[data-close-mobile]").forEach((el) => {
+    el.addEventListener("click", () => {
+      close();
+    });
   });
 
-  if(logoutBtn){
+  if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
-      if(confirm("Logout from your account?")){
+      if (confirm("Logout from your account?")) {
         logout();
       }
     });
@@ -1480,6 +1528,7 @@ async function submitProfile(e){
 function initInvoiceDownload(){
   const btn = document.getElementById("downloadLastInvoiceBtn");
   if(!btn) return;
+
   btn.addEventListener("click", async () => {
     if(!gPaymentHistory || gPaymentHistory.length === 0){
       toast("No payments yet", true);
@@ -1489,13 +1538,34 @@ function initInvoiceDownload(){
     if(!session) return requireLogin();
     const last = gPaymentHistory[0];
 
-    const url = API_BASE + "/api/invoices/payment/" + last._id + "/download";
-
-    // open new tab so browser download works nicely
-    window.open(url + "?token=" + encodeURIComponent(session.token), "_blank");
+    try{
+      const res = await fetch(
+        API_BASE + "/api/invoices/payment/" + last._id + "/download",
+        {
+          headers: { Authorization: "Bearer " + session.token }
+        }
+      );
+      if(!res.ok){
+        const txt = await res.text();
+        console.error("Invoice error:", txt);
+        toast("Could not download invoice", true);
+        return;
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "invoice-" + last._id + ".pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }catch(err){
+      console.error(err);
+      toast("Error downloading invoice", true);
+    }
   });
 }
-initInvoiceDownload();
 </script>
 
 </body>
