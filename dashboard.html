@@ -73,6 +73,33 @@
       background:#e5e7eb;
       color:#374151;
     }
+
+    /* Desktop sidebar collapse / expand */
+    @media (min-width:768px){
+      .sidebar-shell{
+        transition:width .2s;
+      }
+      .sidebar-expanded{
+        width:15rem;
+      }
+      .sidebar-collapsed{
+        width:4rem;
+      }
+      .sidebar-collapsed .sidebar-text{
+        display:none;
+      }
+      .sidebar-collapsed .sidebar-link{
+        justify-content:center;
+      }
+      .sidebar-collapsed .welcome-block{
+        display:none;
+      }
+    }
+
+    /* Mobile sidebar overlay */
+    #mobileSidebarOverlay{
+      background:rgba(15,23,42,0.45);
+    }
   </style>
 </head>
 
@@ -81,15 +108,24 @@
 <!-- HEADER -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-    <a href="index.html" class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">
-        DF
-      </div>
-      <div>
-        <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
-        <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
-      </div>
-    </a>
+
+    <div class="flex items-center gap-2">
+      <!-- Mobile menu button -->
+      <button id="mobileMenuBtn" class="md:hidden mr-1 text-slate-600">
+        <i class="fa fa-bars text-lg"></i>
+      </button>
+
+      <!-- Brand -->
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">
+          DF
+        </div>
+        <div class="hidden sm:block">
+          <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
+          <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
+        </div>
+      </a>
+    </div>
 
     <!-- Right: Welcome + profile icon -->
     <div class="flex items-center gap-4">
@@ -129,55 +165,134 @@
   </div>
 </header>
 
+<!-- MOBILE SIDEBAR -->
+<div id="mobileSidebarOverlay" class="fixed inset-0 z-40 hidden md:hidden">
+  <div class="absolute inset-0"></div>
+  <div class="relative h-full w-72 max-w-full bg-slate-950 text-slate-100 shadow-xl p-4 flex flex-col">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">
+          DF
+        </div>
+        <div>
+          <p class="text-xs text-gray-400">Welcome</p>
+          <p id="mobileSidebarUserName" class="font-semibold text-sm">User</p>
+        </div>
+      </div>
+      <button data-close-mobile class="text-slate-300">
+        <i class="fa fa-times text-lg"></i>
+      </button>
+    </div>
+
+    <nav class="flex-1 flex flex-col gap-1 text-xs">
+      <button class="sidebar-link active" data-view="dashboard" data-close-mobile>
+        <i class="fa fa-chart-pie"></i>
+        <span class="sidebar-text">Dashboard Home</span>
+      </button>
+
+      <!-- New Home link -->
+      <a href="index.html" class="sidebar-link" data-close-mobile>
+        <i class="fa fa-home"></i>
+        <span class="sidebar-text">Home</span>
+      </a>
+
+      <button class="sidebar-link" data-view="plans" data-close-mobile>
+        <i class="fa fa-list"></i>
+        <span class="sidebar-text">View Plans</span>
+      </button>
+      <button class="sidebar-link" data-view="plans" data-close-mobile>
+        <i class="fa fa-sync-alt"></i>
+        <span class="sidebar-text">Change Plan</span>
+      </button>
+      <button class="sidebar-link" data-view="plans" data-close-mobile>
+        <i class="fa fa-box-open"></i>
+        <span class="sidebar-text">Subscription Plans</span>
+      </button>
+      <button class="sidebar-link" data-view="plan" data-close-mobile>
+        <i class="fa fa-seedling"></i>
+        <span class="sidebar-text">My Plan</span>
+      </button>
+      <button class="sidebar-link" data-view="deliveries" data-close-mobile>
+        <i class="fa fa-truck"></i>
+        <span class="sidebar-text">Deliveries</span>
+      </button>
+      <button class="sidebar-link" data-view="payments" data-close-mobile>
+        <i class="fa fa-receipt"></i>
+        <span class="sidebar-text">Payments</span>
+      </button>
+      <button class="sidebar-link" data-view="profile" data-close-mobile>
+        <i class="fa fa-user"></i>
+        <span class="sidebar-text">Profile</span>
+      </button>
+    </nav>
+
+    <button id="mobileLogoutBtn" class="sidebar-link text-red-300 mt-2" data-close-mobile>
+      <i class="fa fa-sign-out-alt"></i>
+      <span class="sidebar-text">Logout</span>
+    </button>
+  </div>
+</div>
+
 <!-- LAYOUT -->
 <div class="max-w-6xl mx-auto px-4 py-6 flex gap-5">
 
-  <!-- SIDEBAR -->
-  <aside class="w-64 hidden md:block">
-    <div class="glass p-4 sticky top-24">
-      <div class="mb-4">
-        <p class="text-xs text-gray-500 mb-1">Welcome</p>
-        <p id="sidebarUserName" class="font-semibold text-slate-800 text-sm">User</p>
+  <!-- SIDEBAR DESKTOP -->
+  <aside id="desktopSidebar" class="hidden md:block sidebar-shell sidebar-collapsed">
+    <div class="glass p-4 sticky top-24 flex flex-col h-full bg-slate-950 text-slate-100">
+      <div class="welcome-block mb-4">
+        <p class="text-xs text-gray-400 mb-1">Welcome</p>
+        <p id="sidebarUserName" class="font-semibold text-slate-50 text-sm">User</p>
       </div>
 
       <nav class="flex flex-col gap-1 text-xs">
         <button class="sidebar-link active" data-view="dashboard">
-          <i class="fa fa-chart-pie"></i> Dashboard Home
+          <i class="fa fa-chart-pie"></i>
+          <span class="sidebar-text">Dashboard Home</span>
         </button>
+
+        <!-- New Home link -->
+        <a href="index.html" class="sidebar-link">
+          <i class="fa fa-home"></i>
+          <span class="sidebar-text">Home</span>
+        </a>
 
         <!-- View Plans / Change Plan / Subscription Plans all open same iframe -->
         <button class="sidebar-link" data-view="plans">
-          <i class="fa fa-list"></i> View Plans
+          <i class="fa fa-list"></i>
+          <span class="sidebar-text">View Plans</span>
         </button>
         <button class="sidebar-link" data-view="plans">
-          <i class="fa fa-sync-alt"></i> Change Plan
+          <i class="fa fa-sync-alt"></i>
+          <span class="sidebar-text">Change Plan</span>
         </button>
         <button class="sidebar-link" data-view="plans">
-          <i class="fa fa-box-open"></i> Subscription Plans
+          <i class="fa fa-box-open"></i>
+          <span class="sidebar-text">Subscription Plans</span>
         </button>
 
         <button class="sidebar-link" data-view="plan">
-          <i class="fa fa-seedling"></i> My Plan
+          <i class="fa fa-seedling"></i>
+          <span class="sidebar-text">My Plan</span>
         </button>
         <button class="sidebar-link" data-view="deliveries">
-          <i class="fa fa-truck"></i> Deliveries
+          <i class="fa fa-truck"></i>
+          <span class="sidebar-text">Deliveries</span>
         </button>
         <button class="sidebar-link" data-view="payments">
-          <i class="fa fa-receipt"></i> Payments
-        </button>
-        <!-- NEW: Contact Us -->
-        <button class="sidebar-link" data-view="contact">
-          <i class="fa fa-headset"></i> Contact Us
+          <i class="fa fa-receipt"></i>
+          <span class="sidebar-text">Payments</span>
         </button>
         <button class="sidebar-link" data-view="profile">
-          <i class="fa fa-user"></i> Profile
+          <i class="fa fa-user"></i>
+          <span class="sidebar-text">Profile</span>
         </button>
       </nav>
 
-      <hr class="my-3 border-slate-200">
+      <hr class="my-3 border-slate-600">
 
-      <button id="logoutBtn" class="sidebar-link text-red-300">
-        <i class="fa fa-sign-out-alt"></i> Logout
+      <button id="logoutBtn" class="sidebar-link text-red-300 mt-auto">
+        <i class="fa fa-sign-out-alt"></i>
+        <span class="sidebar-text">Logout</span>
       </button>
     </div>
   </aside>
@@ -436,23 +551,6 @@
         </div>
       </section>
 
-      <!-- CONTACT US (NEW) -->
-      <section id="view-contact" class="glass p-0 space-y-0 hidden text-sm">
-        <div class="flex items-center justify-between px-5 pt-4 pb-2">
-          <div>
-            <h3 class="font-semibold text-slate-800 text-base">Contact Us</h3>
-            <p class="text-[11px] text-gray-500">
-              Reach out to our team for any help or feedback.
-            </p>
-          </div>
-        </div>
-        <div class="px-0 pb-0">
-          <iframe id="contactIframe"
-                  src="ContactUs.html?from=dashboard"
-                  style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
-        </div>
-      </section>
-
       <!-- PROFILE -->
       <section id="view-profile" class="glass p-5 space-y-4 hidden text-sm">
         <h3 class="font-semibold text-slate-800 text-base">Profile & Address</h3>
@@ -504,7 +602,7 @@
 
             <div class="grid md:grid-cols-2 gap-4 mt-3">
               <div>
-                <label class="block text-xs font-medium">Area *</label>
+                <label class="block text-xs text-xs font-medium">Area *</label>
                 <input id="pfArea" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
               <div>
@@ -668,12 +766,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   if(!token) return;
 
   initSidebar();
+  initDesktopSidebarHover();
+  initMobileSidebar();
   initLogout();
   initProfileForm();
   initQuickActions();
   initMessageBridge();
   initProfileMenu();
-  initInvoiceDownload();   // NEW
 
   await loadAllData(token);
 });
@@ -727,9 +826,56 @@ function showView(v){
   if (target) target.classList.remove("hidden");
 
   document.querySelectorAll(".sidebar-link").forEach(b => {
-    b.classList.remove("active");
-    if(b.dataset.view === v) b.classList.add("active");
+    if(b.dataset.view){
+      b.classList.remove("active");
+      if(b.dataset.view === v) b.classList.add("active");
+    }
   });
+}
+
+/* Desktop sidebar hover behaviour */
+function initDesktopSidebarHover(){
+  const sidebar = document.getElementById("desktopSidebar");
+  if(!sidebar) return;
+  sidebar.classList.remove("sidebar-expanded");
+  sidebar.classList.add("sidebar-collapsed");
+
+  sidebar.addEventListener("mouseenter", () => {
+    sidebar.classList.remove("sidebar-collapsed");
+    sidebar.classList.add("sidebar-expanded");
+  });
+  sidebar.addEventListener("mouseleave", () => {
+    sidebar.classList.remove("sidebar-expanded");
+    sidebar.classList.add("sidebar-collapsed");
+  });
+}
+
+/* Mobile sidebar drawer */
+function initMobileSidebar(){
+  const overlay = document.getElementById("mobileSidebarOverlay");
+  const openBtn = document.getElementById("mobileMenuBtn");
+  const logoutBtn = document.getElementById("mobileLogoutBtn");
+  if(!overlay || !openBtn) return;
+
+  const open = () => overlay.classList.remove("hidden");
+  const close = () => overlay.classList.add("hidden");
+
+  openBtn.addEventListener("click", open);
+  overlay.addEventListener("click", (e) => {
+    if(e.target === overlay) close();
+  });
+
+  overlay.querySelectorAll("[data-close-mobile]").forEach(el => {
+    el.addEventListener("click", close);
+  });
+
+  if(logoutBtn){
+    logoutBtn.addEventListener("click", () => {
+      if(confirm("Logout from your account?")){
+        logout();
+      }
+    });
+  }
 }
 
 /* ================================
@@ -904,58 +1050,6 @@ async function loadPaymentHistory(token){
 }
 
 /* ================================
-   INVOICE DOWNLOAD (NEW)
-================================ */
-function initInvoiceDownload(){
-  const btn = document.getElementById("downloadLastInvoiceBtn");
-  if (!btn) return;
-
-  btn.onclick = async () => {
-    const session = getSession();
-    if (!session) return requireLogin();
-
-    if (!gPaymentHistory || gPaymentHistory.length === 0) {
-      toast("No payments found to download invoice for.", true);
-      return;
-    }
-
-    const last = gPaymentHistory[0];
-
-    try {
-      const res = await fetch(
-        API_BASE + "/api/invoices/payment/" + last._id + "/download",
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + session.token,
-          },
-        }
-      );
-
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        console.error("Invoice download error:", txt);
-        toast("Could not download invoice", true);
-        return;
-      }
-
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "invoice-" + last._id + ".pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    } catch (e) {
-      console.error(e);
-      toast("Error downloading invoice", true);
-    }
-  };
-}
-
-/* ================================
    RENDER HEADER
 ================================ */
 function renderHeader(){
@@ -968,6 +1062,9 @@ function renderHeader(){
 
   const sideName = document.getElementById("sidebarUserName");
   if (sideName) sideName.textContent = name;
+
+  const mobileSideName = document.getElementById("mobileSidebarUserName");
+  if (mobileSideName) mobileSideName.textContent = name;
 
   const menuName = document.getElementById("menuUserName");
   if (menuName) menuName.textContent = name;
@@ -1376,6 +1473,29 @@ async function submitProfile(e){
   await loadProfile(session.token);
   renderHeader();
 }
+
+/* ================================
+   INVOICE DOWNLOAD
+================================ */
+function initInvoiceDownload(){
+  const btn = document.getElementById("downloadLastInvoiceBtn");
+  if(!btn) return;
+  btn.addEventListener("click", async () => {
+    if(!gPaymentHistory || gPaymentHistory.length === 0){
+      toast("No payments yet", true);
+      return;
+    }
+    const session = getSession();
+    if(!session) return requireLogin();
+    const last = gPaymentHistory[0];
+
+    const url = API_BASE + "/api/invoices/payment/" + last._id + "/download";
+
+    // open new tab so browser download works nicely
+    window.open(url + "?token=" + encodeURIComponent(session.token), "_blank");
+  });
+}
+initInvoiceDownload();
 </script>
 
 </body>
