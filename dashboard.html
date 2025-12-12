@@ -111,7 +111,6 @@
 
     <div class="flex items-center gap-2">
       <!-- Mobile menu button -->
-    <!-- Mobile menu button -->
 <button
   id="mobileMenuBtn"
   class="md:hidden mr-1 w-9 h-9 flex items-center justify-center
@@ -120,7 +119,6 @@
 >
   <i class="fa-solid fa-bars text-base"></i>
 </button>
-
 
       <!-- Brand -->
       <a href="index.html" class="flex items-center gap-3">
@@ -207,21 +205,10 @@
         <i class="fa fa-list"></i>
         <span class="sidebar-text">View Plans</span>
       </button>
-      <button class="sidebar-link" data-view="plans" data-close-mobile>
-        <i class="fa fa-sync-alt"></i>
-        <span class="sidebar-text">Change Plan</span>
-      </button>
-      <button class="sidebar-link" data-view="plans" data-close-mobile>
-        <i class="fa fa-box-open"></i>
-        <span class="sidebar-text">Subscription Plans</span>
-      </button>
+
       <button class="sidebar-link" data-view="plan" data-close-mobile>
         <i class="fa fa-seedling"></i>
         <span class="sidebar-text">My Plan</span>
-      </button>
-      <button class="sidebar-link" data-view="deliveries" data-close-mobile>
-        <i class="fa fa-truck"></i>
-        <span class="sidebar-text">Deliveries</span>
       </button>
       <button class="sidebar-link" data-view="payments" data-close-mobile>
         <i class="fa fa-receipt"></i>
@@ -268,27 +255,14 @@
           <span class="sidebar-text">Home</span>
         </a>
 
-        <!-- View Plans / Change Plan / Subscription Plans all open same iframe -->
         <button class="sidebar-link" data-view="plans">
           <i class="fa fa-list"></i>
           <span class="sidebar-text">View Plans</span>
-        </button>
-        <button class="sidebar-link" data-view="plans">
-          <i class="fa fa-sync-alt"></i>
-          <span class="sidebar-text">Change Plan</span>
-        </button>
-        <button class="sidebar-link" data-view="plans">
-          <i class="fa fa-box-open"></i>
-          <span class="sidebar-text">Subscription Plans</span>
         </button>
 
         <button class="sidebar-link" data-view="plan">
           <i class="fa fa-seedling"></i>
           <span class="sidebar-text">My Plan</span>
-        </button>
-        <button class="sidebar-link" data-view="deliveries">
-          <i class="fa fa-truck"></i>
-          <span class="sidebar-text">Deliveries</span>
         </button>
         <button class="sidebar-link" data-view="payments">
           <i class="fa fa-receipt"></i>
@@ -322,7 +296,7 @@
       <div>
         <h2 class="text-2xl md:text-3xl font-extrabold section-title">My Dashboard</h2>
         <p class="text-xs text-gray-500 mt-1">
-          Manage your plan, deliveries, payments and profile in one place.
+          Manage your plan, payments and profile in one place.
         </p>
       </div>
       <div class="flex flex-wrap gap-2 text-xs">
@@ -377,53 +351,26 @@
 
         </div>
 
-        <!-- CALENDAR + QUICK ACTIONS -->
+        <!-- CLEANED: REPLACE DELIVERY CALENDAR WITH NOTE + Quick Actions -->
         <div class="grid md:grid-cols-3 gap-4">
 
-          <!-- Delivery Calendar -->
-          <div class="md:col-span-2 border rounded-xl p-4 bg-white/80 text-sm">
-            <div class="flex justify-between items-center mb-2">
-              <p class="font-semibold text-slate-800 text-sm">Upcoming Deliveries (7 days)</p>
-              <button id="dashViewDeliveriesBtn"
-                      class="text-xs text-indigo-600 underline">
-                View delivery history
-              </button>
-            </div>
-
-            <ul id="deliveryCalendarList" class="space-y-1 text-xs text-gray-700">
-              <li class="text-gray-400">Loading...</li>
-            </ul>
-
-            <p class="mt-2 text-[11px] text-gray-400">
-              You can skip a specific delivery from here.
-            </p>
+          <!-- Placeholder area (space where calendar used to be) -->
+          <div class="md:col-span-2 border rounded-xl p-4 bg-white/80 flex items-center justify-center text-gray-400 text-xs">
+            Delivery calendar removed for cleaner dashboard.
           </div>
 
-          <!-- Quick Actions -->
+          <!-- Quick Actions (ONLY: Renew, Pay, Change plan) -->
           <div class="border rounded-xl p-4 bg-white/80 text-xs flex flex-col gap-2">
             <p class="font-semibold text-slate-800 mb-1">Quick Actions</p>
-            <button id="qaPause" class="w-full border rounded-full px-3 py-1.5 text-left">
-              Pause plan
-            </button>
-            <button id="qaResume" class="w-full border rounded-full px-3 py-1.5 text-left">
-              Resume plan
-            </button>
-            <button id="qaCancel" class="w-full border rounded-full px-3 py-1.5 text-left text-red-600 border-red-300">
-              Cancel plan
-            </button>
+
             <button id="qaRenew" class="w-full border rounded-full px-3 py-1.5 text-left">
-              Renew same plan
-            </button>
-            <button id="qaProfile" class="w-full border rounded-full px-3 py-1.5 text-left">
-              Edit profile & address
+              Renew plan
             </button>
 
-            <!-- Pay / Start Subscription -->
             <button id="qaPay" class="w-full border rounded-full px-3 py-1.5 text-left">
               Pay / Start subscription
             </button>
 
-            <!-- Shortcut: Change Plan -->
             <button id="qaChangePlan" class="w-full border rounded-full px-3 py-1.5 text-left">
               Change plan / View plans
             </button>
@@ -481,13 +428,9 @@
           </div>
 
           <div class="flex flex-wrap gap-2 text-xs">
-            <button id="planPauseBtn" class="px-3 py-1.5 rounded-full border">Pause</button>
-            <button id="planResumeBtn" class="px-3 py-1.5 rounded-full border">Resume</button>
-            <button id="planCancelBtn" class="px-3 py-1.5 rounded-full border text-red-600 border-red-300">Cancel</button>
+            <!-- Keep only Renew / Change plan controls in plan view -->
             <button id="planRenewBtn" class="px-3 py-1.5 rounded-full border">Renew</button>
-            <button id="planChangeBtn" class="px-3 py-1.5 rounded-full border">
-              Change Plan / View Plans
-            </button>
+            <button id="planChangeBtn" class="px-3 py-1.5 rounded-full border">Change Plan</button>
           </div>
         </div>
 
@@ -506,35 +449,6 @@
                 </tr>
               </thead>
               <tbody id="subHistoryBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- DELIVERIES -->
-      <section id="view-deliveries" class="glass p-5 space-y-4 hidden text-sm">
-        <h3 class="font-semibold text-slate-800 text-base">Deliveries</h3>
-        <p class="text-xs text-gray-500">Upcoming schedule and past deliveries.</p>
-
-        <div class="border rounded-xl p-4 bg-white/80">
-          <p class="font-semibold text-sm mb-2">Upcoming (next 7 days)</p>
-          <ul id="delUpcomingList" class="space-y-1 text-xs text-gray-700">
-            <li class="text-gray-400">Loading...</li>
-          </ul>
-        </div>
-
-        <div class="border rounded-xl p-4 bg-white/80">
-          <p class="font-semibold text-sm mb-2">Past Deliveries</p>
-          <div class="overflow-x-auto">
-            <table class="min-w-full text-xs">
-              <thead>
-                <tr class="text-left text-gray-500 border-b">
-                  <th class="py-2 pr-4">Date</th>
-                  <th class="py-2 pr-4">Status</th>
-                  <th class="py-2 pr-4">Notes</th>
-                </tr>
-              </thead>
-              <tbody id="deliveryHistoryBody"></tbody>
             </table>
           </div>
         </div>
@@ -688,9 +602,6 @@
             </div>
 
             <div class="flex flex-wrap gap-2 text-xs">
-              <button id="profilePauseBtn" class="px-3 py-1.5 rounded-full border">Pause</button>
-              <button id="profileResumeBtn" class="px-3 py-1.5 rounded-full border">Resume</button>
-              <button id="profileCancelBtn" class="px-3 py-1.5 rounded-full border text-red-600 border-red-300">Cancel</button>
               <button id="profileRenewBtn" class="px-3 py-1.5 rounded-full border">Renew</button>
               <button id="profileChangeBtn" class="px-3 py-1.5 rounded-full border">Change Plan</button>
             </div>
@@ -788,8 +699,6 @@ function logout(){
 let gProfile = null;
 let gActiveSub = null;
 let gSubHistory = [];
-let gUpcomingDeliveries = [];
-let gDeliveryHistory = [];
 let gPaymentHistory = [];
 
 /* ================================
@@ -818,7 +727,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 function ensurePlansIframe(){
   const iframe = document.getElementById("plansIframe");
   if (iframe && !iframe.src){
-    // plans.html will fetch /api/plans (MongoDB)
     iframe.src = "plans.html?from=dashboard";
   }
 }
@@ -828,7 +736,6 @@ function ensureCheckoutIframe(){
   if (iframe && !iframe.src){
     iframe.src = "checkout.html?from=dashboard";
   } else if (iframe && iframe.contentWindow){
-    // reload to reflect new selected plan
     iframe.contentWindow.location.reload();
   }
 }
@@ -844,9 +751,6 @@ function initSidebar(){
 
   const goPlan = document.getElementById("goToPlanFromCard");
   if (goPlan) goPlan.onclick = () => showView("plan");
-
-  const delBtn = document.getElementById("dashViewDeliveriesBtn");
-  if (delBtn) delBtn.onclick = () => showView("deliveries");
 
   const payBtn = document.getElementById("dashViewPaymentsBtn");
   if (payBtn) payBtn.onclick = () => showView("payments");
@@ -904,20 +808,17 @@ function initMobileSidebar() {
     overlay.classList.add("hidden");
   };
 
-  // open from hamburger
   openBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     open();
   });
 
-  // click on dark background closes
   overlay.addEventListener("click", (e) => {
     if (e.target === overlay) {
       close();
     }
   });
 
-  // any element with data-close-mobile closes it
   overlay.querySelectorAll("[data-close-mobile]").forEach((el) => {
     el.addEventListener("click", () => {
       close();
@@ -988,7 +889,6 @@ function initMessageBridge(){
   window.addEventListener("message", (event) => {
     const data = event.data || {};
     if (data.type === "OPEN_CHECKOUT") {
-      // a plan was selected inside plans.html
       showView("checkout");
       ensureCheckoutIframe();
     }
@@ -1017,7 +917,8 @@ function initLogout(){
 }
 
 /* ================================
-   LOAD ALL DATA
+   LOAD ALL DATA (OPTIMIZED)
+   Only load what's needed for improved performance.
 ================================ */
 async function loadAllData(token){
   try {
@@ -1025,8 +926,6 @@ async function loadAllData(token){
       loadProfile(token),
       loadActiveSubscription(token),
       loadSubscriptionHistory(token),
-      loadUpcomingDeliveries(token),
-      loadDeliveryHistory(token),
       loadPaymentHistory(token)
     ]);
 
@@ -1034,8 +933,6 @@ async function loadAllData(token){
     renderDashboardCards();
     renderPlanView();
     renderSubHistory();
-    renderDeliveryCalendar();
-    renderDeliveriesView();
     renderPaymentsView();
     renderProfileSubscriptionAndBilling();
     fillProfileForm();
@@ -1070,31 +967,18 @@ async function loadActiveSubscription(token){
   const res = await fetch(API_BASE + "/api/subscriptions/my-active", {
     headers: { Authorization: "Bearer " + token }
   });
+  // expect JSON subscription or null
   gActiveSub = await res.json().catch(()=> null);
 }
 
 /* ================================
-   LOAD HISTORY + DELIVERIES + PAYMENTS
+   LOAD HISTORY + PAYMENTS (no deliveries)
 ================================ */
 async function loadSubscriptionHistory(token){
   const r = await fetch(API_BASE + "/api/subscriptions/me", {
     headers: { Authorization: "Bearer " + token }
   });
   gSubHistory = await r.json().catch(()=> []);
-}
-
-async function loadUpcomingDeliveries(token){
-  const r = await fetch(API_BASE + "/api/deliveries/upcoming", {
-    headers: { Authorization: "Bearer " + token }
-  });
-  gUpcomingDeliveries = await r.json().catch(()=> []);
-}
-
-async function loadDeliveryHistory(token){
-  const r = await fetch(API_BASE + "/api/deliveries/history", {
-    headers: { Authorization: "Bearer " + token }
-  });
-  gDeliveryHistory = await r.json().catch(()=> []);
 }
 
 async function loadPaymentHistory(token){
@@ -1130,6 +1014,7 @@ function renderHeader(){
 
 /* ================================
    RENDER DASHBOARD CARDS
+   Next Delivery now reads from gActiveSub.nextDeliveryDate if available.
 ================================ */
 function renderDashboardCards(){
   const planName = document.getElementById("dashPlanName");
@@ -1141,33 +1026,45 @@ function renderDashboardCards(){
     planMeta.textContent = "Start a subscription from the plans page.";
     statusPill.classList.add("hidden");
   } else {
-    planName.textContent = gActiveSub.planName;
-    planMeta.textContent = `Status: ${gActiveSub.status}`;
-    statusPill.textContent = gActiveSub.status;
+    planName.textContent = gActiveSub.planName || gActiveSub.plan?.name || "Active Plan";
+    planMeta.textContent = `Status: ${gActiveSub.status || "active"}`;
+    statusPill.textContent = gActiveSub.status || "active";
     statusPill.classList.remove("hidden");
   }
 
-  // Next delivery
-  const next = gUpcomingDeliveries[0];
+  // Next delivery: prefer subscription-provided nextDeliveryDate, else show fallback
   const nextEl = document.getElementById("dashNextDelivery");
   const nextMetaEl = document.getElementById("dashNextDeliveryMeta");
 
-  if(next){
-    nextEl.textContent = new Date(next.deliveryDate).toDateString();
-    nextMetaEl.textContent = next.status;
+  let nextDeliveryDate = null;
+  if (gActiveSub) {
+    if (gActiveSub.nextDeliveryDate) nextDeliveryDate = gActiveSub.nextDeliveryDate;
+    else if (gActiveSub.nextDelivery) nextDeliveryDate = gActiveSub.nextDelivery;
+    else if (gActiveSub.firstDelivery) nextDeliveryDate = gActiveSub.firstDelivery;
+  }
+
+  if (nextDeliveryDate) {
+    try {
+      const dt = new Date(nextDeliveryDate);
+      nextEl.textContent = dt.toDateString();
+      nextMetaEl.textContent = gActiveSub.nextDeliveryStatus || "";
+    } catch (e) {
+      nextEl.textContent = "No upcoming delivery";
+      nextMetaEl.textContent = "";
+    }
   } else {
     nextEl.textContent = "No upcoming delivery";
-    if(nextMetaEl) nextMetaEl.textContent = "";
+    if (nextMetaEl) nextMetaEl.textContent = "";
   }
 
   // Last payment
-  const last = gPaymentHistory[0];
+  const last = Array.isArray(gPaymentHistory) && gPaymentHistory.length ? gPaymentHistory[0] : null;
   const lastPay = document.getElementById("dashLastPayment");
   const payMeta = document.getElementById("dashPaymentMeta");
 
   if(last){
     lastPay.textContent = "₹" + last.amount;
-    payMeta.textContent = last.planName;
+    payMeta.textContent = last.planName || "";
   } else {
     lastPay.textContent = "No payments yet";
     if(payMeta) payMeta.textContent = "";
@@ -1189,11 +1086,11 @@ function renderPlanView(){
     return;
   }
 
-  name.textContent = gActiveSub.planName;
-  meta.textContent = "Status: " + gActiveSub.status;
+  name.textContent = gActiveSub.planName || gActiveSub.plan?.name || "Active Plan";
+  meta.textContent = "Status: " + (gActiveSub.status || "active");
 
-  const s = new Date(gActiveSub.startDate).toLocaleDateString("en-IN");
-  const e = new Date(gActiveSub.endDate).toLocaleDateString("en-IN");
+  const s = gActiveSub.startDate ? new Date(gActiveSub.startDate).toLocaleDateString("en-IN") : "-";
+  const e = gActiveSub.endDate ? new Date(gActiveSub.endDate).toLocaleDateString("en-IN") : "-";
 
   dates.textContent = `From ${s} to ${e}`;
 }
@@ -1203,9 +1100,10 @@ function renderPlanView(){
 ================================ */
 function renderSubHistory(){
   const body = document.getElementById("subHistoryBody");
+  if(!body) return;
   body.innerHTML = "";
 
-  gSubHistory.forEach(sub => {
+  (Array.isArray(gSubHistory) ? gSubHistory : []).forEach(sub => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td class="py-2 pr-4">${sub.planName}</td>
@@ -1218,71 +1116,18 @@ function renderSubHistory(){
 }
 
 /* ================================
-   DELIVERY CALENDAR
-================================ */
-function renderDeliveryCalendar(){
-  const list = document.getElementById("deliveryCalendarList");
-  list.innerHTML = "";
-
-  if(gUpcomingDeliveries.length === 0){
-    list.innerHTML = `<li class="text-gray-400">No deliveries scheduled.</li>`;
-    return;
-  }
-
-  gUpcomingDeliveries.forEach(del => {
-    const li = document.createElement("li");
-    li.className = "flex justify-between py-1 text-xs";
-    li.innerHTML = `
-      <span>${new Date(del.deliveryDate).toDateString()}</span>
-      <button onclick="skipDelivery('${del._id}')" class="text-red-600 text-[11px]">Skip</button>
-    `;
-    list.appendChild(li);
-  });
-}
-
-/* ================================
-   FULL DELIVERY VIEW
-================================ */
-function renderDeliveriesView(){
-  const up = document.getElementById("delUpcomingList");
-  up.innerHTML = "";
-
-  gUpcomingDeliveries.forEach(del => {
-    const li = document.createElement("li");
-    li.className = "flex justify-between py-1 text-xs";
-    li.innerHTML = `
-      <span>${new Date(del.deliveryDate).toDateString()}</span>
-      <button onclick="skipDelivery('${del._id}')" class="text-red-600 text-[11px]">Skip</button>
-    `;
-    up.appendChild(li);
-  });
-
-  const hist = document.getElementById("deliveryHistoryBody");
-  hist.innerHTML = "";
-
-  gDeliveryHistory.forEach(d => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="py-2 pr-4">${new Date(d.deliveryDate).toLocaleDateString("en-IN")}</td>
-      <td class="py-2 pr-4">${d.status}</td>
-      <td class="py-2 pr-4">${d.notes || "-"}</td>
-    `;
-    hist.appendChild(tr);
-  });
-}
-
-/* ================================
    PAYMENTS VIEW
 ================================ */
 function renderPaymentsView(){
   const body = document.getElementById("paymentHistoryBody");
+  if(!body) return;
   body.innerHTML = "";
 
-  gPaymentHistory.forEach(p => {
+  (Array.isArray(gPaymentHistory) ? gPaymentHistory : []).forEach(p => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td class="py-2 pr-4">${new Date(p.createdAt).toLocaleDateString("en-IN")}</td>
-      <td class="py-2 pr-4">${p.planName}</td>
+      <td class="py-2 pr-4">${p.planName || "-"}</td>
       <td class="py-2 pr-4">₹${p.amount}</td>
       <td class="py-2 pr-4">${p.razorpayPaymentId ? "Razorpay" : "Offline"}</td>
       <td class="py-2 pr-4">${p.status}</td>
@@ -1308,27 +1153,30 @@ function renderProfileSubscriptionAndBilling(){
     subDates.textContent = "";
     subAlert.textContent = "";
   } else {
-    subName.textContent = gActiveSub.planName;
+    subName.textContent = gActiveSub.planName || gActiveSub.plan?.name || "Active Plan";
     subMeta.textContent = "Status: " + (gActiveSub.status || "active");
 
-    const sDate = new Date(gActiveSub.startDate);
-    const eDate = new Date(gActiveSub.endDate);
+    const sDate = gActiveSub.startDate ? new Date(gActiveSub.startDate) : null;
+    const eDate = gActiveSub.endDate ? new Date(gActiveSub.endDate) : null;
     subDates.textContent =
-      `Start: ${sDate.toLocaleDateString("en-IN")} • End: ${eDate.toLocaleDateString("en-IN")}`;
+      sDate && eDate ? `Start: ${sDate.toLocaleDateString("en-IN")} • End: ${eDate.toLocaleDateString("en-IN")}` : "";
 
     const now = new Date();
-    const diffMs = eDate - now;
-
-    if(diffMs > 0){
-      const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-      if(daysLeft <= 5 && gActiveSub.status === "active"){
-        subAlert.textContent =
-          `⏰ Plan expiring in ${daysLeft} day${daysLeft>1 ? "s" : ""}. You can renew now.`;
+    if(eDate){
+      const diffMs = eDate - now;
+      if(diffMs > 0){
+        const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+        if(daysLeft <= 5 && gActiveSub.status === "active"){
+          subAlert.textContent =
+            `⏰ Plan expiring in ${daysLeft} day${daysLeft>1 ? "s" : ""}. You can renew now.`;
+        } else {
+          subAlert.textContent = "";
+        }
+      } else if(gActiveSub.status === "expired"){
+        subAlert.textContent = "Your plan has expired. Renew to restart your deliveries.";
       } else {
         subAlert.textContent = "";
       }
-    } else if(gActiveSub.status === "expired"){
-      subAlert.textContent = "Your plan has expired. Renew to restart your deliveries.";
     } else {
       subAlert.textContent = "";
     }
@@ -1365,30 +1213,8 @@ function renderProfileSubscriptionAndBilling(){
 }
 
 /* ================================
-   SKIP DELIVERY
-================================ */
-async function skipDelivery(id){
-  const session = getSession();
-  if(!session) return requireLogin();
-
-  const r = await fetch(API_BASE + "/api/deliveries/skip/" + id, {
-    method: "POST",
-    headers: { Authorization: "Bearer " + session.token }
-  });
-
-  const d = await r.json();
-  toast(d.message || "Updated");
-
-  await loadUpcomingDeliveries(session.token);
-  await loadDeliveryHistory(session.token);
-
-  renderDeliveryCalendar();
-  renderDeliveriesView();
-}
-window.skipDelivery = skipDelivery;
-
-/* ================================
    QUICK ACTIONS & SUB ACTIONS
+   Only Renew, Pay, Change plan remain.
 ================================ */
 function initQuickActions(){
   const session = getSession();
@@ -1400,49 +1226,41 @@ function initQuickActions(){
     if(el) el.onclick = fn;
   };
 
-  // Quick actions
-  setClick("qaPause", ()=>subAction("pause", token));
-  setClick("qaResume", ()=>subAction("resume", token));
-  setClick("qaCancel", ()=>subAction("cancel", token));
   setClick("qaRenew", ()=>subAction("renew", token));
-  setClick("qaProfile", ()=>showView("profile"));
-  setClick("qaChangePlan", ()=>{
-    showView("plans");
-    ensurePlansIframe();
-  });
-  setClick("qaPay", ()=>{
+  setClick("qaPay", ()=> {
     if(confirm("Continue to choose a plan and go to checkout?")){
       showView("plans");
       ensurePlansIframe();
     }
   });
+  setClick("qaChangePlan", ()=> {
+    showView("plans");
+    ensurePlansIframe();
+  });
 
-  // My Plan buttons
-  setClick("planPauseBtn", ()=>subAction("pause", token));
-  setClick("planResumeBtn", ()=>subAction("resume", token));
-  setClick("planCancelBtn", ()=>subAction("cancel", token));
+  // Plan view buttons (only renew and change)
   setClick("planRenewBtn", ()=>subAction("renew", token));
-  setClick("planChangeBtn", ()=>{
+  setClick("planChangeBtn", ()=> {
     showView("plans");
     ensurePlansIframe();
   });
 
-  // Profile subscription card buttons
-  setClick("profilePauseBtn", ()=>subAction("pause", token));
-  setClick("profileResumeBtn", ()=>subAction("resume", token));
-  setClick("profileCancelBtn", ()=>subAction("cancel", token));
+  // Profile subscription card buttons (renew/change)
   setClick("profileRenewBtn", ()=>subAction("renew", token));
-  setClick("profileChangeBtn", ()=>{
+  setClick("profileChangeBtn", ()=> {
     showView("plans");
     ensurePlansIframe();
   });
-  setClick("profileViewPaymentsBtn", ()=>{
-    showView("payments");
-  });
+
+  // View payments
+  const profileViewPaymentsBtn = document.getElementById("profileViewPaymentsBtn");
+  if(profileViewPaymentsBtn) profileViewPaymentsBtn.onclick = ()=> showView("payments");
 }
 
+/* Sub action helper (pause/resume/cancel removed; keep renew)
+   type is 'renew' here */
 async function subAction(type, token){
-  if(!gActiveSub){
+  if(!gActiveSub || !gActiveSub._id){
     toast("No active subscription", true);
     return;
   }
@@ -1456,13 +1274,12 @@ async function subAction(type, token){
   toast(d.message || "Updated");
 
   await loadActiveSubscription(token);
-  await loadUpcomingDeliveries(token);
-  await loadDeliveryHistory(token);
+  await loadSubscriptionHistory(token);
+  await loadPaymentHistory(token);
 
   renderDashboardCards();
   renderPlanView();
-  renderDeliveryCalendar();
-  renderDeliveriesView();
+  renderSubHistory();
   renderProfileSubscriptionAndBilling();
 }
 
