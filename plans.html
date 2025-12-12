@@ -11,264 +11,248 @@
 <!-- FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-<!-- FONTAWESOME (optional, not strictly required for day badges) -->
+<!-- FONTAWESOME -->
 <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
 
 <style>
+  :root{
+    --accent-from:#06b6d4;
+    --accent-to:#7c3aed;
+    --muted:#94a3b8;
+  }
   body{
     font-family:'Inter',sans-serif;
     background:linear-gradient(180deg,#f8fafc,#eef7ff);
+    color:#0f172a;
   }
+
   .glass{
     position:relative;
-    background:rgba(255,255,255,0.9);
-    backdrop-filter:blur(12px);
-    border-radius:18px;
-    border:1px solid rgba(148,163,184,0.4);
-    box-shadow:0 10px 30px rgba(15,23,42,0.12);
-    overflow:hidden;
-  }
-  .badge-floating{
-    position:absolute;top:10px;left:10px;padding:4px 9px;
-    font-size:10px;background:#ffffffcc;
-    backdrop-filter:blur(6px);border:1px solid rgba(148,163,184,0.4);
-    border-radius:9999px;z-index:10;font-weight:700;
-  }
-  .badge-under{
-    display:inline-block;margin-top:6px;padding:2px 8px;font-size:10px;
-    background:#e6fffa;color:#0f766e;border-radius:9999px;
-  }
-  .card-hover{transition:.25s ease;cursor:pointer;}
-  .card-hover:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(15,23,42,0.2);}
-  .section-title{
-    background:linear-gradient(90deg,#06b6d4,#7c3aed);
-    -webkit-background-clip:text;color:transparent;font-weight:800;
-  }
-  .sticky-filter{
-    position:sticky;top:0;z-index:30;
     background:rgba(255,255,255,0.95);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid #e2e8f0;
+    border-radius:16px;
+    border:1px solid rgba(148,163,184,0.18);
+    box-shadow:0 10px 30px rgba(2,6,23,0.06);
+    transition:0.25s ease;
   }
-  .btn-select{
-    background:linear-gradient(90deg,#06b6d4,#7c3aed);
-    color:white;font-size:11px;
-  }
-
-  /* Delivery day badges */
-  .day-badge {
-    width:30px;height:30px;border-radius:8px;
-    display:inline-flex;align-items:center;justify-content:center;
-    font-size:11px;font-weight:700;color:#475569;
-    border:1px solid #e6eef6;background:#fff;
-  }
-  .day-badge.active {
-    background:linear-gradient(90deg,#06b6d4,#7c3aed);
-    color:white;border:none;
+  .glass:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 50px rgba(2,6,23,0.10);
   }
 
-  /* Tooltip using group hover/focus-within for accessibility */
-  .tooltip-wrapper { position: relative; display:inline-block; }
-  .tooltip {
-    position:absolute; left:50%; transform:translateX(-50%) translateY(8px);
-    bottom:100%; white-space:nowrap; padding:8px 10px; border-radius:8px;
-    background:rgba(17,24,39,0.95); color:white; font-size:12px; line-height:1.1;
-    box-shadow:0 8px 24px rgba(15,23,42,0.25); opacity:0; pointer-events:none;
-    transition:opacity .18s ease, transform .18s ease;
-    z-index:40;
-  }
-  .tooltip::after {
-    content:""; position:absolute; left:50%; transform:translateX(-50%);
-    bottom:-6px; width:8px; height:8px; background:rgba(17,24,39,0.95);
-    transform: rotate(45deg);
-  }
-  .tooltip-wrapper:focus-within .tooltip,
-  .tooltip-wrapper:hover .tooltip,
-  .tooltip-wrapper:active .tooltip {
-    opacity:1; transform:translateX(-50%) translateY(0);
-    pointer-events:auto;
+  .badge-floating{
+    position:absolute; top:12px; left:12px; padding:6px 12px;
+    font-size:12px; background:white; border-radius:999px;
+    border:1px solid #e2e8f0; font-weight:700;
   }
 
-  /* mobile friendly: allow tapping to show tooltip */
-  @media (hover: none) {
-    .tooltip-wrapper .tooltip { transform:translateX(-50%) translateY(0); opacity:1; }
+  .promo-badge{
+    padding:6px 10px; border-radius:999px;
+    background:linear-gradient(90deg,#fb923c,#f97316);
+    color:white; font-size:12px; font-weight:700;
+  }
+
+  .day-badge{
+    min-width:34px; height:34px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700;
+    background:white; border:1px solid #e2e8f0;
+  }
+  .day-badge.active{
+    background:linear-gradient(90deg,var(--accent-from),var(--accent-to));
+    color:white; border:none;
+  }
+
+  .tooltip-wrapper{position:relative;}
+  .tooltip{
+    position:absolute; bottom:120%; left:50%;
+    transform:translateX(-50%);
+    background:#111827; color:white;
+    padding:6px 10px; font-size:12px;
+    border-radius:6px; white-space:nowrap;
+    opacity:0; transition:.2s;
+  }
+  .tooltip-wrapper:hover .tooltip{
+    opacity:1;
+  }
+
+  /* Sticky checkout bar */
+  #checkoutBar{
+    position:fixed; bottom:0; left:0; right:0;
+    background:white;
+    box-shadow:0 -4px 20px rgba(0,0,0,0.08);
+    border-top:1px solid #e2e8f0;
+    padding:12px; display:none; z-index:50;
   }
 </style>
 </head>
+
 <body>
 
-<script>
-const params = new URLSearchParams(window.location.search);
-const openedFromDashboard = params.get("from") === "dashboard";
-const token = localStorage.getItem("df_user_token");
-if (!token && !openedFromDashboard) {
-  window.location.href = "signup.html?redirect=plans.html";
-}
-</script>
-
 <!-- HEADER -->
-<header id="headerBar" class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-    <a href="index.html" class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">DF</div>
-      <div>
-        <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
-        <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
-      </div>
-    </a>
+<header class="sticky top-0 bg-white/80 backdrop-blur border-b z-40">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-teal-400 rounded-full text-white flex items-center justify-center font-bold">DF</div>
+    <div>
+      <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
+      <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
+    </div>
   </div>
 </header>
 
-<script>
-if (openedFromDashboard) {
-  document.getElementById("headerBar").style.display = "none";
-}
-</script>
-
-<!-- PAGE HEADING -->
+<!-- PAGE TITLE -->
 <section class="max-w-6xl mx-auto px-4 py-8">
-  <h2 class="text-3xl md:text-4xl font-extrabold section-title mb-2">
-    All Subscription Plans
-  </h2>
-  <p class="text-gray-600 text-sm md:text-base">
-    Choose based on your goal — weight loss, premium fruits, detox or daily immunity.
-  </p>
+  <h2 class="text-3xl font-extrabold section-title">All Subscription Plans</h2>
+  <p class="text-gray-600 mt-1 text-sm">Choose based on your goal — weight loss, premium fruits, detox or daily immunity.</p>
 </section>
 
 <!-- FILTER BAR -->
-<div class="sticky-filter">
+<div class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row gap-3 items-center justify-between">
-    <input id="searchInput" onkeyup="filterPlans()" type="text"
-           placeholder="Search plans…" class="px-4 py-2 w-full md:w-72 border rounded">
-    <select id="categoryFilter" onchange="filterPlans()"
-            class="px-4 py-2 border rounded w-full md:w-auto">
-      <option value="" selected>All Categories</option>
+    <input id="searchInput" onkeyup="filterPlans()" class="px-4 py-2 border rounded-lg w-full md:w-72"
+           placeholder="Search plans..." />
+
+    <select id="categoryFilter" onchange="filterPlans()" class="px-4 py-2 border rounded-lg w-full md:w-auto">
+      <option value="">All Categories</option>
       <option value="weekly">Weekly</option>
       <option value="monthly">Monthly</option>
       <option value="premium">Premium</option>
-      <option value="weight">Weight Goals</option>
-      <option value="fitness">Fitness</option>
       <option value="detox">Detox</option>
+      <option value="fitness">Fitness</option>
+      <option value="weight">Weight Goals</option>
     </select>
   </div>
 </div>
 
-<!-- PLANS GRID -->
-<div id="plansGrid" class="max-w-6xl mx-auto px-4 pb-16 grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-gray-700">
-  <p id="plansLoading" class="text-xs text-gray-400">Loading plans…</p>
+<!-- PLANS -->
+<div id="plansGrid" class="max-w-6xl mx-auto px-4 pb-32 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <p id="plansLoading" class="text-gray-400 text-sm">Loading plans...</p>
+</div>
+
+<!-- STICKY CHECKOUT BAR -->
+<div id="checkoutBar">
+  <div class="max-w-4xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img id="checkoutThumb" src="" class="w-14 h-14 rounded-lg border object-cover" />
+      <div>
+        <div id="checkoutName" class="font-bold text-sm"></div>
+        <div id="checkoutMeta" class="text-xs text-gray-500"></div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div id="checkoutPrice" class="font-extrabold text-emerald-600 text-lg"></div>
+      <button id="checkoutGo" class="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium">
+        Go to Checkout →
+      </button>
+      <button onclick="closeCheckout()" class="text-gray-500 text-xl">&times;</button>
+    </div>
+  </div>
 </div>
 
 <script>
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 let ALL_PLANS = [];
 
-function formatRupee(n){
-  try{ return "₹" + Number(n).toLocaleString("en-IN"); } catch(e) { return "₹" + n; }
-}
+/* Format ₹ */
+function rupee(n){ return "₹" + Number(n).toLocaleString("en-IN"); }
 
-/**
- * Given a plan.deliveryDays (array like ["Mon","Tue",...]) return set for quick check.
- * Fallback to Mon-Sat if missing.
- */
+/* Delivery days */
 function getDeliverySet(plan){
-  const week = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  const arr = Array.isArray(plan.deliveryDays) && plan.deliveryDays.length ? plan.deliveryDays : ["Mon","Tue","Wed","Thu","Fri","Sat"];
-  // normalize to short names
-  const s = new Set(arr.map(x => (''+x).slice(0,3)));
-  return s;
+  const arr = plan.deliveryDays?.length ? plan.deliveryDays : ["Mon","Tue","Wed","Thu","Fri","Sat"];
+  return new Set(arr.map(x => x.slice(0,3)));
 }
 
-async function loadPlansFromDB(){
+/* Load plans */
+async function loadPlans(){
   const grid = document.getElementById("plansGrid");
-  try{
-    const res = await fetch(API_BASE + "/api/plans");
-    const plans = await res.json();
-    ALL_PLANS = plans;
-    grid.innerHTML = "";
-    if(!plans || plans.length === 0){
-      grid.innerHTML = "<p class='text-xs text-gray-400'>No plans found.</p>";
-      return;
-    }
-    plans.forEach(plan => {
-      const card = document.createElement("div");
-      card.className = "glass p-5 card-hover";
-      card.dataset.title = plan.name || "";
-      card.dataset.category = (plan.type || "").toLowerCase();
+  const res = await fetch(API_BASE + "/api/plans");
+  const plans = await res.json();
+  ALL_PLANS = plans;
+  grid.innerHTML = "";
 
-      // billing label + per-delivery calculation
-      const billingLabel = plan.billingLabel
-        || (plan.durationDays === 7 ? "Weekly (7 days)" : (plan.durationDays ? `for ${plan.durationDays} days` : "for 30 days"));
-      const billingDays = plan.billingDaysPerMonth || plan.durationDays || 30;
-      const perDelivery = Math.round((plan.price || 0) / billingDays);
+  plans.forEach(plan => {
+    const billingDays = plan.billingDaysPerMonth || plan.durationDays || 30;
+    const perDelivery = Math.round(plan.price / billingDays);
 
-      // delivery days set (for highlighting)
-      const dset = getDeliverySet(plan);
-      const dayOrder = ["Mon","Tue","Wed","Thu","Fri","Sat"];
+    const dset = getDeliverySet(plan);
+    const dayOrder = ["Mon","Tue","Wed","Thu","Fri","Sat"];
 
-      // create day badges HTML
-      let daysHtml = `<div class="mt-3 flex items-center gap-2">`;
-      daysHtml += `<div class="tooltip-wrapper" tabindex="0">`;
-      // badges
-      daysHtml += '<div class="flex gap-2 items-center">';
-      dayOrder.forEach(d => {
-        const active = dset.has(d.slice(0,3));
-        daysHtml += `<div class="day-badge ${active ? 'active' : ''}" aria-hidden="true">${d.slice(0,3)}</div>`;
-      });
-      daysHtml += `</div>`;
-      // tooltip (shows billingLabel)
-      daysHtml += `<div class="tooltip">${billingLabel}</div>`;
-      daysHtml += `</div>`; // tooltip-wrapper
-      daysHtml += `</div>`;
+    const card = document.createElement("div");
+    card.className = "glass p-5";
+    card.dataset.title = plan.name.toLowerCase();
+    card.dataset.category = (plan.type || "").toLowerCase();
 
-      card.innerHTML = `
-        ${plan.tags?.length ? `<div class="badge-floating">${plan.tags[0]}</div>` : ""}
-        <div class="relative flex gap-4 items-center">
-          <img src="${plan.imageUrl || 'https://images.unsplash.com/photo-1572441710534-680f9c6b3f95?w=800&q=60'}"
-               class="w-24 h-24 md:w-28 md:h-28 rounded-xl object-cover border shadow">
-          <div class="flex-1">
-            <h3 class="font-bold text-lg">${plan.name || ""}</h3>
-            ${plan.description ? `<p class="mt-1 text-xs text-gray-500">${plan.description}</p>` : ""}
-            <p class="mt-1 font-semibold text-emerald-600">${formatRupee(plan.price)}</p>
-            <p class="text-[11px] text-gray-400">${billingLabel}</p>
-            <p class="text-[11px] text-gray-500">≈ ${formatRupee(perDelivery)} / delivery</p>
+    card.innerHTML = `
+      ${plan.promo ? `<div class="promo-badge absolute top-3 right-3">${plan.promo}</div>` : ""}
+      <div class="badge-floating">${plan.tags?.[0] || ""}</div>
 
-            ${daysHtml}
+      <div class="flex gap-4 items-start">
+        <img src="${plan.imageUrl}" class="w-24 h-24 rounded-lg border object-cover" />
 
-            <button class="select-plan-btn mt-3 px-3 py-1.5 rounded-full btn-select">
-              Go to Checkout →
-            </button>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg">${plan.name}</h3>
+          <p class="text-xs text-gray-500 mt-1">${plan.description || ""}</p>
+
+          <div class="mt-3">
+            <p class="text-emerald-600 text-xl font-extrabold">${rupee(plan.price)}</p>
+            <p class="text-xs text-gray-400">${plan.billingLabel}</p>
+            <p class="text-xs text-gray-500">≈ ${rupee(perDelivery)} / delivery</p>
           </div>
+
+          <div class="flex gap-2 mt-3 tooltip-wrapper">
+            ${dayOrder.map(d => `
+              <div class="day-badge ${dset.has(d) ? "active" : ""}">${d}</div>
+            `).join("")}
+
+            <span class="tooltip">${plan.billingLabel}</span>
+          </div>
+
+          <button class="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium"
+            onclick='selectPlan(${JSON.stringify(plan)})'>
+            Go to Checkout →
+          </button>
         </div>
-      `;
+      </div>
+    `;
 
-      // save and go to checkout
-      card.querySelector(".select-plan-btn").onclick = () => {
-        localStorage.setItem("df_selected_plan", JSON.stringify(plan));
-        window.location.href = "checkout.html";
-      };
-
-      grid.appendChild(card);
-    });
-
-  }catch(err){
-    console.error("Plan load error:", err);
-    grid.innerHTML = "<p class='text-xs text-red-500'>Failed to load plans</p>";
-  }
-}
-
-function filterPlans(){
-  const s = document.getElementById("searchInput").value.toLowerCase();
-  const cat = document.getElementById("categoryFilter").value;
-  const cards = Array.from(document.getElementById("plansGrid").children);
-  cards.forEach(card => {
-    const title = (card.dataset.title || "").toLowerCase();
-    const c = (card.dataset.category || "").toLowerCase();
-    card.style.display =
-      title.includes(s) && (!cat || c.includes(cat)) ? "block" : "none";
+    grid.appendChild(card);
   });
 }
 
-document.addEventListener("DOMContentLoaded", loadPlansFromDB);
+/* Sticky checkout bar */
+function selectPlan(plan){
+  document.getElementById("checkoutThumb").src = plan.imageUrl;
+  document.getElementById("checkoutName").innerText = plan.name;
+  document.getElementById("checkoutMeta").innerText = plan.billingLabel;
+  document.getElementById("checkoutPrice").innerText = rupee(plan.price);
+
+  document.getElementById("checkoutGo").onclick = () => {
+    localStorage.setItem("df_selected_plan", JSON.stringify(plan));
+    window.location.href = "checkout.html";
+  };
+
+  document.getElementById("checkoutBar").style.display = "block";
+}
+
+function closeCheckout(){
+  document.getElementById("checkoutBar").style.display = "none";
+}
+
+/* Filtering */
+function filterPlans(){
+  const s = document.getElementById("searchInput").value.toLowerCase();
+  const c = document.getElementById("categoryFilter").value;
+
+  document.querySelectorAll("#plansGrid > div").forEach(card => {
+    const match =
+      card.dataset.title.includes(s) &&
+      (!c || card.dataset.category.includes(c));
+
+    card.style.display = match ? "block" : "none";
+  });
+}
+
+loadPlans();
 </script>
 
 </body>
