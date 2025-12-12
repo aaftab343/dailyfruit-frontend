@@ -1,259 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>All Plans — Daily Fruit Co.</title>
 
-<!-- TAILWIND -->
+<!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-<!-- FONTAWESOME -->
-<script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
-
 <style>
-  :root{
-    --accent-from:#06b6d4;
-    --accent-to:#7c3aed;
-    --muted:#94a3b8;
-  }
-  body{
-    font-family:'Inter',sans-serif;
-    background:linear-gradient(180deg,#f8fafc,#eef7ff);
-    color:#0f172a;
-  }
+  :root{ --accent-from:#06b6d4; --accent-to:#7c3aed; }
+  body{ font-family:'Inter',sans-serif; background:linear-gradient(180deg,#f8fafc,#eef7ff); color:#0f172a; }
 
-  .glass{
-    position:relative;
-    background:rgba(255,255,255,0.95);
-    border-radius:16px;
-    border:1px solid rgba(148,163,184,0.18);
-    box-shadow:0 10px 30px rgba(2,6,23,0.06);
-    transition:0.25s ease;
-  }
-  .glass:hover{
-    transform:translateY(-6px);
-    box-shadow:0 20px 50px rgba(2,6,23,0.10);
-  }
+  .glass{ background:rgba(255,255,255,0.95); border-radius:14px; border:1px solid rgba(148,163,184,0.18); padding:16px;
+    box-shadow:0 10px 30px rgba(2,6,23,0.06); transition:.2s; }
+  .glass:hover{ transform:translateY(-4px); box-shadow:0 20px 40px rgba(2,6,23,0.10); }
 
-  .badge-floating{
-    position:absolute; top:12px; left:12px; padding:6px 12px;
-    font-size:12px; background:white; border-radius:999px;
-    border:1px solid #e2e8f0; font-weight:700;
-  }
+  .promo-badge{ padding:6px 10px; border-radius:999px;
+    background:linear-gradient(90deg,#fb923c,#f97316); color:white; font-weight:700; font-size:12px; }
 
-  .promo-badge{
-    padding:6px 10px; border-radius:999px;
-    background:linear-gradient(90deg,#fb923c,#f97316);
-    color:white; font-size:12px; font-weight:700;
-  }
+  .badge-floating{ position:absolute; top:10px; left:10px; padding:6px 10px; font-size:12px;
+    background:white; border-radius:999px; border:1px solid #e2e8f0; font-weight:700; }
 
-  .day-badge{
-    min-width:34px; height:34px; border-radius:10px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:12px; font-weight:700;
-    background:white; border:1px solid #e2e8f0;
-  }
-  .day-badge.active{
-    background:linear-gradient(90deg,var(--accent-from),var(--accent-to));
-    color:white; border:none;
-  }
+  .day-badge{ min-width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;background:white;border:1px solid #e2e8f0;}
+  .day-badge.active{ background:linear-gradient(90deg,var(--accent-from),var(--accent-to)); color:white; border:none;}
 
-  .tooltip-wrapper{position:relative;}
+  .tooltip-wrapper{ position:relative; }
   .tooltip{
-    position:absolute; bottom:120%; left:50%;
-    transform:translateX(-50%);
-    background:#111827; color:white;
-    padding:6px 10px; font-size:12px;
-    border-radius:6px; white-space:nowrap;
-    opacity:0; transition:.2s;
+    position:absolute; bottom:120%; left:50%; transform:translateX(-50%);
+    background:#111827; color:white; padding:6px 10px; border-radius:8px; font-size:12px;
+    opacity:0; white-space:nowrap; transition:.15s ease;
   }
-  .tooltip-wrapper:hover .tooltip{
-    opacity:1;
+  .tooltip-wrapper:hover .tooltip{ opacity:1; }
+
+  #checkoutBar{
+    position:fixed; bottom:0; left:0; right:0; background:white;
+    border-top:1px solid #e2e8f0; box-shadow:0 -6px 20px rgba(0,0,0,0.1);
+    display:none; padding:12px; z-index:50;
   }
 
-  /* Sticky checkout bar */
-  #checkoutBar{
-    position:fixed; bottom:0; left:0; right:0;
-    background:white;
-    box-shadow:0 -4px 20px rgba(0,0,0,0.08);
-    border-top:1px solid #e2e8f0;
-    padding:12px; display:none; z-index:50;
+  /* Button class used for styling injected buttons */
+  .btn-checkout {
+    background:linear-gradient(90deg,var(--accent-from),var(--accent-to));
+    color:white; padding:10px 14px; border-radius:8px; border:none; font-weight:600;
   }
 </style>
 </head>
-
 <body>
 
 <!-- HEADER -->
 <header class="sticky top-0 bg-white/80 backdrop-blur border-b z-40">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-    <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-teal-400 rounded-full text-white flex items-center justify-center font-bold">DF</div>
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
+    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 flex items-center justify-center text-white font-bold">DF</div>
     <div>
-      <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
-      <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
+      <div class="text-lg font-semibold">Daily Fruit Co.</div>
+      <div class="text-xs text-gray-500">Freshness Delivered Daily</div>
     </div>
   </div>
 </header>
 
 <!-- PAGE TITLE -->
 <section class="max-w-6xl mx-auto px-4 py-8">
-  <h2 class="text-3xl font-extrabold section-title">All Subscription Plans</h2>
-  <p class="text-gray-600 mt-1 text-sm">Choose based on your goal — weight loss, premium fruits, detox or daily immunity.</p>
+  <h1 class="text-3xl font-extrabold mb-1">All Subscription Plans</h1>
+  <p class="text-gray-600">Choose based on your goal — weight loss, premium fruits, detox or daily immunity.</p>
 </section>
 
-<!-- FILTER BAR -->
-<div class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row gap-3 items-center justify-between">
-    <input id="searchInput" onkeyup="filterPlans()" class="px-4 py-2 border rounded-lg w-full md:w-72"
-           placeholder="Search plans..." />
-
-    <select id="categoryFilter" onchange="filterPlans()" class="px-4 py-2 border rounded-lg w-full md:w-auto">
-      <option value="">All Categories</option>
-      <option value="weekly">Weekly</option>
-      <option value="monthly">Monthly</option>
-      <option value="premium">Premium</option>
-      <option value="detox">Detox</option>
-      <option value="fitness">Fitness</option>
-      <option value="weight">Weight Goals</option>
-    </select>
-  </div>
+<!-- PLANS GRID -->
+<div id="plansGrid" class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-32">
+  <div id="plansLoading" class="col-span-full text-gray-500">Loading plans…</div>
 </div>
 
-<!-- PLANS -->
-<div id="plansGrid" class="max-w-6xl mx-auto px-4 pb-32 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-  <p id="plansLoading" class="text-gray-400 text-sm">Loading plans...</p>
-</div>
+<!-- ERROR -->
+<div id="plansError" class="max-w-6xl mx-auto px-4 text-red-500 text-sm hidden"></div>
 
 <!-- STICKY CHECKOUT BAR -->
 <div id="checkoutBar">
-  <div class="max-w-4xl mx-auto flex items-center justify-between">
+  <div class="max-w-5xl mx-auto flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <img id="checkoutThumb" src="" class="w-14 h-14 rounded-lg border object-cover" />
+      <img id="checkoutThumb" src="" class="w-14 h-14 rounded-md border object-cover">
       <div>
-        <div id="checkoutName" class="font-bold text-sm"></div>
+        <div id="checkoutName" class="font-semibold"></div>
         <div id="checkoutMeta" class="text-xs text-gray-500"></div>
       </div>
     </div>
-
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3">
       <div id="checkoutPrice" class="font-extrabold text-emerald-600 text-lg"></div>
-      <button id="checkoutGo" class="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium">
-        Go to Checkout →
-      </button>
-      <button onclick="closeCheckout()" class="text-gray-500 text-xl">&times;</button>
+      <button id="checkoutGo" class="btn-checkout">Checkout →</button>
+      <button id="checkoutClose" class="text-gray-500 text-2xl">&times;</button>
     </div>
   </div>
 </div>
 
 <script>
-const API_BASE = "https://dailyfruit-backend.onrender.com";
-let ALL_PLANS = [];
+/* ---------- Config ---------- */
+const API_BASE = "https://dailyfruit-backend.onrender.com"; // change if needed
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1572441710534-680f9c6b3f95?w=800&q=60";
 
-/* Format ₹ */
-function rupee(n){ return "₹" + Number(n).toLocaleString("en-IN"); }
-
-/* Delivery days */
+/* ---------- Helpers ---------- */
+function rupee(n){ return "₹" + Number(n||0).toLocaleString("en-IN"); }
+function safeText(s){ return String(s ?? ""); }
 function getDeliverySet(plan){
-  const arr = plan.deliveryDays?.length ? plan.deliveryDays : ["Mon","Tue","Wed","Thu","Fri","Sat"];
-  return new Set(arr.map(x => x.slice(0,3)));
+  const arr = Array.isArray(plan.deliveryDays) && plan.deliveryDays.length ? plan.deliveryDays : ["Mon","Tue","Wed","Thu","Fri","Sat"];
+  return new Set(arr.map(x => (""+x).slice(0,3)));
 }
 
-/* Load plans */
+/* ---------- DOM refs ---------- */
+const plansGrid = document.getElementById("plansGrid");
+const plansLoading = document.getElementById("plansLoading");
+const plansError = document.getElementById("plansError");
+
+const checkoutBar = document.getElementById("checkoutBar");
+const checkoutThumb = document.getElementById("checkoutThumb");
+const checkoutName = document.getElementById("checkoutName");
+const checkoutMeta = document.getElementById("checkoutMeta");
+const checkoutPrice = document.getElementById("checkoutPrice");
+const checkoutGo = document.getElementById("checkoutGo");
+const checkoutClose = document.getElementById("checkoutClose");
+
+/* ---------- Load plans ---------- */
 async function loadPlans(){
-  const grid = document.getElementById("plansGrid");
-  const res = await fetch(API_BASE + "/api/plans");
-  const plans = await res.json();
-  ALL_PLANS = plans;
-  grid.innerHTML = "";
+  plansLoading.textContent = "Loading plans…";
+  plansError.classList.add("hidden");
+  try{
+    const res = await fetch(API_BASE + "/api/plans");
+    if(!res.ok) throw new Error("API " + res.status + " " + res.statusText);
+    const plans = await res.json();
+    if(!Array.isArray(plans) || plans.length === 0){
+      plansGrid.innerHTML = "<div class='col-span-full text-gray-500'>No plans available.</div>";
+      return;
+    }
+    renderPlans(plans);
+  } catch(err){
+    console.error("Failed to load plans:", err);
+    plansLoading.textContent = "";
+    plansError.textContent = "Unable to load plans. See console for details. " + err.message;
+    plansError.classList.remove("hidden");
+  }
+}
 
-  plans.forEach(plan => {
-    const billingDays = plan.billingDaysPerMonth || plan.durationDays || 30;
-    const perDelivery = Math.round(plan.price / billingDays);
-
-    const dset = getDeliverySet(plan);
-    const dayOrder = ["Mon","Tue","Wed","Thu","Fri","Sat"];
-
+/* ---------- Render ---------- */
+function renderPlans(plans){
+  plansGrid.innerHTML = ""; // clear
+  plans.forEach((plan, idx) => {
     const card = document.createElement("div");
-    card.className = "glass p-5";
-    card.dataset.title = plan.name.toLowerCase();
+    card.className = "glass relative";
+    card.dataset.idx = idx;
+    card.dataset.title = (plan.name || "").toLowerCase();
     card.dataset.category = (plan.type || "").toLowerCase();
 
+    const billingDays = plan.billingDaysPerMonth || plan.durationDays || 30;
+    const perDelivery = billingDays ? Math.round((plan.price||0) / billingDays) : 0;
+    const dset = getDeliverySet(plan);
+    const dayOrder = ["Mon","Tue","Wed","Thu","Fri","Sat"];
+    const dayHtml = dayOrder.map(d => `<div class="day-badge ${dset.has(d)?'active':''}">${d}</div>`).join("");
+
+    const imgSrc = plan.imageUrl || FALLBACK_IMAGE;
+    const promoHtml = plan.promo ? `<div class="promo-badge absolute top-3 right-3">${safeText(plan.promo)}</div>` : "";
+    const tagHtml = plan.tags?.length ? `<div class="badge-floating">${safeText(plan.tags[0])}</div>` : "";
+
     card.innerHTML = `
-      ${plan.promo ? `<div class="promo-badge absolute top-3 right-3">${plan.promo}</div>` : ""}
-      <div class="badge-floating">${plan.tags?.[0] || ""}</div>
-
-      <div class="flex gap-4 items-start">
-        <img src="${plan.imageUrl}" class="w-24 h-24 rounded-lg border object-cover" />
-
+      ${promoHtml}
+      ${tagHtml}
+      <div class="flex gap-4">
+        <img src="${imgSrc}" onerror="this.src='${FALLBACK_IMAGE}'" class="w-24 h-24 rounded-lg border object-cover" alt="${safeText(plan.name)}"/>
         <div class="flex-1">
-          <h3 class="font-bold text-lg">${plan.name}</h3>
-          <p class="text-xs text-gray-500 mt-1">${plan.description || ""}</p>
+          <h3 class="font-semibold text-lg m-0">${safeText(plan.name)}</h3>
+          <p class="text-xs text-gray-500 mt-1">${safeText(plan.description || "")}</p>
 
           <div class="mt-3">
-            <p class="text-emerald-600 text-xl font-extrabold">${rupee(plan.price)}</p>
-            <p class="text-xs text-gray-400">${plan.billingLabel}</p>
-            <p class="text-xs text-gray-500">≈ ${rupee(perDelivery)} / delivery</p>
+            <div class="text-2xl font-extrabold text-emerald-600">${rupee(plan.price)}</div>
+            <div class="text-xs text-gray-400">${safeText(plan.billingLabel || (plan.durationDays === 7 ? "Weekly (7 days)" : "for 30 days"))}</div>
+            <div class="text-xs text-gray-500 mt-0.5">≈ ${rupee(perDelivery)} / delivery</div>
           </div>
 
-          <div class="flex gap-2 mt-3 tooltip-wrapper">
-            ${dayOrder.map(d => `
-              <div class="day-badge ${dset.has(d) ? "active" : ""}">${d}</div>
-            `).join("")}
-
-            <span class="tooltip">${plan.billingLabel}</span>
+          <div class="mt-3 flex items-center gap-3">
+            <div class="tooltip-wrapper">
+              <div class="flex gap-1">${dayHtml}</div>
+              <div class="tooltip">${safeText(plan.billingLabel || "")}</div>
+            </div>
+            <span class="text-xs text-gray-500">${safeText(plan.deliveryCount || 26)} deliveries</span>
           </div>
 
-          <button class="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium"
-            onclick='selectPlan(${JSON.stringify(plan)})'>
-            Go to Checkout →
-          </button>
+          <!-- placeholder for dynamic button -->
+          <div class="mt-3" id="btnContainer-${idx}"></div>
         </div>
       </div>
     `;
 
-    grid.appendChild(card);
+    plansGrid.appendChild(card);
+
+    // create button with addEventListener (safe)
+    const btnContainer = document.getElementById(`btnContainer-${idx}`);
+    const btn = document.createElement("button");
+    btn.className = "btn-checkout";
+    btn.textContent = "Go to Checkout →";
+    btn.addEventListener("click", () => {
+      onPlanSelect(plan);
+    });
+    btnContainer.appendChild(btn);
   });
 }
 
-/* Sticky checkout bar */
-function selectPlan(plan){
-  document.getElementById("checkoutThumb").src = plan.imageUrl;
-  document.getElementById("checkoutName").innerText = plan.name;
-  document.getElementById("checkoutMeta").innerText = plan.billingLabel;
-  document.getElementById("checkoutPrice").innerText = rupee(plan.price);
+/* ---------- Selection handler ---------- */
+function onPlanSelect(plan){
+  // show bottom bar
+  checkoutThumb.src = plan.imageUrl || FALLBACK_IMAGE;
+  checkoutName.textContent = plan.name || "Selected plan";
+  const billingDays = plan.billingDaysPerMonth || plan.durationDays || 30;
+  const perDelivery = billingDays ? Math.round((plan.price||0)/billingDays) : 0;
+  checkoutMeta.textContent = (plan.deliveryCount || 26) + " deliveries · ≈ " + rupee(perDelivery) + " / delivery";
+  checkoutPrice.textContent = rupee(plan.price || 0);
 
-  document.getElementById("checkoutGo").onclick = () => {
-    localStorage.setItem("df_selected_plan", JSON.stringify(plan));
+  // attach go action (store and redirect)
+  checkoutGo.onclick = () => {
+    try{ localStorage.setItem("df_selected_plan", JSON.stringify(plan)); } catch(e){ console.warn("localStorage failed", e); }
+    // redirect - ensure checkout.html exists on your site
     window.location.href = "checkout.html";
   };
 
-  document.getElementById("checkoutBar").style.display = "block";
+  checkoutBar.style.display = "block";
+  // small entrance animation
+  checkoutBar.style.transform = "translateY(8px)";
+  checkoutBar.style.opacity = "0";
+  setTimeout(()=>{ checkoutBar.style.transform = "translateY(0)"; checkoutBar.style.opacity = "1"; }, 10);
 }
 
-function closeCheckout(){
-  document.getElementById("checkoutBar").style.display = "none";
-}
+/* close */
+checkoutClose.addEventListener("click", () => {
+  checkoutBar.style.display = "none";
+  try{ localStorage.removeItem("df_selected_plan"); }catch(e){}
+});
 
-/* Filtering */
-function filterPlans(){
-  const s = document.getElementById("searchInput").value.toLowerCase();
-  const c = document.getElementById("categoryFilter").value;
-
-  document.querySelectorAll("#plansGrid > div").forEach(card => {
-    const match =
-      card.dataset.title.includes(s) &&
-      (!c || card.dataset.category.includes(c));
-
-    card.style.display = match ? "block" : "none";
-  });
-}
-
-loadPlans();
+/* ---------- Init ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  loadPlans();
+  // restore selection if previously saved
+  try{
+    const s = localStorage.getItem("df_selected_plan");
+    if(s){ const p = JSON.parse(s); if(p && p.name) onPlanSelect(p); }
+  }catch(e){}
+});
 </script>
 
 </body>
 </html>
+
