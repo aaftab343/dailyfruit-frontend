@@ -4,8 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fresh Fruit Salads Delivered Daily in Pune | Daily Fruit Co.</title>
-  <meta name="description" content="Daily Fruit Co delivers freshly-made premium fruit salads every morning across Pune. Healthy, hygienic, subscription-based fruit bowls — weekly & monthly plans.">
-  <meta name="keywords" content="fruit salad pune, daily fruit subscription, healthy food pune, fruit bowl delivery pune, daily fruit co plans">
+  <meta name="description" content="Daily Fruit Co delivers freshly-made premium fruit salads every morning across Pune. Healthy, hygienic, subscription-based fruit bowls — weekly & monthly plans." />
+  <meta name="keywords" content="fruit salad pune, daily fruit subscription, healthy food pune, fruit bowl delivery pune, daily fruit co plans" />
+  <meta name="author" content="Daily Fruit Co." />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:title" content="Daily Fruit Co — Fresh Fruit Salads Delivered Daily in Pune" />
@@ -18,20 +19,7 @@
   <meta name="twitter:description" content="Healthy fruit salad bowls delivered fresh every morning in Pune." />
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1547517026-84a3f8e1a6c9?q=80&w=1200" />
 
-  <!-- Preload fonts -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Font Awesome -->
-  <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
-
-  <!-- AOS (animations) -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-  <!-- Schema.org -->
+  <!-- Schema.org (LocalBusiness) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -47,46 +35,101 @@
   }
   </script>
 
-  <style>
-    :root{ --accent1:#06b6d4; --accent2:#7c3aed; --btn-shadow: 0 8px 24px rgba(37,99,235,0.12); }
-    body{ font-family:Inter, sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; background:linear-gradient(180deg,#ffffff,#f8fafc); color:#0f172a; }
-    .section-title{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); -webkit-background-clip:text; color:transparent; font-family:'Playfair Display', serif; font-weight:700; }
-    .glass{ background:linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.88)); backdrop-filter: blur(8px); border-radius:12px; border:1px solid rgba(148,163,184,0.18); box-shadow:0 6px 20px rgba(15,23,42,0.06); }
-    .glass-strong{ background:rgba(255,255,255,0.96); border-radius:14px; border:1px solid rgba(148,163,184,0.2); box-shadow:0 10px 30px rgba(15,23,42,0.08); }
-    .glass-icon{ width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.8);box-shadow:0 8px 20px rgba(0,0,0,0.06); transition:.15s; }
-    .glass-icon:hover{ transform:translateY(-4px); background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; }
-    .btn-grad{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; padding:.55rem 1rem; border-radius:999px; box-shadow:var(--btn-shadow); transition:transform .12s ease,opacity .12s ease; }
-    .btn-grad:active{ transform:translateY(1px) scale(.998); opacity:.98; }
-    .card-cta{ transition: transform .12s ease, box-shadow .12s ease; cursor:pointer; }
-    .card-cta:active{ transform: translateY(2px); box-shadow: none; }
-    .hero-img{ width:100%; height:380px; object-fit:cover; border-radius:12px; }
-    /* floating fruit */
-    .fruit-float{ font-size:2.4rem; opacity:.98; user-select:none; pointer-events:none; will-change:transform; }
-    /* small helpers */
-    .muted{ color:#6b7280; }
-    /* hide original right-side social bar by default (we removed it) */
-    .desktop-only{ display:none; }
-    /* small responsive */
-    @media(min-width:768px){ .desktop-only{ display:flex; } .hero-img{ height:420px; } }
+  <!-- Preload fonts -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
-    /* Smooth scroll */
-    html { scroll-behavior: smooth; }
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent1:#06b6d4;
+      --accent2:#7c3aed;
+      --btn-shadow: 0 10px 30px rgba(37,99,235,0.12);
+      --glass-border: rgba(148,163,184,0.16);
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      font-family:Inter, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background:linear-gradient(180deg,#ffffff,#f8fafc);
+      color:#0f172a;
+      line-height:1.45;
+    }
+    .section-title{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      -webkit-background-clip:text;
+      color:transparent;
+      font-family:'Playfair Display', serif;
+      font-weight:700;
+    }
+    .glass{
+      background:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92));
+      backdrop-filter: blur(8px);
+      border-radius:12px;
+      border:1px solid var(--glass-border);
+      box-shadow:0 8px 30px rgba(15,23,42,0.06);
+    }
+    .glass-strong{
+      background:rgba(255,255,255,0.98);
+      border-radius:14px;
+      border:1px solid rgba(148,163,184,0.18);
+      box-shadow:0 12px 34px rgba(15,23,42,0.06);
+    }
+    .glass-icon{
+      width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.9);box-shadow:0 8px 24px rgba(0,0,0,0.06); transition:.18s ease;
+    }
+    .glass-icon:hover{ transform:translateY(-4px); background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; }
+
+    .btn-grad{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:white;
+      padding:.55rem 1rem;
+      border-radius:999px;
+      box-shadow:var(--btn-shadow);
+      transition:transform .12s ease,opacity .12s ease;
+      display:inline-flex; gap:.5rem; align-items:center;
+    }
+    .btn-grad:active{ transform:translateY(1px) scale(.998); opacity:.98; }
+
+    .hero-img{ width:100%; height:420px; object-fit:cover; border-radius:12px; }
+
+    /* floating fruits animation */
+    .fruit-float{ font-size:2.2rem; animation: floatFruit 6s ease-in-out infinite; opacity:.95; user-select:none; pointer-events:none; }
+    @keyframes floatFruit { 0%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-18px) rotate(8deg);}100%{transform:translateY(0) rotate(0deg);} }
+
+    .muted{ color:#6b7280; }
+    .rating-star{ color:#f59e0b; }
+    .ticker{ background:linear-gradient(90deg,#f8fafc,#ffffff); padding:.6rem; border-radius:999px; border:1px solid rgba(148,163,184,0.08); font-size:.92rem; }
+    .wf-slider { display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+    .wf-slide { min-width:260px; flex:0 0 auto; scroll-snap-align:center; }
+    .card-watermark { position: absolute; right: 10px; bottom: 8px; opacity: 0.06; font-size:48px; pointer-events:none; }
+    @media (min-width:768px){ .hero-img{ height:480px; } }
+    a:focus, button:focus, input:focus { outline: 3px solid rgba(59,130,246,0.12); outline-offset:3px; }
   </style>
 </head>
 <body>
 
 <!-- PRELOADER -->
-<div id="preloader" style="position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:white">
+<div id="preloader" style="position:fixed; inset:0; z-index:60; display:flex; align-items:center; justify-content:center; background:white">
   <div style="text-align:center">
-    <div id="lottiePre" style="width:96px;height:96px;margin:0 auto">🍉</div>
+    <div id="lottiePre" style="width:88px;height:88px;margin:0 auto; font-size:44px">🍉</div>
     <p class="muted" style="margin-top:10px;font-size:13px">Daily Fruit Co — Freshness Loading…</p>
   </div>
 </div>
 
 <!-- NAV -->
-<header class="sticky top-0 z-50 bg-white/70 backdrop-blur border-b">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-3">
+<header class="sticky top-0 z-50 bg-white/85 backdrop-blur border-b">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow-lg">DF</div>
       <div class="hidden sm:block">
         <div class="text-sm font-semibold">Daily Fruit Co.</div>
@@ -106,7 +149,7 @@
       <a href="plans.html" class="px-3 py-2 rounded-full text-white font-semibold" style="background:linear-gradient(90deg,var(--accent1),var(--accent2));">All Plans</a>
     </nav>
 
-    <button id="mobileToggle" class="md:hidden p-2 rounded bg-white shadow-sm"><i class="fa fa-bars"></i></button>
+    <button id="mobileToggle" class="md:hidden p-2 rounded bg-white shadow-sm focus:ring-2"><i class="fa fa-bars"></i></button>
   </div>
 
   <!-- MOBILE MENU -->
@@ -125,29 +168,52 @@
   </div>
 </header>
 
-<!-- HERO (with extra spacing under header as requested) -->
-<main class="max-w-6xl mx-auto px-4 pt-10 pb-12">
+<!-- HERO (with spacing under header) -->
+<main id="hero" class="max-w-6xl mx-auto px-4 pt-10 pb-12">
   <div class="grid md:grid-cols-2 gap-8 items-center">
     <section data-aos="fade-right">
       <h1 class="text-4xl md:text-5xl font-extrabold section-title">Fresh Fruit Salads Delivered Daily in Pune</h1>
       <p class="muted mt-4">Healthy, premium and delicious bowls — ready every morning. Subscribe weekly or monthly.</p>
 
       <div class="mt-6 flex gap-3">
-        <a href="plans.html" class="btn-grad">View Plans <i class="fa fa-arrow-right ml-2"></i></a>
+        <a href="plans.html" class="btn-grad press">View Plans <i class="fa fa-arrow-right ml-2"></i></a>
         <a href="#plans" class="px-4 py-2 rounded-full border bg-white text-gray-800">Best seller plans</a>
+      </div>
+
+      <!-- small delivery ticker -->
+      <div class="mt-5 flex items-center gap-3">
+        <div class="ticker"><i class="fa fa-truck mr-2"></i><span id="deliveryTickerText">Currently delivering to: Pune Central • Baner • Kothrud • Aundh</span></div>
+      </div>
+
+      <!-- countdown -->
+      <div class="mt-4 text-sm muted">
+        Order before <b>8:00 PM</b> today to start deliveries tomorrow — Cutoff in <span id="cutoffTimer">--:--:--</span>.
       </div>
     </section>
 
     <aside class="relative" data-aos="fade-left">
-      <!-- light floating fruits (animated with tiny JS below) -->
-      <div class="absolute -top-6 -left-6 fruit-float" data-ampl="12" data-speed="0.9">🍎</div>
-      <div class="absolute top-10 -right-10 fruit-float" data-ampl="18" data-speed="1.15" style="opacity:0.95">🍌</div>
-      <div class="absolute -bottom-6 right-1/3 fruit-float" data-ampl="14" data-speed="0.72" style="opacity:0.96">🍇</div>
+      <!-- floating fruits: will pick random symbol -->
+      <div id="fruitFloat1" class="absolute -top-6 -left-6 fruit-float">🍎</div>
+      <div id="fruitFloat2" class="absolute top-10 -right-10 fruit-float" style="animation-delay:1.1s">🍌</div>
+      <div id="fruitFloat3" class="absolute -bottom-6 right-1/3 fruit-float" style="animation-delay:2s">🍇</div>
 
-      <img class="hero-img lazy" src="https://images.unsplash.com/photo-1547517026-84a3f8e1a6c9?q=80&w=1200" alt="Fresh fruit salad bowl" loading="lazy" />
+      <img class="hero-img lazy glass-strong" src="https://images.unsplash.com/photo-1547517026-84a3f8e1a6c9?q=80&w=1200" alt="Fresh fruit salad bowl" loading="lazy" />
     </aside>
   </div>
 </main>
+
+<!-- TODAY'S FRESH FRUITS (NEW) -->
+<section id="todays-fruits" class="max-w-6xl mx-auto px-4 py-6" data-aos="fade-up">
+  <div class="glass p-4 md:flex md:items-center md:justify-between">
+    <div>
+      <h4 class="font-semibold">Today's Fresh Fruits</h4>
+      <p class="muted mt-1" id="todaysFruitsText">Loading today's selection…</p>
+    </div>
+    <div class="mt-3 md:mt-0">
+      <span class="ticker">Freshness picked today • Small batch</span>
+    </div>
+  </div>
+</section>
 
 <!-- WHY US -->
 <section id="about" class="max-w-6xl mx-auto px-4 py-10" data-aos="fade-up">
@@ -166,7 +232,7 @@
         <h4 class="font-semibold">Our Process</h4>
         <ul class="list-disc pl-5 muted">
           <li>Premium fruits each morning</li>
-          <li>Hygienic preparation</li>
+          <li>Hygienic, contactless preparation</li>
         </ul>
       </div>
       <div>
@@ -177,43 +243,78 @@
   </div>
 </section>
 
-<!-- GOOGLE REVIEWS (static premium) -->
+
+<!-- TRUSTED BY PROFESSIONALS -->
+<section class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
+  <div class="glass p-6">
+    <h3 class="text-2xl font-bold section-title mb-4">Trusted By Professionals</h3>
+
+    <style>
+      .badge {
+        padding: 6px 12px;
+        background: rgba(255,255,255,0.85);
+        border-radius: 8px;
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        box-shadow:0 6px 16px rgba(0,0,0,0.05);
+      }
+      nav a:hover {
+        color:#06b6d4;
+        text-shadow:0px 0px 6px rgba(6,182,212,0.3);
+      }
+      header {
+        box-shadow:0 2px 18px rgba(0,150,255,0.08);
+      }
+    </style>
+
+    <div class="pro-badges flex flex-wrap gap-3 text-sm mt-3">
+      <div class="badge"><i class="fa fa-dumbbell text-indigo-500"></i> Fitness Trainers</div>
+      <div class="badge"><i class="fa fa-heart text-pink-500"></i> Nutrition Experts</div>
+      <div class="badge"><i class="fa fa-briefcase text-emerald-500"></i> Working Professionals</div>
+      <div class="badge"><i class="fa fa-baby text-orange-500"></i> Pregnant Mothers</div>
+      <div class="badge"><i class="fa fa-users text-blue-500"></i> Families Across Pune</div>
+    </div>
+  </div>
+</section>
+
+<!-- GOOGLE REVIEWS -->
 <section id="google-reviews" class="py-16 bg-white" data-aos="fade-up">
   <div class="max-w-6xl mx-auto px-4">
-    <h3 class="text-3xl font-bold section-title text-center mb-10">Our Customers Love Us ❤️</h3>
+    <h3 class="text-3xl font-bold section-title text-center mb-6">Our Customers Love Us ❤️</h3>
+
     <div class="text-center mb-6">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Google_2015_logo.svg/512px-Google_2015_logo.svg.png" class="h-6 mx-auto opacity-90" />
-      <p class="text-sm muted mt-1">Rated <span class="font-semibold text-yellow-500">4.9 ★★★★★</span> on Google Reviews</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Google_2015_logo.svg/512px-Google_2015_logo.svg.png"
+           class="h-6 mx-auto opacity-90">
+      <p class="text-sm muted mt-1">
+        Rated <span class="font-semibold rating-star">4.9 ★★★★★</span> on Google Reviews
+      </p>
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
-      <div class="glass p-6 rounded-xl shadow" data-aos="zoom-in">
+      <div class="glass p-6 rounded-xl shadow">
         <div class="flex items-center gap-3 mb-3">
-          <img src="https://i.pravatar.cc/60?img=12" class="w-10 h-10 rounded-full" />
+          <img src="https://i.pravatar.cc/60?img=12" class="w-10 h-10 rounded-full">
           <div><p class="font-semibold">Aakash Patil</p><p class="text-yellow-400 text-sm">★★★★★</p></div>
         </div>
-        <p class="muted">“Super fresh fruits every morning! I subscribed for 30 days and renewed again. Amazing quality & early delivery!”</p>
+        <p class="muted">“Super fresh fruits every morning! Subscribed again for 30 days.”</p>
       </div>
 
-      <div class="glass p-6 rounded-xl shadow" data-aos="zoom-in" data-aos-delay="60">
+      <div class="glass p-6 rounded-xl shadow" data-aos-delay="60">
         <div class="flex items-center gap-3 mb-3">
-          <img src="https://i.pravatar.cc/60?img=32" class="w-10 h-10 rounded-full" />
+          <img src="https://i.pravatar.cc/60?img=32" class="w-10 h-10 rounded-full">
           <div><p class="font-semibold">Sneha Kulkarni</p><p class="text-yellow-400 text-sm">★★★★★</p></div>
         </div>
-        <p class="muted">“I love the Diamond Plan! Premium fruits, clean packaging and the taste is always great. Perfect for my fitness routine.”</p>
+        <p class="muted">“I love the Premium Plan — clean packaging and great taste.”</p>
       </div>
 
-      <div class="glass p-6 rounded-xl shadow" data-aos="zoom-in" data-aos-delay="120">
+      <div class="glass p-6 rounded-xl shadow" data-aos-delay="120">
         <div class="flex items-center gap-3 mb-3">
-          <img src="https://i.pravatar.cc/60?img=45" class="w-10 h-10 rounded-full" />
+          <img src="https://i.pravatar.cc/60?img=45" class="w-10 h-10 rounded-full">
           <div><p class="font-semibold">Rohan Salve</p><p class="text-yellow-400 text-sm">★★★★★</p></div>
         </div>
-        <p class="muted">“Daily Fruit Co. is the best morning habit! Fresh, hygienic, and always on time. Highly recommended for families.”</p>
+        <p class="muted">“Daily Fruit Co. is the BEST morning habit — fresh & hygienic.”</p>
       </div>
-    </div>
-
-    <div class="text-center mt-10">
-      <a href="https://www.google.com/search?q=Daily+Fruit+Co+Pune+reviews" target="_blank" class="px-6 py-3 rounded-full text-white font-semibold shadow-lg btn-grad">Read More Reviews on Google →</a>
     </div>
   </div>
 </section>
@@ -221,38 +322,196 @@
 <!-- TESTIMONIALS -->
 <section id="testimonials" class="py-16 bg-slate-50" data-aos="fade-up">
   <div class="max-w-6xl mx-auto px-4">
-    <h3 class="text-3xl font-bold section-title text-center mb-10">What our customers say</h3>
+    <h3 class="text-3xl font-bold section-title text-center mb-8">What Our Customers Say</h3>
+
     <div class="grid md:grid-cols-3 gap-6">
-      <div class="glass p-6"><p class="text-yellow-400">★★★★★</p><p class="muted">“Fresh every morning. My mornings changed!”</p><p class="mt-3 font-semibold">— Neha</p></div>
-      <div class="glass p-6"><p class="text-yellow-400">★★★★★</p><p class="muted">“Perfect for fitness and convenience.”</p><p class="mt-3 font-semibold">— Siddharth</p></div>
-      <div class="glass p-6"><p class="text-yellow-400">★★★★★</p><p class="muted">“Great packaging, tasted fresh.”</p><p class="mt-3 font-semibold">— Priya</p></div>
+      <div class="glass p-6"><p class="text-yellow-400">★★★★★</p><p class="muted mt-1">“Fresh every morning. My mornings changed!”</p><p class="mt-3 font-semibold">— Neha</p></div>
+
+      <div class="glass p-6"><p class="text-yellow-400">★★★★★</p><p class="muted mt-1">“Perfect for fitness and convenience.”</p><p class="mt-3 font-semibold">— Siddharth</p></div>
+
+      <div class="glass p-6"><p class="text-yellow-400">★★★★★</p><p class="muted mt-1">“Great packaging, always fresh.”</p><p class="mt-3 font-semibold">— Priya</p></div>
     </div>
   </div>
 </section>
 
-<!-- BEST SELLER PLANS (LIVE from backend) -->
-<section id="plans" class="py-14 bg-slate-50" data-aos="fade-up">
+<!-- BEFORE & AFTER -->
+<section id="before-after" class="py-12 max-w-6xl mx-auto px-4" data-aos="fade-up">
+  <div class="glass p-6">
+    <h3 class="text-2xl font-bold section-title">Before & After — Real Results</h3>
+    <p class="muted mt-2">Small daily changes add up. Here are real customer stories.</p>
+
+    <div class="grid md:grid-cols-3 gap-4 mt-4">
+      <div class="p-4 glass-strong relative">
+        <div class="text-sm muted">Before</div>
+        <div class="font-semibold mt-2">Low energy</div>
+        <p class="mt-3">After 30 days: Improved energy & better digestion.</p>
+        <div class="card-watermark">🍏</div>
+      </div>
+
+      <div class="p-4 glass-strong relative">
+        <div class="text-sm muted">Before</div>
+        <div class="font-semibold mt-2">Skipped breakfast</div>
+        <p class="mt-3">After: Consistent & healthy morning routine.</p>
+        <div class="card-watermark">🍓</div>
+      </div>
+
+      <div class="p-4 glass-strong relative">
+        <div class="text-sm muted">Before</div>
+        <div class="font-semibold mt-2">Busy lifestyle</div>
+        <p class="mt-3">After: Easy daily fruit nutrition.</p>
+        <div class="card-watermark">🍌</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HEALTH SCORE CALCULATOR -->
+<section id="health-calculator" class="py-12 max-w-6xl mx-auto px-4" data-aos="fade-up">
+  <div class="glass p-6">
+    <h3 class="text-2xl font-bold section-title">Health Score Calculator</h3>
+    <p class="muted mt-2 text-sm">Answer 3 quick questions to get your recommended plan.</p>
+
+    <div class="grid md:grid-cols-4 gap-4 mt-4 text-sm">
+      <div>
+        <label class="font-semibold">Your age</label>
+        <input id="hcAge" type="number" class="w-full p-2 border rounded mt-1" placeholder="e.g., 28">
+      </div>
+
+      <div>
+        <label class="font-semibold">Activity Level</label>
+        <select id="hcActivity" class="w-full p-2 border rounded mt-1">
+          <option value="">Select</option>
+          <option>Sedentary</option>
+          <option>Moderately Active</option>
+          <option>Highly Active</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="font-semibold">Goal</label>
+        <select id="hcGoal" class="w-full p-2 border rounded mt-1">
+          <option value="">Choose</option>
+          <option>Weight Loss</option>
+          <option>Maintain Weight</option>
+          <option>Muscle Gain</option>
+        </select>
+      </div>
+
+      <div class="flex items-end">
+        <button onclick="calculateHealthScore()" class="btn-grad w-full">Check Score</button>
+      </div>
+    </div>
+
+    <p id="hcResult" class="mt-4 font-semibold text-indigo-600"></p>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="py-10 max-w-6xl mx-auto px-4" data-aos="fade-up">
+  <div class="glass p-6">
+    <h3 class="text-2xl font-bold section-title">Menu — Fruit Options</h3>
+    <p class="muted mt-3">Daily Fruit Selection Includes:</p>
+
+    <ul class="mt-3 grid sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm muted">
+      <li>Apple</li><li>Banana</li><li>Papaya</li>
+      <li>Pineapple</li><li>Grapes</li><li>Orange</li>
+      <li>Watermelon (seasonal)</li>
+      <li>Mango (seasonal)</li>
+      <li>Pomegranate</li>
+    </ul>
+  </div>
+</section>
+<!-- CALORIES & NUTRITION LABEL -->
+<section id="nutrition" class="py-10 max-w-6xl mx-auto px-4" data-aos="fade-up">
+  <div class="glass p-6">
+    <h3 class="text-2xl font-bold section-title">Calories & Nutrition</h3>
+    <p class="muted mt-2 text-sm">Average values across our fresh daily bowls.</p>
+
+    <div class="grid md:grid-cols-4 gap-4 mt-4 text-sm">
+      <div class="glass-strong p-4 text-center">
+        <p class="font-semibold text-lg">140 kcal</p>
+        <p class="muted mt-1">Per bowl (avg)</p>
+      </div>
+
+      <div class="glass-strong p-4 text-center">
+        <p class="font-semibold text-lg">Vitamin C</p>
+        <p class="muted mt-1">Boosts immunity</p>
+      </div>
+
+      <div class="glass-strong p-4 text-center">
+        <p class="font-semibold text-lg">Rich Fiber</p>
+        <p class="muted mt-1">Improves digestion</p>
+      </div>
+
+      <div class="glass-strong p-4 text-center">
+        <p class="font-semibold text-lg">Antioxidants</p>
+        <p class="muted mt-1">Good for skin health</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET DAILY — SLIDER -->
+<section id="daily-slider" class="py-10 max-w-6xl mx-auto px-4" data-aos="fade-up">
+  <div class="glass p-6">
+    <h3 class="text-2xl font-bold section-title">What You Get Daily</h3>
+    <p class="muted mt-2">A quick look at your daily experience.</p>
+
+    <div class="wf-slider mt-4 pb-2">
+      <div class="wf-slide glass-strong p-4">
+        <img src="https://images.unsplash.com/photo-1547517026-84a3f8e1a6c9?q=80&w=600"
+             alt="Fresh-cut fruits" class="rounded mb-3" loading="lazy" />
+        <p class="text-sm font-semibold">Fresh-Cut Fruits</p>
+        <p class="muted text-xs">Prepared every morning.</p>
+      </div>
+
+      <div class="wf-slide glass-strong p-4">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600"
+             alt="Hygienic fruit preparation" class="rounded mb-3" loading="lazy" />
+        <p class="text-sm font-semibold">Hygiene Process</p>
+        <p class="muted text-xs">Clean, safe, contactless.</p>
+      </div>
+
+      <div class="wf-slide glass-strong p-4">
+        <img src="https://images.unsplash.com/photo-1532634726-8b9fb99825ef?q=80&w=600"
+             alt="Premium packaging" class="rounded mb-3" loading="lazy" />
+        <p class="text-sm font-semibold">Premium Packaging</p>
+        <p class="muted text-xs">Freshness sealed tightly.</p>
+      </div>
+
+      <div class="wf-slide glass-strong p-4">
+        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=600"
+             alt="Doorstep delivery" class="rounded mb-3" loading="lazy" />
+        <p class="text-sm font-semibold">Delivery to Doorstep</p>
+        <p class="muted text-xs">Right on time every day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEST SELLER PLANS -->
+<section id="plans" class="py-14 bg-white" data-aos="fade-up">
   <div class="max-w-6xl mx-auto px-4">
     <div class="flex items-center justify-between mb-6">
       <div>
         <h3 class="text-3xl font-bold section-title">Our Best Seller Plans</h3>
-        <p class="muted mt-1">Confirm YES if this is correct.</p>
+        <p class="muted mt-1 text-sm">LIVE from backend — always updated.</p>
       </div>
       <a href="plans.html" class="text-sm text-indigo-600 font-semibold">View all plans →</a>
     </div>
 
     <div id="bestSellerGrid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="muted text-center">Loading best sellers…</div>
+      <div class="muted">Loading best sellers…</div>
     </div>
   </div>
 </section>
 
-<!-- SUBSCRIBE -->
+<!-- SUBSCRIBE SECTION -->
 <section id="subscribe" class="max-w-6xl mx-auto px-4 py-12" data-aos="zoom-in">
   <div class="glass p-6 md:flex md:items-center md:justify-between">
     <div>
       <h3 class="text-2xl font-bold">Subscribe & Start Fresh</h3>
-      <p class="muted mt-2">Choose a plan and share your WhatsApp number. We'll confirm your schedule.</p>
+      <p class="muted mt-2">Choose a plan and share your WhatsApp number. We’ll contact you.</p>
     </div>
 
     <form id="subscribeForm" class="mt-4 md:mt-0 flex gap-2">
@@ -263,67 +522,71 @@
         <option value="pregnancy-fruit-bowl">Pregnancy Bowl — ₹2600</option>
       </select>
 
-      <input id="subscribePhone" type="tel" placeholder="WhatsApp number" class="p-2 border rounded" required>
+      <input id="subscribePhone" type="tel" placeholder="WhatsApp number"
+             class="p-2 border rounded" required>
+
       <button class="btn-grad" type="submit">Subscribe</button>
     </form>
   </div>
 </section>
 
-<!-- MENU -->
-<section id="menu" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-  <div class="glass p-6">
-    <h3 class="text-3xl font-bold section-title">Menu — Fruit Options</h3>
-    <p class="mt-3 text-gray-700">Daily Fruit Selection Includes:</p>
+<!-- LIVE REVIEWS SCROLLER -->
+<section id="live-reviews" class="py-12 max-w-6xl mx-auto px-4" data-aos="fade-up">
+  <div class="glass p-6 overflow-hidden">
+    <h3 class="text-2xl font-bold section-title text-center">Live Customer Reviews</h3>
+    <p class="muted text-center mt-2 mb-5 text-sm">Real-time scrolling feedback from our happy customers.</p>
 
-    <ul class="mt-3 grid sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-700">
-      <li>Apple</li><li>Banana</li><li>Papaya</li><li>Pineapple</li><li>Grapes</li><li>Orange</li>
-      <li>Watermelon (seasonal)</li><li>Mango (seasonal)</li><li>Pomegranate</li>
-      <li>Kiwi</li><li>Dragon Fruit</li><li>Blueberry</li>
-    </ul>
+    <div id="reviewsTicker" class="text-sm muted space-y-2" style="height:120px; overflow:hidden;">
+      <div>⭐ “Super fresh every day!” — Priya</div>
+      <div>⭐ “Convenient & healthy.” — Amit</div>
+      <div>⭐ “Tastes amazing every morning.” — Sneha</div>
+      <div>⭐ “Perfect for fitness routine.” — Rohit</div>
+      <div>⭐ “Value for money!” — Komal</div>
+    </div>
   </div>
 </section>
+<!-- DELIVERY INFO -->
+<section id="delivery" class="py-10 max-w-6xl mx-auto px-4" data-aos="fade-up">
+  <div class="glass p-6">
+    <h3 class="text-2xl font-bold section-title">Delivery Info</h3>
 
-<!-- DELIVERY -->
-<section id="delivery" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-  <div class="glass p-6 text-sm text-gray-700">
-    <h3 class="text-3xl font-bold section-title">Delivery Info</h3>
-    <p class="mt-3">Delivery Areas: Pune (All major zones)</p>
-
-    <ul class="mt-3 list-disc pl-5">
+    <p class="muted mt-3 text-sm">Delivery Areas (Pune):</p>
+    <ul class="list-disc pl-5 muted mt-2 text-sm">
       <li>Kothrud</li><li>Baner</li><li>Aundh</li><li>Wakad</li><li>Hinjewadi</li>
-      <li>Koregaon Park</li><li>Camp</li><li>Hadapsar</li><li>Kharadi</li><li>Pimpri–Chinchwad</li>
+      <li>Kharadi</li><li>Koregaon Park</li><li>Pimple Saudagar</li><li>Camp</li>
     </ul>
 
-    <p class="mt-4">
-      Delivery Timings: 6:30 AM – 10:00 AM (Diamond plan includes <b>Sunday delivery</b>)
+    <p class="muted mt-4 text-sm">
+      Delivery Timing: <b>6:30 AM – 10:00 AM</b>  
+      <br>Premium subscribers receive <b>Sunday delivery</b>.
     </p>
   </div>
 </section>
 
 <!-- FAQ -->
-<section id="faq" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+<section id="faq" class="py-10 max-w-6xl mx-auto px-4" data-aos="fade-up">
   <div class="glass p-6">
-    <h3 class="text-3xl font-bold section-title">FAQs</h3>
+    <h3 class="text-2xl font-bold section-title">FAQs</h3>
 
     <div class="mt-4 space-y-3">
       <details class="p-3 border rounded">
         <summary class="font-medium cursor-pointer">Can I pause my subscription?</summary>
-        <div class="mt-2">Yes, you can pause anytime with 24-hour notice.</div>
+        <div class="mt-2 muted">Yes — pause anytime with 24-hour notice.</div>
       </details>
 
       <details class="p-3 border rounded">
         <summary class="font-medium cursor-pointer">How do I pay?</summary>
-        <div class="mt-2">UPI, GPay, PhonePe, Paytm — fully supported.</div>
+        <div class="mt-2 muted">UPI, GPay, PhonePe, Paytm — all supported.</div>
       </details>
 
       <details class="p-3 border rounded">
         <summary class="font-medium cursor-pointer">Can I customize my bowl?</summary>
-        <div class="mt-2">Yes — Diamond plans allow custom fruit combinations.</div>
+        <div class="mt-2 muted">Diamond plans allow fruit customization.</div>
       </details>
 
       <details class="p-3 border rounded">
-        <summary class="font-medium cursor-pointer">Are fruits washed safely?</summary>
-        <div class="mt-2">We follow strict hygiene and food-safety processes.</div>
+        <summary class="font-medium cursor-pointer">Is everything washed safely?</summary>
+        <div class="mt-2 muted">Yes — strict hygiene & sanitization process daily.</div>
       </details>
     </div>
   </div>
@@ -332,14 +595,17 @@
 <!-- FOOTER -->
 <footer class="mt-8">
   <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-10 text-sm">
+
     <div>
       <h3 class="text-xl font-bold section-title mb-4">Get in Touch</h3>
       <p class="font-semibold">Call / WhatsApp</p>
-      <p class="muted">+91-9226157351</p>
+      <p class="muted">+91 92261 57351</p>
+
       <p class="mt-4 font-semibold">Email</p>
       <p class="muted">dailyfruitco@gmail.com</p>
-      <p class="mt-4 font-semibold">Social</p>
-      <p class="muted">Instagram: @dailyfruitco</p>
+
+      <p class="mt-4 font-semibold">Instagram</p>
+      <p class="muted">@dailyfruitco</p>
     </div>
 
     <div>
@@ -358,156 +624,239 @@
       </div>
       <p class="muted mt-6 text-xs">© 2025 Daily Fruit Co. — Freshness Delivered Daily</p>
     </div>
+
   </div>
 </footer>
 
-<!-- SCRIPTS -->
+<!-- WHATSAPP BUTTON -->
+<a href="https://wa.me/919226157351?text=Hi!%20I'd%20like%20to%20subscribe."
+   target="_blank"
+   class="fixed bottom-4 left-4 w-14 h-14 rounded-full bg-green-500 text-white flex items-center justify-center shadow-xl z-40">
+   <i class="fa fa-whatsapp text-3xl"></i>
+</a>
+
+<!-- FIRST ORDER DISCOUNT POPUP -->
+<div id="discountPopup" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 hidden">
+  <div class="glass p-6 rounded-xl max-w-sm text-center">
+    <h3 class="text-xl font-bold section-title">Flat 15% OFF 🎉</h3>
+    <p class="muted mt-2 text-sm">On your first subscription order</p>
+    <button onclick="closeDiscountPopup()" class="btn-grad w-full mt-4">Claim Offer</button>
+    <button onclick="closeDiscountPopup()" class="mt-3 text-xs underline text-gray-500">No thanks</button>
+  </div>
+</div>
+
+<!-- JS SCRIPTS START -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
 <script>
-  AOS.init({ duration:700, once:true, offset:60 });
+AOS.init({ duration:700, once:true, offset:60 });
 
-  // Mobile menu toggle
-  document.getElementById("mobileToggle")?.addEventListener("click", function () {
-    const m = document.getElementById("mobileMenu");
-    if (m) m.classList.toggle("hidden");
-  });
+/* MOBILE MENU */
+document.getElementById("mobileToggle").addEventListener("click", () => {
+  document.getElementById("mobileMenu").classList.toggle("hidden");
+});
 
-  // Protect dashboard link
-  function getSession(){
-    const token = localStorage.getItem("df_user_token");
-    const expiry = Number(localStorage.getItem("df_session_expiry")||0);
-    if(!token || !expiry) return null;
-    if(Date.now() > expiry) return null;
-    return { token };
-  }
-  function protectDashboard(link){
-    if(!link) return;
-    link.addEventListener("click", function(e){
-      const session = getSession();
-      if(!session){ e.preventDefault(); window.location.href = "login.html?redirect=dashboard.html"; }
-    });
-  }
-  protectDashboard(document.getElementById("dashboardLink"));
-  protectDashboard(document.getElementById("dashboardLinkMobile"));
-
-  // Hide preloader
-  window.addEventListener("load", () => {
-    setTimeout(()=>{ document.getElementById("preloader").style.display = "none"; }, 650);
-  });
-
-  // API base
-  const API_BASE = "https://dailyfruit-backend.onrender.com";
-
-  // Best-seller slugs (as provided)
-  const BEST_SELLER_SLUGS = [
-    "premium-medium-fruit-box",
-    "premium-large-fruit-box",
-    "gym-protein-box",
-    "pregnancy-fruit-bowl"
-  ];
-
-  // Fetch plans and render best sellers
-  async function loadBestSellers(){
-    try{
-      const res = await fetch(API_BASE + "/api/plans");
-      if(!res.ok) throw new Error("Plans fetch failed");
-      const plans = await res.json();
-
-      const list = Array.isArray(plans) ? plans : (plans.plans || plans.data || []);
-      const selected = BEST_SELLER_SLUGS.map(s => list.find(p => p.slug === s)).filter(Boolean);
-
-      const grid = document.getElementById("bestSellerGrid");
-      grid.innerHTML = "";
-
-      if(selected.length === 0){
-        grid.innerHTML = '<div class="muted">No best sellers found. Please check backend or slugs.</div>';
-        return;
-      }
-
-      selected.forEach(plan => {
-        const col = document.createElement("div");
-        col.className = "glass-strong p-5 flex flex-col justify-between";
-
-        const imageUrl = plan.imageUrl || "https://i.postimg.cc/kgGPhMQL/040b977b-3a05-4d50-b011-78b5092fed39.png";
-        const price = plan.price || "-";
-        const billingLabel = plan.billingLabel || (plan.billingDaysPerMonth ? `${plan.billingDaysPerMonth} deliveries` : "");
-
-        col.innerHTML = `
-          <div>
-            <img src="${imageUrl}" alt="${(plan.name||'Plan')}" class="w-full h-40 object-cover rounded-md mb-3" loading="lazy">
-            <h4 class="font-semibold text-lg">${plan.name}</h4>
-            <p class="muted text-xs mt-1">${plan.description || ''}</p>
-            <p class="mt-3 font-semibold text-emerald-600">₹${price} ${billingLabel ? `<span class="text-xs muted">• ${billingLabel}</span>` : ''}</p>
-          </div>
-
-          <div class="mt-4 flex gap-2">
-            <button class="btn-grad card-cta" onclick="openCheckout('${plan.slug}')">Subscribe</button>
-            <a href="plans.html?slug=${plan.slug}" class="px-3 py-2 rounded-full border muted">Details</a>
-          </div>
-        `;
-
-        grid.appendChild(col);
-      });
-
-    } catch(err){
-      console.error("Best sellers error:", err);
-      const grid = document.getElementById("bestSellerGrid");
-      if(grid) grid.innerHTML = '<div class="muted">Could not load best sellers.</div>';
+/* PROTECT DASHBOARD */
+function getSession(){
+  const token = localStorage.getItem("df_user_token");
+  const expiry = Number(localStorage.getItem("df_session_expiry") || 0);
+  if(!token || !expiry) return null;
+  if(Date.now() > expiry) return null;
+  return { token };
+}
+function protectDashboard(link){
+  if(!link) return;
+  link.addEventListener("click", function(e){
+    if(!getSession()){
+      e.preventDefault();
+      window.location.href = "login.html?redirect=dashboard.html";
     }
-  }
-
-  function openCheckout(slug){
-    window.location.href = "plans.html?from=home&slug=" + encodeURIComponent(slug);
-  }
-
-  // Subscribe form
-  document.getElementById("subscribeForm")?.addEventListener("submit", function(e){
-    e.preventDefault();
-    const plan = document.getElementById("subscribePlan").value;
-    const phone = document.getElementById("subscribePhone").value.trim();
-    if(!phone) return alert("Please enter WhatsApp number");
-    window.location.href = "plans.html?from=home&slug=" + encodeURIComponent(plan) + "&phone=" + encodeURIComponent(phone);
   });
+}
+protectDashboard(document.getElementById("dashboardLink"));
+protectDashboard(document.getElementById("dashboardLinkMobile"));
 
-  // Load best sellers on DOM ready
-  document.addEventListener("DOMContentLoaded", () => {
-    loadBestSellers();
-    document.querySelectorAll(".desktop-only").forEach(el=>el.remove());
-  });
+/* PRELOADER */
+window.addEventListener("load", () => {
+  setTimeout(() => { document.getElementById("preloader").style.display = "none"; }, 650);
+});
 
-  // Small performance tweak: defer AOS refresh
-  setTimeout(()=>AOS.refresh(), 900);
-</script>
+/* API BASE */
+const API_BASE = "https://dailyfruit-backend.onrender.com";
 
-<!-- ================= HERO FLOATING FRUIT ANIMATION (ULTRA-LIGHT - ~0.8KB) ================= -->
-<script>
-/* Tiny, dependency-free animation for .fruit-float
-   - Each element may set data-ampl (px) and data-speed (multiplier),
-   - uses requestAnimationFrame, very small and efficient.
-*/
-(function(){
-  const items = Array.from(document.querySelectorAll('.fruit-float'));
-  if(!items.length) return;
-  const start = performance.now();
-  // assign random phase so they don't move in sync
-  const phases = items.map(()=>Math.random()*Math.PI*2);
-  function frame(t){
-    const s = (t - start) / 1000;
-    items.forEach((el,i)=>{
-      const ampl = Number(el.dataset.ampl) || 14;
-      const speed = Number(el.dataset.speed) || 1;
-      const phase = phases[i] || 0;
-      // y offset: sine wave; x subtle drift; rotation small
-      const y = Math.sin(s * speed + phase) * ampl;
-      const x = Math.sin(s * speed * 0.6 + phase*0.7) * (ampl*0.25);
-      const rot = Math.sin(s * speed * 0.9 + phase) * 6;
-      el.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) rotate(${rot.toFixed(2)}deg)`;
+/* ========== TODAYS FRESH FRUITS (Auto Updating) ========== */
+const TODAY_FRUITS = [
+  "Apple • Grapes • Papaya",
+  "Banana • Pomegranate • Pineapple",
+  "Mango • Watermelon • Orange",
+  "Kiwi • Apple • Banana"
+];
+let tfIndex = 0;
+function updateTodaysFruits(){
+  document.getElementById("todaysFruitsText").textContent =
+    TODAY_FRUITS[tfIndex];
+  tfIndex = (tfIndex + 1) % TODAY_FRUITS.length;
+}
+updateTodaysFruits();
+setInterval(updateTodaysFruits, 3000);
+
+/* ========== BEST SELLERS FETCH FROM BACKEND ========== */
+const BEST_SELLER_SLUGS = [
+  "premium-medium-fruit-box",
+  "premium-large-fruit-box",
+  "gym-protein-box",
+  "pregnancy-fruit-bowl"
+];
+
+async function loadBestSellers(){
+  try{
+    const res = await fetch(API_BASE + "/api/plans");
+    const json = await res.json();
+    const plansList = Array.isArray(json) ? json : (json.plans || json.data || json);
+
+    const selected = BEST_SELLER_SLUGS
+      .map(slug => plansList.find(p => p.slug === slug))
+      .filter(Boolean);
+
+    const grid = document.getElementById("bestSellerGrid");
+    grid.innerHTML = "";
+
+    selected.forEach(plan => {
+      const card = document.createElement("div");
+      card.className = "glass-strong p-5 flex flex-col justify-between best-seller-card";
+
+      card.innerHTML = `
+        <div>
+          <img src="${plan.imageUrl || 'https://i.postimg.cc/kgGPhMQL/040b977b-3a05-4d50-b011-78b5092fed39.png'}"
+               class="w-full h-40 object-cover rounded-md mb-3">
+          <h4 class="font-semibold text-lg">${plan.name}</h4>
+          <p class="muted text-xs mt-1">${plan.description || ''}</p>
+          <p class="mt-3 font-semibold text-emerald-600">
+            ₹${plan.price}
+            <span class="text-xs muted">• ${plan.billingLabel || ''}</span>
+          </p>
+        </div>
+
+        <div class="mt-4 flex gap-2">
+          <button class="btn-grad" onclick="openCheckout('${plan.slug}')">Subscribe</button>
+          <a href="plans.html?slug=${plan.slug}" class="px-3 py-2 rounded-full border muted">Details</a>
+        </div>
+      `;
+
+      grid.appendChild(card);
     });
-    requestAnimationFrame(frame);
+
+  } catch (err){
+    console.error("Failed to load best sellers:", err);
   }
-  requestAnimationFrame(frame);
-})();
+}
+loadBestSellers();
+
+/* ========== SUBSCRIBE FORM HANDLER ========== */
+document.getElementById("subscribeForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const plan = document.getElementById("subscribePlan").value;
+  const phone = document.getElementById("subscribePhone").value.trim();
+  if(!phone){
+    alert("Please enter a valid WhatsApp number.");
+    return;
+  }
+  window.location.href = "plans.html?slug=" + plan + "&phone=" + phone;
+});
+
+/* ========== DAILY SLIDER (Auto-scroll) ========== */
+setInterval(() => {
+  const slider = document.querySelector(".wf-slider");
+  slider.scrollBy({ left: 260, behavior: "smooth" });
+}, 2500);
+
+/* ========== LIVE REVIEWS AUTO SCROLLER ========== */
+let rvOffset = 0;
+function scrollLiveReviews(){
+  const box = document.getElementById("reviewsTicker");
+  rvOffset += 22;
+  if(rvOffset > box.scrollHeight - 120){
+    rvOffset = 0;
+  }
+  box.scrollTo({ top: rvOffset, behavior: "smooth" });
+}
+setInterval(scrollLiveReviews, 1800);
+
+/* ========== HEALTH SCORE CALCULATOR ========== */
+function calculateHealthScore(){
+  const age = Number(document.getElementById("hcAge").value);
+  const activity = document.getElementById("hcActivity").value;
+  const goal = document.getElementById("hcGoal").value;
+
+  if(!age || !activity || !goal){
+    alert("Please fill all fields.");
+    return;
+  }
+
+  let score = age < 30 ? 20 : 10;
+  if(activity === "Highly Active") score += 30;
+  else if(activity === "Moderately Active") score += 20;
+  else score += 10;
+
+  if(goal === "Muscle Gain") score += 20;
+  if(goal === "Weight Loss") score += 10;
+
+  let recommended = "Premium Medium Plan";
+  if(score > 55) recommended = "Gym High Protein Plan";
+  if(score < 30) recommended = "Gentle Nutrition / Pregnancy Plan";
+
+  document.getElementById("hcResult").textContent =
+    "Recommended: " + recommended;
+}
+
+/* ========== DELIVERY TICKER ROTATION ========== */
+const TICKER_REGIONS = [
+  "Baner","Kothrud","Aundh","Wakad","Hinjewadi",
+  "Koregaon Park","Kharadi","Pimple Saudagar"
+];
+let tickerIndex = 0;
+
+function rotateTicker(){
+  tickerIndex = (tickerIndex + 1) % TICKER_REGIONS.length;
+  const visible = TICKER_REGIONS.slice(tickerIndex)
+                  .concat(TICKER_REGIONS.slice(0, tickerIndex))
+                  .slice(0, 4);
+  document.getElementById("deliveryTickerText").textContent =
+    "Currently delivering to: " + visible.join(" • ");
+}
+setInterval(rotateTicker, 3500);
+
+/* ========== CUTOFF TIMER (8PM) ========== */
+function updateCutoff(){
+  const now = new Date();
+  const cutoff = new Date();
+  cutoff.setHours(20, 0, 0, 0);
+
+  if(now > cutoff){ cutoff.setDate(cutoff.getDate() + 1); }
+
+  const diff = cutoff - now;
+  const h = String(Math.floor(diff / 3600000)).padStart(2,'0');
+  const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+  const s = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+
+  document.getElementById("cutoffTimer").textContent = `${h}:${m}:${s}`;
+}
+setInterval(updateCutoff, 1000);
+updateCutoff();
+
+/* ========== FIRST ORDER DISCOUNT POPUP ========== */
+setTimeout(() => {
+  document.getElementById("discountPopup").classList.remove("hidden");
+}, 6000);
+
+function closeDiscountPopup(){
+  document.getElementById("discountPopup").classList.add("hidden");
+}
+
+/* ========== CHECKOUT REDIRECT ========== */
+function openCheckout(slug){
+  window.location.href = "plans.html?from=home&slug=" + encodeURIComponent(slug);
+}
+/* END OF ALL SCRIPTS */
 </script>
 
 </body>
