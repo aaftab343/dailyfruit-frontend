@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard — Daily Fruit Co.</title>
 
-  <!-- Tailwind -->
+  <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Fonts -->
@@ -15,20 +15,30 @@
   <script src="https://kit.fontawesome.com/0c9b1f3f2d.js" crossorigin="anonymous"></script>
 
   <style>
+    :root {
+      --brand-from: #06b6d4;
+      --brand-to: #7c3aed;
+      --glass-bg: rgba(255,255,255,0.9);
+      --glass-border: rgba(148,163,184,0.4);
+      --muted: #94a3b8;
+    }
+    html,body { height:100%; }
     body{
       font-family:'Inter',sans-serif;
       background:linear-gradient(180deg,#f8fafc,#eef7ff);
       color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
     .glass{
-      background:rgba(255,255,255,0.9);
+      background:var(--glass-bg);
       backdrop-filter:blur(12px);
       border-radius:18px;
-      border:1px solid rgba(148,163,184,0.4);
-      box-shadow:0 10px 30px rgba(15,23,42,0.12);
+      border:1px solid var(--glass-border);
+      box-shadow:0 10px 30px rgba(15,23,42,0.08);
     }
     .section-title{
-      background:linear-gradient(90deg,#06b6d4,#7c3aed);
+      background:linear-gradient(90deg,var(--brand-from),var(--brand-to));
       -webkit-background-clip:text;
       color:transparent;
       font-weight:800;
@@ -42,64 +52,71 @@
       font-size:0.85rem;
       cursor:pointer;
       color:#e5e7eb;
-      transition:.2s;
+      transition:.18s;
     }
-    .sidebar-link:hover{
-      background:rgba(148,163,184,0.2);
-    }
+    .sidebar-link:hover{ background:rgba(148,163,184,0.08); }
     .sidebar-link.active{
-      background:linear-gradient(90deg,#06b6d4,#7c3aed);
+      background:linear-gradient(90deg,var(--brand-from),var(--brand-to));
       color:white;
-      box-shadow:0 8px 20px rgba(37,99,235,0.35);
+      box-shadow:0 8px 20px rgba(37,99,235,0.12);
     }
     .status-pill{
       border-radius:999px;
-      font-size:0.75rem;
-      padding:0.15rem 0.6rem;
+      font-size:.75rem;
+      padding:.15rem .6rem;
     }
-    .status-active{
-      background:#dcfce7;
-      color:#166534;
-    }
-    .status-paused{
-      background:#fef3c7;
-      color:#92400e;
-    }
-    .status-cancelled{
-      background:#fee2e2;
-      color:#b91c1c;
-    }
-    .status-expired{
-      background:#e5e7eb;
-      color:#374151;
-    }
+    .status-active{ background:#dcfce7; color:#166534; }
+    .status-paused{ background:#fef3c7; color:#92400e; }
+    .status-cancelled{ background:#fee2e2; color:#b91c1c; }
+    .status-expired{ background:#e5e7eb; color:#374151; }
 
-    /* Desktop sidebar collapse / expand */
+    /* Gradient button (brand) */
+    .btn-gradient {
+      background: linear-gradient(90deg, var(--brand-from), var(--brand-to));
+      color: #fff;
+      border-radius: 999px;
+      padding: .5rem .9rem;
+      font-weight: 600;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.5rem;
+      border: none;
+      box-shadow: 0 6px 18px rgba(124,58,237,0.12);
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn-gradient:hover{ filter:brightness(1.03); transform:translateY(-2px); }
+    .btn-gradient:active{ transform: scale(.97); box-shadow: 0 3px 10px rgba(124,58,237,0.08); }
+
+    /* Subtle bordered button (secondary) */
+    .btn-outline {
+      background: #fff;
+      border: 1px solid rgba(15,23,42,0.06);
+      color: #0f172a;
+      border-radius: 999px;
+      padding: .45rem .85rem;
+      font-weight: 600;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn-outline:hover{ transform: translateY(-2px); box-shadow: 0 10px 30px rgba(15,23,42,0.06); }
+    .btn-outline:active{ transform: scale(.97); }
+
+    /* Responsive sidebar collapse styles (kept for parity) */
     @media (min-width:768px){
-      .sidebar-shell{
-        transition:width .2s;
-      }
-      .sidebar-expanded{
-        width:15rem;
-      }
-      .sidebar-collapsed{
-        width:4rem;
-      }
-      .sidebar-collapsed .sidebar-text{
-        display:none;
-      }
-      .sidebar-collapsed .sidebar-link{
-        justify-content:center;
-      }
-      .sidebar-collapsed .welcome-block{
-        display:none;
-      }
+      .sidebar-shell{ transition: width .2s; }
+      .sidebar-expanded{ width:15rem; }
+      .sidebar-collapsed{ width:4rem; }
+      .sidebar-collapsed .sidebar-text{ display:none; }
+      .sidebar-collapsed .sidebar-link{ justify-content:center; }
+      .sidebar-collapsed .welcome-block{ display:none; }
     }
 
-    /* Mobile sidebar overlay */
-    #mobileSidebarOverlay{
-      background:rgba(15,23,42,0.45);
-    }
+    /* Small helpers */
+    .muted { color: var(--muted); }
+    .small { font-size: .85rem; }
   </style>
 </head>
 
@@ -108,23 +125,13 @@
 <!-- HEADER -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
   <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-
     <div class="flex items-center gap-2">
-      <!-- Mobile menu button -->
-<button
-  id="mobileMenuBtn"
-  class="md:hidden mr-1 w-9 h-9 flex items-center justify-center
-         rounded-full bg-slate-100 border border-slate-300
-         text-slate-700 shadow-sm active:scale-95"
->
-  <i class="fa-solid fa-bars text-base"></i>
-</button>
+      <button id="mobileMenuBtn" class="md:hidden mr-1 w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 border border-slate-300 text-slate-700 shadow-sm active:scale-95">
+        <i class="fa-solid fa-bars text-base"></i>
+      </button>
 
-      <!-- Brand -->
       <a href="index.html" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">
-          DF
-        </div>
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">DF</div>
         <div class="hidden sm:block">
           <h1 class="text-lg font-semibold">Daily Fruit Co.</h1>
           <p class="text-xs text-gray-500">Freshness Delivered Daily</p>
@@ -132,7 +139,6 @@
       </a>
     </div>
 
-    <!-- Right: Welcome + profile icon -->
     <div class="flex items-center gap-4">
       <div class="hidden sm:flex flex-col items-end leading-tight">
         <span class="text-[11px] text-gray-400">Welcome back</span>
@@ -140,30 +146,18 @@
       </div>
 
       <div class="relative">
-        <button id="profileMenuBtn"
-                class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 hover:bg-slate-200">
+        <button id="profileMenuBtn" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 hover:bg-slate-200">
           <i class="fa-solid fa-user text-slate-600 text-sm"></i>
         </button>
 
-        <!-- Profile dropdown -->
-        <div id="profileMenu"
-             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 text-xs py-1 z-50">
+        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 text-xs py-1 z-50">
           <div class="px-3 py-2 border-b text-[11px] text-gray-500">
             <div id="menuUserName" class="font-semibold text-slate-700 text-xs">Customer</div>
             <div id="menuUserEmail" class="">email@example.com</div>
           </div>
-          <button id="menuProfileBtn"
-                  class="w-full text-left px-3 py-2 hover:bg-slate-50">
-            <i class="fa fa-user mr-2"></i> Profile
-          </button>
-          <button id="menuPaymentsBtn"
-                  class="w-full text-left px-3 py-2 hover:bg-slate-50">
-            <i class="fa fa-receipt mr-2"></i> Payments
-          </button>
-          <button id="menuLogoutBtn"
-                  class="w-full text-left px-3 py-2 hover:bg-slate-50 text-red-500">
-            <i class="fa fa-sign-out-alt mr-2"></i> Logout
-          </button>
+          <button id="menuProfileBtn" class="w-full text-left px-3 py-2 hover:bg-slate-50"><i class="fa fa-user mr-2"></i> Profile</button>
+          <button id="menuPaymentsBtn" class="w-full text-left px-3 py-2 hover:bg-slate-50"><i class="fa fa-receipt mr-2"></i> Payments</button>
+          <button id="menuLogoutBtn" class="w-full text-left px-3 py-2 hover:bg-slate-50 text-red-500"><i class="fa fa-sign-out-alt mr-2"></i> Logout</button>
         </div>
       </div>
     </div>
@@ -176,59 +170,26 @@
   <div class="relative h-full w-72 max-w-full bg-slate-950 text-slate-100 shadow-xl p-4 flex flex-col">
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-2">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">
-          DF
-        </div>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center font-bold shadow">DF</div>
         <div>
           <p class="text-xs text-gray-400">Welcome</p>
           <p id="mobileSidebarUserName" class="font-semibold text-sm">User</p>
         </div>
       </div>
-      <button data-close-mobile class="text-slate-300">
-        <i class="fa fa-times text-lg"></i>
-      </button>
+      <button data-close-mobile class="text-slate-300"><i class="fa fa-times text-lg"></i></button>
     </div>
 
     <nav class="flex-1 flex flex-col gap-1 text-xs">
-      <button class="sidebar-link active" data-view="dashboard" data-close-mobile>
-        <i class="fa fa-chart-pie"></i>
-        <span class="sidebar-text">Dashboard Home</span>
-      </button>
-
-      <!-- Home link -->
-      <a href="index.html" class="sidebar-link" data-close-mobile>
-        <i class="fa fa-home"></i>
-        <span class="sidebar-text">Home</span>
-      </a>
-
-      <button class="sidebar-link" data-view="plans" data-close-mobile>
-        <i class="fa fa-list"></i>
-        <span class="sidebar-text">View Plans</span>
-      </button>
-
-      <button class="sidebar-link" data-view="plan" data-close-mobile>
-        <i class="fa fa-seedling"></i>
-        <span class="sidebar-text">My Plan</span>
-      </button>
-      <button class="sidebar-link" data-view="payments" data-close-mobile>
-        <i class="fa fa-receipt"></i>
-        <span class="sidebar-text">Payments</span>
-      </button>
-      <!-- Contact Us -->
-      <button class="sidebar-link" data-view="contact" data-close-mobile>
-        <i class="fa fa-envelope"></i>
-        <span class="sidebar-text">Contact Us</span>
-      </button>
-      <button class="sidebar-link" data-view="profile" data-close-mobile>
-        <i class="fa fa-user"></i>
-        <span class="sidebar-text">Profile</span>
-      </button>
+      <button class="sidebar-link active" data-view="dashboard" data-close-mobile><i class="fa fa-chart-pie"></i><span class="sidebar-text">Dashboard Home</span></button>
+      <a href="index.html" class="sidebar-link" data-close-mobile><i class="fa fa-home"></i><span class="sidebar-text">Home</span></a>
+      <button class="sidebar-link" data-view="plans" data-close-mobile><i class="fa fa-list"></i><span class="sidebar-text">View Plans</span></button>
+      <button class="sidebar-link" data-view="plan" data-close-mobile><i class="fa fa-seedling"></i><span class="sidebar-text">My Plan</span></button>
+      <button class="sidebar-link" data-view="payments" data-close-mobile><i class="fa fa-receipt"></i><span class="sidebar-text">Payments</span></button>
+      <button class="sidebar-link" data-view="contact" data-close-mobile><i class="fa fa-envelope"></i><span class="sidebar-text">Contact Us</span></button>
+      <button class="sidebar-link" data-view="profile" data-close-mobile><i class="fa fa-user"></i><span class="sidebar-text">Profile</span></button>
     </nav>
 
-    <button id="mobileLogoutBtn" class="sidebar-link text-red-300 mt-2" data-close-mobile>
-      <i class="fa fa-sign-out-alt"></i>
-      <span class="sidebar-text">Logout</span>
-    </button>
+    <button id="mobileLogoutBtn" class="sidebar-link text-red-300 mt-2" data-close-mobile><i class="fa fa-sign-out-alt"></i><span class="sidebar-text">Logout</span></button>
   </div>
 </div>
 
@@ -244,74 +205,40 @@
       </div>
 
       <nav class="flex flex-col gap-1 text-xs">
-        <button class="sidebar-link active" data-view="dashboard">
-          <i class="fa fa-chart-pie"></i>
-          <span class="sidebar-text">Dashboard Home</span>
-        </button>
-
-        <!-- Home link -->
-        <a href="index.html" class="sidebar-link">
-          <i class="fa fa-home"></i>
-          <span class="sidebar-text">Home</span>
-        </a>
-
-        <button class="sidebar-link" data-view="plans">
-          <i class="fa fa-list"></i>
-          <span class="sidebar-text">View Plans</span>
-        </button>
-
-        <button class="sidebar-link" data-view="plan">
-          <i class="fa fa-seedling"></i>
-          <span class="sidebar-text">My Plan</span>
-        </button>
-        <button class="sidebar-link" data-view="payments">
-          <i class="fa fa-receipt"></i>
-          <span class="sidebar-text">Payments</span>
-        </button>
-        <!-- Contact Us -->
-        <button class="sidebar-link" data-view="contact">
-          <i class="fa fa-envelope"></i>
-          <span class="sidebar-text">Contact Us</span>
-        </button>
-        <button class="sidebar-link" data-view="profile">
-          <i class="fa fa-user"></i>
-          <span class="sidebar-text">Profile</span>
-        </button>
+        <button class="sidebar-link active" data-view="dashboard"><i class="fa fa-chart-pie"></i><span class="sidebar-text">Dashboard Home</span></button>
+        <a href="index.html" class="sidebar-link"><i class="fa fa-home"></i><span class="sidebar-text">Home</span></a>
+        <button class="sidebar-link" data-view="plans"><i class="fa fa-list"></i><span class="sidebar-text">View Plans</span></button>
+        <button class="sidebar-link" data-view="plan"><i class="fa fa-seedling"></i><span class="sidebar-text">My Plan</span></button>
+        <button class="sidebar-link" data-view="payments"><i class="fa fa-receipt"></i><span class="sidebar-text">Payments</span></button>
+        <button class="sidebar-link" data-view="contact"><i class="fa fa-envelope"></i><span class="sidebar-text">Contact Us</span></button>
+        <button class="sidebar-link" data-view="profile"><i class="fa fa-user"></i><span class="sidebar-text">Profile</span></button>
       </nav>
 
       <hr class="my-3 border-slate-600">
 
-      <button id="logoutBtn" class="sidebar-link text-red-300 mt-auto">
-        <i class="fa fa-sign-out-alt"></i>
-        <span class="sidebar-text">Logout</span>
-      </button>
+      <button id="logoutBtn" class="sidebar-link text-red-300 mt-auto"><i class="fa fa-sign-out-alt"></i><span class="sidebar-text">Logout</span></button>
     </div>
   </aside>
 
   <!-- MAIN CONTENT -->
   <main class="flex-1 space-y-4">
 
-    <!-- PAGE TITLE + QUICK ACTIONS -->
+    <!-- PAGE TITLE + SUPPORT -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
       <div>
         <h2 class="text-2xl md:text-3xl font-extrabold section-title">My Dashboard</h2>
-        <p class="text-xs text-gray-500 mt-1">
-          Manage your plan, payments and profile in one place.
-        </p>
+        <p class="text-xs text-gray-500 mt-1">Manage your plan, payments and profile in one place.</p>
       </div>
       <div class="flex flex-wrap gap-2 text-xs">
-        <a href="mailto:dailyfruitco@gmail.com"
-           class="px-3 py-2 rounded-full text-white"
-           style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
+        <a href="mailto:dailyfruitco@gmail.com" class="px-3 py-2 rounded-full text-white" style="background:linear-gradient(90deg,var(--brand-from),var(--brand-to));">
           <i class="fa fa-headset mr-1"></i> Support
         </a>
       </div>
     </div>
 
-    <!-- VIEWS WRAPPER -->
     <div class="space-y-4">
 
-      <!-- DASHBOARD HOME VIEW -->
+      <!-- DASHBOARD HOME -->
       <section id="view-dashboard" class="glass p-5 space-y-5">
 
         <!-- TOP CARDS -->
@@ -325,54 +252,40 @@
             </div>
             <p id="dashPlanName" class="font-semibold text-slate-800 text-sm">Loading...</p>
             <p id="dashPlanMeta" class="text-xs text-gray-500"></p>
-            <button id="goToPlanFromCard"
-                    class="mt-2 text-xs text-indigo-600 underline">
-              View plan details
-            </button>
+            <button id="goToPlanFromCard" class="mt-2 text-xs text-indigo-600 underline">View plan details</button>
           </div>
 
-          <!-- Next Delivery -->
+          <!-- Validity (replaces Next Delivery) -->
           <div class="border rounded-xl p-4 bg-white/80 flex flex-col gap-1">
-            <p class="text-xs text-gray-500">Next Delivery</p>
+            <p class="text-xs text-gray-500">Plan Validity</p>
             <p id="dashNextDelivery" class="font-semibold text-slate-800 text-sm">Loading...</p>
             <p id="dashNextDeliveryMeta" class="text-xs text-gray-500"></p>
           </div>
 
-          <!-- Payment Summary -->
+          <!-- Payments -->
           <div class="border rounded-xl p-4 bg-white/80 flex flex-col gap-1">
             <p class="text-xs text-gray-500">Payments</p>
             <p id="dashLastPayment" class="font-semibold text-slate-800 text-sm">Loading...</p>
             <p id="dashPaymentMeta" class="text-xs text-gray-500"></p>
-            <button id="dashViewPaymentsBtn"
-                    class="mt-2 text-xs text-indigo-600 underline">
-              View payment history
-            </button>
+            <button id="dashViewPaymentsBtn" class="mt-2 text-xs text-indigo-600 underline">View payment history</button>
           </div>
 
         </div>
 
-        <!-- CLEANED: REPLACE DELIVERY CALENDAR WITH NOTE + Quick Actions -->
+        <!-- ACTION BUTTONS -->
         <div class="grid md:grid-cols-3 gap-4">
 
-          <!-- Placeholder area (space where calendar used to be) -->
-          <div class="md:col-span-2 border rounded-xl p-4 bg-white/80 flex items-center justify-center text-gray-400 text-xs">
-            Delivery calendar removed for cleaner dashboard.
-          </div>
-
-          <!-- Quick Actions (ONLY: Renew, Pay, Change plan) -->
-          <div class="border rounded-xl p-4 bg-white/80 text-xs flex flex-col gap-2">
-            <p class="font-semibold text-slate-800 mb-1">Quick Actions</p>
-
-            <button id="qaRenew" class="w-full border rounded-full px-3 py-1.5 text-left">
-              Renew plan
+          <div class="md:col-span-3 flex gap-3 justify-start">
+            <button id="qaRenew" class="btn-gradient">
+              <i class="fa fa-redo"></i> Renew plan
             </button>
 
-            <button id="qaPay" class="w-full border rounded-full px-3 py-1.5 text-left">
-              Pay / Start subscription
+            <button id="qaPay" class="btn-gradient">
+              <i class="fa fa-credit-card"></i> Pay / Start subscription
             </button>
 
-            <button id="qaChangePlan" class="w-full border rounded-full px-3 py-1.5 text-left">
-              Change plan / View plans
+            <button id="qaChangePlan" class="btn-outline">
+              <i class="fa fa-list"></i> Change plan / View plans
             </button>
           </div>
 
@@ -380,37 +293,29 @@
 
       </section>
 
-      <!-- PLANS IFRAME VIEW (data from /api/plans in plans.html) -->
+      <!-- PLANS IFRAME -->
       <section id="view-plans" class="glass p-0 space-y-0 hidden text-sm">
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
           <div>
             <h3 class="font-semibold text-slate-800 text-base">All Subscription Plans</h3>
-            <p class="text-[11px] text-gray-500">
-              Choose a plan, then continue to checkout.
-            </p>
+            <p class="text-[11px] text-gray-500">Choose a plan, then continue to checkout.</p>
           </div>
         </div>
         <div class="px-0 pb-0">
-          <iframe id="plansIframe"
-                  src="plans.html?from=dashboard"
-                  style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
+          <iframe id="plansIframe" src="plans.html?from=dashboard" style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
         </div>
       </section>
 
-      <!-- CHECKOUT IFRAME VIEW -->
+      <!-- CHECKOUT IFRAME -->
       <section id="view-checkout" class="glass p-0 space-y-0 hidden text-sm">
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
           <div>
             <h3 class="font-semibold text-slate-800 text-base">Checkout</h3>
-            <p class="text-[11px] text-gray-500">
-              Confirm your details and complete payment securely.
-            </p>
+            <p class="text-[11px] text-gray-500">Confirm your details and complete payment securely.</p>
           </div>
         </div>
         <div class="px-0 pb-0">
-          <iframe id="checkoutIframe"
-                  src=""
-                  style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
+          <iframe id="checkoutIframe" src="" style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
         </div>
       </section>
 
@@ -428,16 +333,13 @@
           </div>
 
           <div class="flex flex-wrap gap-2 text-xs">
-            <!-- Keep only Renew / Change plan controls in plan view -->
             <button id="planRenewBtn" class="px-3 py-1.5 rounded-full border">Renew</button>
             <button id="planChangeBtn" class="px-3 py-1.5 rounded-full border">Change Plan</button>
           </div>
         </div>
 
-        <!-- HISTORY -->
         <div class="border rounded-xl p-4 bg-white/80">
           <p class="font-semibold text-sm mb-2">Subscription History</p>
-
           <div class="overflow-x-auto">
             <table class="min-w-full text-xs">
               <thead>
@@ -459,10 +361,7 @@
         <h3 class="font-semibold text-slate-800 text-base">Payments</h3>
         <p class="text-xs text-gray-500">All your payments and invoices.</p>
 
-        <button id="downloadLastInvoiceBtn"
-                class="px-3 py-1.5 rounded-full border text-xs">
-          Download last invoice
-        </button>
+        <button id="downloadLastInvoiceBtn" class="px-3 py-1.5 rounded-full border text-xs">Download last invoice</button>
 
         <div class="border rounded-xl p-4 bg-white/80">
           <div class="overflow-x-auto">
@@ -482,20 +381,16 @@
         </div>
       </section>
 
-      <!-- CONTACT US (IFRAME) -->
+      <!-- CONTACT -->
       <section id="view-contact" class="glass p-0 space-y-0 hidden text-sm">
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
           <div>
             <h3 class="font-semibold text-slate-800 text-base">Contact Us</h3>
-            <p class="text-[11px] text-gray-500">
-              Reach our team for support, feedback or questions.
-            </p>
+            <p class="text-[11px] text-gray-500">Reach our team for support, feedback or questions.</p>
           </div>
         </div>
         <div class="px-0 pb-0">
-          <iframe id="contactIframe"
-                  src="ContactUs.html?from=dashboard"
-                  style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
+          <iframe id="contactIframe" src="ContactUs.html?from=dashboard" style="width:100%;border:0;border-radius:0 0 18px 18px;min-height:420px;height:78vh;"></iframe>
         </div>
       </section>
 
@@ -505,7 +400,6 @@
         <p class="text-xs text-gray-500">Update your basic details and delivery address.</p>
 
         <form id="profileForm" class="space-y-4">
-
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold">Full Name *</label>
@@ -533,13 +427,11 @@
             </div>
           </div>
 
-          <!-- ADDRESS -->
           <div class="border-t pt-3">
             <label class="block text-xs font-semibold mb-2">Primary Delivery Address</label>
-
             <div class="grid md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-medium">House *</label>
+                <label class="block text-xs text-xs font-medium">House *</label>
                 <input id="pfHouse" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
               <div>
@@ -550,7 +442,7 @@
 
             <div class="grid md:grid-cols-2 gap-4 mt-3">
               <div>
-                <label class="block text-xs text-xs font-medium">Area *</label>
+                <label class="block text-xs font-medium">Area *</label>
                 <input id="pfArea" type="text" required class="w-full px-3 py-2 border rounded bg-white/80">
               </div>
               <div>
@@ -575,23 +467,16 @@
             </select>
 
             <label class="flex items-center gap-2 text-xs">
-              <input id="pfOffersOptIn" type="checkbox">
-              Receive deals & updates
+              <input id="pfOffersOptIn" type="checkbox"> Receive deals & updates
             </label>
           </div>
 
-          <button type="submit"
-                  class="px-6 py-2.5 rounded-full text-white text-sm font-semibold"
-                  style="background:linear-gradient(90deg,#06b6d4,#7c3aed);">
-            Save Profile
-          </button>
+          <button type="submit" class="px-6 py-2.5 rounded-full text-white text-sm font-semibold btn-gradient">Save Profile</button>
         </form>
 
-        <!-- Subscription & Billing summary (cards BELOW profile form) -->
         <div class="border-t pt-4 space-y-4">
           <h4 class="font-semibold text-sm text-slate-800">Subscription & Billing</h4>
 
-          <!-- Subscription card -->
           <div class="border rounded-xl p-4 bg-white/80 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <div>
               <p class="text-xs text-gray-500 mb-1">Active Plan</p>
@@ -607,18 +492,12 @@
             </div>
           </div>
 
-          <!-- Billing & mini payment history -->
           <div class="border rounded-xl p-4 bg-white/80 text-xs space-y-2">
             <div class="flex items-center justify-between">
               <p class="font-semibold text-slate-800 text-sm">Billing & Payments</p>
-              <button id="profileViewPaymentsBtn"
-                      class="text-[11px] text-indigo-600 underline">
-                View all payments
-              </button>
+              <button id="profileViewPaymentsBtn" class="text-[11px] text-indigo-600 underline">View all payments</button>
             </div>
-            <p id="profileLastPaymentText" class="text-xs text-gray-600">
-              Loading payment info...
-            </p>
+            <p id="profileLastPaymentText" class="text-xs text-gray-600">Loading payment info...</p>
             <div class="overflow-x-auto mt-2">
               <table class="min-w-full text-[11px]">
                 <thead>
@@ -642,33 +521,29 @@
   </main>
 </div>
 
-<!-- FOOTER -->
-<footer class="mt-8 pb-6 text-center text-[11px] text-gray-400">
-  © 2025 Daily Fruit Co. — Freshness Delivered Daily
-</footer>
+<footer class="mt-8 pb-6 text-center text-[11px] text-gray-400">© 2025 Daily Fruit Co. — Freshness Delivered Daily</footer>
 
+<!-- SCRIPTS -->
 <script>
 /* ================================
    CONFIG
-================================ */
+   ================================ */
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 
 /* ================================
-   TOAST
-================================ */
+   TOAST (small)
+   ================================ */
 function toast(msg, isError=false){
   const div = document.createElement("div");
   div.textContent = msg;
-  div.className =
-    "fixed bottom-4 right-4 px-3 py-2 rounded text-white text-sm shadow " +
-    (isError ? "bg-red-600" : "bg-black");
+  div.className = "fixed bottom-4 right-4 px-3 py-2 rounded text-white text-sm shadow " + (isError ? "bg-red-600" : "bg-black");
   document.body.appendChild(div);
-  setTimeout(()=> div.remove(), 2600);
+  setTimeout(()=> div.remove(), 2500);
 }
 
 /* ================================
-   SESSION MANAGEMENT
-================================ */
+   SESSION
+   ================================ */
 function getSession(){
   const token = localStorage.getItem("df_user_token");
   const expiry = Number(localStorage.getItem("df_session_expiry") || 0);
@@ -676,7 +551,6 @@ function getSession(){
   if(Date.now() > expiry) return null;
   return { token, expiry };
 }
-
 function requireLogin(){
   const session = getSession();
   if(!session){
@@ -685,7 +559,6 @@ function requireLogin(){
   }
   return session.token;
 }
-
 function logout(){
   localStorage.removeItem("df_user_token");
   localStorage.removeItem("df_session_expiry");
@@ -694,16 +567,16 @@ function logout(){
 }
 
 /* ================================
-   GLOBAL STATE
-================================ */
+   STATE
+   ================================ */
 let gProfile = null;
 let gActiveSub = null;
 let gSubHistory = [];
 let gPaymentHistory = [];
 
 /* ================================
-   PAGE LOAD (LOGIN CHECK)
-================================ */
+   ENTRY
+   ================================ */
 document.addEventListener("DOMContentLoaded", async () => {
   const token = requireLogin();
   if(!token) return;
@@ -712,33 +585,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   initDesktopSidebarHover();
   initMobileSidebar();
   initLogout();
-  initProfileForm();
-  initQuickActions();
-  initMessageBridge();
   initProfileMenu();
+  initQuickActions();
+  initProfileForm();
   initInvoiceDownload();
+  initMessageBridge();
 
   await loadAllData(token);
 });
 
 /* ================================
-   SIDEBAR + VIEW HANDLING
-================================ */
-function ensurePlansIframe(){
-  const iframe = document.getElementById("plansIframe");
-  if (iframe && !iframe.src){
-    iframe.src = "plans.html?from=dashboard";
-  }
-}
-
-function ensureCheckoutIframe(){
-  const iframe = document.getElementById("checkoutIframe");
-  if (iframe && !iframe.src){
-    iframe.src = "checkout.html?from=dashboard";
-  } else if (iframe && iframe.contentWindow){
-    iframe.contentWindow.location.reload();
-  }
-}
+   UI INIT HELPERS
+   ================================ */
+function $(id){ return document.getElementById(id); }
 
 function initSidebar(){
   document.querySelectorAll(".sidebar-link[data-view]").forEach(btn => {
@@ -749,18 +608,16 @@ function initSidebar(){
     };
   });
 
-  const goPlan = document.getElementById("goToPlanFromCard");
+  const goPlan = $("goToPlanFromCard");
   if (goPlan) goPlan.onclick = () => showView("plan");
 
-  const payBtn = document.getElementById("dashViewPaymentsBtn");
+  const payBtn = $("dashViewPaymentsBtn");
   if (payBtn) payBtn.onclick = () => showView("payments");
 }
 
 function showView(v){
   document.querySelectorAll('[id^="view-"]').forEach(sec => sec.classList.add("hidden"));
-  const targetId = (v === "plans") ? "view-plans"
-                  : (v === "checkout") ? "view-checkout"
-                  : "view-" + v;
+  const targetId = (v === "plans") ? "view-plans" : (v === "checkout") ? "view-checkout" : "view-" + v;
   const target = document.getElementById(targetId);
   if (target) target.classList.remove("hidden");
 
@@ -772,13 +629,21 @@ function showView(v){
   });
 }
 
-/* Desktop sidebar hover behaviour */
+function ensurePlansIframe(){
+  const iframe = $("plansIframe");
+  if (iframe && !iframe.src) iframe.src = "plans.html?from=dashboard";
+}
+function ensureCheckoutIframe(){
+  const iframe = $("checkoutIframe");
+  if (iframe && !iframe.src) iframe.src = "checkout.html?from=dashboard";
+  else if (iframe && iframe.contentWindow) iframe.contentWindow.location.reload();
+}
+
 function initDesktopSidebarHover(){
-  const sidebar = document.getElementById("desktopSidebar");
+  const sidebar = $("desktopSidebar");
   if(!sidebar) return;
   sidebar.classList.remove("sidebar-expanded");
   sidebar.classList.add("sidebar-collapsed");
-
   sidebar.addEventListener("mouseenter", () => {
     sidebar.classList.remove("sidebar-collapsed");
     sidebar.classList.add("sidebar-expanded");
@@ -788,138 +653,34 @@ function initDesktopSidebarHover(){
     sidebar.classList.add("sidebar-collapsed");
   });
 }
-
-/* Mobile sidebar drawer */
-function initMobileSidebar() {
-  const overlay = document.getElementById("mobileSidebarOverlay");
-  const openBtn = document.getElementById("mobileMenuBtn");
-  const logoutBtn = document.getElementById("mobileLogoutBtn");
-
-  if (!overlay || !openBtn) {
-    console.warn("Mobile sidebar elements not found");
-    return;
-  }
-
-  const open = () => {
-    overlay.classList.remove("hidden");
-  };
-
-  const close = () => {
-    overlay.classList.add("hidden");
-  };
-
-  openBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    open();
-  });
-
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) {
-      close();
-    }
-  });
-
-  overlay.querySelectorAll("[data-close-mobile]").forEach((el) => {
-    el.addEventListener("click", () => {
-      close();
-    });
-  });
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      if (confirm("Logout from your account?")) {
-        logout();
-      }
-    });
-  }
+function initMobileSidebar(){
+  const overlay = $("mobileSidebarOverlay");
+  const openBtn = $("mobileMenuBtn");
+  const logoutBtn = $("mobileLogoutBtn");
+  if (!overlay || !openBtn) return;
+  const open = () => overlay.classList.remove("hidden");
+  const close = () => overlay.classList.add("hidden");
+  openBtn.addEventListener("click", (e) => { e.stopPropagation(); open(); });
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+  overlay.querySelectorAll("[data-close-mobile]").forEach((el) => el.addEventListener("click", close));
+  if (logoutBtn) logoutBtn.addEventListener("click", ()=> { if(confirm("Logout from your account?")) logout(); });
 }
-
-/* ================================
-   PROFILE DROPDOWN MENU
-================================ */
 function initProfileMenu(){
-  const btn = document.getElementById("profileMenuBtn");
-  const menu = document.getElementById("profileMenu");
+  const btn = $("profileMenuBtn"), menu = $("profileMenu");
   if(!btn || !menu) return;
-
-  btn.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    menu.classList.toggle("hidden");
-  });
-
-  document.addEventListener("click", ()=>{
-    menu.classList.add("hidden");
-  });
-
-  const profileBtn = document.getElementById("menuProfileBtn");
-  const paymentsBtn = document.getElementById("menuPaymentsBtn");
-  const logoutBtn = document.getElementById("menuLogoutBtn");
-
-  if(profileBtn){
-    profileBtn.onclick = (e)=>{
-      e.preventDefault();
-      showView("profile");
-      menu.classList.add("hidden");
-    };
-  }
-
-  if(paymentsBtn){
-    paymentsBtn.onclick = (e)=>{
-      e.preventDefault();
-      showView("payments");
-      menu.classList.add("hidden");
-    };
-  }
-
-  if(logoutBtn){
-    logoutBtn.onclick = (e)=>{
-      e.preventDefault();
-      menu.classList.add("hidden");
-      if(confirm("Logout from your account?")){
-        logout();
-      }
-    };
-  }
+  btn.addEventListener("click",(e)=>{ e.stopPropagation(); menu.classList.toggle("hidden"); });
+  document.addEventListener("click", ()=> menu.classList.add("hidden"));
+  const profileBtn = $("menuProfileBtn"), paymentsBtn = $("menuPaymentsBtn"), logoutBtn = $("menuLogoutBtn");
+  if(profileBtn) profileBtn.onclick = (e)=>{ e.preventDefault(); showView("profile"); menu.classList.add("hidden"); };
+  if(paymentsBtn) paymentsBtn.onclick = (e)=>{ e.preventDefault(); showView("payments"); menu.classList.add("hidden"); };
+  if(logoutBtn) logoutBtn.onclick = (e)=>{ e.preventDefault(); menu.classList.add("hidden"); if(confirm("Logout from your account?")) logout(); };
 }
+function initLogout(){ const btn = $("logoutBtn"); if(!btn) return; btn.onclick = ()=> { if(confirm("Logout from your account?")) logout(); }; }
 
 /* ================================
-   MESSAGE BRIDGE (plans <-> checkout <-> dashboard)
-================================ */
-function initMessageBridge(){
-  window.addEventListener("message", (event) => {
-    const data = event.data || {};
-    if (data.type === "OPEN_CHECKOUT") {
-      showView("checkout");
-      ensureCheckoutIframe();
-    }
-    if (data.type === "PAYMENT_SUCCESS") {
-      toast("Payment successful! Updating dashboard…");
-      const session = getSession();
-      if (session){
-        loadAllData(session.token);
-      }
-      showView("dashboard");
-    }
-  });
-}
-
-/* ================================
-   LOGOUT
-================================ */
-function initLogout(){
-  const btn = document.getElementById("logoutBtn");
-  if(!btn) return;
-  btn.onclick = () => {
-    if(confirm("Logout from your account?")){
-      logout();
-    }
-  };
-}
-
-/* ================================
-   LOAD ALL DATA (OPTIMIZED)
-   Only load what's needed for improved performance.
-================================ */
+   LOAD ALL DATA
+   (parallel fetches, safe parsing)
+   ================================ */
 async function loadAllData(token){
   try {
     await Promise.all([
@@ -928,7 +689,6 @@ async function loadAllData(token){
       loadSubscriptionHistory(token),
       loadPaymentHistory(token)
     ]);
-
     renderHeader();
     renderDashboardCards();
     renderPlanView();
@@ -936,257 +696,178 @@ async function loadAllData(token){
     renderPaymentsView();
     renderProfileSubscriptionAndBilling();
     fillProfileForm();
-
-  } catch (e){
-    console.error(e);
+  } catch (e) {
+    console.error("loadAllData:", e);
     toast("Error loading dashboard", true);
   }
 }
 
 /* ================================
-   LOAD PROFILE
-================================ */
+   API LOADERS
+   robust parsing: accepts either array or { payments: [...] }
+   ================================ */
 async function loadProfile(token){
-  const res = await fetch(API_BASE + "/api/profile/me", {
-    headers: { Authorization: "Bearer " + token }
-  });
-
-  if(res.status === 401){
-    return requireLogin();
-  }
-
-  const u = await res.json();
-  gProfile = u;
-  localStorage.setItem("df_user_profile", JSON.stringify(u));
+  const res = await fetch(API_BASE + "/api/profile/me", { headers: { Authorization: "Bearer " + token } });
+  if(res.status === 401) return requireLogin();
+  try { gProfile = await res.json(); localStorage.setItem("df_user_profile", JSON.stringify(gProfile)); } catch(e){ gProfile = null; }
 }
 
-/* ================================
-   LOAD ACTIVE SUBSCRIPTION
-================================ */
 async function loadActiveSubscription(token){
-  const res = await fetch(API_BASE + "/api/subscriptions/my-active", {
-    headers: { Authorization: "Bearer " + token }
-  });
-  // expect JSON subscription or null
-  gActiveSub = await res.json().catch(()=> null);
+  const res = await fetch(API_BASE + "/api/subscriptions/my-active", { headers: { Authorization: "Bearer " + token } });
+  try { gActiveSub = await res.json(); } catch(e){ gActiveSub = null; }
 }
 
-/* ================================
-   LOAD HISTORY + PAYMENTS (no deliveries)
-================================ */
 async function loadSubscriptionHistory(token){
-  const r = await fetch(API_BASE + "/api/subscriptions/me", {
-    headers: { Authorization: "Bearer " + token }
-  });
-  gSubHistory = await r.json().catch(()=> []);
+  const res = await fetch(API_BASE + "/api/subscriptions/me", { headers: { Authorization: "Bearer " + token } });
+  try { gSubHistory = await res.json(); } catch(e){ gSubHistory = []; }
 }
 
 async function loadPaymentHistory(token){
-  const r = await fetch(API_BASE + "/api/payments/my-payments", {
-    headers: { Authorization: "Bearer " + token }
-  });
-  gPaymentHistory = await r.json().catch(()=> []);
+  const res = await fetch(API_BASE + "/api/payments/my-payments", { headers: { Authorization: "Bearer " + token } });
+  try {
+    const data = await res.json();
+    // Accept either: [ ... ] or { payments: [...] } or { ok:true, payments: [...] }
+    if (Array.isArray(data)) { gPaymentHistory = data; }
+    else if (data && Array.isArray(data.payments)) { gPaymentHistory = data.payments; }
+    else if (data && Array.isArray(data.result)) { gPaymentHistory = data.result; } // fallback
+    else { gPaymentHistory = []; }
+  } catch (e) {
+    console.error("loadPaymentHistory parse error:", e);
+    gPaymentHistory = [];
+  }
 }
 
 /* ================================
-   RENDER HEADER
-================================ */
+   RENDERING
+   ================================ */
 function renderHeader(){
   if(!gProfile) return;
   const name = gProfile.name || "Customer";
   const email = gProfile.email || "-";
-
-  const hdrName = document.getElementById("hdrUserName");
-  if (hdrName) hdrName.textContent = name;
-
-  const sideName = document.getElementById("sidebarUserName");
-  if (sideName) sideName.textContent = name;
-
-  const mobileSideName = document.getElementById("mobileSidebarUserName");
-  if (mobileSideName) mobileSideName.textContent = name;
-
-  const menuName = document.getElementById("menuUserName");
-  if (menuName) menuName.textContent = name;
-
-  const menuEmail = document.getElementById("menuUserEmail");
-  if (menuEmail) menuEmail.textContent = email;
+  const hdr = $("hdrUserName"), side = $("sidebarUserName"), mobile = $("mobileSidebarUserName"), menuName = $("menuUserName"), menuEmail = $("menuUserEmail");
+  if(hdr) hdr.textContent = name;
+  if(side) side.textContent = name;
+  if(mobile) mobile.textContent = name;
+  if(menuName) menuName.textContent = name;
+  if(menuEmail) menuEmail.textContent = email;
 }
 
-/* ================================
-   RENDER DASHBOARD CARDS
-   Next Delivery now reads from gActiveSub.nextDeliveryDate if available.
-================================ */
 function renderDashboardCards(){
-  const planName = document.getElementById("dashPlanName");
-  const planMeta = document.getElementById("dashPlanMeta");
-  const statusPill = document.getElementById("dashPlanStatusPill");
-
+  const planName = $("dashPlanName"), planMeta = $("dashPlanMeta"), statusPill = $("dashPlanStatusPill");
   if(!gActiveSub || !gActiveSub._id){
-    planName.textContent = "No active plan";
-    planMeta.textContent = "Start a subscription from the plans page.";
-    statusPill.classList.add("hidden");
+    if(planName) planName.textContent = "No active plan";
+    if(planMeta) planMeta.textContent = "Start a subscription from the plans page.";
+    if(statusPill) statusPill.classList.add("hidden");
   } else {
-    planName.textContent = gActiveSub.planName || gActiveSub.plan?.name || "Active Plan";
-    planMeta.textContent = `Status: ${gActiveSub.status || "active"}`;
-    statusPill.textContent = gActiveSub.status || "active";
-    statusPill.classList.remove("hidden");
+    if(planName) planName.textContent = gActiveSub.planName || (gActiveSub.plan && gActiveSub.plan.name) || "Active Plan";
+    if(planMeta) planMeta.textContent = `Status: ${gActiveSub.status || "active"}`;
+    if(statusPill){ statusPill.textContent = gActiveSub.status || "active"; statusPill.classList.remove("hidden"); }
   }
 
-  // Next delivery: prefer subscription-provided nextDeliveryDate, else show fallback
-  const nextEl = document.getElementById("dashNextDelivery");
-  const nextMetaEl = document.getElementById("dashNextDeliveryMeta");
-
-  let nextDeliveryDate = null;
-  if (gActiveSub) {
-    if (gActiveSub.nextDeliveryDate) nextDeliveryDate = gActiveSub.nextDeliveryDate;
-    else if (gActiveSub.nextDelivery) nextDeliveryDate = gActiveSub.nextDelivery;
-    else if (gActiveSub.firstDelivery) nextDeliveryDate = gActiveSub.firstDelivery;
-  }
-
-  if (nextDeliveryDate) {
+  // VALIDITY (replaces next-delivery)
+  const nextEl = $("dashNextDelivery"), nextMetaEl = $("dashNextDeliveryMeta");
+  if (gActiveSub && gActiveSub.endDate) {
     try {
-      const dt = new Date(nextDeliveryDate);
-      nextEl.textContent = dt.toDateString();
-      nextMetaEl.textContent = gActiveSub.nextDeliveryStatus || "";
-    } catch (e) {
-      nextEl.textContent = "No upcoming delivery";
-      nextMetaEl.textContent = "";
+      const end = new Date(gActiveSub.endDate);
+      if(nextEl) nextEl.textContent = "Valid until " + end.toLocaleDateString("en-IN");
+      if(nextMetaEl) nextMetaEl.textContent = "";
+    } catch(e) {
+      if(nextEl) nextEl.textContent = "Validity unavailable";
+      if(nextMetaEl) nextMetaEl.textContent = "";
     }
   } else {
-    nextEl.textContent = "No upcoming delivery";
-    if (nextMetaEl) nextMetaEl.textContent = "";
+    if(nextEl) nextEl.textContent = "Validity unavailable";
+    if(nextMetaEl) nextMetaEl.textContent = "";
   }
 
-  // Last payment
-  const last = Array.isArray(gPaymentHistory) && gPaymentHistory.length ? gPaymentHistory[0] : null;
-  const lastPay = document.getElementById("dashLastPayment");
-  const payMeta = document.getElementById("dashPaymentMeta");
-
+  // Last payment card
+  const last = (Array.isArray(gPaymentHistory) && gPaymentHistory.length) ? gPaymentHistory[0] : null;
+  const lastPay = $("dashLastPayment"), payMeta = $("dashPaymentMeta");
   if(last){
-    lastPay.textContent = "₹" + last.amount;
-    payMeta.textContent = last.planName || "";
+    if(lastPay) lastPay.textContent = "₹" + last.amount;
+    if(payMeta) payMeta.textContent = last.planName || "";
   } else {
-    lastPay.textContent = "No payments yet";
+    if(lastPay) lastPay.textContent = "No payments yet";
     if(payMeta) payMeta.textContent = "";
   }
 }
 
-/* ================================
-   PLAN VIEW
-================================ */
 function renderPlanView(){
-  const name = document.getElementById("planViewName");
-  const meta = document.getElementById("planViewMeta");
-  const dates = document.getElementById("planViewDates");
-
+  const name = $("planViewName"), meta = $("planViewMeta"), dates = $("planViewDates");
   if(!gActiveSub){
-    name.textContent = "No active plan";
-    meta.textContent = "";
-    dates.textContent = "";
+    if(name) name.textContent = "No active plan";
+    if(meta) meta.textContent = "";
+    if(dates) dates.textContent = "";
     return;
   }
-
-  name.textContent = gActiveSub.planName || gActiveSub.plan?.name || "Active Plan";
-  meta.textContent = "Status: " + (gActiveSub.status || "active");
-
+  if(name) name.textContent = gActiveSub.planName || (gActiveSub.plan && gActiveSub.plan.name) || "Active Plan";
+  if(meta) meta.textContent = "Status: " + (gActiveSub.status || "active");
   const s = gActiveSub.startDate ? new Date(gActiveSub.startDate).toLocaleDateString("en-IN") : "-";
   const e = gActiveSub.endDate ? new Date(gActiveSub.endDate).toLocaleDateString("en-IN") : "-";
-
-  dates.textContent = `From ${s} to ${e}`;
+  if(dates) dates.textContent = `From ${s} to ${e}`;
 }
 
-/* ================================
-   SUB HISTORY
-================================ */
 function renderSubHistory(){
-  const body = document.getElementById("subHistoryBody");
+  const body = $("subHistoryBody");
   if(!body) return;
   body.innerHTML = "";
-
   (Array.isArray(gSubHistory) ? gSubHistory : []).forEach(sub => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td class="py-2 pr-4">${sub.planName}</td>
-      <td class="py-2 pr-4">${new Date(sub.startDate).toLocaleDateString("en-IN")}</td>
-      <td class="py-2 pr-4">${new Date(sub.endDate).toLocaleDateString("en-IN")}</td>
-      <td class="py-2 pr-4 capitalize">${sub.status}</td>
+      <td class="py-2 pr-4">${sub.startDate ? new Date(sub.startDate).toLocaleDateString("en-IN") : "-"}</td>
+      <td class="py-2 pr-4">${sub.endDate ? new Date(sub.endDate).toLocaleDateString("en-IN") : "-"}</td>
+      <td class="py-2 pr-4 capitalize">${sub.status || "-"}</td>
     `;
     body.appendChild(tr);
   });
 }
 
-/* ================================
-   PAYMENTS VIEW
-================================ */
 function renderPaymentsView(){
-  const body = document.getElementById("paymentHistoryBody");
+  const body = $("paymentHistoryBody");
   if(!body) return;
   body.innerHTML = "";
-
   (Array.isArray(gPaymentHistory) ? gPaymentHistory : []).forEach(p => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td class="py-2 pr-4">${new Date(p.createdAt).toLocaleDateString("en-IN")}</td>
+      <td class="py-2 pr-4">${p.createdAt ? new Date(p.createdAt).toLocaleDateString("en-IN") : "-"}</td>
       <td class="py-2 pr-4">${p.planName || "-"}</td>
-      <td class="py-2 pr-4">₹${p.amount}</td>
+      <td class="py-2 pr-4">₹${p.amount || 0}</td>
       <td class="py-2 pr-4">${p.razorpayPaymentId ? "Razorpay" : "Offline"}</td>
-      <td class="py-2 pr-4">${p.status}</td>
+      <td class="py-2 pr-4">${p.status || "-"}</td>
     `;
     body.appendChild(tr);
   });
 }
 
-/* ================================
-   PROFILE SUBSCRIPTION + BILLING
-================================ */
 function renderProfileSubscriptionAndBilling(){
-  const subName = document.getElementById("profileSubName");
-  const subMeta = document.getElementById("profileSubMeta");
-  const subDates = document.getElementById("profileSubDates");
-  const subAlert = document.getElementById("profileSubExpiryAlert");
-
+  const subName = $("profileSubName"), subMeta = $("profileSubMeta"), subDates = $("profileSubDates"), subAlert = $("profileSubExpiryAlert");
   if(!subName) return;
-
   if(!gActiveSub || !gActiveSub._id){
     subName.textContent = "No active plan";
     subMeta.textContent = "You don't have any active subscription yet.";
     subDates.textContent = "";
     subAlert.textContent = "";
   } else {
-    subName.textContent = gActiveSub.planName || gActiveSub.plan?.name || "Active Plan";
+    subName.textContent = gActiveSub.planName || (gActiveSub.plan && gActiveSub.plan.name) || "Active Plan";
     subMeta.textContent = "Status: " + (gActiveSub.status || "active");
-
     const sDate = gActiveSub.startDate ? new Date(gActiveSub.startDate) : null;
     const eDate = gActiveSub.endDate ? new Date(gActiveSub.endDate) : null;
-    subDates.textContent =
-      sDate && eDate ? `Start: ${sDate.toLocaleDateString("en-IN")} • End: ${eDate.toLocaleDateString("en-IN")}` : "";
-
-    const now = new Date();
+    subDates.textContent = sDate && eDate ? `Start: ${sDate.toLocaleDateString("en-IN")} • End: ${eDate.toLocaleDateString("en-IN")}` : "";
     if(eDate){
-      const diffMs = eDate - now;
+      const diffMs = eDate - Date.now();
       if(diffMs > 0){
         const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-        if(daysLeft <= 5 && gActiveSub.status === "active"){
-          subAlert.textContent =
-            `⏰ Plan expiring in ${daysLeft} day${daysLeft>1 ? "s" : ""}. You can renew now.`;
-        } else {
-          subAlert.textContent = "";
-        }
-      } else if(gActiveSub.status === "expired"){
+        subAlert.textContent = (daysLeft <= 5 && gActiveSub.status === "active") ? `⏰ Plan expiring in ${daysLeft} day${daysLeft>1?"s":""}. You can renew now.` : "";
+      } else if(gActiveSub.status === "expired") {
         subAlert.textContent = "Your plan has expired. Renew to restart your deliveries.";
-      } else {
-        subAlert.textContent = "";
-      }
-    } else {
-      subAlert.textContent = "";
-    }
+      } else subAlert.textContent = "";
+    } else subAlert.textContent = "";
   }
 
-  // Billing + mini payment list
-  const lastTxt = document.getElementById("profileLastPaymentText");
-  const miniBody = document.getElementById("profilePaymentMiniBody");
+  // Billing mini list
+  const lastTxt = $("profileLastPaymentText"), miniBody = $("profilePaymentMiniBody");
   if(!lastTxt || !miniBody) return;
-
   miniBody.innerHTML = "";
   if(!gPaymentHistory || gPaymentHistory.length === 0){
     lastTxt.textContent = "No payments found yet.";
@@ -1195,17 +876,14 @@ function renderProfileSubscriptionAndBilling(){
     miniBody.appendChild(tr);
   } else {
     const last = gPaymentHistory[0];
-    lastTxt.textContent =
-      `Last payment: ₹${last.amount} for ${last.planName} on ` +
-      `${new Date(last.createdAt).toLocaleDateString("en-IN")} (${last.status}).`;
-
-    gPaymentHistory.slice(0, 5).forEach(p => {
+    lastTxt.textContent = `Last payment: ₹${last.amount} for ${last.planName} on ${last.createdAt ? new Date(last.createdAt).toLocaleDateString("en-IN") : "-"} (${last.status}).`;
+    gPaymentHistory.slice(0,5).forEach(p => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td class="py-1 pr-3">${new Date(p.createdAt).toLocaleDateString("en-IN")}</td>
-        <td class="py-1 pr-3">${p.planName}</td>
-        <td class="py-1 pr-3">₹${p.amount}</td>
-        <td class="py-1 pr-3">${p.status}</td>
+        <td class="py-1 pr-3">${p.createdAt ? new Date(p.createdAt).toLocaleDateString("en-IN") : "-"}</td>
+        <td class="py-1 pr-3">${p.planName || "-"}</td>
+        <td class="py-1 pr-3">₹${p.amount || 0}</td>
+        <td class="py-1 pr-3">${p.status || "-"}</td>
       `;
       miniBody.appendChild(tr);
     });
@@ -1213,183 +891,166 @@ function renderProfileSubscriptionAndBilling(){
 }
 
 /* ================================
-   QUICK ACTIONS & SUB ACTIONS
-   Only Renew, Pay, Change plan remain.
-================================ */
+   QUICK ACTIONS
+   Renew / Pay / Change Plan only
+   ================================ */
 function initQuickActions(){
   const session = getSession();
   if(!session) return;
   const token = session.token;
 
-  const setClick = (id, fn) => {
-    const el = document.getElementById(id);
-    if(el) el.onclick = fn;
-  };
+  const setClick = (id, fn) => { const el = $(id); if(el) el.onclick = fn; };
 
-  setClick("qaRenew", ()=>subAction("renew", token));
+  setClick("qaRenew", ()=> subAction("renew", token));
   setClick("qaPay", ()=> {
     if(confirm("Continue to choose a plan and go to checkout?")){
       showView("plans");
       ensurePlansIframe();
     }
   });
-  setClick("qaChangePlan", ()=> {
-    showView("plans");
-    ensurePlansIframe();
-  });
+  setClick("qaChangePlan", ()=> { showView("plans"); ensurePlansIframe(); });
 
-  // Plan view buttons (only renew and change)
-  setClick("planRenewBtn", ()=>subAction("renew", token));
-  setClick("planChangeBtn", ()=> {
-    showView("plans");
-    ensurePlansIframe();
-  });
+  // Plan view buttons
+  setClick("planRenewBtn", ()=> subAction("renew", token));
+  setClick("planChangeBtn", ()=> { showView("plans"); ensurePlansIframe(); });
 
-  // Profile subscription card buttons (renew/change)
-  setClick("profileRenewBtn", ()=>subAction("renew", token));
-  setClick("profileChangeBtn", ()=> {
-    showView("plans");
-    ensurePlansIframe();
-  });
+  // Profile subscription buttons
+  setClick("profileRenewBtn", ()=> subAction("renew", token));
+  setClick("profileChangeBtn", ()=> { showView("plans"); ensurePlansIframe(); });
 
-  // View payments
-  const profileViewPaymentsBtn = document.getElementById("profileViewPaymentsBtn");
+  // Profile 'View all payments'
+  const profileViewPaymentsBtn = $("profileViewPaymentsBtn");
   if(profileViewPaymentsBtn) profileViewPaymentsBtn.onclick = ()=> showView("payments");
 }
 
-/* Sub action helper (pause/resume/cancel removed; keep renew)
-   type is 'renew' here */
 async function subAction(type, token){
-  if(!gActiveSub || !gActiveSub._id){
-    toast("No active subscription", true);
-    return;
+  if(!gActiveSub || !gActiveSub._id){ toast("No active subscription", true); return; }
+  try {
+    const r = await fetch(API_BASE + "/api/subscriptions/" + gActiveSub._id + "/" + type, {
+      method: "POST",
+      headers: { Authorization: "Bearer " + token }
+    });
+    const d = await r.json().catch(()=> ({ message: "Updated" }));
+    toast(d.message || "Updated");
+    await loadActiveSubscription(token);
+    await loadSubscriptionHistory(token);
+    await loadPaymentHistory(token);
+    renderDashboardCards();
+    renderPlanView();
+    renderSubHistory();
+    renderProfileSubscriptionAndBilling();
+  } catch (e) {
+    console.error("subAction error:", e);
+    toast("Action failed", true);
   }
-
-  const r = await fetch(API_BASE + "/api/subscriptions/" + gActiveSub._id + "/" + type, {
-    method: "POST",
-    headers: { Authorization: "Bearer " + token }
-  });
-
-  const d = await r.json();
-  toast(d.message || "Updated");
-
-  await loadActiveSubscription(token);
-  await loadSubscriptionHistory(token);
-  await loadPaymentHistory(token);
-
-  renderDashboardCards();
-  renderPlanView();
-  renderSubHistory();
-  renderProfileSubscriptionAndBilling();
 }
 
 /* ================================
    PROFILE FORM
-================================ */
+   ================================ */
 function initProfileForm(){
-  const form = document.getElementById("profileForm");
+  const form = $("profileForm");
   if(!form) return;
   form.onsubmit = submitProfile;
 }
-
 function fillProfileForm(){
   if(!gProfile) return;
-
-  document.getElementById("pfFullName").value = gProfile.name || "";
-  document.getElementById("pfEmail").value = gProfile.email || "";
-  document.getElementById("pfPhone").value = gProfile.phone || "";
-
-  document.getElementById("pfUserType").value = gProfile.userType || "";
-  document.getElementById("pfHouse").value = gProfile.addressDetails?.house || "";
-  document.getElementById("pfStreet").value = gProfile.addressDetails?.street || "";
-  document.getElementById("pfArea").value = gProfile.addressDetails?.area || "";
-  document.getElementById("pfCity").value = gProfile.addressDetails?.city || "";
-  document.getElementById("pfPincode").value = gProfile.addressDetails?.pincode || "";
-  document.getElementById("pfDeliveryTime").value = gProfile.deliveryTime || "";
-  document.getElementById("pfOffersOptIn").checked = !!gProfile.offersOptIn;
+  $("pfFullName").value = gProfile.name || "";
+  $("pfEmail").value = gProfile.email || "";
+  $("pfPhone").value = gProfile.phone || "";
+  $("pfUserType").value = gProfile.userType || "";
+  $("pfHouse").value = gProfile.addressDetails?.house || "";
+  $("pfStreet").value = gProfile.addressDetails?.street || "";
+  $("pfArea").value = gProfile.addressDetails?.area || "";
+  $("pfCity").value = gProfile.addressDetails?.city || "";
+  $("pfPincode").value = gProfile.addressDetails?.pincode || "";
+  $("pfDeliveryTime").value = gProfile.deliveryTime || "";
+  $("pfOffersOptIn").checked = !!gProfile.offersOptIn;
 }
-
 async function submitProfile(e){
   e.preventDefault();
-
   const session = getSession();
   if(!session) return requireLogin();
-
   const payload = {
-    fullName: document.getElementById("pfFullName").value,
-    phone: document.getElementById("pfPhone").value,
-    userType: document.getElementById("pfUserType").value,
-    offersOptIn: document.getElementById("pfOffersOptIn").checked,
-    deliveryTime: document.getElementById("pfDeliveryTime").value,
+    fullName: $("pfFullName").value,
+    phone: $("pfPhone").value,
+    userType: $("pfUserType").value,
+    offersOptIn: $("pfOffersOptIn").checked,
+    deliveryTime: $("pfDeliveryTime").value,
     addressDetails: {
-      house: document.getElementById("pfHouse").value,
-      street: document.getElementById("pfStreet").value,
-      area: document.getElementById("pfArea").value,
-      city: document.getElementById("pfCity").value,
-      pincode: document.getElementById("pfPincode").value
+      house: $("pfHouse").value, street: $("pfStreet").value, area: $("pfArea").value, city: $("pfCity").value, pincode: $("pfPincode").value
     }
   };
-
-  const r = await fetch(API_BASE + "/api/profile/update", {
-    method: "POST",
-    headers:{
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + session.token
-    },
-    body: JSON.stringify(payload)
-  });
-
-  const d = await r.json();
-  toast(d.message || "Profile Updated");
-
-  await loadProfile(session.token);
-  renderHeader();
+  try {
+    const r = await fetch(API_BASE + "/api/profile/update", {
+      method: "POST",
+      headers:{ "Content-Type":"application/json", Authorization: "Bearer " + session.token },
+      body: JSON.stringify(payload)
+    });
+    const d = await r.json().catch(()=> ({ message: "Profile Updated" }));
+    toast(d.message || "Profile Updated");
+    await loadProfile(session.token);
+    renderHeader();
+  } catch (e) {
+    console.error("submitProfile error:", e);
+    toast("Profile update failed", true);
+  }
 }
 
 /* ================================
    INVOICE DOWNLOAD
-================================ */
+   ================================ */
 function initInvoiceDownload(){
-  const btn = document.getElementById("downloadLastInvoiceBtn");
+  const btn = $("downloadLastInvoiceBtn");
   if(!btn) return;
-
   btn.addEventListener("click", async () => {
-    if(!gPaymentHistory || gPaymentHistory.length === 0){
-      toast("No payments yet", true);
-      return;
-    }
-    const session = getSession();
-    if(!session) return requireLogin();
+    if(!gPaymentHistory || gPaymentHistory.length === 0){ toast("No payments yet", true); return; }
+    const session = getSession(); if(!session) return requireLogin();
     const last = gPaymentHistory[0];
-
     try{
-      const res = await fetch(
-        API_BASE + "/api/invoices/payment/" + last._id + "/download",
-        {
-          headers: { Authorization: "Bearer " + session.token }
-        }
-      );
-      if(!res.ok){
-        const txt = await res.text();
-        console.error("Invoice error:", txt);
-        toast("Could not download invoice", true);
-        return;
-      }
+      const res = await fetch(API_BASE + "/api/invoices/payment/" + last._id + "/download", { headers: { Authorization: "Bearer " + session.token } });
+      if(!res.ok){ const txt = await res.text(); console.error("Invoice error:", txt); toast("Could not download invoice", true); return; }
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "invoice-" + last._id + ".pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }catch(err){
-      console.error(err);
-      toast("Error downloading invoice", true);
+      const a = document.createElement("a"); a.href = url; a.download = "invoice-" + last._id + ".pdf"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }catch(err){ console.error(err); toast("Error downloading invoice", true); }
+  });
+}
+
+/* ================================
+   MESSAGE BRIDGE (plans iframe → checkout → dashboard)
+   Expect messages from plans.html / checkout.html
+   ================================ */
+function initMessageBridge(){
+  window.addEventListener("message", (event) => {
+    const data = event.data || {};
+    if (data.type === "OPEN_CHECKOUT") { showView("checkout"); ensureCheckoutIframe(); }
+    if (data.type === "PAYMENT_SUCCESS") {
+      toast("Payment successful! Updating dashboard…");
+      const session = getSession();
+      if (session) loadAllData(session.token);
+      showView("dashboard");
     }
   });
 }
+
+/* ================================
+   Final rendering helpers (expose public methods)
+   ================================ */
+function renderAllNow(){
+  renderHeader(); renderDashboardCards(); renderPlanView(); renderSubHistory(); renderPaymentsView(); renderProfileSubscriptionAndBilling();
+}
+
+/* ================================
+   Make module-friendly for iframes
+   ================================ */
+window.DF = { reload: async ()=> { const token = getSession()?.token; if(token) await loadAllData(token); } };
+
+/* ================================
+   For debug: expose some state (optional)
+   ================================ */
+window.__DF_STATE = () => ({ profile: gProfile, subs: gSubHistory, active: gActiveSub, payments: gPaymentHistory });
+
 </script>
 
 </body>
