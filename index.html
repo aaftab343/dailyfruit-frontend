@@ -50,10 +50,86 @@
     @keyframes fruitFloat{
       0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}
     }
+    
+    /* ===== ADD-ONLY BACKGROUND EFFECTS ===== */
+#bgWrapper{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+/* 🌊 Gradient wave */
+#gradientWave{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    rgba(6,182,212,0.08),
+    rgba(124,58,237,0.08),
+    rgba(34,197,94,0.08)
+  );
+  background-size:300% 300%;
+  animation:waveMove 14s ease infinite;
+}
+
+@keyframes waveMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* 🌅 Morning sunlight */
+#sunGlow{
+  position:absolute;
+  top:-20%;
+  left:-10%;
+  width:60%;
+  height:60%;
+  background:radial-gradient(circle,
+    rgba(255,223,128,0.25),
+    rgba(255,223,128,0.08),
+    transparent 70%);
+  animation:sunPulse 8s ease-in-out infinite;
+}
+
+@keyframes sunPulse{
+  0%,100%{opacity:.6}
+  50%{opacity:1}
+}
+
+/* 🍎 Floating fruits */
+#floatingFruits span{
+  position:absolute;
+  font-size:2.2rem;
+  opacity:.12;
+  animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(110vh)}
+  to{transform:translateY(-130vh)}
+}
+
+/* 📱 Mobile-only tuning */
+@media(max-width:768px){
+  #gradientWave{opacity:.35}
+}
+
   </style>
 </head>
 
 <body>
+  
+  <!-- 🌈 BACKGROUND EFFECTS (ADD-ONLY) -->
+<div id="bgWrapper">
+  <div id="gradientWave"></div>
+  <div id="sunGlow"></div>
+  <div id="floatingFruits"></div>
+  <canvas id="fruitRain"></canvas>
+</div>
+
 
 <!-- PRELOADER -->
 <div id="preloader" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
@@ -571,44 +647,51 @@
 </section>
 
 <!-- VIDEO TESTIMONIAL CAROUSEL -->
-<section id="video-testimonials" class="py-16 bg-slate-50" data-aos="fade-up">
+<!-- VIDEO TESTIMONIAL CAROUSEL -->
+<section id="video-testimonials" class="py-16 bg-white" data-aos="fade-up">
   <div class="max-w-6xl mx-auto px-4">
     <h3 class="text-3xl font-bold section-title text-center mb-8">
-      🎥 Customer Video Testimonials
+      🎥 Real Morning Bowls, Real Smiles
     </h3>
 
-    <div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory">
+    <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory"
+         id="videoCarousel"
+         style="scroll-behavior:smooth">
 
       <!-- VIDEO 1 -->
-      <div class="glass p-4 min-w-[280px] snap-center">
-        <video src="https://www.w3schools.com/html/mov_bbb.mp4"
-               class="w-full rounded mb-3"
-               autoplay muted loop playsinline></video>
-        <p class="font-semibold text-sm">Riya — Baner</p>
-        <p class="text-yellow-400 text-xs">★★★★★</p>
+      <div class="min-w-[280px] md:min-w-[360px] snap-center glass p-4">
+        <video class="w-full rounded-lg"
+               autoplay muted loop playsinline>
+          <source src="https://cdn.coverr.co/videos/coverr-fruit-bowl-preparation-1576/1080p.mp4" type="video/mp4">
+        </video>
+        <p class="font-semibold mt-3">Fresh Every Morning</p>
+        <p class="text-sm muted">⭐⭐⭐⭐⭐ — Pune Customer</p>
       </div>
 
       <!-- VIDEO 2 -->
-      <div class="glass p-4 min-w-[280px] snap-center">
-        <video src="https://www.w3schools.com/html/movie.mp4"
-               class="w-full rounded mb-3"
-               autoplay muted loop playsinline></video>
-        <p class="font-semibold text-sm">Amit — Kharadi</p>
-        <p class="text-yellow-400 text-xs">★★★★★</p>
+      <div class="min-w-[280px] md:min-w-[360px] snap-center glass p-4">
+        <video class="w-full rounded-lg"
+               autoplay muted loop playsinline>
+          <source src="https://cdn.coverr.co/videos/coverr-healthy-fruit-salad-6846/1080p.mp4" type="video/mp4">
+        </video>
+        <p class="font-semibold mt-3">Clean & Hygienic Prep</p>
+        <p class="text-sm muted">⭐⭐⭐⭐⭐ — Fitness Subscriber</p>
       </div>
 
       <!-- VIDEO 3 -->
-      <div class="glass p-4 min-w-[280px] snap-center">
-        <video src="https://www.w3schools.com/html/mov_bbb.mp4"
-               class="w-full rounded mb-3"
-               autoplay muted loop playsinline></video>
-        <p class="font-semibold text-sm">Sneha — Wakad</p>
-        <p class="text-yellow-400 text-xs">★★★★★</p>
+      <div class="min-w-[280px] md:min-w-[360px] snap-center glass p-4">
+        <video class="w-full rounded-lg"
+               autoplay muted loop playsinline>
+          <source src="https://cdn.coverr.co/videos/coverr-cutting-fresh-fruits-3026/1080p.mp4" type="video/mp4">
+        </video>
+        <p class="font-semibold mt-3">Perfect Morning Habit</p>
+        <p class="text-sm muted">⭐⭐⭐⭐⭐ — Working Professional</p>
       </div>
 
     </div>
   </div>
 </section>
+
 <!-- WEEKLY SEASONAL SPECIALS -->
 <section id="seasonal-specials" class="py-6 bg-white" data-aos="fade-up">
   <div class="max-w-6xl mx-auto px-4">
@@ -1032,6 +1115,63 @@ setInterval(()=>{
 function openCheckout(slug){
   window.location.href="plans.html?slug="+slug;
 }
+
+/* ===== ADD-ONLY BACKGROUND ANIMATIONS ===== */
+
+/* 🍓 Floating fruits + parallax */
+const fruitIcons = ["🍎","🍌","🍓","🍍","🍊","🍇","🥝","🍉"];
+const floatingBox = document.getElementById("floatingFruits");
+
+for(let i=0;i<14;i++){
+  const span = document.createElement("span");
+  span.textContent = fruitIcons[Math.floor(Math.random()*fruitIcons.length)];
+  span.style.left = Math.random()*100 + "%";
+  span.style.animationDuration = (18 + Math.random()*12) + "s";
+  span.style.animationDelay = (-Math.random()*20) + "s";
+  floatingBox.appendChild(span);
+}
+
+/* Parallax effect */
+window.addEventListener("scroll",()=>{
+  floatingBox.style.transform =
+    `translateY(${window.scrollY * 0.15}px)`;
+});
+
+/* 🍒 Subtle fruit rain */
+const canvas = document.getElementById("fruitRain");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize",resizeCanvas);
+
+const rainFruits = Array.from({length:20},()=>({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  speed:0.3 + Math.random()*0.6,
+  icon:fruitIcons[Math.floor(Math.random()*fruitIcons.length)]
+}));
+
+function drawRain(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.font="20px serif";
+  ctx.globalAlpha=0.08;
+
+  rainFruits.forEach(f=>{
+    ctx.fillText(f.icon,f.x,f.y);
+    f.y+=f.speed;
+    if(f.y>canvas.height){
+      f.y=-20;
+      f.x=Math.random()*canvas.width;
+    }
+  });
+  requestAnimationFrame(drawRain);
+}
+drawRain();
+
 </script>
 </body>
 </html>
