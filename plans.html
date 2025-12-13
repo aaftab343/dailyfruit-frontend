@@ -11,7 +11,11 @@
 
 <style>
   :root{ --accent-from:#06b6d4; --accent-to:#7c3aed; }
-  body{ font-family:'Inter',sans-serif; background:linear-gradient(180deg,#f8fafc,#eef7ff); color:#0f172a; -webkit-font-smoothing:antialiased; }
+  body{
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(180deg,#f8fafc,#eef7ff);
+    color:#0f172a;
+  }
 
   .glass{
     background:rgba(255,255,255,0.95);
@@ -19,54 +23,56 @@
     border:1px solid rgba(148,163,184,0.18);
     padding:16px;
     box-shadow:0 10px 30px rgba(2,6,23,0.06);
-    transition:transform .18s ease, box-shadow .18s ease;
+    transition:.2s;
   }
-  .glass:hover{ transform:translateY(-4px); box-shadow:0 20px 40px rgba(2,6,23,0.10); }
-
-  .promo-badge{ padding:6px 10px; border-radius:999px; background:linear-gradient(90deg,#fb923c,#f97316); color:white; font-weight:700; font-size:12px; }
-  .badge-floating{ position:absolute; top:10px; left:10px; padding:6px 10px; font-size:12px; background:white; border-radius:999px; border:1px solid #e2e8f0; font-weight:700; }
-
-  .day-badge{ min-width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-    font-size:12px;font-weight:700;background:white;border:1px solid #e2e8f0; }
-  .day-badge.active{ background:linear-gradient(90deg,var(--accent-from),var(--accent-to)); color:white; border:none; }
-
-  .tooltip-wrapper{ position:relative; }
-  .tooltip{ position:absolute; bottom:120%; left:50%; transform:translateX(-50%); background:#111827; color:white; padding:6px 10px; border-radius:8px; font-size:12px; opacity:0; white-space:nowrap; transition:opacity .15s ease; pointer-events:none; }
-  .tooltip-wrapper:hover .tooltip, .tooltip-wrapper:focus-within .tooltip{ opacity:1; }
-
-  /* Checkout bar: use transform/opacity for animation (no display toggling) */
-  #checkoutBar{
-    position:fixed; bottom:0; left:0; right:0; background:white;
-    border-top:1px solid #eef2f7; box-shadow:0 -6px 20px rgba(0,0,0,0.08);
-    padding:12px; z-index:50;
-    transform: translateY(110%); opacity:0; visibility:hidden;
-    transition: transform .28s cubic-bezier(.2,.9,.25,1), opacity .22s ease, visibility .01s linear .28s;
-    will-change: transform, opacity;
-  }
-  #checkoutBar.visible {
-    transform: translateY(0);
-    opacity:1;
-    visibility:visible;
-    transition-delay:0s;
+  .glass:hover{
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px rgba(2,6,23,0.10);
   }
 
-  .btn-checkout {
+  .promo-badge{
+    padding:6px 10px;
+    border-radius:999px;
+    background:linear-gradient(90deg,#fb923c,#f97316);
+    color:white;
+    font-weight:700;
+    font-size:12px;
+    position:absolute;
+    top:12px;
+    right:12px;
+  }
+
+  .btn-checkout{
     background:linear-gradient(90deg,var(--accent-from),var(--accent-to));
-    color:white; padding:10px 14px; border-radius:8px; border:none; font-weight:600;
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:600;
   }
 
-  /* Prevent page reflow by reserving bottom safe area on mobile while visible */
-  body.has-checkout {
-    padding-bottom:84px; /* approximate height of the bar */
-    transition:padding-bottom .22s ease;
+  #checkoutBar{
+    position:fixed;
+    bottom:0; left:0; right:0;
+    background:white;
+    border-top:1px solid #eef2f7;
+    box-shadow:0 -6px 20px rgba(0,0,0,.08);
+    padding:12px;
+    z-index:50;
+    transform:translateY(110%);
+    opacity:0;
+    transition:.25s;
+  }
+  #checkoutBar.visible{
+    transform:translateY(0);
+    opacity:1;
   }
 
-  /* small responsive tweaks */
-  @media (max-width:640px){
-    #checkoutBar .max-w-5xl { padding-left:12px; padding-right:12px; }
+  body.has-checkout{
+    padding-bottom:90px;
   }
 </style>
 </head>
+
 <body>
 
 <header class="sticky top-0 bg-white/80 backdrop-blur border-b z-40">
@@ -88,188 +94,101 @@
   <div id="plansLoading" class="col-span-full text-gray-500">Loading plans…</div>
 </div>
 
-<div id="plansError" class="max-w-6xl mx-auto px-4 text-red-500 text-sm hidden"></div>
-
 <!-- Sticky checkout bar -->
 <div id="checkoutBar">
   <div class="max-w-5xl mx-auto flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <img id="checkoutThumb" src="" class="w-14 h-14 rounded-md border object-cover" loading="lazy" alt="selected plan">
-      <div>
-        <div id="checkoutName" class="font-semibold"></div>
-        <div id="checkoutMeta" class="text-xs text-gray-500"></div>
-      </div>
+    <div>
+      <div id="checkoutName" class="font-semibold"></div>
+      <div id="checkoutMeta" class="text-xs text-gray-500"></div>
     </div>
     <div class="flex items-center gap-3">
       <div id="checkoutPrice" class="font-extrabold text-emerald-600 text-lg"></div>
       <button id="checkoutGo" class="btn-checkout">Checkout →</button>
-      <button id="checkoutClose" class="text-gray-500 text-2xl" aria-label="close">×</button>
+      <button id="checkoutClose" class="text-2xl text-gray-400">×</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ---------- Config ---------- */
-const API_BASE = "https://dailyfruit-backend.onrender.com"; // update to your API if needed
+const API_BASE = "https://dailyfruit-backend.onrender.com";
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1572441710534-680f9c6b3f95?w=800&q=60";
 
-/* ---------- State ---------- */
-let _loadingPlans = false; // prevents double fetch/render
-
-/* ---------- Helpers ---------- */
-const rupee = n => "₹" + Number(n||0).toLocaleString("en-IN");
-const safeText = s => String(s ?? "");
-function getDeliverySet(plan){
-  const arr = Array.isArray(plan.deliveryDays) && plan.deliveryDays.length ? plan.deliveryDays : ["Mon","Tue","Wed","Thu","Fri","Sat"];
-  return new Set(arr.map(x => (""+x).slice(0,3)));
-}
-
-/* ---------- Refs ---------- */
 const plansGrid = document.getElementById("plansGrid");
 const plansLoading = document.getElementById("plansLoading");
-const plansError = document.getElementById("plansError");
+
 const checkoutBar = document.getElementById("checkoutBar");
-const checkoutThumb = document.getElementById("checkoutThumb");
 const checkoutName = document.getElementById("checkoutName");
 const checkoutMeta = document.getElementById("checkoutMeta");
 const checkoutPrice = document.getElementById("checkoutPrice");
 const checkoutGo = document.getElementById("checkoutGo");
 const checkoutClose = document.getElementById("checkoutClose");
 
-/* ---------- Load plans (idempotent) ---------- */
+const rupee = n => "₹" + Number(n||0).toLocaleString("en-IN");
+
 async function loadPlans(){
-  if(_loadingPlans) return;
-  _loadingPlans = true;
-  plansLoading.textContent = "Loading plans…";
-  plansError.classList.add("hidden");
   try{
     const res = await fetch(API_BASE + "/api/plans");
-    if(!res.ok) throw new Error("API " + res.status + " " + res.statusText);
     const plans = await res.json();
-    if(!Array.isArray(plans) || plans.length === 0){
-      plansGrid.innerHTML = "<div class='col-span-full text-gray-500'>No plans available.</div>";
-      return;
-    }
     renderPlans(plans);
-  } catch(err){
-    console.error("Failed to load plans:", err);
-    plansLoading.textContent = "";
-    plansError.textContent = "Unable to load plans. See console for details. " + err.message;
-    plansError.classList.remove("hidden");
-  } finally {
-    _loadingPlans = false;
+  }catch(e){
+    plansGrid.innerHTML = "<div class='col-span-full text-red-500'>Failed to load plans</div>";
   }
 }
 
-/* ---------- Render ---------- */
 function renderPlans(plans){
-  plansGrid.innerHTML = ""; // clear
-  plans.forEach((plan, idx) => {
+  plansGrid.innerHTML = "";
+  plans.forEach(plan => {
+    const billingDays = plan.billingDaysPerMonth || plan.durationDays || 30;
+    const perDelivery = Math.round((plan.price||0) / billingDays);
+
     const card = document.createElement("div");
     card.className = "glass relative";
-    card.dataset.idx = idx;
-    card.dataset.title = (plan.name || "").toLowerCase();
-    card.dataset.category = (plan.type || "").toLowerCase();
-
-    const billingDays = plan.billingDaysPerMonth || plan.durationDays || 30;
-    const perDelivery = billingDays ? Math.round((plan.price||0) / billingDays) : 0;
-    const dset = getDeliverySet(plan);
-    const dayOrder = ["Mon","Tue","Wed","Thu","Fri","Sat"];
-    const dayHtml = dayOrder.map(d => `<div class="day-badge ${dset.has(d)?'active':''}">${d}</div>`).join("");
-
-    const imgSrc = plan.imageUrl || FALLBACK_IMAGE;
-    const promoHtml = plan.promo ? `<div class="promo-badge absolute top-3 right-3">${safeText(plan.promo)}</div>` : "";
-    const tagHtml = plan.tags?.length ? `<div class="badge-floating">${safeText(plan.tags[0])}</div>` : "";
 
     card.innerHTML = `
-      ${promoHtml}
-      ${tagHtml}
+      ${plan.promo ? `<div class="promo-badge">${plan.promo}</div>` : ""}
       <div class="flex gap-4">
-        <img src="${imgSrc}" onerror="this.src='${FALLBACK_IMAGE}'" class="w-24 h-24 rounded-lg border object-cover" loading="lazy" alt="${safeText(plan.name)}"/>
+        <img src="${plan.imageUrl || FALLBACK_IMAGE}" class="w-24 h-24 rounded-lg border object-cover"/>
         <div class="flex-1">
-          <h3 class="font-semibold text-lg m-0">${safeText(plan.name)}</h3>
-          <p class="text-xs text-gray-500 mt-1">${safeText(plan.description || "")}</p>
+          <h3 class="font-semibold text-lg">${plan.name}</h3>
+          <p class="text-xs text-gray-500 mt-1">${plan.description || ""}</p>
 
           <div class="mt-3">
             <div class="text-2xl font-extrabold text-emerald-600">${rupee(plan.price)}</div>
-            <div class="text-xs text-gray-400">${safeText(plan.billingLabel || (plan.durationDays === 7 ? "Weekly (7 days)" : "for 30 days"))}</div>
-            <div class="text-xs text-gray-500 mt-0.5">≈ ${rupee(perDelivery)} / delivery</div>
+            <div class="text-xs text-gray-400">${plan.billingLabel || ""}</div>
+            <div class="text-xs text-gray-500">≈ ${rupee(perDelivery)} / delivery</div>
           </div>
 
-          <div class="mt-3 flex items-center gap-3">
-            <div class="tooltip-wrapper" tabindex="0">
-              <div class="flex gap-1">${dayHtml}</div>
-              <div class="tooltip">${safeText(plan.billingLabel || "")}</div>
-            </div>
-            <span class="text-xs text-gray-500">${safeText(plan.deliveryCount || 26)} deliveries</span>
+          <div class="mt-4">
+            <button class="btn-checkout">Go to Checkout →</button>
           </div>
-
-          <div class="mt-3" id="btnContainer-${idx}"></div>
         </div>
       </div>
     `;
-    plansGrid.appendChild(card);
 
-    // create button with addEventListener (safe)
-    const btnContainer = document.getElementById(`btnContainer-${idx}`);
-    const btn = document.createElement("button");
-    btn.className = "btn-checkout";
-    btn.textContent = "Go to Checkout →";
-    btn.addEventListener("click", () => {
-      onPlanSelect(plan);
-    });
-    btnContainer.appendChild(btn);
+    card.querySelector("button").onclick = () => selectPlan(plan);
+    plansGrid.appendChild(card);
   });
 }
 
-/* ---------- Selection handler ---------- */
-let currentSelectedPlan = null;
-function onPlanSelect(plan){
-  // If already selected same plan and bar visible, do nothing (avoid thrash)
-  if(currentSelectedPlan && currentSelectedPlan.slug === plan.slug && checkoutBar.classList.contains("visible")){
-    return;
-  }
-  currentSelectedPlan = plan;
+function selectPlan(plan){
+  localStorage.setItem("df_selected_plan", JSON.stringify(plan));
+  checkoutName.textContent = plan.name;
+  checkoutMeta.textContent = plan.billingLabel || "";
+  checkoutPrice.textContent = rupee(plan.price);
 
-  // populate bar
-  checkoutThumb.src = plan.imageUrl || FALLBACK_IMAGE;
-  checkoutName.textContent = plan.name || "Selected plan";
-  const billingDays = plan.billingDaysPerMonth || plan.durationDays || 30;
-  const perDelivery = billingDays ? Math.round((plan.price||0)/billingDays) : 0;
-  checkoutMeta.textContent = (plan.deliveryCount || 26) + " deliveries · ≈ " + rupee(perDelivery) + " / delivery";
-  checkoutPrice.textContent = rupee(plan.price || 0);
+  checkoutGo.onclick = () => location.href = "checkout.html";
 
-  // attach checkout action
-  checkoutGo.onclick = () => {
-    try{ localStorage.setItem("df_selected_plan", JSON.stringify(plan)); } catch(e){ console.warn("localStorage failed", e); }
-    window.location.href = "checkout.html";
-  };
-
-  // make visible via class
-  document.body.classList.add("has-checkout"); // reserve space
+  document.body.classList.add("has-checkout");
   checkoutBar.classList.add("visible");
 }
 
-/* hide checkout */
-checkoutClose.addEventListener("click", () => {
+checkoutClose.onclick = () => {
   checkoutBar.classList.remove("visible");
   document.body.classList.remove("has-checkout");
-  currentSelectedPlan = null;
-  try{ localStorage.removeItem("df_selected_plan"); }catch(e){}
-});
+  localStorage.removeItem("df_selected_plan");
+};
 
-/* ---------- Init ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  loadPlans();
-  // restore previously selected
-  try{
-    const saved = localStorage.getItem("df_selected_plan");
-    if(saved){
-      const p = JSON.parse(saved);
-      if(p && p.slug) onPlanSelect(p);
-    }
-  }catch(e){}
-});
+document.addEventListener("DOMContentLoaded", loadPlans);
 </script>
 
 </body>
