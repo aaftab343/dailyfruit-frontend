@@ -229,7 +229,7 @@ const Auth = {
       if(!res.ok) throw new Error(data.message);
 
       ADMIN_TOKEN = data.token;
-      ADMIN_ROLE = data.role || "SUPPORT";
+      ADMIN_ROLE = data.admin.role;
 
       localStorage.setItem("admin_token", ADMIN_TOKEN);
 
@@ -277,19 +277,26 @@ const UI = {
 };
 
 /* ---------------- FETCH ---------------- */
-async function authFetch(url, method="GET", body=null){
+async function authFetch(url, method = "GET", body = null) {
+  if (!ADMIN_TOKEN) {
+    Auth.logout();
+    return;
+  }
+
   const res = await fetch(url, {
     method,
-    headers:{
-      "Authorization":"Bearer "+ADMIN_TOKEN,
-      "Content-Type":"application/json"
+    headers: {
+      "Authorization": "Bearer " + ADMIN_TOKEN,
+      "Content-Type": "application/json"
     },
     body: body ? JSON.stringify(body) : null
   });
 
-  if(res.status === 401){
+  if (res.status === 401) {
     Auth.logout();
+    return;
   }
+
   return res.json();
 }
 
