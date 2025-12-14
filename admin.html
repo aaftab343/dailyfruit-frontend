@@ -298,7 +298,7 @@ DASHBOARD MODULE
 ====================================================== */
 const Dashboard = {
   async load(){
-    const data = await authFetch(API_BASE + "/api/admin/dashboard");
+    const data = await authFetch(API_BASE + "/api/admin/stats");
 
     d_ordersToday.textContent = data.ordersToday;
     d_ordersMonth.textContent = data.ordersMonth;
