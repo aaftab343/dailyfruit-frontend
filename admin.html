@@ -278,28 +278,35 @@ const UI = {
 };
 
 /* ---------------- FETCH ---------------- */
+/* ---------------- FETCH ---------------- */
 async function authFetch(url, method = "GET", body = null) {
   if (!ADMIN_TOKEN) {
     Auth.logout();
-    return;
+    return [];
   }
 
   const res = await fetch(url, {
     method,
     headers: {
       "Authorization": "Bearer " + ADMIN_TOKEN,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store"
     },
     body: body ? JSON.stringify(body) : null
   });
 
   if (res.status === 401) {
     Auth.logout();
-    return;
+    return [];
+  }
+
+  if (res.status === 304) {
+    return [];
   }
 
   return res.json();
 }
+
 
 /* ======================================================
 DASHBOARD MODULE
@@ -523,9 +530,12 @@ const Delivery = {
         <div class="glass p-4 rounded-xl shadow-glass flex justify-between">
           <div>
             <div class="font-semibold">${d.userId?.name || "-"}</div>
-            <div class="text-xs">${d.address.area}, ${d.address.pincode}</div>
+            <div class="text-xs">
+              ${d.userId?.address?.area || "-"},
+              ${d.userId?.address?.pincode || "-"}
+            </div>
           </div>
-          <div class="text-sm">${d.status}</div>
+          <div class="text-sm">${d.status || "-"}</div>
         </div>
       `;
     });
