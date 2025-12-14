@@ -392,7 +392,7 @@ const Plans = {
               ${p.bestSeller ? '<span class="text-green-600 text-xs ml-2">Best Seller</span>' : ''}
             </div>
             <div class="text-xs text-slate-500">
-              ₹${p.price} • ${p.billingDays} days
+              ₹${p.price} • ${p.billingDaysPerMonth || p.durationDays || 30} days
             </div>
           </div>
           <button onclick="Plans.toggle('${p._id}')" class="text-xs underline">
