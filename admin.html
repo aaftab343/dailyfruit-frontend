@@ -287,6 +287,7 @@ async function authFetch(url, method = "GET", body = null) {
 
   const res = await fetch(url, {
     method,
+     cache: "no-store", // 🔥 IMPORTANT
     headers: {
       "Authorization": "Bearer " + ADMIN_TOKEN,
       "Content-Type": "application/json",
@@ -550,7 +551,10 @@ PAYMENTS & INVOICES MODULE
 ====================================================== */
 const Payments = {
   async load(){
-    const payments = await authFetch(API_BASE + "/api/admin/payments");
+    const payments = await authFetch(
+  API_BASE + "/api/admin/payments?t=" + Date.now()
+);
+
     let html = `
       <table class="w-full bg-white rounded-xl shadow text-sm">
         <thead class="border-b">
