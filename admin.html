@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard — Daily Fruit Co.</title>
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script>
@@ -34,31 +33,18 @@
 
 <body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
 
-<!-----------------------------------------
-   MAIN WRAPPER
------------------------------------------->
 <div class="min-h-screen flex">
 
   <!-- SIDEBAR -->
   <aside class="w-64 bg-white/90 dark:bg-slate-900/90 border-r border-slate-200 dark:border-slate-800 hidden md:flex md:flex-col">
-    <div class="px-4 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-emerald-400 text-white flex items-center justify-center font-bold shadow">
+    <div class="px-4 py-4 border-b flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-emerald-400 text-white flex items-center justify-center font-bold">
         DF
       </div>
       <div>
         <div class="font-semibold">Daily Fruit Co.</div>
-        <div class="text-xs text-slate-500 dark:text-slate-400">Admin Panel</div>
+        <div class="text-xs text-slate-500">Admin Panel</div>
       </div>
-    </div>
-
-    <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
-      <button class="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-primary-50 dark:bg-slate-800 text-primary-700 dark:text-primary-300 font-medium">
-        <span>📊</span><span>Dashboard</span>
-      </button>
-    </nav>
-
-    <div class="px-4 py-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-      For internal use only. Keep your admin key secure.
     </div>
   </aside>
 
@@ -66,436 +52,174 @@
   <div class="flex-1 flex flex-col">
 
     <!-- HEADER -->
-    <header class="w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur">
-      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-
-        <!-- MOBILE LOGO -->
-        <div class="flex items-center gap-2 md:hidden">
-          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary-500 to-emerald-400 text-white flex items-center justify-center font-bold shadow">
-            DF
-          </div>
-          <div>
-            <h1 class="text-sm font-semibold">Daily Fruit Co.</h1>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400">Admin Panel</p>
-          </div>
-        </div>
-
-        <!-- DESKTOP TITLE -->
-        <div class="hidden md:block">
-          <h1 class="text-xl font-semibold">Admin Dashboard</h1>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Monitor subscriptions, users & revenue.</p>
-        </div>
-
-        <!-- ACTIONS -->
-        <button id="themeToggle" class="text-xs px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-900/60 flex items-center gap-2">
-          <span id="themeIcon">🌞</span>
-          <span class="hidden sm:inline">Light</span>
-        </button>
+    <header class="border-b bg-white/80 backdrop-blur">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between">
+        <h1 class="text-xl font-semibold">Admin Dashboard</h1>
       </div>
     </header>
 
-    <!-- LOGIN SCREEN -->
-    <main id="loginScreen" class="flex-1 flex items-center justify-center px-4 py-8">
-      <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200/80 dark:border-slate-800/80 p-6">
-        <h2 class="text-xl font-semibold mb-1 text-center">Admin Login</h2>
-        <p class="text-xs text-center text-slate-500 dark:text-slate-400 mb-4">Enter your admin key.</p>
+    <!-- LOGIN -->
+    <main id="loginScreen" class="flex-1 flex items-center justify-center">
+      <div class="max-w-sm w-full bg-white rounded-xl shadow p-6">
+        <h2 class="text-lg font-semibold text-center mb-4">Admin Login</h2>
 
-        <label class="block mb-2 text-xs font-medium">Admin Key</label>
-        <input id="adminKeyInput" type="password" class="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm outline-none focus:ring-2 focus:ring-primary-500" placeholder="••••••••" />
+        <label class="text-xs">Admin Email</label>
+        <input id="adminKeyInput" type="email"
+          class="w-full mt-1 p-2 border rounded" placeholder="admin@dailyfruitco.in">
 
-        <button id="loginBtn" class="mt-4 w-full py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold shadow">
+        <button id="loginBtn"
+          class="mt-4 w-full bg-primary-600 hover:bg-primary-700 text-white py-2 rounded">
           Login
         </button>
 
-        <p id="loginError" class="text-red-500 text-xs mt-3 hidden">Invalid admin key.</p>
+        <p id="loginError" class="text-red-500 text-xs mt-2 hidden"></p>
       </div>
     </main>
 
     <!-- DASHBOARD -->
-    <main id="dashboardScreen" class="hidden flex-1 overflow-y-auto">
-      <div class="max-w-6xl mx-auto w-full px-4 py-6 space-y-6">
+    <main id="dashboardScreen" class="hidden flex-1 overflow-y-auto p-6">
+      <section class="grid grid-cols-4 gap-4 mb-6">
+        <div class="bg-white p-4 rounded shadow">
+          <p class="text-xs">Total Orders</p>
+          <p id="statTotalOrders" class="text-2xl font-bold">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+          <p class="text-xs">Active</p>
+          <p id="statActive" class="text-2xl font-bold text-green-600">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+          <p class="text-xs">Paused</p>
+          <p id="statPaused" class="text-2xl font-bold text-yellow-600">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+          <p class="text-xs">Revenue</p>
+          <p id="statRevenue" class="text-2xl font-bold">₹0</p>
+        </div>
+      </section>
 
-        <!-- STATS -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white dark:bg-slate-900 border rounded-2xl p-4 shadow-sm">
-            <p class="text-xs text-slate-500">Total Orders</p>
-            <p id="statTotalOrders" class="mt-2 text-3xl font-bold">0</p>
-          </div>
-
-          <div class="bg-white dark:bg-slate-900 border rounded-2xl p-4 shadow-sm">
-            <p class="text-xs text-slate-500">Active Plans</p>
-            <p id="statActive" class="mt-2 text-3xl font-bold text-emerald-500">0</p>
-          </div>
-
-          <div class="bg-white dark:bg-slate-900 border rounded-2xl p-4 shadow-sm">
-            <p class="text-xs text-slate-500">Paused Plans</p>
-            <p id="statPaused" class="mt-2 text-3xl font-bold text-amber-500">0</p>
-          </div>
-
-          <div class="bg-white dark:bg-slate-900 border rounded-2xl p-4 shadow-sm">
-            <p class="text-xs text-slate-500">Revenue (₹)</p>
-            <p id="statRevenue" class="mt-2 text-3xl font-bold text-primary-600">0</p>
-          </div>
-        </section>
-
-        <!-- FILTERS -->
-        <section class="bg-white dark:bg-slate-900 border rounded-2xl p-4 shadow-sm space-y-4">
-          <div class="flex flex-col md:flex-row md:items-end gap-3">
-
-            <div class="flex-1">
-              <label class="block text-xs font-medium">Phone</label>
-              <input id="filterPhone" type="text" placeholder="Search by phone" class="w-full p-2.5 rounded-lg border bg-slate-50 dark:bg-slate-950 text-sm">
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium">Plan</label>
-              <select id="filterPlan" class="w-full p-2.5 rounded-lg border bg-slate-50 dark:bg-slate-950 text-sm">
-                <option value="">All</option>
-                <option value="weekly-fresh-bowl">Weekly Fresh Bowl</option>
-                <option value="silver-monthly">Silver Monthly</option>
-                <option value="gold-monthly">Gold Monthly</option>
-                <option value="diamond-monthly">Diamond Monthly</option>
-                <option value="weight-loss">Weight Loss</option>
-                <option value="weight-gain">Weight Gain</option>
-                <option value="fitness-pro">Fitness Pro</option>
-                <option value="detox-cleanse">Detox Cleanse</option>
-                <option value="immunity-boost">Immunity Boost</option>
-                <option value="premium-custom">Premium Custom</option>
-                <option value="energy-booster">Energy Booster</option>
-                <option value="morning-boost">Morning Boost</option>
-                <option value="pre-workout">Pre-Workout</option>
-                <option value="post-workout">Post-Workout</option>
-                <option value="brain-boost">Brain Boost</option>
-                <option value="vitamin-c">Vitamin C</option>
-                <option value="energy-immunity">Energy + Immunity</option>
-                <option value="super-fruits">Super Fruits</option>
-                <option value="daily-detox">Daily Detox</option>
-                <option value="custom-premium-pack">Custom Premium Pack</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium">Status</label>
-              <select id="filterStatus" class="w-full p-2.5 rounded-lg border bg-slate-50 dark:bg-slate-950 text-sm">
-                <option value="">All</option>
-                <option value="active">Active</option>
-                <option value="paused">Paused</option>
-              </select>
-            </div>
-
-          </div>
-
-          <div class="flex justify-between items-center border-t pt-3">
-            <button id="clearFiltersBtn" class="text-xs px-3 py-1.5 rounded-full border hover:bg-slate-100 dark:hover:bg-slate-800">
-              Clear Filters
-            </button>
-          </div>
-        </section>
-
-        <!-- TABLE -->
-        <section class="bg-white dark:bg-slate-900 border rounded-2xl p-4 shadow-sm">
-          <div class="flex items-center justify-between mb-3">
-            <span id="ordersCountLabel" class="text-xs text-slate-500">0 orders</span>
-
-            <div class="flex items-center gap-2 text-xs">
-              <button id="prevPageBtn" class="px-2 py-1 border rounded">Prev</button>
-              <span id="pageInfo">Page 1/1</span>
-              <button id="nextPageBtn" class="px-2 py-1 border rounded">Next</button>
-            </div>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="min-w-full text-left text-xs md:text-sm">
-              <thead class="border-b">
-                <tr>
-                  <th class="p-2">User</th>
-                  <th class="p-2">Phone</th>
-                  <th class="p-2">Plan</th>
-                  <th class="p-2">Next Delivery</th>
-                  <th class="p-2">Status</th>
-                  <th class="p-2">Created</th>
-                  <th class="p-2 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="ordersTable"></tbody>
-            </table>
-          </div>
-        </section>
-
-      </div>
+      <section class="bg-white rounded shadow p-4">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b">
+              <th class="p-2 text-left">Customer</th>
+              <th class="p-2">Phone</th>
+              <th class="p-2">Plan</th>
+              <th class="p-2">Status</th>
+              <th class="p-2">Created</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTable"></tbody>
+        </table>
+      </section>
     </main>
 
   </div>
 </div>
 
-<!-----------------------------------------
-   CALENDAR MODAL
------------------------------------------->
-<div id="calendarModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center z-50">
-  <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border p-5 w-full max-w-md mx-4">
-    <div class="flex justify-between items-center mb-3">
-      <div>
-        <h3 class="text-lg font-semibold">Delivery Calendar</h3>
-        <p id="calendarUserLabel" class="text-xs text-slate-500"></p>
-      </div>
-      <button id="closeCalendarBtn" class="px-2 py-1 border rounded">✕</button>
-    </div>
-
-    <div class="grid grid-cols-7 gap-2 text-center text-[11px]">
-      <div id="cal-Mon" class="p-2 rounded bg-slate-200">Mon<br>-</div>
-      <div id="cal-Tue" class="p-2 rounded bg-slate-200">Tue<br>-</div>
-      <div id="cal-Wed" class="p-2 rounded bg-slate-200">Wed<br>-</div>
-      <div id="cal-Thu" class="p-2 rounded bg-slate-200">Thu<br>-</div>
-      <div id="cal-Fri" class="p-2 rounded bg-slate-200">Fri<br>-</div>
-      <div id="cal-Sat" class="p-2 rounded bg-slate-200">Sat<br>-</div>
-      <div id="cal-Sun" class="p-2 rounded bg-slate-200">Sun<br>-</div>
-    </div>
-  </div>
-</div>
-
-<!-----------------------------------------
-   ADMIN PANEL JAVASCRIPT (FULL)
------------------------------------------->
 <script>
-/* ====== CONFIG ====== */
+/* ================= CONFIG ================= */
 const API_BASE = "https://dailyfruit-backend.onrender.com";
+const TOKEN_KEY = "admin_jwt_token";
 
-/* ====== LOGIN ====== */
 const loginScreen = document.getElementById("loginScreen");
 const dashboardScreen = document.getElementById("dashboardScreen");
 const loginBtn = document.getElementById("loginBtn");
 const adminKeyInput = document.getElementById("adminKeyInput");
 const loginError = document.getElementById("loginError");
 
-let ADMIN_KEY = "";
+let ADMIN_TOKEN = localStorage.getItem(TOKEN_KEY);
 let ALL_ORDERS = [];
-let FILTERED = [];
-let currentPage = 1;
 
-loginBtn.addEventListener("click", () => {
-  const key = adminKeyInput.value.trim();
-  if (!key) return;
-  ADMIN_KEY = key;
-  loadOrders(true);
-});
+/* ================= LOGIN ================= */
+loginBtn.addEventListener("click", async () => {
+  const email = adminKeyInput.value.trim();
+  const password = prompt("Enter admin password");
 
-/* ====== LOAD ORDERS ====== */
-async function loadOrders(isLogin) {
+  if (!email || !password) return;
+
   try {
-    const res = await fetch(API_BASE + "/api/admin/users", {
-      headers: { "x-admin-key": ADMIN_KEY }
+    const res = await fetch(API_BASE + "/api/admin/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
     });
-    const json = await res.json();
 
-    if (!json.success) {
-      loginError.classList.remove("hidden");
-      return;
-    }
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Login failed");
+
+    ADMIN_TOKEN = data.token;
+    localStorage.setItem(TOKEN_KEY, ADMIN_TOKEN);
 
     loginScreen.classList.add("hidden");
     dashboardScreen.classList.remove("hidden");
 
-    ALL_ORDERS = json.data;
-    applyFilters();
-  } catch (e) {
-    alert("Could not connect to backend");
+    loadOrders();
+  } catch (err) {
+    loginError.textContent = err.message;
+    loginError.classList.remove("hidden");
   }
-}
-
-/* STAT ELEMENTS */
-const statTotalOrders = document.getElementById("statTotalOrders");
-const statActive = document.getElementById("statActive");
-const statPaused = document.getElementById("statPaused");
-const statRevenue = document.getElementById("statRevenue");
-
-/* PRICE MAP */
-const PLAN_PRICE_MAP = {
-  "weekly-fresh-bowl": 424,
-  "silver-monthly": 1274,
-  "gold-monthly": 1869,
-  "diamond-monthly": 2549,
-  "weight-loss": 1614,
-  "weight-gain": 1699,
-  "fitness-pro": 2124,
-  "detox-cleanse": 1529,
-  "immunity-boost": 1869,
-  "premium-custom": 2804,
-  "energy-booster": 1614,
-  "morning-boost": 1784,
-  "pre-workout": 2124,
-  "post-workout": 2294,
-  "brain-boost": 1954,
-  "vitamin-c": 1699,
-  "energy-immunity": 2124,
-  "super-fruits": 2719,
-  "daily-detox": 1869,
-  "custom-premium-pack": 2974
-};
-
-/* ====== FILTERS ====== */
-const filterPhone = document.getElementById("filterPhone");
-const filterPlan = document.getElementById("filterPlan");
-const filterStatus = document.getElementById("filterStatus");
-const filterFrom = document.getElementById("filterFrom");
-const filterTo = document.getElementById("filterTo");
-const clearFiltersBtn = document.getElementById("clearFiltersBtn");
-
-filterPhone.addEventListener("input", applyFilters);
-filterPlan.addEventListener("change", applyFilters);
-filterStatus.addEventListener("change", applyFilters);
-filterFrom.addEventListener("change", applyFilters);
-filterTo.addEventListener("change", applyFilters);
-clearFiltersBtn.addEventListener("click", () => {
-  filterPhone.value = "";
-  filterPlan.value = "";
-  filterStatus.value = "";
-  filterFrom.value = "";
-  filterTo.value = "";
-  applyFilters();
 });
 
-/* ====== APPLY FILTERS ====== */
-function applyFilters() {
-  const phone = filterPhone.value.trim();
-  const plan = filterPlan.value;
-  const status = filterStatus.value;
-
-  FILTERED = ALL_ORDERS.filter(o => {
-    if (phone && !String(o.phone).includes(phone)) return false;
-    if (plan && o.planSlug !== plan) return false;
-    if (status === "active" && o.isPaused) return false;
-    if (status === "paused" && !o.isPaused) return false;
-    return true;
+/* ================= FETCH ================= */
+async function authFetch(url) {
+  const res = await fetch(url, {
+    headers: {
+      "Authorization": "Bearer " + ADMIN_TOKEN,
+      "Content-Type": "application/json"
+    }
   });
 
+  if (res.status === 401) {
+    localStorage.removeItem(TOKEN_KEY);
+    location.reload();
+  }
+  return res.json();
+}
+
+/* ================= LOAD ORDERS ================= */
+async function loadOrders() {
+  ALL_ORDERS = await authFetch(API_BASE + "/api/admin/users");
   updateStats();
   renderTable();
 }
 
-/* ====== UPDATE STATS ====== */
+/* ================= STATS ================= */
 function updateStats() {
-  statTotalOrders.textContent = FILTERED.length;
-  statActive.textContent = FILTERED.filter(o => !o.isPaused).length;
-  statPaused.textContent = FILTERED.filter(o => o.isPaused).length;
-
-  const revenue = FILTERED
-    .filter(o => !o.isPaused)
-    .reduce((sum, o) => sum + (PLAN_PRICE_MAP[o.planSlug] || 0), 0);
-
-  statRevenue.textContent = revenue.toLocaleString("en-IN");
+  document.getElementById("statTotalOrders").textContent = ALL_ORDERS.length;
+  document.getElementById("statActive").textContent =
+    ALL_ORDERS.filter(o => !o.isPaused).length;
+  document.getElementById("statPaused").textContent =
+    ALL_ORDERS.filter(o => o.isPaused).length;
+  document.getElementById("statRevenue").textContent = "₹" + ALL_ORDERS.reduce((s,o)=>s+(o.amount||0),0);
 }
 
-/* ====== TABLE ====== */
-const ordersTable = document.getElementById("ordersTable");
-const ordersCountLabel = document.getElementById("ordersCountLabel");
-const prevPageBtn = document.getElementById("prevPageBtn");
-const nextPageBtn = document.getElementById("nextPageBtn");
-const pageInfo = document.getElementById("pageInfo");
-
-const PAGE_SIZE = 20;
-
-prevPageBtn.addEventListener("click", () => {
-  currentPage--;
-  renderTable();
-});
-
-nextPageBtn.addEventListener("click", () => {
-  currentPage++;
-  renderTable();
-});
-
+/* ================= TABLE ================= */
 function renderTable() {
-  const total = FILTERED.length;
-  const totalPages = Math.ceil(total / PAGE_SIZE);
-
-  if (currentPage < 1) currentPage = 1;
-  if (currentPage > totalPages) currentPage = totalPages;
-
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const pageData = FILTERED.slice(start, start + PAGE_SIZE);
-
-  ordersTable.innerHTML = "";
-
-  pageData.forEach((o, index) => {
-    const tr = document.createElement("tr");
-    const created = o.createdAt ? new Date(o.createdAt).toLocaleDateString() : "-";
-    const nextDel = o.nextDeliveryDate ? new Date(o.nextDeliveryDate).toLocaleDateString() : "-";
-
-    const status = o.isPaused
-      ? `<span class="px-2 py-1 text-xs rounded bg-amber-100 text-amber-700">Paused</span>`
-      : `<span class="px-2 py-1 text-xs rounded bg-emerald-100 text-emerald-700">Active</span>`;
-
-    tr.innerHTML = `
-      <td class="p-2">${o.name || "-"}</td>
-      <td class="p-2">${o.phone || "-"}</td>
-      <td class="p-2">${o.planName || "-"}</td>
-      <td class="p-2">${nextDel}</td>
-      <td class="p-2">${status}</td>
-      <td class="p-2">${created}</td>
-      <td class="p-2 text-right">
-        <button class="calBtn px-2 py-1 border rounded text-xs" data-index="${start + index}">
-          Calendar
-        </button>
-      </td>
+  const table = document.getElementById("ordersTable");
+  table.innerHTML = "";
+  ALL_ORDERS.forEach(o => {
+    table.innerHTML += `
+      <tr class="border-b">
+        <td class="p-2">
+          ${o.name || "-"}<br>
+          <span class="text-xs">${o.email || "-"}</span><br>
+          <span class="text-xs">${o.address || "-"}</span>
+        </td>
+        <td class="p-2">${o.phone || "-"}</td>
+        <td class="p-2">${o.planName || "-"}</td>
+        <td class="p-2">${o.isPaused ? "Paused" : "Active"}</td>
+        <td class="p-2">${new Date(o.createdAt).toLocaleDateString()}</td>
+      </tr>
     `;
-    ordersTable.appendChild(tr);
-  });
-
-  ordersCountLabel.textContent = `${total} orders`;
-  pageInfo.textContent = `Page ${currentPage}/${totalPages}`;
-
-  document.querySelectorAll(".calBtn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      openCalendar(parseInt(btn.dataset.index));
-    });
   });
 }
 
-/* ====== CALENDAR MODAL ====== */
-const calendarModal = document.getElementById("calendarModal");
-const closeCalendarBtn = document.getElementById("closeCalendarBtn");
-const calendarUserLabel = document.getElementById("calendarUserLabel");
-
-closeCalendarBtn.addEventListener("click", closeCalendar);
-calendarModal.addEventListener("click", (e) => {
-  if (e.target === calendarModal) closeCalendar();
-});
-
-function openCalendar(index) {
-  const o = FILTERED[index];
-  if (!o) return;
-
-  calendarUserLabel.textContent = `${o.name} – ${o.phone}`;
-
-  const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-
-  days.forEach(d => {
-    const cell = document.getElementById("cal-" + d);
-    cell.className = "p-2 rounded text-white bg-emerald-500";
-    cell.innerHTML = `${d}<br>Delivery`;
-    if (o.isPaused) {
-      cell.className = "p-2 rounded bg-rose-500 text-white";
-      cell.innerHTML = `${d}<br>Paused`;
-    }
-  });
-
-  calendarModal.classList.add("flex");
-  calendarModal.classList.remove("hidden");
+/* ================= AUTO LOGIN ================= */
+if (ADMIN_TOKEN) {
+  loginScreen.classList.add("hidden");
+  dashboardScreen.classList.remove("hidden");
+  loadOrders();
 }
-
-function closeCalendar() {
-  calendarModal.classList.add("hidden");
-}
-
-/* ====== THEME ====== */
-const rootEl = document.documentElement;
-const themeToggle = document.getElementById("themeToggle");
-const themeIcon = document.getElementById("themeIcon");
-
-themeToggle.addEventListener("click", () => {
-  const dark = rootEl.classList.toggle("dark");
-  themeIcon.textContent = dark ? "🌙" : "🌞";
-});
 </script>
 
 </body>
