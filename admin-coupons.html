@@ -30,7 +30,10 @@
 <script>
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 const token = localStorage.getItem("admin_token");
-if (!token) location.href = "admin.html";
+
+if (!token) {
+  location.href = "admin.html";
+}
 </script>
 
 <!-- HEADER -->
@@ -104,37 +107,55 @@ if (!token) location.href = "admin.html";
 </div>
 
 <script>
+/* ================= DOM ================= */
+const couponTable = document.getElementById("couponTable");
+const modal = document.getElementById("modal");
+const couponForm = document.getElementById("couponForm");
+const plansCheckboxes = document.getElementById("plansCheckboxes");
+const usageModal = document.getElementById("usageModal");
+const usageList = document.getElementById("usageList");
+
 let ALL_PLANS = [];
+
+/* ================= LOAD DATA ================= */
 
 async function loadPlans() {
   ALL_PLANS = await fetch(API_BASE + "/api/admin/plans", {
     headers: { Authorization: "Bearer " + token }
-  }).then(r=>r.json());
+  }).then(r => r.json());
 }
 
 async function loadCoupons() {
   const coupons = await fetch(API_BASE + "/api/coupons", {
     headers: { Authorization: "Bearer " + token }
-  }).then(r=>r.json());
+  }).then(r => r.json());
 
   couponTable.innerHTML = "";
+
+  if (!coupons.length) {
+    couponTable.innerHTML = `
+      <tr>
+        <td colspan="7" class="py-6 text-center text-gray-500">
+          No coupons created yet
+        </td>
+      </tr>`;
+    return;
+  }
 
   coupons.forEach(c => {
     couponTable.innerHTML += `
       <tr class="border-b">
         <td class="font-bold">${c.code}</td>
         <td>${c.discountType === "flat" ? "₹" : ""}${c.discountValue}${c.discountType==="percent"?"%":""}</td>
-        <td>₹${c.minAmount||0}</td>
+        <td>₹${c.minAmount || 0}</td>
         <td>
           ${c.totalUsed}/${c.usageLimit || "∞"}<br>
-          <span class="text-xs">Per user: ${c.perUserLimit||1}</span>
+          <span class="text-xs">Per user: ${c.perUserLimit || 1}</span>
         </td>
-        <td class="text-xs">
-          ${c.allowedPlanIds?.length ? c.allowedPlanIds.length+" plans" : "All"}
-        </td>
+        <td class="text-xs">${c.allowedPlanIds?.length ? c.allowedPlanIds.length + " plans" : "All"}</td>
         <td>
-          <span class="px-2 py-1 rounded text-xs ${c.active?'bg-green-100 text-green-700':'bg-red-100 text-red-600'}">
-            ${c.active?"Active":"Inactive"}
+          <span class="px-2 py-1 rounded text-xs ${c.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}">
+            ${c.active ? "Active" : "Inactive"}
           </span>
         </td>
         <td class="text-right space-x-2">
@@ -146,6 +167,8 @@ async function loadCoupons() {
   });
 }
 
+/* ================= ACTIONS ================= */
+
 async function toggleCoupon(id) {
   await fetch(API_BASE + `/api/coupons/${id}/toggle`, {
     method: "PATCH",
@@ -154,17 +177,33 @@ async function toggleCoupon(id) {
   loadCoupons();
 }
 
+async function viewUsage(id) {
+  const data = await fetch(API_BASE + `/api/coupons/${id}/usage`, {
+    headers: { Authorization: "Bearer " + token }
+  }).then(r => r.json());
+
+  usageList.innerHTML = data.length
+    ? data.map(u => `<li>👤 ${u.userId?.email || "Unknown"} — ${u.usedCount} times</li>`).join("")
+    : "<li>No usage yet</li>";
+
+  usageModal.classList.remove("hidden");
+  usageModal.classList.add("flex");
+}
+
+/* ================= MODAL ================= */
+
 function openCreateModal() {
   couponForm.reset();
-  couponId.value = "";
-  modalTitle.textContent = "Create Coupon";
+  document.getElementById("couponId").value = "";
+  document.getElementById("modalTitle").textContent = "Create Coupon";
   renderPlanCheckboxes([]);
-  modal.classList.remove("hidden"); modal.classList.add("flex");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
 }
 
 function editCoupon(c) {
-  modalTitle.textContent = "Edit Coupon";
-  couponId.value = c._id;
+  document.getElementById("modalTitle").textContent = "Edit Coupon";
+  document.getElementById("couponId").value = c._id;
   code.value = c.code;
   discountType.value = c.discountType;
   discountValue.value = c.discountValue;
@@ -173,17 +212,28 @@ function editCoupon(c) {
   perUserLimit.value = c.perUserLimit || 1;
   validTo.value = c.validTo.split("T")[0];
   renderPlanCheckboxes(c.allowedPlanIds || []);
-  modal.classList.remove("hidden"); modal.classList.add("flex");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
 }
 
-function closeModal(){ modal.classList.add("hidden"); modal.classList.remove("flex"); }
+function closeModal() {
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+}
 
-function renderPlanCheckboxes(selected){
-  plansCheckboxes.innerHTML="";
-  ALL_PLANS.forEach(p=>{
+function closeUsage() {
+  usageModal.classList.add("hidden");
+  usageModal.classList.remove("flex");
+}
+
+/* ================= HELPERS ================= */
+
+function renderPlanCheckboxes(selected) {
+  plansCheckboxes.innerHTML = "";
+  ALL_PLANS.forEach(p => {
     plansCheckboxes.innerHTML += `
-      <label>
-        <input type="checkbox" value="${p._id}" ${selected.includes(p._id)?"checked":""}>
+      <label class="flex gap-1 items-center">
+        <input type="checkbox" value="${p._id}" ${selected.includes(p._id) ? "checked" : ""}>
         ${p.name}
       </label>`;
   });
@@ -191,46 +241,38 @@ function renderPlanCheckboxes(selected){
 
 couponForm.onsubmit = async e => {
   e.preventDefault();
+
   const body = {
     code: code.value,
     discountType: discountType.value,
-    discountValue:+discountValue.value,
-    minAmount:+minAmount.value||0,
-    maxDiscount:+maxDiscount.value||null,
-    perUserLimit:+perUserLimit.value||1,
-    validTo: validTo.value,
-    allowedPlanIds:[...plansCheckboxes.querySelectorAll("input:checked")].map(i=>i.value)
+    discountValue: +discountValue.value,
+    minAmount: +minAmount.value || 0,
+    maxDiscount: +maxDiscount.value || null,
+    perUserLimit: +perUserLimit.value || 1,
+    validTo: new Date(validTo.value),
+    allowedPlanIds: [...plansCheckboxes.querySelectorAll("input:checked")].map(i => i.value)
   };
 
-  const method = couponId.value ? "PUT" : "POST";
-  const url = couponId.value ? `/api/coupons/${couponId.value}` : "/api/coupons";
+  const id = document.getElementById("couponId").value;
+  const method = id ? "PUT" : "POST";
+  const url = id ? `/api/coupons/${id}` : "/api/coupons";
 
-  await fetch(API_BASE + url,{
+  await fetch(API_BASE + url, {
     method,
-    headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
-    body:JSON.stringify(body)
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
+    body: JSON.stringify(body)
   });
 
-  closeModal(); loadCoupons();
+  closeModal();
+  loadCoupons();
 };
 
-async function viewUsage(id){
-  const data = await fetch(API_BASE + `/api/admin/coupons/${id}/usage`, {
-    headers:{ Authorization:"Bearer "+token }
-  }).then(r=>r.json());
+/* ================= INIT ================= */
 
-  usageList.innerHTML = data.map(u=>`
-    <li>👤 ${u.userId?.email} — ${u.usedCount} times</li>
-  `).join("");
-
-  usageModal.classList.remove("hidden"); usageModal.classList.add("flex");
-}
-
-function closeUsage(){
-  usageModal.classList.add("hidden"); usageModal.classList.remove("flex");
-}
-
-(async()=>{
+(async () => {
   await loadPlans();
   loadCoupons();
 })();
