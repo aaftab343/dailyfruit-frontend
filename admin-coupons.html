@@ -5,10 +5,7 @@
   <title>Admin Coupons — Daily Fruit Co</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -23,12 +20,8 @@
       border: 1px solid rgba(148,163,184,0.4);
       box-shadow: 0 10px 30px rgba(15,23,42,0.12);
     }
-    .btn {
-      transition: all 0.15s ease;
-    }
-    .btn:active {
-      transform: scale(0.97);
-    }
+    .btn { transition: all .15s ease }
+    .btn:active { transform: scale(.97) }
   </style>
 </head>
 
@@ -36,35 +29,28 @@
 
 <script>
 const API_BASE = "https://dailyfruit-backend.onrender.com";
-const token = localStorage.getItem("df_admin_token");
-
-if (!token) {
-  window.location.href = "admin-login.html";
-}
+const token = localStorage.getItem("admin_token");
+if (!token) location.href = "admin.html";
 </script>
 
 <!-- HEADER -->
 <div class="max-w-7xl mx-auto mb-6 flex justify-between items-center">
-  <h1 class="text-3xl font-extrabold text-slate-800">🎟 Coupon Management</h1>
-
-  <button onclick="openCreateModal()"
-    class="btn px-5 py-2 rounded-full text-white font-semibold"
-    style="background:linear-gradient(90deg,#06b6d4,#7c3aed)">
+  <h1 class="text-3xl font-extrabold">🎟 Coupon Management</h1>
+  <button onclick="openCreateModal()" class="btn px-5 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-cyan-500 to-violet-600">
     + Create Coupon
   </button>
 </div>
 
-<!-- COUPON TABLE -->
+<!-- TABLE -->
 <div class="max-w-7xl mx-auto glass p-4 overflow-x-auto">
   <table class="w-full text-sm">
-    <thead>
-      <tr class="text-left text-gray-600 border-b">
-        <th class="py-2">Code</th>
-        <th>Type</th>
-        <th>Value</th>
-        <th>Min Amt</th>
-        <th>Used</th>
-        <th>Validity</th>
+    <thead class="border-b text-gray-600">
+      <tr>
+        <th>Code</th>
+        <th>Discount</th>
+        <th>Min</th>
+        <th>Usage</th>
+        <th>Plans</th>
         <th>Status</th>
         <th class="text-right">Actions</th>
       </tr>
@@ -73,29 +59,33 @@ if (!token) {
   </table>
 </div>
 
-<!-- CREATE MODAL -->
+<!-- CREATE / EDIT MODAL -->
 <div id="modal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
   <div class="glass w-full max-w-lg p-6">
-    <h2 class="text-xl font-bold mb-4">Create Coupon</h2>
+    <h2 id="modalTitle" class="text-xl font-bold mb-4">Create Coupon</h2>
 
     <form id="couponForm" class="space-y-3">
-      <input id="code" placeholder="Coupon Code (e.g. DF10)" required class="w-full border rounded px-3 py-2">
+      <input id="couponId" type="hidden">
+
+      <input id="code" placeholder="Coupon Code" class="w-full border rounded px-3 py-2" required>
 
       <select id="discountType" class="w-full border rounded px-3 py-2">
-        <option value="flat">Flat Discount</option>
-        <option value="percent">Percentage</option>
+        <option value="flat">Flat</option>
+        <option value="percent">Percent</option>
       </select>
 
-      <input id="discountValue" type="number" placeholder="Discount Value" required class="w-full border rounded px-3 py-2">
+      <input id="discountValue" type="number" placeholder="Discount value" class="w-full border rounded px-3 py-2" required>
+      <input id="minAmount" type="number" placeholder="Min order amount" class="w-full border rounded px-3 py-2">
+      <input id="maxDiscount" type="number" placeholder="Max discount (for %)" class="w-full border rounded px-3 py-2">
+      <input id="perUserLimit" type="number" placeholder="Per user limit" class="w-full border rounded px-3 py-2">
+      <input id="validTo" type="date" class="w-full border rounded px-3 py-2" required>
 
-      <input id="minAmount" type="number" placeholder="Minimum Order Amount" class="w-full border rounded px-3 py-2">
+      <div>
+        <label class="text-xs font-semibold">Allowed Plans</label>
+        <div id="plansCheckboxes" class="grid grid-cols-2 gap-2 text-xs mt-1"></div>
+      </div>
 
-      <input id="maxDiscount" type="number" placeholder="Max Discount (for %)" class="w-full border rounded px-3 py-2">
-
-      <input id="validTo" type="date" required class="w-full border rounded px-3 py-2">
-
-      <button class="btn w-full py-2 rounded text-white font-semibold"
-        style="background:linear-gradient(90deg,#06b6d4,#7c3aed)">
+      <button class="btn w-full py-2 rounded text-white font-semibold bg-gradient-to-r from-cyan-500 to-violet-600">
         Save Coupon
       </button>
     </form>
@@ -104,44 +94,58 @@ if (!token) {
   </div>
 </div>
 
-<script>
-/* ================================
-   LOAD COUPONS
-================================ */
-async function loadCoupons() {
-  const res = await fetch(API_BASE + "/api/coupons", {
-    headers: { Authorization: "Bearer " + token }
-  });
-  const coupons = await res.json();
+<!-- USAGE MODAL -->
+<div id="usageModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="glass w-full max-w-lg p-6">
+    <h2 class="text-xl font-bold mb-4">Coupon Usage</h2>
+    <ul id="usageList" class="text-sm space-y-2"></ul>
+    <button onclick="closeUsage()" class="mt-4 text-sm text-gray-500">Close</button>
+  </div>
+</div>
 
-  const tbody = document.getElementById("couponTable");
-  tbody.innerHTML = "";
+<script>
+let ALL_PLANS = [];
+
+async function loadPlans() {
+  ALL_PLANS = await fetch(API_BASE + "/api/admin/plans", {
+    headers: { Authorization: "Bearer " + token }
+  }).then(r=>r.json());
+}
+
+async function loadCoupons() {
+  const coupons = await fetch(API_BASE + "/api/coupons", {
+    headers: { Authorization: "Bearer " + token }
+  }).then(r=>r.json());
+
+  couponTable.innerHTML = "";
 
   coupons.forEach(c => {
-    tbody.innerHTML += `
+    couponTable.innerHTML += `
       <tr class="border-b">
-        <td class="py-2 font-bold">${c.code}</td>
-        <td>${c.discountType}</td>
-        <td>${c.discountType === "flat" ? "₹" : ""}${c.discountValue}${c.discountType === "percent" ? "%" : ""}</td>
-        <td>₹${c.minAmount || 0}</td>
-        <td>${c.totalUsed || 0}</td>
-        <td>${new Date(c.validTo).toLocaleDateString()}</td>
+        <td class="font-bold">${c.code}</td>
+        <td>${c.discountType === "flat" ? "₹" : ""}${c.discountValue}${c.discountType==="percent"?"%":""}</td>
+        <td>₹${c.minAmount||0}</td>
         <td>
-          <span class="px-2 py-1 rounded text-xs ${c.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}">
-            ${c.active ? "Active" : "Inactive"}
+          ${c.totalUsed}/${c.usageLimit || "∞"}<br>
+          <span class="text-xs">Per user: ${c.perUserLimit||1}</span>
+        </td>
+        <td class="text-xs">
+          ${c.allowedPlanIds?.length ? c.allowedPlanIds.length+" plans" : "All"}
+        </td>
+        <td>
+          <span class="px-2 py-1 rounded text-xs ${c.active?'bg-green-100 text-green-700':'bg-red-100 text-red-600'}">
+            ${c.active?"Active":"Inactive"}
           </span>
         </td>
-        <td class="text-right">
-          <button onclick="toggleCoupon('${c._id}')" class="btn text-blue-600">Toggle</button>
+        <td class="text-right space-x-2">
+          <button onclick='editCoupon(${JSON.stringify(c)})' class="text-blue-600">Edit</button>
+          <button onclick="toggleCoupon('${c._id}')" class="text-orange-600">Toggle</button>
+          <button onclick="viewUsage('${c._id}')" class="text-purple-600">Usage</button>
         </td>
-      </tr>
-    `;
+      </tr>`;
   });
 }
 
-/* ================================
-   TOGGLE COUPON
-================================ */
 async function toggleCoupon(id) {
   await fetch(API_BASE + `/api/coupons/${id}/toggle`, {
     method: "PATCH",
@@ -150,53 +154,86 @@ async function toggleCoupon(id) {
   loadCoupons();
 }
 
-/* ================================
-   CREATE COUPON
-================================ */
-document.getElementById("couponForm").addEventListener("submit", async e => {
-  e.preventDefault();
+function openCreateModal() {
+  couponForm.reset();
+  couponId.value = "";
+  modalTitle.textContent = "Create Coupon";
+  renderPlanCheckboxes([]);
+  modal.classList.remove("hidden"); modal.classList.add("flex");
+}
 
+function editCoupon(c) {
+  modalTitle.textContent = "Edit Coupon";
+  couponId.value = c._id;
+  code.value = c.code;
+  discountType.value = c.discountType;
+  discountValue.value = c.discountValue;
+  minAmount.value = c.minAmount || "";
+  maxDiscount.value = c.maxDiscount || "";
+  perUserLimit.value = c.perUserLimit || 1;
+  validTo.value = c.validTo.split("T")[0];
+  renderPlanCheckboxes(c.allowedPlanIds || []);
+  modal.classList.remove("hidden"); modal.classList.add("flex");
+}
+
+function closeModal(){ modal.classList.add("hidden"); modal.classList.remove("flex"); }
+
+function renderPlanCheckboxes(selected){
+  plansCheckboxes.innerHTML="";
+  ALL_PLANS.forEach(p=>{
+    plansCheckboxes.innerHTML += `
+      <label>
+        <input type="checkbox" value="${p._id}" ${selected.includes(p._id)?"checked":""}>
+        ${p.name}
+      </label>`;
+  });
+}
+
+couponForm.onsubmit = async e => {
+  e.preventDefault();
   const body = {
     code: code.value,
     discountType: discountType.value,
-    discountValue: Number(discountValue.value),
-    minAmount: Number(minAmount.value) || 0,
-    maxDiscount: Number(maxDiscount.value) || null,
-    validTo: validTo.value
+    discountValue:+discountValue.value,
+    minAmount:+minAmount.value||0,
+    maxDiscount:+maxDiscount.value||null,
+    perUserLimit:+perUserLimit.value||1,
+    validTo: validTo.value,
+    allowedPlanIds:[...plansCheckboxes.querySelectorAll("input:checked")].map(i=>i.value)
   };
 
-  const res = await fetch(API_BASE + "/api/coupons", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    },
-    body: JSON.stringify(body)
+  const method = couponId.value ? "PUT" : "POST";
+  const url = couponId.value ? `/api/coupons/${couponId.value}` : "/api/coupons";
+
+  await fetch(API_BASE + url,{
+    method,
+    headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
+    body:JSON.stringify(body)
   });
 
-  if (!res.ok) {
-    alert("Failed to create coupon");
-    return;
-  }
+  closeModal(); loadCoupons();
+};
 
-  closeModal();
+async function viewUsage(id){
+  const data = await fetch(API_BASE + `/api/admin/coupons/${id}/usage`, {
+    headers:{ Authorization:"Bearer "+token }
+  }).then(r=>r.json());
+
+  usageList.innerHTML = data.map(u=>`
+    <li>👤 ${u.userId?.email} — ${u.usedCount} times</li>
+  `).join("");
+
+  usageModal.classList.remove("hidden"); usageModal.classList.add("flex");
+}
+
+function closeUsage(){
+  usageModal.classList.add("hidden"); usageModal.classList.remove("flex");
+}
+
+(async()=>{
+  await loadPlans();
   loadCoupons();
-});
-
-/* ================================
-   MODAL CONTROLS
-================================ */
-function openCreateModal() {
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-}
-function closeModal() {
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
-}
-
-/* INIT */
-loadCoupons();
+})();
 </script>
 
 </body>
