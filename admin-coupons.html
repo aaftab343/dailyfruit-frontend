@@ -20,8 +20,6 @@
       border: 1px solid rgba(148,163,184,0.4);
       box-shadow: 0 10px 30px rgba(15,23,42,0.12);
     }
-    .btn { transition: all .15s ease }
-    .btn:active { transform: scale(.97) }
   </style>
 </head>
 
@@ -30,16 +28,14 @@
 <script>
 const API_BASE = "https://dailyfruit-backend.onrender.com";
 const token = localStorage.getItem("admin_token");
-
-if (!token) {
-  location.href = "admin.html";
-}
+if (!token) location.href = "admin.html";
 </script>
 
 <!-- HEADER -->
 <div class="max-w-7xl mx-auto mb-6 flex justify-between items-center">
   <h1 class="text-3xl font-extrabold">🎟 Coupon Management</h1>
-  <button onclick="openCreateModal()" class="btn px-5 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-cyan-500 to-violet-600">
+  <button onclick="openCreateModal()"
+    class="px-5 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-cyan-500 to-violet-600">
     + Create Coupon
   </button>
 </div>
@@ -62,7 +58,7 @@ if (!token) {
   </table>
 </div>
 
-<!-- CREATE / EDIT MODAL -->
+<!-- MODAL -->
 <div id="modal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
   <div class="glass w-full max-w-lg p-6">
     <h2 id="modalTitle" class="text-xl font-bold mb-4">Create Coupon</h2>
@@ -77,10 +73,14 @@ if (!token) {
         <option value="percent">Percent</option>
       </select>
 
-      <input id="discountValue" type="number" placeholder="Discount value" class="w-full border rounded px-3 py-2" required>
-      <input id="minAmount" type="number" placeholder="Min order amount" class="w-full border rounded px-3 py-2">
-      <input id="maxDiscount" type="number" placeholder="Max discount (for %)" class="w-full border rounded px-3 py-2">
-      <input id="perUserLimit" type="number" placeholder="Per user limit" class="w-full border rounded px-3 py-2">
+      <input id="discountValue" type="number" placeholder="Discount Value" class="w-full border rounded px-3 py-2" required>
+      <input id="minAmount" type="number" placeholder="Minimum Order Amount" class="w-full border rounded px-3 py-2">
+
+      <!-- ✅ IMPORTANT -->
+      <input id="usageLimit" type="number" placeholder="Total Coupon Count (e.g. 10, 50)"
+        class="w-full border rounded px-3 py-2" required>
+
+      <input id="perUserLimit" type="number" placeholder="Per User Limit" class="w-full border rounded px-3 py-2">
       <input id="validTo" type="date" class="w-full border rounded px-3 py-2" required>
 
       <div>
@@ -88,7 +88,7 @@ if (!token) {
         <div id="plansCheckboxes" class="grid grid-cols-2 gap-2 text-xs mt-1"></div>
       </div>
 
-      <button class="btn w-full py-2 rounded text-white font-semibold bg-gradient-to-r from-cyan-500 to-violet-600">
+      <button class="w-full py-2 rounded text-white font-semibold bg-gradient-to-r from-cyan-500 to-violet-600">
         Save Coupon
       </button>
     </form>
@@ -97,27 +97,13 @@ if (!token) {
   </div>
 </div>
 
-<!-- USAGE MODAL -->
-<div id="usageModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-  <div class="glass w-full max-w-lg p-6">
-    <h2 class="text-xl font-bold mb-4">Coupon Usage</h2>
-    <ul id="usageList" class="text-sm space-y-2"></ul>
-    <button onclick="closeUsage()" class="mt-4 text-sm text-gray-500">Close</button>
-  </div>
-</div>
-
 <script>
-/* ================= DOM ================= */
 const couponTable = document.getElementById("couponTable");
 const modal = document.getElementById("modal");
 const couponForm = document.getElementById("couponForm");
 const plansCheckboxes = document.getElementById("plansCheckboxes");
-const usageModal = document.getElementById("usageModal");
-const usageList = document.getElementById("usageList");
 
 let ALL_PLANS = [];
-
-/* ================= LOAD DATA ================= */
 
 async function loadPlans() {
   ALL_PLANS = await fetch(API_BASE + "/api/admin/plans", {
@@ -134,11 +120,7 @@ async function loadCoupons() {
 
   if (!coupons.length) {
     couponTable.innerHTML = `
-      <tr>
-        <td colspan="7" class="py-6 text-center text-gray-500">
-          No coupons created yet
-        </td>
-      </tr>`;
+      <tr><td colspan="7" class="text-center py-6 text-gray-500">No coupons created</td></tr>`;
     return;
   }
 
@@ -146,97 +128,40 @@ async function loadCoupons() {
     couponTable.innerHTML += `
       <tr class="border-b">
         <td class="font-bold">${c.code}</td>
-        <td>${c.discountType === "flat" ? "₹" : ""}${c.discountValue}${c.discountType==="percent"?"%":""}</td>
+        <td>${c.discountType === "flat" ? "₹" : ""}${c.discountValue}${c.discountType === "percent" ? "%" : ""}</td>
         <td>₹${c.minAmount || 0}</td>
         <td>
-          ${c.totalUsed}/${c.usageLimit || "∞"}<br>
-          <span class="text-xs">Per user: ${c.perUserLimit || 1}</span>
+          ${c.totalUsed} / ${c.usageLimit}<br>
+          <span class="text-xs">Per user: ${c.perUserLimit}</span>
         </td>
-        <td class="text-xs">${c.allowedPlanIds?.length ? c.allowedPlanIds.length + " plans" : "All"}</td>
+        <td class="text-xs">${c.allowedPlanIds?.length || "All"}</td>
         <td>
-          <span class="px-2 py-1 rounded text-xs ${c.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}">
+          <span class="px-2 py-1 rounded text-xs ${c.active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}">
             ${c.active ? "Active" : "Inactive"}
           </span>
         </td>
         <td class="text-right space-x-2">
-          <button onclick='editCoupon(${JSON.stringify(c)})' class="text-blue-600">Edit</button>
           <button onclick="toggleCoupon('${c._id}')" class="text-orange-600">Toggle</button>
-          <button onclick="viewUsage('${c._id}')" class="text-purple-600">Usage</button>
         </td>
       </tr>`;
   });
 }
 
-/* ================= ACTIONS ================= */
-
-async function toggleCoupon(id) {
-  await fetch(API_BASE + `/api/coupons/${id}/toggle`, {
-    method: "PATCH",
-    headers: { Authorization: "Bearer " + token }
-  });
-  loadCoupons();
-}
-
-async function viewUsage(id) {
-  const data = await fetch(API_BASE + `/api/coupons/${id}/usage`, {
-    headers: { Authorization: "Bearer " + token }
-  }).then(r => r.json());
-
-  usageList.innerHTML = data.length
-    ? data.map(u => `<li>👤 ${u.userId?.email || "Unknown"} — ${u.usedCount} times</li>`).join("")
-    : "<li>No usage yet</li>";
-
-  usageModal.classList.remove("hidden");
-  usageModal.classList.add("flex");
-}
-
-/* ================= MODAL ================= */
-
 function openCreateModal() {
   couponForm.reset();
-  document.getElementById("couponId").value = "";
-  document.getElementById("modalTitle").textContent = "Create Coupon";
-  renderPlanCheckboxes([]);
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-}
-
-function editCoupon(c) {
-  document.getElementById("modalTitle").textContent = "Edit Coupon";
-  document.getElementById("couponId").value = c._id;
-  code.value = c.code;
-  discountType.value = c.discountType;
-  discountValue.value = c.discountValue;
-  minAmount.value = c.minAmount || "";
-  maxDiscount.value = c.maxDiscount || "";
-  perUserLimit.value = c.perUserLimit || 1;
-  validTo.value = c.validTo.split("T")[0];
-  renderPlanCheckboxes(c.allowedPlanIds || []);
+  plansCheckboxes.innerHTML = "";
+  ALL_PLANS.forEach(p => {
+    plansCheckboxes.innerHTML += `
+      <label class="flex gap-1 items-center">
+        <input type="checkbox" value="${p._id}"> ${p.name}
+      </label>`;
+  });
   modal.classList.remove("hidden");
   modal.classList.add("flex");
 }
 
 function closeModal() {
   modal.classList.add("hidden");
-  modal.classList.remove("flex");
-}
-
-function closeUsage() {
-  usageModal.classList.add("hidden");
-  usageModal.classList.remove("flex");
-}
-
-/* ================= HELPERS ================= */
-
-function renderPlanCheckboxes(selected) {
-  plansCheckboxes.innerHTML = "";
-  ALL_PLANS.forEach(p => {
-    plansCheckboxes.innerHTML += `
-      <label class="flex gap-1 items-center">
-        <input type="checkbox" value="${p._id}" ${selected.includes(p._id) ? "checked" : ""}>
-        ${p.name}
-      </label>`;
-  });
 }
 
 couponForm.onsubmit = async e => {
@@ -247,18 +172,14 @@ couponForm.onsubmit = async e => {
     discountType: discountType.value,
     discountValue: +discountValue.value,
     minAmount: +minAmount.value || 0,
-    maxDiscount: +maxDiscount.value || null,
+    usageLimit: +usageLimit.value,   // ✅ IMPORTANT
     perUserLimit: +perUserLimit.value || 1,
-    validTo: new Date(validTo.value),
+    validTo: validTo.value,
     allowedPlanIds: [...plansCheckboxes.querySelectorAll("input:checked")].map(i => i.value)
   };
 
-  const id = document.getElementById("couponId").value;
-  const method = id ? "PUT" : "POST";
-  const url = id ? `/api/coupons/${id}` : "/api/coupons";
-
-  await fetch(API_BASE + url, {
-    method,
+  await fetch(API_BASE + "/api/coupons", {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token
@@ -270,7 +191,13 @@ couponForm.onsubmit = async e => {
   loadCoupons();
 };
 
-/* ================= INIT ================= */
+async function toggleCoupon(id) {
+  await fetch(API_BASE + `/api/coupons/${id}/toggle`, {
+    method: "PATCH",
+    headers: { Authorization: "Bearer " + token }
+  });
+  loadCoupons();
+}
 
 (async () => {
   await loadPlans();
