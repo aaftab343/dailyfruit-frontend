@@ -33,6 +33,12 @@ body{
   transform:scale(.96);
   box-shadow:inset 0 4px 10px rgba(0,0,0,.15);
 }
+
+/* Coupon polish */
+.coupon-success{ color:#059669; font-weight:600 }
+.coupon-error{ color:#dc2626; font-weight:600 }
+.coupon-loading{ opacity:.6; pointer-events:none }
+.coupon-applied{ background:#ecfdf5; border:1px solid #10b981 }
 </style>
 </head>
 
@@ -61,13 +67,11 @@ if (!token) location.href = "login.html?redirect=checkout.html";
 
 <input id="phone" disabled class="border rounded px-3 py-2 bg-gray-100">
 
-<!-- ADDRESS SELECT -->
 <div>
   <label class="text-sm font-semibold">Select Address</label>
   <select id="addressSelect" class="border rounded px-3 py-2 w-full"></select>
 </div>
 
-<!-- ADDRESS FORM -->
 <div class="grid md:grid-cols-2 gap-4">
   <input id="house" placeholder="House / Flat" class="border rounded px-3 py-2">
   <input id="street" placeholder="Street" class="border rounded px-3 py-2">
@@ -95,7 +99,7 @@ if (!token) location.href = "login.html?redirect=checkout.html";
 </div>
 
 <button id="payBtn"
-  class="button-press mt-4 px-6 py-3 rounded-full text-white font-bold"
+  class="button-press mt-4 px-6 py-3 rounded-full text-white font-bold w-full"
   style="background:linear-gradient(90deg,#06b6d4,#7c3aed)">
   Pay Now
 </button>
@@ -123,20 +127,27 @@ if (!token) location.href = "login.html?redirect=checkout.html";
     <span>Total</span>
     <span id="totalText"></span>
   </div>
+
+  <p id="savingText" class="text-xs text-emerald-600 mt-1 hidden"></p>
 </div>
 
 <!-- COUPON -->
 <div class="glass p-4 text-sm">
-  <h4 class="font-semibold mb-2">Coupon</h4>
+  <h4 class="font-semibold mb-2">Apply Coupon</h4>
   <div class="flex gap-2">
-    <input id="couponInput" class="border rounded px-3 py-2 flex-1 uppercase">
+    <input id="couponInput"
+      class="border rounded px-3 py-2 flex-1 uppercase"
+      placeholder="Enter coupon code"
+      oninput="this.value=this.value.toUpperCase().trim()">
     <button onclick="applyCoupon()"
       class="button-press px-4 py-2 rounded text-white font-semibold"
       style="background:linear-gradient(90deg,#06b6d4,#7c3aed)">
       Apply
     </button>
   </div>
+
   <p id="couponMsg" class="text-xs mt-2"></p>
+
   <button id="removeCouponBtn"
     onclick="removeCoupon()"
     class="hidden text-xs text-red-500 underline mt-1">
@@ -155,7 +166,7 @@ let PLAN = JSON.parse(localStorage.getItem("df_selected_plan"));
 let appliedCoupon = null;
 let addresses = [];
 
-/* LOAD PROFILE */
+/* PROFILE */
 async function loadProfile(){
   const r = await fetch(API_BASE+"/api/users/me",{headers:{Authorization:"Bearer "+token}});
   const u = await r.json();
@@ -164,7 +175,7 @@ async function loadProfile(){
   phone.value = u.phone || "";
 }
 
-/* LOAD ADDRESSES */
+/* ADDRESSES */
 async function loadAddresses(){
   const r = await fetch(API_BASE+"/api/users/me/addresses",{headers:{Authorization:"Bearer "+token}});
   const d = await r.json();
@@ -189,14 +200,10 @@ function fillAddress(i){
   pincode.value=a.pincode;
 }
 
-/* SAVE NEW ADDRESS */
 async function saveNewAddress(){
   await fetch(API_BASE+"/api/users/me/addresses",{
     method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      Authorization:"Bearer "+token
-    },
+    headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
     body:JSON.stringify({
       label:addressLabel.value,
       house:house.value,
@@ -207,54 +214,77 @@ async function saveNewAddress(){
       isDefault:true
     })
   });
-  await loadAddresses();
+  loadAddresses();
 }
 
 /* COUPON */
 async function applyCoupon(){
+  if(!couponInput.value){
+    couponMsg.textContent="Please enter a coupon code";
+    couponMsg.className="text-xs mt-2 coupon-error";
+    return;
+  }
+
+  couponInput.classList.add("coupon-loading");
+  couponMsg.textContent="Checking coupon...";
+  couponMsg.className="text-xs mt-2";
+
   const r = await fetch(API_BASE+"/api/coupons/apply",{
     method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      Authorization:"Bearer "+token
-    },
+    headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
     body:JSON.stringify({
       code:couponInput.value,
       amount:PLAN.price,
       planId:PLAN._id
     })
   });
+
   const d = await r.json();
-  if(!r.ok){ couponMsg.textContent=d.message; return; }
+  couponInput.classList.remove("coupon-loading");
+
+  if(!r.ok){
+    couponMsg.textContent=d.message || "Invalid coupon";
+    couponMsg.className="text-xs mt-2 coupon-error";
+    return;
+  }
+
   appliedCoupon=d.code;
   discountRow.classList.remove("hidden");
   discountText.textContent="- ₹"+d.discount;
   totalText.textContent="₹"+d.finalAmount;
+
+  savingText.textContent=`You saved ₹${d.discount} 🎉`;
+  savingText.classList.remove("hidden");
+
+  couponMsg.textContent="Coupon applied successfully";
+  couponMsg.className="text-xs mt-2 coupon-success";
+
+  couponInput.disabled=true;
+  couponInput.classList.add("coupon-applied");
   removeCouponBtn.classList.remove("hidden");
-  couponMsg.textContent="Coupon applied";
 }
 
 function removeCoupon(){
   appliedCoupon=null;
   discountRow.classList.add("hidden");
+  savingText.classList.add("hidden");
   totalText.textContent="₹"+PLAN.price;
+  couponInput.disabled=false;
   couponInput.value="";
+  couponInput.classList.remove("coupon-applied");
   couponMsg.textContent="Coupon removed";
+  couponMsg.className="text-xs mt-2";
   removeCouponBtn.classList.add("hidden");
 }
 
 /* PAY */
 payBtn.onclick=async()=>{
+  payBtn.disabled=true;
+  payBtn.textContent="Processing...";
   const r=await fetch(API_BASE+"/api/payments/create-order",{
     method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      Authorization:"Bearer "+token
-    },
-    body:JSON.stringify({
-      planSlug:PLAN.slug,
-      couponCode:appliedCoupon
-    })
+    headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
+    body:JSON.stringify({ planSlug:PLAN.slug, couponCode:appliedCoupon })
   });
   const o=await r.json();
 
@@ -266,15 +296,15 @@ payBtn.onclick=async()=>{
     handler:async(resp)=>{
       await fetch(API_BASE+"/api/payments/verify",{
         method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          Authorization:"Bearer "+token
-        },
+        headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
         body:JSON.stringify(resp)
       });
       location.href="dashboard.html";
     }
   }).open();
+
+  payBtn.disabled=false;
+  payBtn.textContent="Pay Now";
 };
 
 document.addEventListener("DOMContentLoaded",()=>{
