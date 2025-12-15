@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Coupons — Daily Fruit Co</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg,#f8fafc,#eef7ff);
+    }
+    .glass {
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.4);
+      box-shadow: 0 10px 30px rgba(15,23,42,0.12);
+    }
+    .btn {
+      transition: all 0.15s ease;
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+
+<body class="p-6">
+
+<script>
+const API_BASE = "https://dailyfruit-backend.onrender.com";
+const token = localStorage.getItem("df_admin_token");
+
+if (!token) {
+  window.location.href = "admin-login.html";
+}
+</script>
+
+<!-- HEADER -->
+<div class="max-w-7xl mx-auto mb-6 flex justify-between items-center">
+  <h1 class="text-3xl font-extrabold text-slate-800">🎟 Coupon Management</h1>
+
+  <button onclick="openCreateModal()"
+    class="btn px-5 py-2 rounded-full text-white font-semibold"
+    style="background:linear-gradient(90deg,#06b6d4,#7c3aed)">
+    + Create Coupon
+  </button>
+</div>
+
+<!-- COUPON TABLE -->
+<div class="max-w-7xl mx-auto glass p-4 overflow-x-auto">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="text-left text-gray-600 border-b">
+        <th class="py-2">Code</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Min Amt</th>
+        <th>Used</th>
+        <th>Validity</th>
+        <th>Status</th>
+        <th class="text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="couponTable"></tbody>
+  </table>
+</div>
+
+<!-- CREATE MODAL -->
+<div id="modal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="glass w-full max-w-lg p-6">
+    <h2 class="text-xl font-bold mb-4">Create Coupon</h2>
+
+    <form id="couponForm" class="space-y-3">
+      <input id="code" placeholder="Coupon Code (e.g. DF10)" required class="w-full border rounded px-3 py-2">
+
+      <select id="discountType" class="w-full border rounded px-3 py-2">
+        <option value="flat">Flat Discount</option>
+        <option value="percent">Percentage</option>
+      </select>
+
+      <input id="discountValue" type="number" placeholder="Discount Value" required class="w-full border rounded px-3 py-2">
+
+      <input id="minAmount" type="number" placeholder="Minimum Order Amount" class="w-full border rounded px-3 py-2">
+
+      <input id="maxDiscount" type="number" placeholder="Max Discount (for %)" class="w-full border rounded px-3 py-2">
+
+      <input id="validTo" type="date" required class="w-full border rounded px-3 py-2">
+
+      <button class="btn w-full py-2 rounded text-white font-semibold"
+        style="background:linear-gradient(90deg,#06b6d4,#7c3aed)">
+        Save Coupon
+      </button>
+    </form>
+
+    <button onclick="closeModal()" class="mt-3 text-sm text-gray-500">Cancel</button>
+  </div>
+</div>
+
+<script>
+/* ================================
+   LOAD COUPONS
+================================ */
+async function loadCoupons() {
+  const res = await fetch(API_BASE + "/api/coupons", {
+    headers: { Authorization: "Bearer " + token }
+  });
+  const coupons = await res.json();
+
+  const tbody = document.getElementById("couponTable");
+  tbody.innerHTML = "";
+
+  coupons.forEach(c => {
+    tbody.innerHTML += `
+      <tr class="border-b">
+        <td class="py-2 font-bold">${c.code}</td>
+        <td>${c.discountType}</td>
+        <td>${c.discountType === "flat" ? "₹" : ""}${c.discountValue}${c.discountType === "percent" ? "%" : ""}</td>
+        <td>₹${c.minAmount || 0}</td>
+        <td>${c.totalUsed || 0}</td>
+        <td>${new Date(c.validTo).toLocaleDateString()}</td>
+        <td>
+          <span class="px-2 py-1 rounded text-xs ${c.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}">
+            ${c.active ? "Active" : "Inactive"}
+          </span>
+        </td>
+        <td class="text-right">
+          <button onclick="toggleCoupon('${c._id}')" class="btn text-blue-600">Toggle</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+/* ================================
+   TOGGLE COUPON
+================================ */
+async function toggleCoupon(id) {
+  await fetch(API_BASE + `/api/coupons/${id}/toggle`, {
+    method: "PATCH",
+    headers: { Authorization: "Bearer " + token }
+  });
+  loadCoupons();
+}
+
+/* ================================
+   CREATE COUPON
+================================ */
+document.getElementById("couponForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const body = {
+    code: code.value,
+    discountType: discountType.value,
+    discountValue: Number(discountValue.value),
+    minAmount: Number(minAmount.value) || 0,
+    maxDiscount: Number(maxDiscount.value) || null,
+    validTo: validTo.value
+  };
+
+  const res = await fetch(API_BASE + "/api/coupons", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) {
+    alert("Failed to create coupon");
+    return;
+  }
+
+  closeModal();
+  loadCoupons();
+});
+
+/* ================================
+   MODAL CONTROLS
+================================ */
+function openCreateModal() {
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+function closeModal() {
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+}
+
+/* INIT */
+loadCoupons();
+</script>
+
+</body>
+</html>
