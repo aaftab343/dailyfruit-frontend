@@ -463,23 +463,51 @@ const Orders = {
         <tbody>
     `;
 
-    orders.forEach(o => {
+orders.forEach(o => {
       html += `
         <tr class="border-b">
-          <!-- ✅ FIXED: userId instead of user -->
+
+          <!-- Customer -->
           <td class="p-2">
             ${o.userId?.name || "-"}<br>
-            <span class="text-xs text-slate-500">${o.userId?.email || ""}</span>
+            <span class="text-xs text-slate-500">
+              ${o.userId?.email || ""}
+            </span>
           </td>
 
-          <!-- ✅ FIXED: planId fallback to planName -->
+          <!-- Plan -->
           <td class="p-2">
             ${o.planId?.name || o.planName || "-"}
           </td>
 
+          <!-- Order Date -->
+          <td class="p-2">
+            ${o.createdAt
+              ? new Date(o.createdAt).toLocaleDateString("en-IN")
+              : "-"}
+          </td>
+
+          <!-- Start Date -->
+          <td class="p-2">
+            ${o.startDate
+              ? new Date(o.startDate).toLocaleDateString("en-IN")
+              : "-"}
+          </td>
+
+          <!-- End Date -->
+          <td class="p-2">
+            ${o.endDate
+              ? new Date(o.endDate).toLocaleDateString("en-IN")
+              : "-"}
+          </td>
+
+          <!-- Amount -->
           <td class="p-2">₹${o.amount || 0}</td>
+
+          <!-- Status -->
           <td class="p-2">${o.status}</td>
 
+          <!-- Action -->
           <td class="p-2 space-x-2">
             <button
               onclick="Orders.markDelivered('${o._id}')"
@@ -495,17 +523,22 @@ const Orders = {
               Skip
             </button>
           </td>
+
         </tr>
       `;
     });
 
-    html += "</tbody></table>";
+    html += `
+        </tbody>
+      </table>
+    `;
+
     ordersTableWrap.innerHTML = html;
   },
 
   async markDelivered(id){
     await authFetch(
-      API_BASE + `/api/admin/orders/${id}/deliver`,
+      API_BASE + \`/api/admin/orders/\${id}/deliver\`,
       "PATCH"
     );
     this.load();
@@ -516,7 +549,7 @@ const Orders = {
     if(!reason) return;
 
     await authFetch(
-      API_BASE + `/api/admin/orders/${id}/skip`,
+      API_BASE + \`/api/admin/orders/\${id}/skip\`,
       "PATCH",
       { reason }
     );
