@@ -538,7 +538,7 @@ orders.forEach(o => {
 
   async markDelivered(id){
     await authFetch(
-      API_BASE + \`/api/admin/orders/\${id}/deliver\`,
+      API_BASE + "/api/admin/orders/" + id + "/deliver",
       "PATCH"
     );
     this.load();
@@ -549,14 +549,14 @@ orders.forEach(o => {
     if(!reason) return;
 
     await authFetch(
-      API_BASE + \`/api/admin/orders/\${id}/skip\`,
+      API_BASE + "/api/admin/orders/" + id + "/skip",
       "PATCH",
       { reason }
     );
     this.load();
   }
 };
-
+  
 
 /* ======================================================
 DELIVERY MODULE
