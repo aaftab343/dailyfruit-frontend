@@ -84,19 +84,6 @@ if (!token) location.href = "login.html?redirect=checkout.html";
 
 <input id="pincode" placeholder="Pincode" maxlength="6" class="border rounded px-3 py-2">
 
-<!-- ✅ START DATE -->
-<div>
-  <label class="text-sm font-semibold">Subscription Start Date</label>
-  <input type="date" id="startDate" class="border rounded px-3 py-2 w-full">
-</div>
-
-<!-- ✅ END DATE -->
-<div>
-  <label class="text-sm font-semibold">Subscription End Date</label>
-  <input type="text" id="endDate" class="border rounded px-3 py-2 w-full bg-gray-100" readonly>
-  <p id="dateNote" class="text-xs text-gray-500 mt-1"></p>
-</div>
-
 <div class="flex gap-3">
   <select id="addressLabel" class="border rounded px-3 py-2">
     <option>Home</option>
@@ -144,6 +131,7 @@ if (!token) location.href = "login.html?redirect=checkout.html";
   <p id="savingText" class="text-xs text-emerald-600 mt-1 hidden"></p>
 </div>
 
+<!-- COUPON -->
 <div class="glass p-4 text-sm">
   <h4 class="font-semibold mb-2">Apply Coupon</h4>
   <div class="flex gap-2">
@@ -178,68 +166,126 @@ let PLAN = JSON.parse(localStorage.getItem("df_selected_plan"));
 let appliedCoupon = null;
 let addresses = [];
 
-const isPremium = () =>
-  PLAN.slug?.toLowerCase().includes("premium") ||
-  PLAN.name?.toLowerCase().includes("premium");
+/* PROFILE */
+async function loadProfile(){
+  const r = await fetch(API_BASE+"/api/users/me",{headers:{Authorization:"Bearer "+token}});
+  const u = await r.json();
+  fullName.value = u.name || "";
+  email.value = u.email || "";
+  phone.value = u.phone || "";
+}
 
-/* START DATE + END DATE LOGIC */
-function setupDates(){
-  const start = document.getElementById("startDate");
-  const end = document.getElementById("endDate");
-  const note = document.getElementById("dateNote");
-
-  start.min = new Date().toISOString().split("T")[0];
-
-  note.textContent = isPremium()
-    ? "Premium plan: Sunday deliveries included"
-    : "Sunday deliveries not available for this plan";
-
-  start.addEventListener("change",()=>{
-    const d = new Date(start.value);
-    if(!isPremium() && d.getDay() === 0){
-      alert("Sunday delivery is not available for this plan");
-      start.value="";
-      end.value="";
-      return;
-    }
-
-    let count=0;
-    let temp=new Date(start.value);
-    const total=PLAN.billingDaysPerMonth || 26;
-
-    while(count<total){
-      temp.setDate(temp.getDate()+1);
-      if(!isPremium() && temp.getDay()===0) continue;
-      count++;
-    }
-    end.value=temp.toISOString().split("T")[0];
+/* ADDRESSES */
+async function loadAddresses(){
+  const r = await fetch(API_BASE+"/api/users/me/addresses",{headers:{Authorization:"Bearer "+token}});
+  const d = await r.json();
+  addresses = d.addresses || [];
+  addressSelect.innerHTML="";
+  addresses.forEach((a,i)=>{
+    const o=document.createElement("option");
+    o.value=i;
+    o.textContent=`${a.label} — ${a.area}, ${a.city}`;
+    if(a.isDefault) o.selected=true;
+    addressSelect.appendChild(o);
   });
+  if(addresses.length) fillAddress(addressSelect.value);
+}
+
+function fillAddress(i){
+  const a = addresses[i];
+  house.value=a.house;
+  street.value=a.street;
+  area.value=a.area;
+  city.value=a.city;
+  pincode.value=a.pincode;
+}
+
+async function saveNewAddress(){
+  await fetch(API_BASE+"/api/users/me/addresses",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
+    body:JSON.stringify({
+      label:addressLabel.value,
+      house:house.value,
+      street:street.value,
+      area:area.value,
+      city:city.value,
+      pincode:pincode.value,
+      isDefault:true
+    })
+  });
+  loadAddresses();
+}
+
+/* COUPON */
+async function applyCoupon(){
+  if(!couponInput.value){
+    couponMsg.textContent="Please enter a coupon code";
+    couponMsg.className="text-xs mt-2 coupon-error";
+    return;
+  }
+
+  couponInput.classList.add("coupon-loading");
+  couponMsg.textContent="Checking coupon...";
+  couponMsg.className="text-xs mt-2";
+
+  const r = await fetch(API_BASE+"/api/coupons/apply",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
+    body:JSON.stringify({
+      code:couponInput.value,
+      amount:PLAN.price,
+      planId:PLAN._id
+    })
+  });
+
+  const d = await r.json();
+  couponInput.classList.remove("coupon-loading");
+
+  if(!r.ok){
+    couponMsg.textContent=d.message || "Invalid coupon";
+    couponMsg.className="text-xs mt-2 coupon-error";
+    return;
+  }
+
+  appliedCoupon=d.code;
+  discountRow.classList.remove("hidden");
+  discountText.textContent="- ₹"+d.discount;
+  totalText.textContent="₹"+d.finalAmount;
+
+  savingText.textContent=`You saved ₹${d.discount} 🎉`;
+  savingText.classList.remove("hidden");
+
+  couponMsg.textContent="Coupon applied successfully";
+  couponMsg.className="text-xs mt-2 coupon-success";
+
+  couponInput.disabled=true;
+  couponInput.classList.add("coupon-applied");
+  removeCouponBtn.classList.remove("hidden");
+}
+
+function removeCoupon(){
+  appliedCoupon=null;
+  discountRow.classList.add("hidden");
+  savingText.classList.add("hidden");
+  totalText.textContent="₹"+PLAN.price;
+  couponInput.disabled=false;
+  couponInput.value="";
+  couponInput.classList.remove("coupon-applied");
+  couponMsg.textContent="Coupon removed";
+  couponMsg.className="text-xs mt-2";
+  removeCouponBtn.classList.add("hidden");
 }
 
 /* PAY */
 payBtn.onclick=async()=>{
-  const startDate=startDate.value;
-  const endDate=endDate.value;
-
-  if(!startDate){
-    alert("Please select start date");
-    return;
-  }
-
   payBtn.disabled=true;
   payBtn.textContent="Processing...";
-
   const r=await fetch(API_BASE+"/api/payments/create-order",{
     method:"POST",
     headers:{ "Content-Type":"application/json", Authorization:"Bearer "+token },
-    body:JSON.stringify({
-      planSlug:PLAN.slug,
-      couponCode:appliedCoupon,
-      startDate,
-      endDate
-    })
+    body:JSON.stringify({ planSlug:PLAN.slug, couponCode:appliedCoupon })
   });
-
   const o=await r.json();
 
   new Razorpay({
@@ -267,7 +313,6 @@ document.addEventListener("DOMContentLoaded",()=>{
   totalText.textContent="₹"+PLAN.price;
   loadProfile();
   loadAddresses();
-  setupDates();
   addressSelect.onchange=()=>fillAddress(addressSelect.value);
 });
 </script>
